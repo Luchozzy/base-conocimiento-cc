@@ -103,12 +103,16 @@
         .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: #222; line-height: 1.6; padding-right: 50px; word-break: break-word; }
         .last-modified { font-size: 0.8em; color: #777; font-style: italic; margin-top: 20px; text-align: left; }
 
-        /* Tarjeta de Claves */
-        .clave-card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; padding: 20px; border-left: 6px solid #28a745; }
-        .clave-title { font-size: 1.2em; font-weight: bold; color: var(--bice-blue); margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .clave-link { color: #0066cc; font-size: 0.85em; text-decoration: none; font-weight: normal; }
-        .clave-link:hover { text-decoration: underline; }
+        /* Acordeón Mis Claves */
+        details.clave-card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; border-left: 6px solid #28a745; transition: all 0.3s ease; }
+        summary.clave-title { font-size: 1.2em; font-weight: bold; color: var(--bice-blue); display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; cursor: pointer; list-style: none; margin: 0; border-radius: 8px; }
+        summary.clave-title::-webkit-details-marker { display: none; }
+        summary.clave-title:hover { background-color: #f8f9fa; }
         
+        .clave-link { color: #0066cc; font-size: 0.85em; text-decoration: none; font-weight: normal; background: #eef5ff; padding: 5px 12px; border-radius: 20px; transition: background 0.2s; }
+        .clave-link:hover { background: #d0e3ff; }
+        
+        .clave-content-wrapper { padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 5px; padding-top: 20px; }
         .clave-row { display: flex; margin-bottom: 10px; align-items: center; background: #f9f9f9; padding: 10px 15px; border-radius: 6px; }
         .clave-label { font-weight: bold; width: 100px; color: #555; }
         .clave-value { flex: 1; font-family: monospace; font-size: 1.2em; letter-spacing: 1px; color: #111; }
@@ -292,17 +296,14 @@
 
     // --- NAVEGACIÓN ENTRE VISTAS ---
     function switchView(viewName) {
-        // Actualizar botones menú
         document.getElementById('nav-kb').classList.remove('active');
         document.getElementById('nav-claves').classList.remove('active');
         document.getElementById('nav-' + viewName).classList.add('active');
 
-        // Mostrar/Ocultar Vistas
         document.getElementById('view-kb').classList.remove('active');
         document.getElementById('view-claves').classList.remove('active');
         document.getElementById('view-' + viewName).classList.add('active');
 
-        // Mostrar/Ocultar Botones Izquierdos
         document.getElementById('left-actions-kb').style.display = (viewName === 'kb') ? 'block' : 'none';
         document.getElementById('left-actions-claves').style.display = (viewName === 'claves') ? 'block' : 'none';
 
@@ -472,7 +473,7 @@
     }
 
     // ==========================================
-    // MÓDULO 2: MIS CLAVES
+    // MÓDULO 2: MIS CLAVES (AHORA CON ACORDEÓN)
     // ==========================================
     document.getElementById('clavesForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -518,33 +519,36 @@
         }
 
         filteredClaves.forEach(c => {
-            const card = document.createElement('div');
+            const card = document.createElement('details');
             card.className = 'clave-card';
             
-            let linkHtml = c.link ? `<a href="${c.link}" target="_blank" class="clave-link">🔗 Abrir Link</a>` : '';
+            // event.stopPropagation() evita que el acordeón se abra o cierre al darle clic al link
+            let linkHtml = c.link ? `<a href="${c.link}" target="_blank" class="clave-link" onclick="event.stopPropagation()">🔗 Abrir Link</a>` : '';
             
             card.innerHTML = `
-                <div class="clave-title">
+                <summary class="clave-title">
                     <span>🔐 ${c.app}</span>
                     ${linkHtml}
-                </div>
+                </summary>
                 
-                <div class="clave-row">
-                    <span class="clave-label">Usuario:</span>
-                    <span class="clave-value" id="usr-${c.id}">${c.user}</span>
-                    <button class="copy-btn" onclick="copyText(event, 'usr-${c.id}')" title="Copiar Usuario">${copySvg}</button>
-                </div>
-                
-                <div class="clave-row">
-                    <span class="clave-label">Clave:</span>
-                    <span class="clave-value clave-hidden" id="pass-${c.id}" data-pass="${c.pass}">••••••••</span>
-                    <button class="toggle-visibility-btn" onclick="togglePass('${c.id}')" id="toggle-${c.id}">Mostrar</button>
-                    <button class="copy-btn" onclick="copyText(event, null, '${c.pass}')" title="Copiar Clave">${copySvg}</button>
-                </div>
+                <div class="clave-content-wrapper">
+                    <div class="clave-row">
+                        <span class="clave-label">Usuario:</span>
+                        <span class="clave-value" id="usr-${c.id}">${c.user}</span>
+                        <button class="copy-btn" onclick="copyText(event, 'usr-${c.id}')" title="Copiar Usuario">${copySvg}</button>
+                    </div>
+                    
+                    <div class="clave-row">
+                        <span class="clave-label">Clave:</span>
+                        <span class="clave-value clave-hidden" id="pass-${c.id}" data-pass="${c.pass}">••••••••</span>
+                        <button class="toggle-visibility-btn" onclick="togglePass('${c.id}')" id="toggle-${c.id}">Mostrar</button>
+                        <button class="copy-btn" onclick="copyText(event, null, '${c.pass}')" title="Copiar Clave">${copySvg}</button>
+                    </div>
 
-                <div class="card-actions" style="border-top:1px solid #eee; padding-top:10px; margin-top:15px;">
-                    <button class="action-btn edit-btn" onclick="editClave('${c.id}')">✏️ Editar</button>
-                    <button class="action-btn delete-btn" onclick="deleteClave('${c.id}')">🗑️ Eliminar</button>
+                    <div class="card-actions" style="border-top:1px solid #eee; padding-top:15px; margin-top:15px;">
+                        <button class="action-btn edit-btn" onclick="editClave('${c.id}')">✏️ Editar</button>
+                        <button class="action-btn delete-btn" onclick="deleteClave('${c.id}')">🗑️ Eliminar</button>
+                    </div>
                 </div>
             `;
             list.appendChild(card);
