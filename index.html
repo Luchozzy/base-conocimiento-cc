@@ -85,7 +85,6 @@
             color: var(--bice-blue); 
             border-color: var(--bice-blue);
         }
-        /* ------------------------------------ */
         
         /* Acciones de la tarjeta */
         .card-actions { display: flex; gap: 10px; margin-top: 15px; }
@@ -242,7 +241,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- RENDERIZADO CON NUEVO ÍCONO SVG ---
     function renderEntries() {
         const list = document.getElementById('entriesList');
         list.innerHTML = '';
@@ -255,7 +253,6 @@
         const startIndex = (currentPage - 1) * itemsPerPage;
         const paginated = filteredEntries.slice(startIndex, startIndex + itemsPerPage);
 
-        // Ícono de los dos cuadrados (Copy)
         const copySvg = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
 
         paginated.forEach(entry => {
@@ -314,19 +311,17 @@
         document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
     }
 
-   // --- NUEVA LÓGICA DEL BOTÓN DE COPIAR (CON PLAN B CORPORATIVO) ---
+    // --- NUEVA LÓGICA DEL BOTÓN DE COPIAR (CON PLAN B CORPORATIVO) ---
     function copyText(event, elementId) {
         const text = document.getElementById(elementId).innerText;
-        const btn = event.currentTarget; // Guardamos el botón exacto
+        const btn = event.currentTarget; 
         const originalHTML = btn.innerHTML;
 
-        // Función que hace la animación visual del "Check" verde
         const showSuccess = () => {
             btn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="#28a745" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
             btn.style.borderColor = '#28a745';
             btn.style.background = '#f0fff4';
 
-            // Lo devuelve a la normalidad después de 1.5 segundos
             setTimeout(() => {
                 btn.innerHTML = originalHTML;
                 btn.style.borderColor = '#ccc';
@@ -334,22 +329,18 @@
             }, 1500);
         };
 
-        // Método 1: Moderno (Puede fallar en redes bancarias o archivos locales)
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(text)
                 .then(showSuccess)
-                .catch(err => useFallback(text)); // Si falla, usa el Plan B
+                .catch(err => useFallback(text)); 
         } else {
-            // Si el navegador no lo soporta por seguridad, usa el Plan B de inmediato
             useFallback(text);
         }
 
-        // Método 2: Plan B infalible (Crea un campo de texto invisible, lo selecciona y lo copia)
         function useFallback(textoACopiar) {
             const textArea = document.createElement("textarea");
             textArea.value = textoACopiar;
             
-            // Estilos para que sea completamente invisible y no mueva la pantalla
             textArea.style.position = "fixed";
             textArea.style.top = "0";
             textArea.style.left = "0";
@@ -361,12 +352,12 @@
             
             try {
                 document.execCommand('copy');
-                showSuccess(); // Si funcionó, mostramos el ícono verde
+                showSuccess(); 
             } catch (err) {
                 console.error("El navegador bloqueó la copia automática.", err);
             }
             
-            document.body.removeChild(textArea); // Limpiamos la basura
+            document.body.removeChild(textArea); 
         }
     }
 
