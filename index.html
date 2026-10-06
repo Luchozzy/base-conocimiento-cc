@@ -35,74 +35,61 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
+        /* Menú de Navegación */
+        .nav-menu { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid var(--border); padding-bottom: 20px; }
+        .nav-btn { background: transparent; color: #555; border: 1px solid transparent; padding: 12px 15px; border-radius: 8px; cursor: pointer; text-align: left; font-size: 1.05em; font-weight: bold; transition: all 0.2s; }
+        .nav-btn:hover { background: #f0f0f0; }
+        .nav-btn.active { background: #e6f0fa; color: var(--bice-blue); border-left: 5px solid var(--bice-blue); border-radius: 0 8px 8px 0; }
+
         .main-btn { background: var(--bice-blue); color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 1.1em; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; transition: background 0.2s; }
         .main-btn:hover { background: var(--bice-light); }
+        .main-btn-claves { background: #28a745; }
+        .main-btn-claves:hover { background: #218838; }
         
-        /* Botones de Datos en columna */
+        /* Botones de Datos */
         .data-actions { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--border); padding-top: 20px; }
         .data-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 0.95em; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; transition: filter 0.2s; box-sizing: border-box; }
         .data-btn:hover { filter: brightness(0.9); }
         .export-btn { background: #17a2b8; color: white; }
         .import-btn { background: #6c757d; color: white; display: block; }
         
-        /* Título para futura sección */
-        .future-section { margin-top: 30px; font-size: 0.9em; color: #888; text-align: center; border: 1px dashed #ccc; padding: 20px 10px; border-radius: 8px; }
-
-        /* PANEL DERECHO (Búsqueda y Resultados) */
+        /* PANEL DERECHO */
         .view-section { flex: 3; display: flex; flex-direction: column; gap: 15px; width: 100%; }
 
-        /* --- VENTANA FLOTANTE (MODAL) --- */
+        /* Vistas intercambiables */
+        .view-container { display: none; }
+        .view-container.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- MODALES (Ventanas flotantes) --- */
         .modal-overlay {
             display: none; 
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(3px); 
-            align-items: center;
-            justify-content: center;
+            position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); 
+            align-items: center; justify-content: center;
         }
-        
         .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-            width: 90%;
-            max-width: 800px;
-            max-height: 85vh;
-            overflow-y: auto;
-            position: relative;
+            background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto; position: relative;
         }
+        .modal-content-small { max-width: 500px; }
         
-        .close-modal {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 1.8em;
-            color: #888;
-            cursor: pointer;
-            line-height: 1;
-            transition: color 0.2s;
-        }
+        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 1.8em; color: #888; cursor: pointer; line-height: 1; transition: color 0.2s; }
         .close-modal:hover { color: #dc3545; }
 
         .modal-content h2 { color: var(--bice-blue); margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
         label { display: block; margin-top: 15px; font-weight: bold; font-size: 0.95em; color: #444; }
-        input[type="text"], textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1em; }
+        input[type="text"], input[type="password"], textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1em; }
         textarea { height: 80px; resize: vertical; }
         
         .save-btn { background: #28a745; color: white; border: none; padding: 15px; margin-top: 25px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 1.1em; font-weight: bold; transition: background 0.2s; }
         .save-btn:hover { background: #218838; }
         
-        /* Búsqueda */
-        .search-bar { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        /* Buscadores */
+        .search-bar { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 15px; }
         .search-bar input { font-size: 1.1em; padding: 15px; width: 100%; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; }
         
-        /* Acordeón (Tarjetas Collapsibles) */
+        /* Acordeón Base Conocimiento */
         details.card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; transition: all 0.3s ease; }
         summary.card-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; cursor: pointer; list-style: none; font-weight: bold; color: var(--bice-blue); font-size: 1.15em; border-left: 6px solid var(--bice-blue); border-radius: 8px; }
         summary.card-header::-webkit-details-marker { display: none; }
@@ -110,36 +97,35 @@
         
         .tags { font-size: 0.85em; background: #e0e0e0; padding: 4px 10px; border-radius: 12px; margin-left: 10px; color: #333; font-weight: normal; }
         
-        /* Campos de texto de la tarjeta */
         .card-content { padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 10px; padding-top: 15px; }
         .field-group { margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-left: 4px solid var(--bice-light); border-radius: 6px; position: relative; }
         .field-title { font-weight: bold; font-size: 1.05em; color: var(--bice-blue); margin-bottom: 8px; }
-        .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: #222; line-height: 1.6; padding-right: 50px; }
-        
-        /* Última Modificación */
+        .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: #222; line-height: 1.6; padding-right: 50px; word-break: break-word; }
         .last-modified { font-size: 0.8em; color: #777; font-style: italic; margin-top: 20px; text-align: left; }
 
-        /* Botón de copiar */
+        /* Tarjeta de Claves */
+        .clave-card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; padding: 20px; border-left: 6px solid #28a745; }
+        .clave-title { font-size: 1.2em; font-weight: bold; color: var(--bice-blue); margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .clave-link { color: #0066cc; font-size: 0.85em; text-decoration: none; font-weight: normal; }
+        .clave-link:hover { text-decoration: underline; }
+        
+        .clave-row { display: flex; margin-bottom: 10px; align-items: center; background: #f9f9f9; padding: 10px 15px; border-radius: 6px; }
+        .clave-label { font-weight: bold; width: 100px; color: #555; }
+        .clave-value { flex: 1; font-family: monospace; font-size: 1.2em; letter-spacing: 1px; color: #111; }
+        .clave-hidden { filter: blur(4px); user-select: none; }
+        
+        .toggle-visibility-btn { background: none; border: none; color: #666; cursor: pointer; font-size: 0.9em; text-decoration: underline; margin-right: 15px; }
+
+        /* Botón de copiar unificado */
         .copy-btn { 
-            position: absolute; 
-            top: 15px; 
-            right: 15px; 
-            background: white; 
-            border: 1px solid #ccc; 
-            color: #555; 
-            padding: 8px; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            transition: all 0.2s ease;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background: white; border: 1px solid #ccc; color: #555; padding: 6px 10px; border-radius: 6px; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
         }
         .copy-btn:hover { background: #f1f1f1; color: var(--bice-blue); border-color: var(--bice-blue); }
+        .copy-btn-absolute { position: absolute; top: 15px; right: 15px; }
         
         /* Acciones de la tarjeta */
-        .card-actions { display: flex; gap: 10px; margin-top: 10px; }
+        .card-actions { display: flex; gap: 10px; margin-top: 15px; }
         .action-btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95em; font-weight: bold; }
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
@@ -149,6 +135,16 @@
         .pagination button { background: var(--bice-blue); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .pagination button:disabled { background: #ccc; cursor: not-allowed; }
         
+        /* --- TOAST (Notificación de Éxito) --- */
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: #28a745; color: #fff;
+            text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 2000;
+            right: 30px; bottom: 30px; font-size: 1.1em; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            opacity: 0; transition: opacity 0.3s, bottom 0.3s;
+        }
+        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+
         /* Footer */
         footer { background-color: var(--bice-blue); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; }
     </style>
@@ -164,40 +160,66 @@
     
     <!-- === PANEL IZQUIERDO === -->
     <div class="left-panel">
-        <button class="main-btn" onclick="openModal()">➕ Crear Registro</button>
         
-        <div class="data-actions">
-            <button class="data-btn export-btn" onclick="exportData()">⬇️ Exportar Base</button>
-            <label for="importFile" class="data-btn import-btn">⬆️ Importar Base</label>
-            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+        <!-- Menú de Navegación -->
+        <div class="nav-menu">
+            <button class="nav-btn active" id="nav-kb" onclick="switchView('kb')">📚 Base de Conocimiento</button>
+            <button class="nav-btn" id="nav-claves" onclick="switchView('claves')">🔑 Mis Claves</button>
         </div>
 
-        <div class="future-section">
-            <p><i>Espacio reservado para futuras herramientas del Contact Center</i></p>
+        <!-- Botones (Cambian según la vista) -->
+        <div id="left-actions-kb">
+            <button class="main-btn" onclick="openModal('kbModal')">➕ Crear Registro</button>
+            <div class="data-actions">
+                <button class="data-btn export-btn" onclick="exportData('kb')">⬇️ Exportar Base</button>
+                <label for="importFileKB" class="data-btn import-btn">⬆️ Importar Base</label>
+                <input type="file" id="importFileKB" accept=".json" style="display: none;" onchange="importData(event, 'kb')">
+            </div>
+        </div>
+
+        <div id="left-actions-claves" style="display: none;">
+            <button class="main-btn main-btn-claves" onclick="openModal('clavesModal')">➕ Nueva Clave</button>
+            <div class="data-actions">
+                <button class="data-btn export-btn" onclick="exportData('claves')">⬇️ Exportar Claves</button>
+                <label for="importFileClaves" class="data-btn import-btn">⬆️ Importar Claves</label>
+                <input type="file" id="importFileClaves" accept=".json" style="display: none;" onchange="importData(event, 'claves')">
+            </div>
         </div>
     </div>
 
     <!-- === PANEL DERECHO === -->
     <div class="view-section">
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="🔍 Buscar por título, categoría, etiqueta o contenido..." onkeyup="handleSearch()">
-        </div>
-        <div id="entriesList"></div>
         
-        <div class="pagination">
-            <button id="prevBtn" onclick="changePage(-1)">◀ Anterior</button>
-            <span id="pageInfo">Página 1</span>
-            <button id="nextBtn" onclick="changePage(1)">Siguiente ▶</button>
+        <!-- VISTA 1: BASE DE CONOCIMIENTO -->
+        <div id="view-kb" class="view-container active">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="🔍 Buscar por título, categoría, etiqueta o contenido..." onkeyup="handleSearchKB()">
+            </div>
+            <div id="entriesList"></div>
+            <div class="pagination">
+                <button id="prevBtn" onclick="changePage(-1)">◀ Anterior</button>
+                <span id="pageInfo">Página 1</span>
+                <button id="nextBtn" onclick="changePage(1)">Siguiente ▶</button>
+            </div>
         </div>
+
+        <!-- VISTA 2: MIS CLAVES -->
+        <div id="view-claves" class="view-container">
+            <div class="search-bar">
+                <input type="text" id="searchClaves" placeholder="🔍 Buscar aplicativo o usuario..." onkeyup="handleSearchClaves()">
+            </div>
+            <div id="clavesList"></div>
+        </div>
+
     </div>
 
 </div>
 
-<!-- === VENTANA FLOTANTE DEL FORMULARIO (MODAL) === -->
-<div class="modal-overlay" id="formModal">
+<!-- === MODAL 1: BASE DE CONOCIMIENTO === -->
+<div class="modal-overlay" id="kbModal">
     <div class="modal-content">
-        <span class="close-modal" onclick="closeModal()" title="Cerrar">&times;</span>
-        <h2 id="formTitle">Nuevo Registro</h2>
+        <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
+        <h2 id="formTitleKB">Nuevo Registro</h2>
         <form id="kbForm">
             <input type="hidden" id="entryId">
             
@@ -214,48 +236,110 @@
             <label>Detalles importantes:</label><textarea id="detalles"></textarea>
             <label>Otro:</label><textarea id="otro"></textarea>
             
-            <button type="submit" class="save-btn" id="saveBtn">Guardar Información</button>
+            <button type="submit" class="save-btn">Guardar Información</button>
         </form>
     </div>
 </div>
+
+<!-- === MODAL 2: MIS CLAVES === -->
+<div class="modal-overlay" id="clavesModal">
+    <div class="modal-content modal-content-small">
+        <span class="close-modal" onclick="closeModal('clavesModal')" title="Cerrar">&times;</span>
+        <h2 id="formTitleClaves">Nueva Clave de Acceso</h2>
+        <form id="clavesForm">
+            <input type="hidden" id="claveId">
+            
+            <label>Aplicativo o Sistema:</label>
+            <input type="text" id="claveApp" required placeholder="Ej: AS400, Genesys, Intranet...">
+            
+            <label>Link de acceso (Opcional):</label>
+            <input type="text" id="claveLink" placeholder="Ej: https://sistema.bice.cl">
+            
+            <label>Usuario / Rut:</label>
+            <input type="text" id="claveUser" required>
+            
+            <label>Clave:</label>
+            <input type="password" id="clavePass" required>
+            
+            <button type="submit" class="save-btn" style="background:#28a745;">Guardar Clave</button>
+        </form>
+    </div>
+</div>
+
+<!-- TOAST (Notificación) -->
+<div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
     Creado por Luis Muñoz
 </footer>
 
 <script>
+    // --- VARIABLES GLOBALES ---
     let entries = JSON.parse(localStorage.getItem('bice_kb_data')) || [];
+    let claves = JSON.parse(localStorage.getItem('bice_claves_data')) || [];
+    
     let currentPage = 1;
     const itemsPerPage = 30;
     let filteredEntries = [...entries];
+    let filteredClaves = [...claves];
 
-    // Ahora retorna solo la fecha en formato XX-XX-XXXX
+    const copySvg = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+
     function getFormattedDate() {
         const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
         return new Date().toLocaleDateString('es-CL', options).replace(/\//g, '-');
     }
 
-    // --- FUNCIONES DEL MODAL ---
-    function openModal() {
-        document.getElementById('formModal').style.display = 'flex';
+    // --- NAVEGACIÓN ENTRE VISTAS ---
+    function switchView(viewName) {
+        // Actualizar botones menú
+        document.getElementById('nav-kb').classList.remove('active');
+        document.getElementById('nav-claves').classList.remove('active');
+        document.getElementById('nav-' + viewName).classList.add('active');
+
+        // Mostrar/Ocultar Vistas
+        document.getElementById('view-kb').classList.remove('active');
+        document.getElementById('view-claves').classList.remove('active');
+        document.getElementById('view-' + viewName).classList.add('active');
+
+        // Mostrar/Ocultar Botones Izquierdos
+        document.getElementById('left-actions-kb').style.display = (viewName === 'kb') ? 'block' : 'none';
+        document.getElementById('left-actions-claves').style.display = (viewName === 'claves') ? 'block' : 'none';
+
+        if(viewName === 'kb') handleSearchKB();
+        if(viewName === 'claves') handleSearchClaves();
+    }
+
+    // --- MANEJO DE MODALES ---
+    function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'flex';
         document.body.style.overflow = 'hidden'; 
     }
 
-    function closeModal() {
-        document.getElementById('formModal').style.display = 'none';
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
         document.body.style.overflow = 'auto'; 
-        resetForm();
+        if(modalId === 'kbModal') document.getElementById('kbForm').reset();
+        if(modalId === 'clavesModal') document.getElementById('clavesForm').reset();
     }
-    // ---------------------------
 
+    // --- NOTIFICACIÓN TOAST ---
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.innerText = "✅ " + message;
+        toast.className = "show";
+        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+    }
+
+    // ==========================================
+    // MÓDULO 1: BASE DE CONOCIMIENTO
+    // ==========================================
     document.getElementById('kbForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        
         const id = document.getElementById('entryId').value;
-        
         const newEntry = {
-            id: id ? id : Date.now().toString(),
-            fecha: getFormattedDate(), // Siempre tomará la fecha actual al guardar/editar
+            id: id ? id : 'KB_' + Date.now().toString(),
+            fecha: getFormattedDate(),
             titulo: document.getElementById('titulo').value,
             categoria: document.getElementById('categoria').value,
             etiquetas: document.getElementById('etiquetas').value,
@@ -272,16 +356,18 @@
         if (id) {
             const index = entries.findIndex(emp => emp.id === id);
             entries[index] = newEntry;
+            showToast("Información actualizada correctamente");
         } else {
             entries.unshift(newEntry);
+            showToast("Nuevo registro guardado correctamente");
         }
 
         localStorage.setItem('bice_kb_data', JSON.stringify(entries));
-        closeModal(); 
-        handleSearch(); 
+        closeModal('kbModal'); 
+        handleSearchKB(); 
     });
 
-    function handleSearch() {
+    function handleSearchKB() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
         filteredEntries = entries.filter(e => 
             e.titulo.toLowerCase().includes(searchTerm) || 
@@ -304,20 +390,16 @@
         list.innerHTML = '';
 
         const totalPages = Math.ceil(filteredEntries.length / itemsPerPage) || 1;
-        
         if(currentPage < 1) currentPage = 1;
         if(currentPage > totalPages) currentPage = totalPages;
 
         const startIndex = (currentPage - 1) * itemsPerPage;
         const paginated = filteredEntries.slice(startIndex, startIndex + itemsPerPage);
 
-        const copySvg = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
-
         paginated.forEach(entry => {
             const card = document.createElement('details');
             card.className = 'card';
             
-            // Removida la fecha de al lado del título
             let html = `
                 <summary class="card-header">
                     <div>${entry.titulo}</div>
@@ -327,14 +409,10 @@
             `;
 
             const fields = [
-                { key: 'scriptInicial', label: 'Script Inicial' },
-                { key: 'pasoApaso', label: 'Paso a Paso' },
-                { key: 'validacion', label: 'Validación' },
-                { key: 'cti', label: 'CTI' },
-                { key: 'plantilla', label: 'Plantilla' },
-                { key: 'scriptFinal', label: 'Script Final' },
-                { key: 'detalles', label: 'Detalles importantes' },
-                { key: 'otro', label: 'Otro' }
+                { key: 'scriptInicial', label: 'Script Inicial' }, { key: 'pasoApaso', label: 'Paso a Paso' },
+                { key: 'validacion', label: 'Validación' }, { key: 'cti', label: 'CTI' },
+                { key: 'plantilla', label: 'Plantilla' }, { key: 'scriptFinal', label: 'Script Final' },
+                { key: 'detalles', label: 'Detalles importantes' }, { key: 'otro', label: 'Otro' }
             ];
 
             fields.forEach(f => {
@@ -343,14 +421,11 @@
                     <div class="field-group">
                         <div class="field-title">${f.label}</div>
                         <div class="field-content" id="txt-${entry.id}-${f.key}">${entry[f.key]}</div>
-                        <button class="copy-btn" onclick="copyText(event, 'txt-${entry.id}-${f.key}')" title="Copiar texto">
-                            ${copySvg}
-                        </button>
+                        <button class="copy-btn copy-btn-absolute" onclick="copyText(event, 'txt-${entry.id}-${f.key}')" title="Copiar texto">${copySvg}</button>
                     </div>`;
                 }
             });
 
-            // Agregada la fecha de última modificación al final de los campos
             html += `
                     <div class="last-modified">(Última modificación: ${entry.fecha || 'N/A'})</div>
                     <div class="card-actions">
@@ -368,63 +443,8 @@
         document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
     }
 
-    function copyText(event, elementId) {
-        const text = document.getElementById(elementId).innerText;
-        const btn = event.currentTarget; 
-        const originalHTML = btn.innerHTML;
-
-        const showSuccess = () => {
-            btn.innerHTML = `<svg viewBox="0 0 24 24" width="20" height="20" stroke="#28a745" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-            btn.style.borderColor = '#28a745';
-            btn.style.background = '#f0fff4';
-
-            setTimeout(() => {
-                btn.innerHTML = originalHTML;
-                btn.style.borderColor = '#ccc';
-                btn.style.background = 'white';
-            }, 1500);
-        };
-
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(text)
-                .then(showSuccess)
-                .catch(err => useFallback(text)); 
-        } else {
-            useFallback(text);
-        }
-
-        function useFallback(textoACopiar) {
-            const textArea = document.createElement("textarea");
-            textArea.value = textoACopiar;
-            textArea.style.position = "fixed";
-            textArea.style.top = "0";
-            textArea.style.left = "0";
-            textArea.style.opacity = "0";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            
-            try {
-                document.execCommand('copy');
-                showSuccess(); 
-            } catch (err) {
-                console.error("Fallo al copiar", err);
-            }
-            document.body.removeChild(textArea); 
-        }
-    }
-
-    function deleteEntry(id) {
-        if(confirm('¿Estás seguro de que deseas eliminar este registro de la base?')) {
-            entries = entries.filter(e => e.id !== id);
-            localStorage.setItem('bice_kb_data', JSON.stringify(entries));
-            handleSearch();
-        }
-    }
-
     function editEntry(id) {
         const entry = entries.find(e => e.id === id);
-        
         document.getElementById('entryId').value = entry.id;
         document.getElementById('titulo').value = entry.titulo;
         document.getElementById('categoria').value = entry.categoria;
@@ -438,38 +458,193 @@
         document.getElementById('detalles').value = entry.detalles;
         document.getElementById('otro').value = entry.otro;
         
-        document.getElementById('formTitle').innerText = 'Editar Registro';
-        document.getElementById('saveBtn').innerText = 'Actualizar Información';
+        document.getElementById('formTitleKB').innerText = 'Editar Registro';
+        openModal('kbModal'); 
+    }
+
+    function deleteEntry(id) {
+        if(confirm('¿Estás seguro de que deseas eliminar este registro?')) {
+            entries = entries.filter(e => e.id !== id);
+            localStorage.setItem('bice_kb_data', JSON.stringify(entries));
+            showToast("Registro eliminado");
+            handleSearchKB();
+        }
+    }
+
+    // ==========================================
+    // MÓDULO 2: MIS CLAVES
+    // ==========================================
+    document.getElementById('clavesForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = document.getElementById('claveId').value;
+        const newClave = {
+            id: id ? id : 'CLV_' + Date.now().toString(),
+            app: document.getElementById('claveApp').value,
+            link: document.getElementById('claveLink').value,
+            user: document.getElementById('claveUser').value,
+            pass: document.getElementById('clavePass').value
+        };
+
+        if (id) {
+            const index = claves.findIndex(c => c.id === id);
+            claves[index] = newClave;
+            showToast("Clave actualizada correctamente");
+        } else {
+            claves.push(newClave);
+            showToast("Nueva clave guardada de forma segura");
+        }
+
+        localStorage.setItem('bice_claves_data', JSON.stringify(claves));
+        closeModal('clavesModal'); 
+        handleSearchClaves(); 
+    });
+
+    function handleSearchClaves() {
+        const searchTerm = document.getElementById('searchClaves').value.toLowerCase();
+        filteredClaves = claves.filter(c => 
+            c.app.toLowerCase().includes(searchTerm) || 
+            c.user.toLowerCase().includes(searchTerm)
+        );
+        renderClaves();
+    }
+
+    function renderClaves() {
+        const list = document.getElementById('clavesList');
+        list.innerHTML = '';
+
+        if(filteredClaves.length === 0) {
+            list.innerHTML = '<p style="text-align:center; color:#888; margin-top:30px;">No tienes claves guardadas aún o no coinciden con la búsqueda.</p>';
+            return;
+        }
+
+        filteredClaves.forEach(c => {
+            const card = document.createElement('div');
+            card.className = 'clave-card';
+            
+            let linkHtml = c.link ? `<a href="${c.link}" target="_blank" class="clave-link">🔗 Abrir Link</a>` : '';
+            
+            card.innerHTML = `
+                <div class="clave-title">
+                    <span>🔐 ${c.app}</span>
+                    ${linkHtml}
+                </div>
+                
+                <div class="clave-row">
+                    <span class="clave-label">Usuario:</span>
+                    <span class="clave-value" id="usr-${c.id}">${c.user}</span>
+                    <button class="copy-btn" onclick="copyText(event, 'usr-${c.id}')" title="Copiar Usuario">${copySvg}</button>
+                </div>
+                
+                <div class="clave-row">
+                    <span class="clave-label">Clave:</span>
+                    <span class="clave-value clave-hidden" id="pass-${c.id}" data-pass="${c.pass}">••••••••</span>
+                    <button class="toggle-visibility-btn" onclick="togglePass('${c.id}')" id="toggle-${c.id}">Mostrar</button>
+                    <button class="copy-btn" onclick="copyText(event, null, '${c.pass}')" title="Copiar Clave">${copySvg}</button>
+                </div>
+
+                <div class="card-actions" style="border-top:1px solid #eee; padding-top:10px; margin-top:15px;">
+                    <button class="action-btn edit-btn" onclick="editClave('${c.id}')">✏️ Editar</button>
+                    <button class="action-btn delete-btn" onclick="deleteClave('${c.id}')">🗑️ Eliminar</button>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function togglePass(id) {
+        const span = document.getElementById('pass-' + id);
+        const btn = document.getElementById('toggle-' + id);
         
-        openModal(); 
+        if (span.classList.contains('clave-hidden')) {
+            span.innerText = span.getAttribute('data-pass');
+            span.classList.remove('clave-hidden');
+            btn.innerText = "Ocultar";
+        } else {
+            span.innerText = "••••••••";
+            span.classList.add('clave-hidden');
+            btn.innerText = "Mostrar";
+        }
     }
 
-    function resetForm() {
-        document.getElementById('kbForm').reset();
-        document.getElementById('entryId').value = '';
-        document.getElementById('formTitle').innerText = 'Nuevo Registro';
-        document.getElementById('saveBtn').innerText = 'Guardar Información';
+    function editClave(id) {
+        const c = claves.find(x => x.id === id);
+        document.getElementById('claveId').value = c.id;
+        document.getElementById('claveApp').value = c.app;
+        document.getElementById('claveLink').value = c.link || '';
+        document.getElementById('claveUser').value = c.user;
+        document.getElementById('clavePass').value = c.pass;
+        
+        document.getElementById('formTitleClaves').innerText = 'Editar Clave';
+        openModal('clavesModal'); 
     }
 
-    function exportData() {
-        if(entries.length === 0) {
+    function deleteClave(id) {
+        if(confirm('¿Estás seguro de que deseas eliminar esta clave?')) {
+            claves = claves.filter(x => x.id !== id);
+            localStorage.setItem('bice_claves_data', JSON.stringify(claves));
+            showToast("Clave eliminada");
+            handleSearchClaves();
+        }
+    }
+
+
+    // ==========================================
+    // UTILIDADES GLOBALES (Copiar, Exportar, Importar)
+    // ==========================================
+
+    function copyText(event, elementId, rawText = null) {
+        const text = rawText ? rawText : document.getElementById(elementId).innerText;
+        const btn = event.currentTarget; 
+        const originalHTML = btn.innerHTML;
+
+        const showSuccess = () => {
+            btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="#28a745" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+            btn.style.borderColor = '#28a745';
+            btn.style.background = '#f0fff4';
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.style.borderColor = '#ccc';
+                btn.style.background = 'white';
+            }, 1500);
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(showSuccess).catch(err => useFallback(text)); 
+        } else {
+            useFallback(text);
+        }
+
+        function useFallback(textoACopiar) {
+            const textArea = document.createElement("textarea");
+            textArea.value = textoACopiar;
+            textArea.style.position = "fixed"; textArea.style.top = "0"; textArea.style.left = "0"; textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus(); textArea.select();
+            try { document.execCommand('copy'); showSuccess(); } catch (err) {}
+            document.body.removeChild(textArea); 
+        }
+    }
+
+    function exportData(type) {
+        const data = type === 'kb' ? entries : claves;
+        if(data.length === 0) {
             alert('No hay datos guardados para exportar.');
             return;
         }
         
-        const dataStr = JSON.stringify(entries, null, 2);
+        const dataStr = JSON.stringify(data, null, 2);
         const blob = new Blob([dataStr], { type: "application/json" });
         const url = URL.createObjectURL(blob);
         
         const a = document.createElement('a');
         a.href = url;
         const dateStr = new Date().toISOString().slice(0,10);
-        a.download = `Base_BICE_${dateStr}.json`;
+        a.download = type === 'kb' ? `Base_BICE_${dateStr}.json` : `Mis_Claves_BICE_${dateStr}.json`;
         a.click();
         URL.revokeObjectURL(url);
     }
 
-    function importData(event) {
+    function importData(event, type) {
         const file = event.target.files[0];
         if (!file) return;
 
@@ -477,45 +652,49 @@
         reader.onload = function(e) {
             try {
                 const importedData = JSON.parse(e.target.result);
-                
                 if (Array.isArray(importedData)) {
-                    if(confirm(`El archivo tiene ${importedData.length} registros. \n\nPresiona "Aceptar" para SUMARLOS a los que ya tienes, o "Cancelar" para REEMPLAZAR toda tu base actual con este archivo.`)) {
-                        
-                        const existingIds = new Set(entries.map(ent => ent.id));
+                    if(confirm(`Se encontraron ${importedData.length} registros.\nPresiona "Aceptar" para SUMARLOS, o "Cancelar" para REEMPLAZAR tu base actual.`)) {
+                        // Sumar
+                        let targetArray = type === 'kb' ? entries : claves;
+                        const existingIds = new Set(targetArray.map(ent => ent.id));
                         let addedCount = 0;
-                        
                         importedData.forEach(item => {
-                            if(!existingIds.has(item.id)) {
-                                entries.push(item);
-                                addedCount++;
-                            }
+                            if(!existingIds.has(item.id)) { targetArray.push(item); addedCount++; }
                         });
-                        alert(`Importación completada. Se agregaron ${addedCount} registros nuevos.`);
+                        showToast(`Se agregaron ${addedCount} registros`);
                     } else {
-                        if(confirm('ATENCIÓN: Esto borrará tus datos actuales y pondrá solo los del archivo. ¿Continuar?')) {
-                            entries = importedData;
-                            alert('Base reemplazada con éxito.');
+                        // Reemplazar
+                        if(confirm('ATENCIÓN: Esto borrará tus datos actuales. ¿Continuar?')) {
+                            if(type === 'kb') entries = importedData;
+                            else claves = importedData;
+                            showToast("Base reemplazada con éxito");
                         } else {
-                            document.getElementById('importFile').value = ''; 
+                            document.getElementById(event.target.id).value = ''; 
                             return;
                         }
                     }
                     
-                    localStorage.setItem('bice_kb_data', JSON.stringify(entries));
-                    handleSearch();
+                    if(type === 'kb') {
+                        localStorage.setItem('bice_kb_data', JSON.stringify(entries));
+                        handleSearchKB();
+                    } else {
+                        localStorage.setItem('bice_claves_data', JSON.stringify(claves));
+                        handleSearchClaves();
+                    }
                 } else {
-                    alert('El archivo seleccionado no tiene el formato correcto de la Base de Conocimiento.');
+                    alert('El archivo no tiene el formato correcto.');
                 }
             } catch (error) {
-                alert('Ocurrió un error al leer el archivo. Asegúrate de que sea el archivo .json exportado.');
+                alert('Error al leer el archivo JSON.');
             }
-            document.getElementById('importFile').value = ''; 
+            document.getElementById(event.target.id).value = ''; 
         };
         reader.readAsText(file);
     }
 
-    // Inicializar
-    handleSearch();
+    // Inicializar la vista por defecto
+    handleSearchKB();
+    
 </script>
 
 </body>
