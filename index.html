@@ -104,7 +104,7 @@
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
 
-        /* Paginación */
+        /* Paginación - Nuevo Diseño */
         .pagination-container { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 30px; padding-bottom: 30px; }
         .pagination-buttons { display: flex; gap: 15px; align-items: center; }
         .pagination-buttons button { background: var(--bice-blue); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
@@ -214,7 +214,6 @@
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
         <h2 id="formTitleKB">Nuevo Registro</h2>
         <form id="kbForm">
-            <!-- AQUÍ ESTABA EL BUG: Ahora nos aseguramos de borrarlo al cerrar -->
             <input type="hidden" id="entryId">
             <label>Título:</label><input type="text" id="titulo" required>
             <label>Categoría:</label><input type="text" id="categoria" required>
@@ -238,7 +237,6 @@
         <span class="close-modal" onclick="closeModal('clavesModal')" title="Cerrar">&times;</span>
         <h2 id="formTitleClaves">Nueva Clave de Acceso</h2>
         <form id="clavesForm">
-            <!-- AQUÍ TAMBIÉN ESTABA EL BUG -->
             <input type="hidden" id="claveId">
             <label>Aplicativo o Sistema:</label><input type="text" id="claveApp" required placeholder="Ej: AS400, Genesys, Intranet...">
             <label>Link de acceso (Opcional):</label><input type="text" id="claveLink" placeholder="Ej: https://sistema.bice.cl">
@@ -329,25 +327,22 @@
         document.body.style.overflow = 'hidden'; 
     }
 
-    // --- AQUÍ ESTÁ LA SOLUCIÓN AL BUG ---
-    // Ahora limpiamos explícitamente los IDs ocultos y restauramos los títulos al cerrar
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
         document.body.style.overflow = 'auto'; 
         
         if (modalId === 'kbModal') {
             document.getElementById('kbForm').reset();
-            document.getElementById('entryId').value = ''; // Limpia el ID oculto
+            document.getElementById('entryId').value = ''; 
             document.getElementById('formTitleKB').innerText = 'Nuevo Registro';
         }
         
         if (modalId === 'clavesModal') {
             document.getElementById('clavesForm').reset();
-            document.getElementById('claveId').value = ''; // Limpia el ID oculto
+            document.getElementById('claveId').value = ''; 
             document.getElementById('formTitleClaves').innerText = 'Nueva Clave de Acceso';
         }
     }
-    // ------------------------------------
 
     function showToast(message) {
         const toast = document.getElementById("toast");
@@ -362,11 +357,31 @@
     document.getElementById('kbForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const id = document.getElementById('entryId').value;
+        const inputTitulo = document.getElementById('titulo').value.trim();
+        
+        // --- VALIDACIÓN DE DUPLICADOS EN BASE DE CONOCIMIENTO ---
+        const duplicate = entries.find(emp => emp.titulo.toLowerCase() === inputTitulo.toLowerCase() && emp.id !== id);
+        
+        if (duplicate) {
+            if (!id) {
+                // Es un registro nuevo, preguntamos qué hacer
+                const msj = `⚠️ El título "${duplicate.titulo}" ya existe.\n\n• Presiona "Aceptar" para cargar y editar el registro existente (perderás lo que acabas de escribir en este formulario).\n• Presiona "Cancelar" para quedarte aquí y cambiarle el título a este nuevo registro.`;
+                if (confirm(msj)) {
+                    editEntry(duplicate.id);
+                }
+            } else {
+                // Está editando y le puso el nombre de otro existente
+                alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".\nPor favor, elige un nombre diferente para evitar confusiones.`);
+            }
+            return; // Detiene el guardado
+        }
+        // --------------------------------------------------------
+
         const newEntry = {
             id: id ? id : 'KB_' + Date.now().toString(),
             fecha: getFormattedDate(),
             timestamp: Date.now(), 
-            titulo: document.getElementById('titulo').value,
+            titulo: inputTitulo,
             categoria: document.getElementById('categoria').value,
             etiquetas: document.getElementById('etiquetas').value,
             scriptInicial: document.getElementById('scriptInicial').value,
@@ -507,11 +522,29 @@
     document.getElementById('clavesForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const id = document.getElementById('claveId').value;
+        const inputApp = document.getElementById('claveApp').value.trim();
+
+        // --- VALIDACIÓN DE DUPLICADOS EN CLAVES ---
+        const duplicate = claves.find(c => c.app.toLowerCase() === inputApp.toLowerCase() && c.id !== id);
+        
+        if (duplicate) {
+            if (!id) {
+                const msj = `⚠️ El aplicativo "${duplicate.app}" ya existe en tus claves.\n\n• Presiona "Aceptar" para cargar y editar la clave existente (perderás lo que acabas de escribir).\n• Presiona "Cancelar" para quedarte aquí y cambiarle el nombre a este nuevo registro.`;
+                if (confirm(msj)) {
+                    editClave(duplicate.id);
+                }
+            } else {
+                alert(`⚠️ Ya existe otra clave guardada con el nombre "${duplicate.app}".\nPor favor, diferéncialo (ej: "${duplicate.app} (2)") para evitar confusiones.`);
+            }
+            return; // Detiene el guardado
+        }
+        // ------------------------------------------
+
         const newClave = {
             id: id ? id : 'CLV_' + Date.now().toString(),
             fecha: getFormattedDate(),
             timestamp: Date.now(), 
-            app: document.getElementById('claveApp').value,
+            app: inputApp,
             link: document.getElementById('claveLink').value,
             user: document.getElementById('claveUser').value,
             pass: document.getElementById('clavePass').value
