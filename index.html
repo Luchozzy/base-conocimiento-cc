@@ -117,7 +117,7 @@
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
 
-        /* Paginación - Nuevo Diseño */
+        /* Paginación */
         .pagination-container { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 30px; padding-bottom: 30px; }
         .pagination-buttons { display: flex; gap: 15px; align-items: center; }
         .pagination-buttons button { background: var(--bice-blue); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
@@ -146,13 +146,13 @@
         
         <div class="accordion-menu">
             
-            <!-- ACORDEÓN: BASE DE CONOCIMIENTO -->
+            <!-- ACORDEÓN: BASE DE CONOCIMIENTO (Empieza contraído) -->
             <div class="menu-section" id="section-kb">
-                <button class="nav-btn active" id="nav-kb" onclick="switchView('kb')">
-                    📚 Base de Conocimiento <span class="nav-arrow" id="arrow-kb">▼</span>
+                <button class="nav-btn" id="nav-kb" onclick="switchView('kb')">
+                    📚 Base de Conocimiento <span class="nav-arrow" id="arrow-kb">▶</span>
                 </button>
                 
-                <div class="menu-content" id="content-kb" style="display: block;">
+                <div class="menu-content" id="content-kb" style="display: none;">
                     <button class="main-btn" onclick="openModal('kbModal')">➕ Crear Registro</button>
                     <div class="data-actions">
                         <button class="data-btn export-btn" onclick="exportData('kb')">⬇️ Exportar Base</button>
@@ -163,7 +163,7 @@
                 </div>
             </div>
 
-            <!-- ACORDEÓN: MIS CLAVES -->
+            <!-- ACORDEÓN: MIS CLAVES (Empieza contraído) -->
             <div class="menu-section" id="section-claves">
                 <button class="nav-btn" id="nav-claves" onclick="switchView('claves')">
                     🔑 Mis Claves <span class="nav-arrow" id="arrow-claves">▶</span>
@@ -172,7 +172,7 @@
                 <div class="menu-content" id="content-claves" style="display: none;">
                     <button class="main-btn main-btn-claves" onclick="openModal('clavesModal')">➕ Nueva Clave</button>
                     <div class="data-actions">
-                        <button class="data-btn export-btn" onclick="exportData('claves')">⬇️️ Exportar Claves</button>
+                        <button class="data-btn export-btn" onclick="exportData('claves')">⬇ Exportar Claves</button>
                         <label for="importFileClaves" class="data-btn import-btn">⬆️ Importar Claves</label>
                         <input type="file" id="importFileClaves" accept=".json" style="display: none;" onchange="importData(event, 'claves')">
                         <button class="data-btn delete-all-btn" onclick="deleteAll('claves')">🗑️ Eliminar Todas Claves</button>
@@ -190,8 +190,15 @@
     <!-- === PANEL DERECHO === -->
     <div class="view-section">
         
+        <!-- VISTA 0: BIENVENIDA (Aparece al inicio o cuando todo está cerrado) -->
+        <div id="view-welcome" class="view-container active" style="text-align: center; padding-top: 10vh;">
+            <div style="font-size: 4em; margin-bottom: 10px;">👋</div>
+            <h2 style="color: var(--bice-blue); font-size: 2em; margin-bottom: 10px;">Bienvenido a tu Espacio</h2>
+            <p style="color: #666; font-size: 1.2em; max-width: 500px; margin: 0 auto; line-height: 1.5;">Selecciona <b>Base de Conocimiento</b> o <b>Mis Claves</b> en el menú izquierdo para comenzar a gestionar tu información.</p>
+        </div>
+
         <!-- VISTA 1: BASE DE CONOCIMIENTO -->
-        <div id="view-kb" class="view-container active">
+        <div id="view-kb" class="view-container">
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="🔍 Buscar por título, categoría, etiqueta o contenido..." onkeyup="handleSearchKB()">
                 <select id="sortSelectKB" onchange="handleSearchKB()">
@@ -339,31 +346,39 @@
         }
     }
 
-    // --- NUEVA NAVEGACIÓN (ACORDEÓN IZQUIERDO Y VISTAS DERECHAS) ---
+    // --- NUEVA NAVEGACIÓN TIPO ACORDEÓN ---
     function switchView(viewName) {
-        // Reset botones y flechas del menú izquierdo
+        const navBtn = document.getElementById('nav-' + viewName);
+        const isActive = navBtn.classList.contains('active');
+
+        // 1. Ocultar todo y apagar todos los botones
         document.getElementById('nav-kb').classList.remove('active');
         document.getElementById('nav-claves').classList.remove('active');
         document.getElementById('arrow-kb').innerText = '▶';
         document.getElementById('arrow-claves').innerText = '▶';
-
-        // Ocultar sub-menús
+        
         document.getElementById('content-kb').style.display = 'none';
         document.getElementById('content-claves').style.display = 'none';
 
-        // Ocultar vistas del panel derecho
         document.getElementById('view-kb').classList.remove('active');
         document.getElementById('view-claves').classList.remove('active');
+        document.getElementById('view-welcome').classList.remove('active');
 
-        // Activar la selección actual
-        document.getElementById('nav-' + viewName).classList.add('active');
-        document.getElementById('arrow-' + viewName).innerText = '▼';
-        document.getElementById('content-' + viewName).style.display = 'block';
-        document.getElementById('view-' + viewName).classList.add('active');
+        // 2. Lógica del Acordeón
+        if (isActive) {
+            // Si estaba abierto y lo pinchaste, se cierra. Mostramos la vista de Bienvenida
+            document.getElementById('view-welcome').classList.add('active');
+        } else {
+            // Si estaba cerrado, lo abrimos y mostramos su contenido en ambos lados
+            navBtn.classList.add('active');
+            document.getElementById('arrow-' + viewName).innerText = '▼';
+            document.getElementById('content-' + viewName).style.display = 'block';
+            document.getElementById('view-' + viewName).classList.add('active');
 
-        // Refrescar vistas
-        if(viewName === 'kb') handleSearchKB();
-        if(viewName === 'claves') handleSearchClaves();
+            // Renderizamos los datos de esa vista
+            if(viewName === 'kb') handleSearchKB();
+            if(viewName === 'claves') handleSearchClaves();
+        }
     }
 
     function openModal(modalId) {
@@ -380,7 +395,6 @@
             document.getElementById('entryId').value = ''; 
             document.getElementById('formTitleKB').innerText = 'Nuevo Registro';
         }
-        
         if (modalId === 'clavesModal') {
             document.getElementById('clavesForm').reset();
             document.getElementById('claveId').value = ''; 
@@ -407,7 +421,7 @@
         
         if (duplicate) {
             if (!id) {
-                const msj = `⚠️ El título "${duplicate.titulo}" ya existe.\n\n• Presiona "Aceptar" para cargar y editar el registro existente (perderás lo que acabas de escribir en este formulario).\n• Presiona "Cancelar" para quedarte aquí y cambiarle el título a este nuevo registro.`;
+                const msj = `⚠️ El título "${duplicate.titulo}" ya existe.\n\n• Presiona "Aceptar" para cargar y editar el registro existente (perderás lo que escribiste en este formulario).\n• Presiona "Cancelar" para quedarte aquí y cambiarle el título a este nuevo registro.`;
                 if (confirm(msj)) { editEntry(duplicate.id); }
             } else {
                 alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".\nPor favor, elige un nombre diferente para evitar confusiones.`);
@@ -566,7 +580,7 @@
         
         if (duplicate) {
             if (!id) {
-                const msj = `⚠️ El aplicativo "${duplicate.app}" ya existe en tus claves.\n\n• Presiona "Aceptar" para cargar y editar la clave existente (perderás lo que acabas de escribir).\n• Presiona "Cancelar" para quedarte aquí y cambiarle el nombre a este nuevo registro.`;
+                const msj = `⚠️ El aplicativo "${duplicate.app}" ya existe en tus claves.\n\n• Presiona "Aceptar" para cargar y editar la clave existente (perderás lo que escribiste en este formulario).\n• Presiona "Cancelar" para quedarte aquí y cambiarle el nombre a este nuevo registro.`;
                 if (confirm(msj)) { editClave(duplicate.id); }
             } else {
                 alert(`⚠️ Ya existe otra clave guardada con el nombre "${duplicate.app}".\nPor favor, diferéncialo (ej: "${duplicate.app} (2)") para evitar confusiones.`);
@@ -806,7 +820,8 @@
         reader.readAsText(file);
     }
 
-    // Inicializar
+    // Inicializamos con TODO oculto por defecto (mostramos vista bienvenida)
+    // No llamamos a switchView para que inicie cerrado, pero sí renderizamos por detrás
     handleSearchKB();
     handleSearchClaves(); 
 </script>
