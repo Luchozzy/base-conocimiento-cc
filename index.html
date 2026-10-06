@@ -108,7 +108,6 @@
         summary.card-header::-webkit-details-marker { display: none; }
         summary.card-header:hover { background-color: #f8f9fa; }
         
-        .date-badge { font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px; }
         .tags { font-size: 0.85em; background: #e0e0e0; padding: 4px 10px; border-radius: 12px; margin-left: 10px; color: #333; font-weight: normal; }
         
         /* Campos de texto de la tarjeta */
@@ -117,6 +116,9 @@
         .field-title { font-weight: bold; font-size: 1.05em; color: var(--bice-blue); margin-bottom: 8px; }
         .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: #222; line-height: 1.6; padding-right: 50px; }
         
+        /* Última Modificación */
+        .last-modified { font-size: 0.8em; color: #777; font-style: italic; margin-top: 20px; text-align: left; }
+
         /* Botón de copiar */
         .copy-btn { 
             position: absolute; 
@@ -137,7 +139,7 @@
         .copy-btn:hover { background: #f1f1f1; color: var(--bice-blue); border-color: var(--bice-blue); }
         
         /* Acciones de la tarjeta */
-        .card-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .card-actions { display: flex; gap: 10px; margin-top: 10px; }
         .action-btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95em; font-weight: bold; }
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
@@ -162,17 +164,14 @@
     
     <!-- === PANEL IZQUIERDO === -->
     <div class="left-panel">
-        <!-- Botón Principal -->
         <button class="main-btn" onclick="openModal()">➕ Crear Registro</button>
         
-        <!-- Botones de Gestión de Datos -->
         <div class="data-actions">
             <button class="data-btn export-btn" onclick="exportData()">⬇️ Exportar Base</button>
             <label for="importFile" class="data-btn import-btn">⬆️ Importar Base</label>
             <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
         </div>
 
-        <!-- Espacio reservado para herramientas futuras -->
         <div class="future-section">
             <p><i>Espacio reservado para futuras herramientas del Contact Center</i></p>
         </div>
@@ -180,15 +179,11 @@
 
     <!-- === PANEL DERECHO === -->
     <div class="view-section">
-        <!-- Barra de Búsqueda -->
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="🔍 Buscar por título, categoría, etiqueta o contenido..." onkeyup="handleSearch()">
         </div>
-
-        <!-- Lista de Registros -->
         <div id="entriesList"></div>
         
-        <!-- Paginación -->
         <div class="pagination">
             <button id="prevBtn" onclick="changePage(-1)">◀ Anterior</button>
             <span id="pageInfo">Página 1</span>
@@ -205,7 +200,6 @@
         <h2 id="formTitle">Nuevo Registro</h2>
         <form id="kbForm">
             <input type="hidden" id="entryId">
-            <input type="hidden" id="entryDate">
             
             <label>Título:</label><input type="text" id="titulo" required>
             <label>Categoría:</label><input type="text" id="categoria" required>
@@ -235,9 +229,10 @@
     const itemsPerPage = 30;
     let filteredEntries = [...entries];
 
+    // Ahora retorna solo la fecha en formato XX-XX-XXXX
     function getFormattedDate() {
-        const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute:'2-digit' };
-        return new Date().toLocaleDateString('es-CL', options);
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        return new Date().toLocaleDateString('es-CL', options).replace(/\//g, '-');
     }
 
     // --- FUNCIONES DEL MODAL ---
@@ -257,11 +252,10 @@
         e.preventDefault();
         
         const id = document.getElementById('entryId').value;
-        const existingDate = document.getElementById('entryDate').value;
         
         const newEntry = {
             id: id ? id : Date.now().toString(),
-            fecha: id && existingDate ? existingDate : getFormattedDate(),
+            fecha: getFormattedDate(), // Siempre tomará la fecha actual al guardar/editar
             titulo: document.getElementById('titulo').value,
             categoria: document.getElementById('categoria').value,
             etiquetas: document.getElementById('etiquetas').value,
@@ -323,15 +317,11 @@
             const card = document.createElement('details');
             card.className = 'card';
             
+            // Removida la fecha de al lado del título
             let html = `
                 <summary class="card-header">
-                    <div>
-                        ${entry.titulo} 
-                        <span class="date-badge">(Creado el: ${entry.fecha || 'N/A'})</span>
-                    </div>
-                    <div>
-                        <span class="tags">${entry.categoria}</span>
-                    </div>
+                    <div>${entry.titulo}</div>
+                    <div><span class="tags">${entry.categoria}</span></div>
                 </summary>
                 <div class="card-content">
             `;
@@ -360,7 +350,10 @@
                 }
             });
 
-            html += `<div class="card-actions">
+            // Agregada la fecha de última modificación al final de los campos
+            html += `
+                    <div class="last-modified">(Última modificación: ${entry.fecha || 'N/A'})</div>
+                    <div class="card-actions">
                         <button class="action-btn edit-btn" onclick="editEntry('${entry.id}')">✏️ Editar</button>
                         <button class="action-btn delete-btn" onclick="deleteEntry('${entry.id}')">🗑️ Eliminar</button>
                      </div>
@@ -375,7 +368,6 @@
         document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
     }
 
-    // --- NUEVO SISTEMA DE COPIADO (CON PLAN B CORPORATIVO) ---
     function copyText(event, elementId) {
         const text = document.getElementById(elementId).innerText;
         const btn = event.currentTarget; 
@@ -434,7 +426,6 @@
         const entry = entries.find(e => e.id === id);
         
         document.getElementById('entryId').value = entry.id;
-        document.getElementById('entryDate').value = entry.fecha || '';
         document.getElementById('titulo').value = entry.titulo;
         document.getElementById('categoria').value = entry.categoria;
         document.getElementById('etiquetas').value = entry.etiquetas;
@@ -456,7 +447,6 @@
     function resetForm() {
         document.getElementById('kbForm').reset();
         document.getElementById('entryId').value = '';
-        document.getElementById('entryDate').value = '';
         document.getElementById('formTitle').innerText = 'Nuevo Registro';
         document.getElementById('saveBtn').innerText = 'Guardar Información';
     }
