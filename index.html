@@ -19,51 +19,85 @@
         .logo { height: 40px; }
         header h1 { color: var(--bice-blue); margin: 0; font-size: 1.5em; }
 
-        .container { max-width: 1300px; margin: 0 auto; display: flex; gap: 20px; align-items: flex-start; flex: 1; width: 100%; box-sizing: border-box; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 0 auto; flex: 1; width: 100%; box-sizing: border-box; padding: 0 20px; }
         
-        /* Panel Izquierdo: Controles y Formulario */
-        .left-panel { flex: 1; position: sticky; top: 20px; }
-        .toggle-btn { background: var(--bice-blue); color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 1.1em; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .toggle-btn:hover { background: var(--bice-light); }
+        /* Barra de Herramientas (Botones arriba) */
+        .toolbar { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .main-btn { background: var(--bice-blue); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 1.1em; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); flex: 2; transition: background 0.2s; }
+        .main-btn:hover { background: var(--bice-light); }
         
-        /* Botones de Datos */
-        .data-actions { display: flex; gap: 10px; margin-bottom: 15px; }
-        .data-btn { flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: bold; font-size: 0.9em; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; }
+        .data-btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 1em; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; transition: filter 0.2s; }
+        .data-btn:hover { filter: brightness(0.9); }
         .export-btn { background: #17a2b8; color: white; }
-        .export-btn:hover { background: #138496; }
         .import-btn { background: #6c757d; color: white; display: inline-block; box-sizing: border-box; }
-        .import-btn:hover { background: #5a6268; }
 
-        .form-section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: none; max-height: 70vh; overflow-y: auto; }
-        .form-section.active { display: block; }
-        .form-section h2 { color: var(--bice-blue); margin-top: 0; }
-        label { display: block; margin-top: 10px; font-weight: bold; font-size: 0.9em; }
-        input[type="text"], textarea { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid var(--border); border-radius: 4px; box-sizing: border-box; }
-        textarea { height: 60px; resize: vertical; }
-        .save-btn { background: #28a745; color: white; border: none; padding: 12px; margin-top: 15px; border-radius: 4px; cursor: pointer; width: 100%; font-size: 1em; font-weight: bold; }
+        /* --- VENTANA FLOTANTE (MODAL) --- */
+        .modal-overlay {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px); /* Desenfoque del fondo */
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 1.8em;
+            color: #888;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .close-modal:hover { color: #dc3545; }
+
+        .modal-content h2 { color: var(--bice-blue); margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        label { display: block; margin-top: 15px; font-weight: bold; font-size: 0.95em; color: #444; }
+        input[type="text"], textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1em; }
+        textarea { height: 80px; resize: vertical; }
+        
+        .save-btn { background: #28a745; color: white; border: none; padding: 15px; margin-top: 25px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 1.1em; font-weight: bold; transition: background 0.2s; }
         .save-btn:hover { background: #218838; }
         
-        /* Panel Derecho: Búsqueda y Resultados (Acordeón) */
-        .view-section { flex: 2; display: flex; flex-direction: column; gap: 15px; width: 100%; }
-        .search-bar { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        /* Búsqueda */
+        .search-bar { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .search-bar input { font-size: 1.1em; padding: 12px; width: 100%; border: 1px solid var(--border); border-radius: 4px; box-sizing: border-box; }
         
         /* Acordeón (Tarjetas Collapsibles) */
-        details.card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 10px; transition: all 0.3s ease; }
-        summary.card-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; cursor: pointer; list-style: none; font-weight: bold; color: var(--bice-blue); font-size: 1.1em; border-left: 5px solid var(--bice-blue); border-radius: 8px; }
+        details.card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; transition: all 0.3s ease; }
+        summary.card-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; cursor: pointer; list-style: none; font-weight: bold; color: var(--bice-blue); font-size: 1.15em; border-left: 6px solid var(--bice-blue); border-radius: 8px; }
         summary.card-header::-webkit-details-marker { display: none; }
         summary.card-header:hover { background-color: #f8f9fa; }
         
-        .date-badge { font-size: 0.75em; color: #666; font-weight: normal; margin-left: 10px; }
-        .tags { font-size: 0.8em; background: #e0e0e0; padding: 3px 8px; border-radius: 12px; margin-left: 10px; color: #333; font-weight: normal; }
+        .date-badge { font-size: 0.8em; color: #666; font-weight: normal; margin-left: 10px; }
+        .tags { font-size: 0.85em; background: #e0e0e0; padding: 4px 10px; border-radius: 12px; margin-left: 10px; color: #333; font-weight: normal; }
         
-        /* Campos de texto */
+        /* Campos de texto de la tarjeta */
         .card-content { padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 10px; padding-top: 15px; }
-        .field-group { margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-left: 4px solid var(--bice-light); border-radius: 4px; position: relative; }
+        .field-group { margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-left: 4px solid var(--bice-light); border-radius: 6px; position: relative; }
         .field-title { font-weight: bold; font-size: 1.05em; color: var(--bice-blue); margin-bottom: 8px; }
         .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: #222; line-height: 1.6; padding-right: 50px; }
         
-        /* --- NUEVO BOTÓN DE COPIAR (ÍCONO) --- */
+        /* Botón de copiar */
         .copy-btn { 
             position: absolute; 
             top: 15px; 
@@ -80,20 +114,16 @@
             transition: all 0.2s ease;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        .copy-btn:hover { 
-            background: #f1f1f1; 
-            color: var(--bice-blue); 
-            border-color: var(--bice-blue);
-        }
+        .copy-btn:hover { background: #f1f1f1; color: var(--bice-blue); border-color: var(--bice-blue); }
         
         /* Acciones de la tarjeta */
-        .card-actions { display: flex; gap: 10px; margin-top: 15px; }
+        .card-actions { display: flex; gap: 10px; margin-top: 20px; }
         .action-btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95em; font-weight: bold; }
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
 
         /* Paginación */
-        .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px; padding-bottom: 20px; }
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 30px; padding-bottom: 30px; }
         .pagination button { background: var(--bice-blue); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
         .pagination button:disabled { background: #ccc; cursor: not-allowed; }
         
@@ -109,51 +139,56 @@
 </header>
 
 <div class="container">
-    <div class="left-panel">
-        <button class="toggle-btn" onclick="toggleForm()">
-            <span id="toggleText">➕ Crear Nuevo Registro</span>
-        </button>
-
-        <div class="data-actions">
-            <button class="data-btn export-btn" onclick="exportData()">⬇️ Exportar Datos</button>
-            <label for="importFile" class="data-btn import-btn">⬆️ Importar Datos</label>
-            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
-        </div>
-
-        <div class="form-section" id="formSection">
-            <h2 id="formTitle">Nuevo Registro</h2>
-            <form id="kbForm">
-                <input type="hidden" id="entryId">
-                <input type="hidden" id="entryDate">
-                <label>Título:</label><input type="text" id="titulo" required>
-                <label>Categoría:</label><input type="text" id="categoria" required>
-                <label>Etiquetas (separadas por coma):</label><input type="text" id="etiquetas">
-                <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
-                <label>Paso a Paso:</label><textarea id="pasoApaso"></textarea>
-                <label>Validación:</label><textarea id="validacion"></textarea>
-                <label>CTI:</label><textarea id="cti"></textarea>
-                <label>Plantilla:</label><textarea id="plantilla"></textarea>
-                <label>Script Final:</label><textarea id="scriptFinal"></textarea>
-                <label>Detalles importantes:</label><textarea id="detalles"></textarea>
-                <label>Otro:</label><textarea id="otro"></textarea>
-                
-                <button type="submit" class="save-btn" id="saveBtn">Guardar Información</button>
-                <button type="button" id="cancelBtn" class="action-btn" style="display:none; width:100%; margin-top:10px; background:#6c757d; color:white;" onclick="resetForm()">Cancelar Edición</button>
-            </form>
-        </div>
+    
+    <!-- Barra de Herramientas -->
+    <div class="toolbar">
+        <button class="main-btn" onclick="openModal()">➕ Crear Nuevo Registro</button>
+        <button class="data-btn export-btn" onclick="exportData()">⬇️ Exportar Datos</button>
+        <label for="importFile" class="data-btn import-btn">⬆️ Importar Datos</label>
+        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
     </div>
 
-    <div class="view-section">
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="🔍 Buscar por título, categoría, etiqueta o contenido..." onkeyup="handleSearch()">
-        </div>
-        <div id="entriesList"></div>
-        
-        <div class="pagination">
-            <button id="prevBtn" onclick="changePage(-1)">◀ Anterior</button>
-            <span id="pageInfo">Página 1</span>
-            <button id="nextBtn" onclick="changePage(1)">Siguiente ▶</button>
-        </div>
+    <!-- Barra de Búsqueda -->
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="🔍 Buscar por título, categoría, etiqueta o contenido..." onkeyup="handleSearch()">
+    </div>
+
+    <!-- Lista de Registros -->
+    <div id="entriesList"></div>
+    
+    <!-- Paginación -->
+    <div class="pagination">
+        <button id="prevBtn" onclick="changePage(-1)">◀ Anterior</button>
+        <span id="pageInfo">Página 1</span>
+        <button id="nextBtn" onclick="changePage(1)">Siguiente ▶</button>
+    </div>
+
+</div>
+
+<!-- === VENTANA FLOTANTE DEL FORMULARIO (MODAL) === -->
+<div class="modal-overlay" id="formModal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()" title="Cerrar">&times;</span>
+        <h2 id="formTitle">Nuevo Registro</h2>
+        <form id="kbForm">
+            <input type="hidden" id="entryId">
+            <input type="hidden" id="entryDate">
+            
+            <label>Título:</label><input type="text" id="titulo" required>
+            <label>Categoría:</label><input type="text" id="categoria" required>
+            <label>Etiquetas (separadas por coma):</label><input type="text" id="etiquetas" placeholder="Ej: fraude, bloqueo, tc">
+            
+            <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
+            <label>Paso a Paso:</label><textarea id="pasoApaso"></textarea>
+            <label>Validación:</label><textarea id="validacion"></textarea>
+            <label>CTI:</label><textarea id="cti"></textarea>
+            <label>Plantilla:</label><textarea id="plantilla"></textarea>
+            <label>Script Final:</label><textarea id="scriptFinal"></textarea>
+            <label>Detalles importantes:</label><textarea id="detalles"></textarea>
+            <label>Otro:</label><textarea id="otro"></textarea>
+            
+            <button type="submit" class="save-btn" id="saveBtn">Guardar Información</button>
+        </form>
     </div>
 </div>
 
@@ -172,18 +207,19 @@
         return new Date().toLocaleDateString('es-CL', options);
     }
 
-    function toggleForm() {
-        const formDiv = document.getElementById('formSection');
-        const toggleSpan = document.getElementById('toggleText');
-        if (formDiv.classList.contains('active')) {
-            formDiv.classList.remove('active');
-            toggleSpan.innerText = '➕ Crear Nuevo Registro';
-            resetForm();
-        } else {
-            formDiv.classList.add('active');
-            toggleSpan.innerText = '➖ Ocultar Formulario';
-        }
+    // --- FUNCIONES DEL MODAL ---
+    function openModal() {
+        document.getElementById('formModal').style.display = 'flex';
+        // Evita que el fondo de la página haga scroll mientras el modal está abierto
+        document.body.style.overflow = 'hidden'; 
     }
+
+    function closeModal() {
+        document.getElementById('formModal').style.display = 'none';
+        document.body.style.overflow = 'auto'; // Devuelve el scroll a la página
+        resetForm();
+    }
+    // ---------------------------
 
     document.getElementById('kbForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -215,12 +251,8 @@
         }
 
         localStorage.setItem('bice_kb_data', JSON.stringify(entries));
-        resetForm();
-        
-        document.getElementById('formSection').classList.remove('active');
-        document.getElementById('toggleText').innerText = '➕ Crear Nuevo Registro';
-        
-        handleSearch();
+        closeModal(); // Cierra la ventana tras guardar
+        handleSearch(); // Actualiza la lista
     });
 
     function handleSearch() {
@@ -311,7 +343,7 @@
         document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
     }
 
-    // --- NUEVA LÓGICA DEL BOTÓN DE COPIAR (CON PLAN B CORPORATIVO) ---
+    // --- NUEVO SISTEMA DE COPIADO ---
     function copyText(event, elementId) {
         const text = document.getElementById(elementId).innerText;
         const btn = event.currentTarget; 
@@ -340,12 +372,10 @@
         function useFallback(textoACopiar) {
             const textArea = document.createElement("textarea");
             textArea.value = textoACopiar;
-            
             textArea.style.position = "fixed";
             textArea.style.top = "0";
             textArea.style.left = "0";
             textArea.style.opacity = "0";
-            
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
@@ -354,9 +384,8 @@
                 document.execCommand('copy');
                 showSuccess(); 
             } catch (err) {
-                console.error("El navegador bloqueó la copia automática.", err);
+                console.error("Fallo al copiar", err);
             }
-            
             document.body.removeChild(textArea); 
         }
     }
@@ -372,11 +401,6 @@
     function editEntry(id) {
         const entry = entries.find(e => e.id === id);
         
-        const formDiv = document.getElementById('formSection');
-        if (!formDiv.classList.contains('active')) {
-            toggleForm();
-        }
-
         document.getElementById('entryId').value = entry.id;
         document.getElementById('entryDate').value = entry.fecha || '';
         document.getElementById('titulo').value = entry.titulo;
@@ -393,8 +417,8 @@
         
         document.getElementById('formTitle').innerText = 'Editar Registro';
         document.getElementById('saveBtn').innerText = 'Actualizar Información';
-        document.getElementById('cancelBtn').style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        openModal(); // Abre la ventana flotante
     }
 
     function resetForm() {
@@ -403,7 +427,6 @@
         document.getElementById('entryDate').value = '';
         document.getElementById('formTitle').innerText = 'Nuevo Registro';
         document.getElementById('saveBtn').innerText = 'Guardar Información';
-        document.getElementById('cancelBtn').style.display = 'none';
     }
 
     function exportData() {
