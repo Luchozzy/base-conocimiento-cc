@@ -103,7 +103,7 @@
         .clave-link:hover { background: #d0e3ff; }
         .clave-row { display: flex; margin-bottom: 10px; align-items: center; background: #f9f9f9; padding: 10px 15px; border-radius: 6px; }
         .clave-label { font-weight: bold; width: 100px; color: #555; }
-        .clave-value { flex: 1; font-family: monospace; font-size: 1.2em; letter-spacing: 1px; color: #111; }
+        .clave-value { flex: 1; font-family: monospace; font-size: 1.2em; letter-spacing: 1px; color: #111; word-break: break-all; }
         .clave-hidden { filter: blur(4px); user-select: none; }
         .toggle-visibility-btn { background: none; border: none; color: #666; cursor: pointer; font-size: 0.9em; text-decoration: underline; margin-right: 15px; }
 
@@ -113,7 +113,7 @@
         .copy-btn-absolute { position: absolute; top: 15px; right: 15px; }
         
         .card-actions { display: flex; gap: 10px; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; }
-        .action-btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95em; font-weight: bold; }
+        .action-btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95em; font-weight: bold; flex: 1; text-align: center;}
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
 
@@ -130,6 +130,55 @@
         
         .future-section { margin-top: 30px; font-size: 0.9em; color: #888; text-align: center; border: 1px dashed #ccc; padding: 20px 10px; border-radius: 8px; }
         footer { background-color: var(--bice-blue); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; }
+
+        /* =========================================
+           DISEÑO RESPONSIVO (MÓVILES Y TABLETS)
+           ========================================= */
+        @media (max-width: 850px) {
+            /* Pone el menú arriba y los resultados abajo */
+            .container { flex-direction: column; padding: 0 15px; }
+            .left-panel { min-width: 100%; max-width: 100%; position: static; margin-bottom: 10px; padding: 15px; box-sizing: border-box;}
+            
+            /* Ajustes del Encabezado */
+            header { flex-direction: column; text-align: center; gap: 10px; padding: 15px; }
+            header h1 { font-size: 1.3em; }
+            
+            /* Buscadores */
+            .search-container { flex-direction: column; gap: 10px; padding: 12px; }
+            .search-container input, .search-container select { width: 100%; flex: none; }
+            
+            /* Tarjetas de Claves */
+            .clave-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+            .clave-label { width: auto; margin-bottom: -5px; }
+            .toggle-visibility-btn { margin-right: 0; margin-bottom: 5px; }
+            
+            /* Botones de copiar */
+            .copy-btn { width: 100%; padding: 10px; margin-top: 5px; }
+            .copy-btn-absolute { position: relative; top: 0; right: 0; margin-top: 10px; width: 100%; }
+            .field-content { padding-right: 0; }
+            
+            /* Cabeceras de tarjetas */
+            summary.card-header { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px; }
+            summary.clave-title { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px; }
+            .tags { margin-left: 0; }
+            
+            /* Bienvenida */
+            #view-welcome { padding-top: 5vh !important; }
+            #view-welcome h2 { font-size: 1.5em !important; }
+            #view-welcome p { font-size: 1em !important; padding: 0 10px; }
+            
+            /* Ventanas flotantes (Modales) */
+            .modal-content { width: 95%; padding: 20px; margin: 10px; box-sizing: border-box; }
+            .close-modal { top: 15px; right: 20px; font-size: 2em; }
+            
+            /* Botones inferiores en tarjetas */
+            .card-actions { flex-direction: column; }
+            .action-btn { width: 100%; padding: 12px; }
+
+            /* Notificación (Toast) */
+            #toast { right: 15px; left: 15px; min-width: auto; bottom: 15px; font-size: 1em; }
+            #toast.show { bottom: 20px; }
+        }
     </style>
 </head>
 <body>
@@ -194,7 +243,7 @@
         <div id="view-welcome" class="view-container active" style="text-align: center; padding-top: 10vh;">
             <div style="font-size: 4em; margin-bottom: 10px;">👋</div>
             <h2 style="color: var(--bice-blue); font-size: 2em; margin-bottom: 10px;">Bienvenido a tu Espacio</h2>
-            <p style="color: #666; font-size: 1.2em; max-width: 500px; margin: 0 auto; line-height: 1.5;">Selecciona <b>Base de Conocimiento</b> o <b>Mis Claves</b> en el menú izquierdo para comenzar a gestionar tu información.</p>
+            <p style="color: #666; font-size: 1.2em; max-width: 500px; margin: 0 auto; line-height: 1.5;">Selecciona <b>Base de Conocimiento</b> o <b>Mis Claves</b> en el menú para comenzar a gestionar tu información.</p>
         </div>
 
         <!-- VISTA 1: BASE DE CONOCIMIENTO -->
@@ -332,7 +381,7 @@
     }
 
     function deleteAll(type) {
-        if(confirm(`⚠️ ADVERTENCIA ⚠️\n¿Estás seguro de que deseas ELIMINAR TODOS los registros de ${type === 'kb' ? 'la Base de Conocimiento' : 'Mis Claves'}?\n\nEsta acción NO se puede deshacer.`)) {
+        if(confirm(`⚠️ ADVERTENCIA ⚠️️\n¿Estás seguro de que deseas ELIMINAR TODOS los registros de ${type === 'kb' ? 'la Base de Conocimiento' : 'Mis Claves'}?\n\nEsta acción NO se puede deshacer.`)) {
             if(type === 'kb') {
                 entries = [];
                 localStorage.setItem('bice_kb_data', JSON.stringify(entries));
@@ -395,6 +444,7 @@
             document.getElementById('entryId').value = ''; 
             document.getElementById('formTitleKB').innerText = 'Nuevo Registro';
         }
+        
         if (modalId === 'clavesModal') {
             document.getElementById('clavesForm').reset();
             document.getElementById('claveId').value = ''; 
