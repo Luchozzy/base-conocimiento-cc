@@ -22,20 +22,12 @@
         /* Estructura Principal a 2 Columnas */
         .container { max-width: 1300px; margin: 0 auto; display: flex; gap: 30px; align-items: flex-start; flex: 1; width: 100%; box-sizing: border-box; padding: 0 20px; }
         
-        /* PANEL IZQUIERDO (Menú lateral fijo) */
+        /* PANEL IZQUIERDO */
         .left-panel { 
-            flex: 1; 
-            min-width: 250px;
-            max-width: 300px;
-            position: sticky; 
-            top: 20px; 
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            flex: 1; min-width: 250px; max-width: 300px; position: sticky; top: 20px; 
+            background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         
-        /* Menú de Navegación */
         .nav-menu { display: flex; flex-direction: column; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid var(--border); padding-bottom: 20px; }
         .nav-btn { background: transparent; color: #555; border: 1px solid transparent; padding: 12px 15px; border-radius: 8px; cursor: pointer; text-align: left; font-size: 1.05em; font-weight: bold; transition: all 0.2s; }
         .nav-btn:hover { background: #f0f0f0; }
@@ -52,104 +44,76 @@
         .data-btn:hover { filter: brightness(0.9); }
         .export-btn { background: #17a2b8; color: white; }
         .import-btn { background: #6c757d; color: white; display: block; }
+        .delete-all-btn { background: #dc3545; color: white; margin-top: 10px; }
         
         /* PANEL DERECHO */
         .view-section { flex: 3; display: flex; flex-direction: column; gap: 15px; width: 100%; }
-
-        /* Vistas intercambiables */
         .view-container { display: none; }
         .view-container.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* --- MODALES (Ventanas flotantes) --- */
-        .modal-overlay {
-            display: none; 
-            position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); 
-            align-items: center; justify-content: center;
-        }
-        .modal-content {
-            background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-            width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto; position: relative;
-        }
+        /* Modales */
+        .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.3); width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto; position: relative; }
         .modal-content-small { max-width: 500px; }
-        
         .close-modal { position: absolute; top: 20px; right: 25px; font-size: 1.8em; color: #888; cursor: pointer; line-height: 1; transition: color 0.2s; }
         .close-modal:hover { color: #dc3545; }
-
         .modal-content h2 { color: var(--bice-blue); margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
         label { display: block; margin-top: 15px; font-weight: bold; font-size: 0.95em; color: #444; }
-        input[type="text"], input[type="password"], textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1em; }
+        input[type="text"], input[type="password"], textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1em; }
         textarea { height: 80px; resize: vertical; }
-        
         .save-btn { background: #28a745; color: white; border: none; padding: 15px; margin-top: 25px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 1.1em; font-weight: bold; transition: background 0.2s; }
         .save-btn:hover { background: #218838; }
         
-        /* Buscadores */
-        .search-bar { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        .search-bar input { font-size: 1.1em; padding: 15px; width: 100%; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; }
-        
-        /* Acordeón Base Conocimiento */
-        details.card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; transition: all 0.3s ease; }
-        summary.card-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; cursor: pointer; list-style: none; font-weight: bold; color: var(--bice-blue); font-size: 1.15em; border-left: 6px solid var(--bice-blue); border-radius: 8px; }
-        summary.card-header::-webkit-details-marker { display: none; }
-        summary.card-header:hover { background-color: #f8f9fa; }
+        /* Buscador y Ordenamiento */
+        .search-container { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 15px; display: flex; gap: 15px; align-items: center; }
+        .search-container input { flex: 3; font-size: 1.1em; padding: 12px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; margin: 0; }
+        .search-container select { flex: 1; font-size: 1em; padding: 12px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; margin: 0; }
+
+        /* Acordeones */
+        details.card, details.clave-card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; transition: all 0.3s ease; }
+        details.clave-card { border-left: 6px solid #28a745; }
+        summary.card-header, summary.clave-title { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; cursor: pointer; list-style: none; font-weight: bold; color: var(--bice-blue); font-size: 1.15em; border-radius: 8px; margin: 0; }
+        summary.card-header { border-left: 6px solid var(--bice-blue); }
+        summary.card-header::-webkit-details-marker, summary.clave-title::-webkit-details-marker { display: none; }
+        summary.card-header:hover, summary.clave-title:hover { background-color: #f8f9fa; }
         
         .tags { font-size: 0.85em; background: #e0e0e0; padding: 4px 10px; border-radius: 12px; margin-left: 10px; color: #333; font-weight: normal; }
-        
-        .card-content { padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 10px; padding-top: 15px; }
+        .card-content, .clave-content-wrapper { padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 5px; padding-top: 15px; }
         .field-group { margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-left: 4px solid var(--bice-light); border-radius: 6px; position: relative; }
         .field-title { font-weight: bold; font-size: 1.05em; color: var(--bice-blue); margin-bottom: 8px; }
         .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: #222; line-height: 1.6; padding-right: 50px; word-break: break-word; }
         .last-modified { font-size: 0.8em; color: #777; font-style: italic; margin-top: 20px; text-align: left; }
 
-        /* Acordeón Mis Claves */
-        details.clave-card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; border-left: 6px solid #28a745; transition: all 0.3s ease; }
-        summary.clave-title { font-size: 1.2em; font-weight: bold; color: var(--bice-blue); display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; cursor: pointer; list-style: none; margin: 0; border-radius: 8px; }
-        summary.clave-title::-webkit-details-marker { display: none; }
-        summary.clave-title:hover { background-color: #f8f9fa; }
-        
+        /* Estilos Claves */
         .clave-link { color: #0066cc; font-size: 0.85em; text-decoration: none; font-weight: normal; background: #eef5ff; padding: 5px 12px; border-radius: 20px; transition: background 0.2s; }
         .clave-link:hover { background: #d0e3ff; }
-        
-        .clave-content-wrapper { padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 5px; padding-top: 20px; }
         .clave-row { display: flex; margin-bottom: 10px; align-items: center; background: #f9f9f9; padding: 10px 15px; border-radius: 6px; }
         .clave-label { font-weight: bold; width: 100px; color: #555; }
         .clave-value { flex: 1; font-family: monospace; font-size: 1.2em; letter-spacing: 1px; color: #111; }
         .clave-hidden { filter: blur(4px); user-select: none; }
-        
         .toggle-visibility-btn { background: none; border: none; color: #666; cursor: pointer; font-size: 0.9em; text-decoration: underline; margin-right: 15px; }
 
-        /* Botón de copiar unificado */
-        .copy-btn { 
-            background: white; border: 1px solid #ccc; color: #555; padding: 6px 10px; border-radius: 6px; 
-            cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
-        }
+        /* Botón de copiar */
+        .copy-btn { background: white; border: 1px solid #ccc; color: #555; padding: 6px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
         .copy-btn:hover { background: #f1f1f1; color: var(--bice-blue); border-color: var(--bice-blue); }
         .copy-btn-absolute { position: absolute; top: 15px; right: 15px; }
         
-        /* Acciones de la tarjeta */
-        .card-actions { display: flex; gap: 10px; margin-top: 15px; }
+        .card-actions { display: flex; gap: 10px; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; }
         .action-btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95em; font-weight: bold; }
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
 
-        /* Paginación */
-        .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 30px; padding-bottom: 30px; }
-        .pagination button { background: var(--bice-blue); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .pagination button:disabled { background: #ccc; cursor: not-allowed; }
-        
-        /* --- TOAST (Notificación de Éxito) --- */
-        #toast {
-            visibility: hidden; min-width: 250px; background-color: #28a745; color: #fff;
-            text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 2000;
-            right: 30px; bottom: 30px; font-size: 1.1em; font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            opacity: 0; transition: opacity 0.3s, bottom 0.3s;
-        }
-        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
+        /* Paginación - Nuevo Diseño */
+        .pagination-container { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 30px; padding-bottom: 30px; }
+        .pagination-buttons { display: flex; gap: 15px; align-items: center; }
+        .pagination-buttons button { background: var(--bice-blue); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .pagination-buttons button:disabled { background: #ccc; cursor: not-allowed; }
+        .page-info-text { font-weight: bold; color: #333; font-size: 1.05em; }
+        .total-info-text { font-size: 0.9em; color: #666; }
 
-        /* Footer */
+        #toast { visibility: hidden; min-width: 250px; background-color: #28a745; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 2000; right: 30px; bottom: 30px; font-size: 1.1em; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
+        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
         footer { background-color: var(--bice-blue); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; }
     </style>
 </head>
@@ -164,20 +128,18 @@
     
     <!-- === PANEL IZQUIERDO === -->
     <div class="left-panel">
-        
-        <!-- Menú de Navegación -->
         <div class="nav-menu">
             <button class="nav-btn active" id="nav-kb" onclick="switchView('kb')">📚 Base de Conocimiento</button>
             <button class="nav-btn" id="nav-claves" onclick="switchView('claves')">🔑 Mis Claves</button>
         </div>
 
-        <!-- Botones (Cambian según la vista) -->
         <div id="left-actions-kb">
             <button class="main-btn" onclick="openModal('kbModal')">➕ Crear Registro</button>
             <div class="data-actions">
                 <button class="data-btn export-btn" onclick="exportData('kb')">⬇️ Exportar Base</button>
                 <label for="importFileKB" class="data-btn import-btn">⬆️ Importar Base</label>
                 <input type="file" id="importFileKB" accept=".json" style="display: none;" onchange="importData(event, 'kb')">
+                <button class="data-btn delete-all-btn" onclick="deleteAll('kb')">🗑️ Eliminar Toda la Base</button>
             </div>
         </div>
 
@@ -187,6 +149,7 @@
                 <button class="data-btn export-btn" onclick="exportData('claves')">⬇️ Exportar Claves</button>
                 <label for="importFileClaves" class="data-btn import-btn">⬆️ Importar Claves</label>
                 <input type="file" id="importFileClaves" accept=".json" style="display: none;" onchange="importData(event, 'claves')">
+                <button class="data-btn delete-all-btn" onclick="deleteAll('claves')">🗑️ Eliminar Todas las Claves</button>
             </div>
         </div>
     </div>
@@ -196,27 +159,53 @@
         
         <!-- VISTA 1: BASE DE CONOCIMIENTO -->
         <div id="view-kb" class="view-container active">
-            <div class="search-bar">
+            <div class="search-container">
                 <input type="text" id="searchInput" placeholder="🔍 Buscar por título, categoría, etiqueta o contenido..." onkeyup="handleSearchKB()">
+                <select id="sortSelectKB" onchange="handleSearchKB()">
+                    <option value="date_desc">Modificación (Más recientes)</option>
+                    <option value="date_asc">Modificación (Más antiguos)</option>
+                    <option value="name_asc">Nombre (A - Z)</option>
+                    <option value="name_desc">Nombre (Z - A)</option>
+                </select>
             </div>
+            
             <div id="entriesList"></div>
-            <div class="pagination">
-                <button id="prevBtn" onclick="changePage(-1)">◀ Anterior</button>
-                <span id="pageInfo">Página 1</span>
-                <button id="nextBtn" onclick="changePage(1)">Siguiente ▶</button>
+            
+            <div class="pagination-container">
+                <div class="pagination-buttons">
+                    <button id="prevBtnKB" onclick="changePageKB(-1)">◀ Anterior</button>
+                    <span id="pageInfoKB" class="page-info-text">Página 1 de 1</span>
+                    <button id="nextBtnKB" onclick="changePageKB(1)">Siguiente ▶</button>
+                </div>
+                <div id="totalInfoKB" class="total-info-text">Total: 0 registros</div>
             </div>
         </div>
 
         <!-- VISTA 2: MIS CLAVES -->
         <div id="view-claves" class="view-container">
-            <div class="search-bar">
+            <div class="search-container">
                 <input type="text" id="searchClaves" placeholder="🔍 Buscar aplicativo o usuario..." onkeyup="handleSearchClaves()">
+                <select id="sortSelectClaves" onchange="handleSearchClaves()">
+                    <option value="date_desc">Modificación (Más recientes)</option>
+                    <option value="date_asc">Modificación (Más antiguos)</option>
+                    <option value="name_asc">Aplicativo (A - Z)</option>
+                    <option value="name_desc">Aplicativo (Z - A)</option>
+                </select>
             </div>
+            
             <div id="clavesList"></div>
+            
+            <div class="pagination-container">
+                <div class="pagination-buttons">
+                    <button id="prevBtnClaves" onclick="changePageClaves(-1)">◀ Anterior</button>
+                    <span id="pageInfoClaves" class="page-info-text">Página 1 de 1</span>
+                    <button id="nextBtnClaves" onclick="changePageClaves(1)">Siguiente ▶</button>
+                </div>
+                <div id="totalInfoClaves" class="total-info-text">Total: 0 registros</div>
+            </div>
         </div>
 
     </div>
-
 </div>
 
 <!-- === MODAL 1: BASE DE CONOCIMIENTO === -->
@@ -226,11 +215,9 @@
         <h2 id="formTitleKB">Nuevo Registro</h2>
         <form id="kbForm">
             <input type="hidden" id="entryId">
-            
             <label>Título:</label><input type="text" id="titulo" required>
             <label>Categoría:</label><input type="text" id="categoria" required>
             <label>Etiquetas (separadas por coma):</label><input type="text" id="etiquetas" placeholder="Ej: fraude, bloqueo, tc">
-            
             <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
             <label>Paso a Paso:</label><textarea id="pasoApaso"></textarea>
             <label>Validación:</label><textarea id="validacion"></textarea>
@@ -239,7 +226,6 @@
             <label>Script Final:</label><textarea id="scriptFinal"></textarea>
             <label>Detalles importantes:</label><textarea id="detalles"></textarea>
             <label>Otro:</label><textarea id="otro"></textarea>
-            
             <button type="submit" class="save-btn">Guardar Información</button>
         </form>
     </div>
@@ -252,25 +238,15 @@
         <h2 id="formTitleClaves">Nueva Clave de Acceso</h2>
         <form id="clavesForm">
             <input type="hidden" id="claveId">
-            
-            <label>Aplicativo o Sistema:</label>
-            <input type="text" id="claveApp" required placeholder="Ej: AS400, Genesys, Intranet...">
-            
-            <label>Link de acceso (Opcional):</label>
-            <input type="text" id="claveLink" placeholder="Ej: https://sistema.bice.cl">
-            
-            <label>Usuario / Rut:</label>
-            <input type="text" id="claveUser" required>
-            
-            <label>Clave:</label>
-            <input type="password" id="clavePass" required>
-            
+            <label>Aplicativo o Sistema:</label><input type="text" id="claveApp" required placeholder="Ej: AS400, Genesys, Intranet...">
+            <label>Link de acceso (Opcional):</label><input type="text" id="claveLink" placeholder="Ej: https://sistema.bice.cl">
+            <label>Usuario / Rut:</label><input type="text" id="claveUser" required>
+            <label>Clave:</label><input type="password" id="clavePass" required>
             <button type="submit" class="save-btn" style="background:#28a745;">Guardar Clave</button>
         </form>
     </div>
 </div>
 
-<!-- TOAST (Notificación) -->
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
@@ -282,8 +258,11 @@
     let entries = JSON.parse(localStorage.getItem('bice_kb_data')) || [];
     let claves = JSON.parse(localStorage.getItem('bice_claves_data')) || [];
     
-    let currentPage = 1;
-    const itemsPerPage = 30;
+    // Cambiamos a 10 registros por página
+    const itemsPerPage = 10; 
+    let currentKbPage = 1;
+    let currentClavesPage = 1;
+    
     let filteredEntries = [...entries];
     let filteredClaves = [...claves];
 
@@ -294,7 +273,44 @@
         return new Date().toLocaleDateString('es-CL', options).replace(/\//g, '-');
     }
 
-    // --- NAVEGACIÓN ENTRE VISTAS ---
+    // --- FUNCIÓN DE ORDENAMIENTO GLOBAL ---
+    function sortData(dataArray, sortValue, nameField) {
+        return dataArray.sort((a, b) => {
+            if (sortValue === 'name_asc') {
+                return a[nameField].localeCompare(b[nameField]);
+            } else if (sortValue === 'name_desc') {
+                return b[nameField].localeCompare(a[nameField]);
+            } else if (sortValue === 'date_asc') {
+                // Compara por timestamp de modificación
+                const timeA = a.timestamp || parseInt(a.id.split('_')[1] || 0);
+                const timeB = b.timestamp || parseInt(b.id.split('_')[1] || 0);
+                return timeA - timeB;
+            } else if (sortValue === 'date_desc') {
+                const timeA = a.timestamp || parseInt(a.id.split('_')[1] || 0);
+                const timeB = b.timestamp || parseInt(b.id.split('_')[1] || 0);
+                return timeB - timeA;
+            }
+            return 0;
+        });
+    }
+
+    // --- ELIMINAR TODO ---
+    function deleteAll(type) {
+        if(confirm(`⚠️ ADVERTENCIA ⚠️\n¿Estás seguro de que deseas ELIMINAR TODOS los registros de ${type === 'kb' ? 'la Base de Conocimiento' : 'Mis Claves'}?\n\nEsta acción NO se puede deshacer.`)) {
+            if(type === 'kb') {
+                entries = [];
+                localStorage.setItem('bice_kb_data', JSON.stringify(entries));
+                handleSearchKB();
+            } else {
+                claves = [];
+                localStorage.setItem('bice_claves_data', JSON.stringify(claves));
+                handleSearchClaves();
+            }
+            showToast("Base limpiada correctamente");
+        }
+    }
+
+    // --- NAVEGACIÓN ---
     function switchView(viewName) {
         document.getElementById('nav-kb').classList.remove('active');
         document.getElementById('nav-claves').classList.remove('active');
@@ -311,7 +327,6 @@
         if(viewName === 'claves') handleSearchClaves();
     }
 
-    // --- MANEJO DE MODALES ---
     function openModal(modalId) {
         document.getElementById(modalId).style.display = 'flex';
         document.body.style.overflow = 'hidden'; 
@@ -324,7 +339,6 @@
         if(modalId === 'clavesModal') document.getElementById('clavesForm').reset();
     }
 
-    // --- NOTIFICACIÓN TOAST ---
     function showToast(message) {
         const toast = document.getElementById("toast");
         toast.innerText = "✅ " + message;
@@ -341,6 +355,7 @@
         const newEntry = {
             id: id ? id : 'KB_' + Date.now().toString(),
             fecha: getFormattedDate(),
+            timestamp: Date.now(), // Guardamos el momento exacto para ordenar
             titulo: document.getElementById('titulo').value,
             categoria: document.getElementById('categoria').value,
             etiquetas: document.getElementById('etiquetas').value,
@@ -359,7 +374,7 @@
             entries[index] = newEntry;
             showToast("Información actualizada correctamente");
         } else {
-            entries.unshift(newEntry);
+            entries.push(newEntry);
             showToast("Nuevo registro guardado correctamente");
         }
 
@@ -370,18 +385,25 @@
 
     function handleSearchKB() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const sortValue = document.getElementById('sortSelectKB').value;
+        
+        // 1. Filtrar
         filteredEntries = entries.filter(e => 
             e.titulo.toLowerCase().includes(searchTerm) || 
             e.categoria.toLowerCase().includes(searchTerm) || 
             e.etiquetas.toLowerCase().includes(searchTerm) ||
             e.detalles.toLowerCase().includes(searchTerm)
         );
-        currentPage = 1; 
+        
+        // 2. Ordenar
+        filteredEntries = sortData(filteredEntries, sortValue, 'titulo');
+        
+        currentKbPage = 1; 
         renderEntries();
     }
 
-    function changePage(direction) {
-        currentPage += direction;
+    function changePageKB(direction) {
+        currentKbPage += direction;
         renderEntries();
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -391,16 +413,15 @@
         list.innerHTML = '';
 
         const totalPages = Math.ceil(filteredEntries.length / itemsPerPage) || 1;
-        if(currentPage < 1) currentPage = 1;
-        if(currentPage > totalPages) currentPage = totalPages;
+        if(currentKbPage < 1) currentKbPage = 1;
+        if(currentKbPage > totalPages) currentKbPage = totalPages;
 
-        const startIndex = (currentPage - 1) * itemsPerPage;
+        const startIndex = (currentKbPage - 1) * itemsPerPage;
         const paginated = filteredEntries.slice(startIndex, startIndex + itemsPerPage);
 
         paginated.forEach(entry => {
             const card = document.createElement('details');
             card.className = 'card';
-            
             let html = `
                 <summary class="card-header">
                     <div>${entry.titulo}</div>
@@ -408,7 +429,6 @@
                 </summary>
                 <div class="card-content">
             `;
-
             const fields = [
                 { key: 'scriptInicial', label: 'Script Inicial' }, { key: 'pasoApaso', label: 'Paso a Paso' },
                 { key: 'validacion', label: 'Validación' }, { key: 'cti', label: 'CTI' },
@@ -439,9 +459,12 @@
             list.appendChild(card);
         });
 
-        document.getElementById('pageInfo').innerText = `Página ${currentPage} de ${totalPages} (${filteredEntries.length} registros)`;
-        document.getElementById('prevBtn').disabled = currentPage === 1;
-        document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+        // Actualizar Textos de Paginación
+        document.getElementById('pageInfoKB').innerText = `Página ${currentKbPage} de ${totalPages}`;
+        document.getElementById('totalInfoKB').innerText = `Total: ${filteredEntries.length} registros`;
+        
+        document.getElementById('prevBtnKB').disabled = currentKbPage === 1;
+        document.getElementById('nextBtnKB').disabled = currentKbPage === totalPages || totalPages === 0;
     }
 
     function editEntry(id) {
@@ -473,13 +496,15 @@
     }
 
     // ==========================================
-    // MÓDULO 2: MIS CLAVES (AHORA CON ACORDEÓN)
+    // MÓDULO 2: MIS CLAVES
     // ==========================================
     document.getElementById('clavesForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const id = document.getElementById('claveId').value;
         const newClave = {
             id: id ? id : 'CLV_' + Date.now().toString(),
+            fecha: getFormattedDate(),
+            timestamp: Date.now(), // Guardamos el momento exacto para ordenar
             app: document.getElementById('claveApp').value,
             link: document.getElementById('claveLink').value,
             user: document.getElementById('claveUser').value,
@@ -502,27 +527,44 @@
 
     function handleSearchClaves() {
         const searchTerm = document.getElementById('searchClaves').value.toLowerCase();
+        const sortValue = document.getElementById('sortSelectClaves').value;
+
         filteredClaves = claves.filter(c => 
             c.app.toLowerCase().includes(searchTerm) || 
             c.user.toLowerCase().includes(searchTerm)
         );
+        
+        // Ordenar
+        filteredClaves = sortData(filteredClaves, sortValue, 'app');
+
+        currentClavesPage = 1;
         renderClaves();
+    }
+
+    function changePageClaves(direction) {
+        currentClavesPage += direction;
+        renderClaves();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function renderClaves() {
         const list = document.getElementById('clavesList');
         list.innerHTML = '';
 
+        const totalPages = Math.ceil(filteredClaves.length / itemsPerPage) || 1;
+        if(currentClavesPage < 1) currentClavesPage = 1;
+        if(currentClavesPage > totalPages) currentClavesPage = totalPages;
+
+        const startIndex = (currentClavesPage - 1) * itemsPerPage;
+        const paginated = filteredClaves.slice(startIndex, startIndex + itemsPerPage);
+
         if(filteredClaves.length === 0) {
             list.innerHTML = '<p style="text-align:center; color:#888; margin-top:30px;">No tienes claves guardadas aún o no coinciden con la búsqueda.</p>';
-            return;
         }
 
-        filteredClaves.forEach(c => {
+        paginated.forEach(c => {
             const card = document.createElement('details');
             card.className = 'clave-card';
-            
-            // event.stopPropagation() evita que el acordeón se abra o cierre al darle clic al link
             let linkHtml = c.link ? `<a href="${c.link}" target="_blank" class="clave-link" onclick="event.stopPropagation()">🔗 Abrir Link</a>` : '';
             
             card.innerHTML = `
@@ -530,22 +572,20 @@
                     <span>🔐 ${c.app}</span>
                     ${linkHtml}
                 </summary>
-                
                 <div class="clave-content-wrapper">
                     <div class="clave-row">
                         <span class="clave-label">Usuario:</span>
                         <span class="clave-value" id="usr-${c.id}">${c.user}</span>
                         <button class="copy-btn" onclick="copyText(event, 'usr-${c.id}')" title="Copiar Usuario">${copySvg}</button>
                     </div>
-                    
                     <div class="clave-row">
                         <span class="clave-label">Clave:</span>
                         <span class="clave-value clave-hidden" id="pass-${c.id}" data-pass="${c.pass}">••••••••</span>
                         <button class="toggle-visibility-btn" onclick="togglePass('${c.id}')" id="toggle-${c.id}">Mostrar</button>
                         <button class="copy-btn" onclick="copyText(event, null, '${c.pass}')" title="Copiar Clave">${copySvg}</button>
                     </div>
-
-                    <div class="card-actions" style="border-top:1px solid #eee; padding-top:15px; margin-top:15px;">
+                    <div class="last-modified">(Última modificación: ${c.fecha || 'N/A'})</div>
+                    <div class="card-actions">
                         <button class="action-btn edit-btn" onclick="editClave('${c.id}')">✏️ Editar</button>
                         <button class="action-btn delete-btn" onclick="deleteClave('${c.id}')">🗑️ Eliminar</button>
                     </div>
@@ -553,12 +593,18 @@
             `;
             list.appendChild(card);
         });
+
+        // Actualizar Textos de Paginación Claves
+        document.getElementById('pageInfoClaves').innerText = `Página ${currentClavesPage} de ${totalPages}`;
+        document.getElementById('totalInfoClaves').innerText = `Total: ${filteredClaves.length} registros`;
+        
+        document.getElementById('prevBtnClaves').disabled = currentClavesPage === 1;
+        document.getElementById('nextBtnClaves').disabled = currentClavesPage === totalPages || totalPages === 0;
     }
 
     function togglePass(id) {
         const span = document.getElementById('pass-' + id);
         const btn = document.getElementById('toggle-' + id);
-        
         if (span.classList.contains('clave-hidden')) {
             span.innerText = span.getAttribute('data-pass');
             span.classList.remove('clave-hidden');
@@ -577,7 +623,6 @@
         document.getElementById('claveLink').value = c.link || '';
         document.getElementById('claveUser').value = c.user;
         document.getElementById('clavePass').value = c.pass;
-        
         document.getElementById('formTitleClaves').innerText = 'Editar Clave';
         openModal('clavesModal'); 
     }
@@ -639,7 +684,6 @@
         const dataStr = JSON.stringify(data, null, 2);
         const blob = new Blob([dataStr], { type: "application/json" });
         const url = URL.createObjectURL(blob);
-        
         const a = document.createElement('a');
         a.href = url;
         const dateStr = new Date().toISOString().slice(0,10);
@@ -658,7 +702,6 @@
                 const importedData = JSON.parse(e.target.result);
                 if (Array.isArray(importedData)) {
                     if(confirm(`Se encontraron ${importedData.length} registros.\nPresiona "Aceptar" para SUMARLOS, o "Cancelar" para REEMPLAZAR tu base actual.`)) {
-                        // Sumar
                         let targetArray = type === 'kb' ? entries : claves;
                         const existingIds = new Set(targetArray.map(ent => ent.id));
                         let addedCount = 0;
@@ -667,7 +710,6 @@
                         });
                         showToast(`Se agregaron ${addedCount} registros`);
                     } else {
-                        // Reemplazar
                         if(confirm('ATENCIÓN: Esto borrará tus datos actuales. ¿Continuar?')) {
                             if(type === 'kb') entries = importedData;
                             else claves = importedData;
@@ -677,7 +719,6 @@
                             return;
                         }
                     }
-                    
                     if(type === 'kb') {
                         localStorage.setItem('bice_kb_data', JSON.stringify(entries));
                         handleSearchKB();
@@ -698,7 +739,7 @@
 
     // Inicializar la vista por defecto
     handleSearchKB();
-    
+    handleSearchClaves(); // Renderizar claves ocultas por defecto
 </script>
 
 </body>
