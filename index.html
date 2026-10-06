@@ -57,16 +57,20 @@
         .date-badge { font-size: 0.75em; color: #666; font-weight: normal; margin-left: 10px; }
         .tags { font-size: 0.8em; background: #e0e0e0; padding: 3px 8px; border-radius: 12px; margin-left: 10px; color: #333; font-weight: normal; }
         
+        /* --- MEJORAS DE LECTURA AQUÍ --- */
         .card-content { padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 10px; padding-top: 15px; }
-        .field-group { margin-bottom: 12px; background: #f9f9f9; padding: 10px; border-left: 4px solid var(--bice-light); border-radius: 4px; position: relative; }
-        .field-title { font-weight: bold; font-size: 0.85em; color: #555; margin-bottom: 5px; }
-        .field-content { white-space: pre-wrap; font-family: monospace; font-size: 0.95em; color: #333; }
-        .copy-btn { position: absolute; top: 8px; right: 8px; background: #28a745; border: none; color: white; padding: 4px 8px; font-size: 0.8em; border-radius: 4px; cursor: pointer; }
+        .field-group { margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-left: 4px solid var(--bice-light); border-radius: 4px; position: relative; }
+        .field-title { font-weight: bold; font-size: 1.05em; color: var(--bice-blue); margin-bottom: 8px; }
+        .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: #222; line-height: 1.6; padding-right: 60px; }
+        
+        /* Botón copiar ajustado al nuevo padding */
+        .copy-btn { position: absolute; top: 15px; right: 15px; background: #28a745; border: none; color: white; padding: 6px 12px; font-size: 0.85em; font-weight: bold; border-radius: 4px; cursor: pointer; }
         .copy-btn:hover { background: #218838; }
+        /* -------------------------------- */
         
         /* Acciones de la tarjeta */
         .card-actions { display: flex; gap: 10px; margin-top: 15px; }
-        .action-btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
+        .action-btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95em; font-weight: bold; }
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
 
@@ -82,18 +86,16 @@
 <body>
 
 <header>
-    <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Banco_BICE-300dpi.jpg/960px-Logo_Banco_BICE-300dpi.jpg"Logo Banco BICE" class="logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Logo_Banco_BICE.png" alt="Logo Banco BICE" class="logo">
     <h1>Contact Center</h1>
 </header>
 
 <div class="container">
-    <!-- Panel Izquierdo: Botones y Formulario -->
     <div class="left-panel">
         <button class="toggle-btn" onclick="toggleForm()">
             <span id="toggleText">➕ Crear Nuevo Registro</span>
         </button>
 
-        <!-- Botones de Importar / Exportar -->
         <div class="data-actions">
             <button class="data-btn export-btn" onclick="exportData()">⬇️ Exportar Datos</button>
             <label for="importFile" class="data-btn import-btn">⬆️ Importar Datos</label>
@@ -123,7 +125,6 @@
         </div>
     </div>
 
-    <!-- Panel Derecho: Búsqueda y Resultados -->
     <div class="view-section">
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="🔍 Buscar por título, categoría, etiqueta o contenido..." onkeyup="handleSearch()">
@@ -347,8 +348,6 @@
         document.getElementById('cancelBtn').style.display = 'none';
     }
 
-    // --- NUEVAS FUNCIONES DE EXPORTAR / IMPORTAR ---
-
     function exportData() {
         if(entries.length === 0) {
             alert('No hay datos guardados para exportar.');
@@ -361,7 +360,6 @@
         
         const a = document.createElement('a');
         a.href = url;
-        // Nombre del archivo con fecha
         const dateStr = new Date().toISOString().slice(0,10);
         a.download = `Base_BICE_${dateStr}.json`;
         a.click();
@@ -378,10 +376,8 @@
                 const importedData = JSON.parse(e.target.result);
                 
                 if (Array.isArray(importedData)) {
-                    // Preguntar al usuario si quiere sumar o reemplazar
                     if(confirm(`El archivo tiene ${importedData.length} registros. \n\nPresiona "Aceptar" para SUMARLOS a los que ya tienes, o "Cancelar" para REEMPLAZAR toda tu base actual con este archivo.`)) {
                         
-                        // Sumar datos evitando duplicados exactos (por ID)
                         const existingIds = new Set(entries.map(ent => ent.id));
                         let addedCount = 0;
                         
@@ -393,17 +389,15 @@
                         });
                         alert(`Importación completada. Se agregaron ${addedCount} registros nuevos.`);
                     } else {
-                        // Reemplazar todo
                         if(confirm('ATENCIÓN: Esto borrará tus datos actuales y pondrá solo los del archivo. ¿Continuar?')) {
                             entries = importedData;
                             alert('Base reemplazada con éxito.');
                         } else {
-                            document.getElementById('importFile').value = ''; // Reset input
+                            document.getElementById('importFile').value = ''; 
                             return;
                         }
                     }
                     
-                    // Guardar y recargar
                     localStorage.setItem('bice_kb_data', JSON.stringify(entries));
                     handleSearch();
                 } else {
@@ -412,7 +406,7 @@
             } catch (error) {
                 alert('Ocurrió un error al leer el archivo. Asegúrate de que sea el archivo .json exportado.');
             }
-            document.getElementById('importFile').value = ''; // Reset input para poder cargar el mismo archivo otra vez si se desea
+            document.getElementById('importFile').value = ''; 
         };
         reader.readAsText(file);
     }
@@ -421,5 +415,7 @@
     handleSearch();
 </script>
 
+</body>
+</html>
 </body>
 </html>
