@@ -104,7 +104,7 @@
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
 
-        /* Paginación - Nuevo Diseño */
+        /* Paginación */
         .pagination-container { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 30px; padding-bottom: 30px; }
         .pagination-buttons { display: flex; gap: 15px; align-items: center; }
         .pagination-buttons button { background: var(--bice-blue); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
@@ -214,6 +214,7 @@
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
         <h2 id="formTitleKB">Nuevo Registro</h2>
         <form id="kbForm">
+            <!-- AQUÍ ESTABA EL BUG: Ahora nos aseguramos de borrarlo al cerrar -->
             <input type="hidden" id="entryId">
             <label>Título:</label><input type="text" id="titulo" required>
             <label>Categoría:</label><input type="text" id="categoria" required>
@@ -237,6 +238,7 @@
         <span class="close-modal" onclick="closeModal('clavesModal')" title="Cerrar">&times;</span>
         <h2 id="formTitleClaves">Nueva Clave de Acceso</h2>
         <form id="clavesForm">
+            <!-- AQUÍ TAMBIÉN ESTABA EL BUG -->
             <input type="hidden" id="claveId">
             <label>Aplicativo o Sistema:</label><input type="text" id="claveApp" required placeholder="Ej: AS400, Genesys, Intranet...">
             <label>Link de acceso (Opcional):</label><input type="text" id="claveLink" placeholder="Ej: https://sistema.bice.cl">
@@ -258,7 +260,6 @@
     let entries = JSON.parse(localStorage.getItem('bice_kb_data')) || [];
     let claves = JSON.parse(localStorage.getItem('bice_claves_data')) || [];
     
-    // Cambiamos a 10 registros por página
     const itemsPerPage = 10; 
     let currentKbPage = 1;
     let currentClavesPage = 1;
@@ -273,7 +274,6 @@
         return new Date().toLocaleDateString('es-CL', options).replace(/\//g, '-');
     }
 
-    // --- FUNCIÓN DE ORDENAMIENTO GLOBAL ---
     function sortData(dataArray, sortValue, nameField) {
         return dataArray.sort((a, b) => {
             if (sortValue === 'name_asc') {
@@ -281,7 +281,6 @@
             } else if (sortValue === 'name_desc') {
                 return b[nameField].localeCompare(a[nameField]);
             } else if (sortValue === 'date_asc') {
-                // Compara por timestamp de modificación
                 const timeA = a.timestamp || parseInt(a.id.split('_')[1] || 0);
                 const timeB = b.timestamp || parseInt(b.id.split('_')[1] || 0);
                 return timeA - timeB;
@@ -294,7 +293,6 @@
         });
     }
 
-    // --- ELIMINAR TODO ---
     function deleteAll(type) {
         if(confirm(`⚠️ ADVERTENCIA ⚠️\n¿Estás seguro de que deseas ELIMINAR TODOS los registros de ${type === 'kb' ? 'la Base de Conocimiento' : 'Mis Claves'}?\n\nEsta acción NO se puede deshacer.`)) {
             if(type === 'kb') {
@@ -310,7 +308,6 @@
         }
     }
 
-    // --- NAVEGACIÓN ---
     function switchView(viewName) {
         document.getElementById('nav-kb').classList.remove('active');
         document.getElementById('nav-claves').classList.remove('active');
@@ -332,12 +329,25 @@
         document.body.style.overflow = 'hidden'; 
     }
 
+    // --- AQUÍ ESTÁ LA SOLUCIÓN AL BUG ---
+    // Ahora limpiamos explícitamente los IDs ocultos y restauramos los títulos al cerrar
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none';
         document.body.style.overflow = 'auto'; 
-        if(modalId === 'kbModal') document.getElementById('kbForm').reset();
-        if(modalId === 'clavesModal') document.getElementById('clavesForm').reset();
+        
+        if (modalId === 'kbModal') {
+            document.getElementById('kbForm').reset();
+            document.getElementById('entryId').value = ''; // Limpia el ID oculto
+            document.getElementById('formTitleKB').innerText = 'Nuevo Registro';
+        }
+        
+        if (modalId === 'clavesModal') {
+            document.getElementById('clavesForm').reset();
+            document.getElementById('claveId').value = ''; // Limpia el ID oculto
+            document.getElementById('formTitleClaves').innerText = 'Nueva Clave de Acceso';
+        }
     }
+    // ------------------------------------
 
     function showToast(message) {
         const toast = document.getElementById("toast");
@@ -355,7 +365,7 @@
         const newEntry = {
             id: id ? id : 'KB_' + Date.now().toString(),
             fecha: getFormattedDate(),
-            timestamp: Date.now(), // Guardamos el momento exacto para ordenar
+            timestamp: Date.now(), 
             titulo: document.getElementById('titulo').value,
             categoria: document.getElementById('categoria').value,
             etiquetas: document.getElementById('etiquetas').value,
@@ -387,7 +397,6 @@
         const searchTerm = document.getElementById('searchInput').value.toLowerCase();
         const sortValue = document.getElementById('sortSelectKB').value;
         
-        // 1. Filtrar
         filteredEntries = entries.filter(e => 
             e.titulo.toLowerCase().includes(searchTerm) || 
             e.categoria.toLowerCase().includes(searchTerm) || 
@@ -395,9 +404,7 @@
             e.detalles.toLowerCase().includes(searchTerm)
         );
         
-        // 2. Ordenar
         filteredEntries = sortData(filteredEntries, sortValue, 'titulo');
-        
         currentKbPage = 1; 
         renderEntries();
     }
@@ -459,7 +466,6 @@
             list.appendChild(card);
         });
 
-        // Actualizar Textos de Paginación
         document.getElementById('pageInfoKB').innerText = `Página ${currentKbPage} de ${totalPages}`;
         document.getElementById('totalInfoKB').innerText = `Total: ${filteredEntries.length} registros`;
         
@@ -504,7 +510,7 @@
         const newClave = {
             id: id ? id : 'CLV_' + Date.now().toString(),
             fecha: getFormattedDate(),
-            timestamp: Date.now(), // Guardamos el momento exacto para ordenar
+            timestamp: Date.now(), 
             app: document.getElementById('claveApp').value,
             link: document.getElementById('claveLink').value,
             user: document.getElementById('claveUser').value,
@@ -534,9 +540,7 @@
             c.user.toLowerCase().includes(searchTerm)
         );
         
-        // Ordenar
         filteredClaves = sortData(filteredClaves, sortValue, 'app');
-
         currentClavesPage = 1;
         renderClaves();
     }
@@ -594,7 +598,6 @@
             list.appendChild(card);
         });
 
-        // Actualizar Textos de Paginación Claves
         document.getElementById('pageInfoClaves').innerText = `Página ${currentClavesPage} de ${totalPages}`;
         document.getElementById('totalInfoClaves').innerText = `Total: ${filteredClaves.length} registros`;
         
@@ -635,7 +638,6 @@
             handleSearchClaves();
         }
     }
-
 
     // ==========================================
     // UTILIDADES GLOBALES (Copiar, Exportar, Importar)
@@ -737,9 +739,9 @@
         reader.readAsText(file);
     }
 
-    // Inicializar la vista por defecto
+    // Inicializar
     handleSearchKB();
-    handleSearchClaves(); // Renderizar claves ocultas por defecto
+    handleSearchClaves(); 
 </script>
 
 </body>
