@@ -4,20 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BICE Hub Ejecutivo - Contact Center BICE</title>
-    <style>
-        :root { 
-            --bice-blue: #002D62; 
-            --bice-light: #004d99;
-            --bg: #f4f7f6; 
-            --text: #333; 
-            --border: #ddd; 
+    
+    <!-- Script de inicialización de Modo Oscuro rápido para evitar pantallazo blanco -->
+    <script>
+        const savedTheme = localStorage.getItem('bice_theme') || 'light';
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; }
+    </script>
+
+    <style>
+        /* VARIABLES GLOBALES (MODO CLARO POR DEFECTO) */
+        :root { 
+            --primary-color: #002D62; 
+            --primary-light: #004d99;
+            --btn-primary: #002D62;
+            --btn-primary-text: #ffffff;
+            --bg-body: #f4f7f6; 
+            --bg-panel: #ffffff;
+            --bg-card: #ffffff;
+            --bg-group: #f9f9f9;
+            --bg-active: #e6f0fa;
+            --bg-hover: #f0f0f0;
+            --text-main: #333333; 
+            --text-muted: #666666;
+            --border: #dddddd; 
+            --border-light: #eeeeee;
+            --shadow: rgba(0,0,0,0.05);
+            --color-success: #28a745;
+            --color-warning: #fd7e14;
+            --color-info: #17a2b8;
+            --color-danger: #dc3545;
+            --tag-bg: #e0e0e0;
+        }
+
+        /* VARIABLES MODO OSCURO */
+        [data-theme="dark"] {
+            --primary-color: #6ab0ff; 
+            --primary-light: #99ccff;
+            --btn-primary: #004d99; 
+            --btn-primary-text: #ffffff;
+            --bg-body: #121212; 
+            --bg-panel: #1e1e1e;
+            --bg-card: #252525;
+            --bg-group: #2d2d2d;
+            --bg-active: #1a334d;
+            --bg-hover: #333333;
+            --text-main: #e0e0e0; 
+            --text-muted: #aaaaaa;
+            --border: #444444; 
+            --border-light: #333333;
+            --shadow: rgba(0,0,0,0.3);
+            --color-success: #4cd964;
+            --color-warning: #ffaa55;
+            --color-info: #3bc1d6;
+            --color-danger: #ff5c5c;
+            --tag-bg: #444444;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-body); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; transition: background-color 0.3s, color 0.3s; }
         
         /* Header & Logo */
-        header { background-color: white; padding: 15px 40px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-        .logo { height: 40px; }
-        header h1 { color: var(--bice-blue); margin: 0; font-size: 1.5em; }
+        header { background-color: var(--bg-panel); padding: 15px 40px; box-shadow: 0 2px 5px var(--shadow); display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; transition: background-color 0.3s; }
+        .logo { height: 40px; border-radius: 4px; padding: 2px; background: white; transition: filter 0.3s; }
+        [data-theme="dark"] .logo { filter: brightness(0.9); }
+        header h1 { color: var(--primary-color); margin: 0; font-size: 1.5em; }
 
         /* Estructura Principal a 2 Columnas */
         .container { max-width: 1300px; margin: 0 auto; display: flex; gap: 30px; align-items: flex-start; flex: 1; width: 100%; box-sizing: border-box; padding: 0 20px; }
@@ -25,55 +76,55 @@
         /* === PANEL IZQUIERDO === */
         .left-panel { 
             flex: 1; min-width: 220px; max-width: 260px; position: sticky; top: 20px; 
-            background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            background: var(--bg-panel); padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow);
             display: flex; flex-direction: column; max-height: calc(100vh - 100px); overflow-y: auto;
+            transition: background-color 0.3s;
         }
         
         /* Acordeón Menú Izquierdo */
-        .accordion-menu { display: flex; flex-direction: column; gap: 8px; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
+        .accordion-menu { display: flex; flex-direction: column; gap: 8px; border-bottom: 2px solid var(--border); padding-bottom: 15px; transition: border-color 0.3s; }
         .menu-section { display: flex; flex-direction: column; }
         
         .nav-btn { 
             display: flex; justify-content: space-between; align-items: center; 
-            background: transparent; color: #555; border: 1px solid transparent; 
+            background: transparent; color: var(--text-muted); border: 1px solid transparent; 
             padding: 10px 12px; border-radius: 6px; cursor: pointer; 
             font-size: 0.95em; font-weight: bold; transition: all 0.2s; 
             width: 100%; box-sizing: border-box; text-align: left;
         }
-        .nav-btn:hover { background: #f0f0f0; }
-        .nav-btn.active { background: #e6f0fa; color: var(--bice-blue); border-left: 4px solid var(--bice-blue); border-radius: 0 6px 6px 0; }
+        .nav-btn:hover { background: var(--bg-hover); }
+        .nav-btn.active { background: var(--bg-active); color: var(--primary-color); border-left: 4px solid var(--primary-color); border-radius: 0 6px 6px 0; }
         .nav-arrow { font-size: 0.8em; color: inherit; transition: transform 0.2s; }
 
-        /* Contenido expandible del menú izquierdo */
         .menu-content { padding-top: 10px; display: none; animation: fadeIn 0.3s; }
         
         /* Botones de Herramientas */
         .tool-btn { 
-            display: block; width: 100%; text-align: left; background: #fff; border: 1px solid #eee; 
-            padding: 10px; margin-bottom: 6px; border-radius: 6px; color: #444; font-size: 0.9em; 
+            display: block; width: 100%; text-align: left; background: var(--bg-card); border: 1px solid var(--border-light); 
+            padding: 10px; margin-bottom: 6px; border-radius: 6px; color: var(--text-muted); font-size: 0.9em; 
             cursor: pointer; transition: all 0.2s; font-weight: bold; box-sizing: border-box;
         }
-        .tool-btn:hover { background: #f8f9fa; color: var(--bice-blue); border-color: var(--bice-light); }
-        .tool-btn.active { background: #e6f0fa; color: var(--bice-blue); border-color: #eee; border-left: 4px solid var(--bice-blue); border-radius: 0 6px 6px 0; }
+        .tool-btn:hover { background: var(--bg-hover); color: var(--primary-color); border-color: var(--primary-light); }
+        .tool-btn.active { background: var(--bg-active); color: var(--primary-color); border-color: var(--border-light); border-left: 4px solid var(--primary-color); border-radius: 0 6px 6px 0; }
         
-        .main-btn { background: var(--bice-blue); color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 0.95em; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; transition: background 0.2s; }
-        .main-btn:hover { background: var(--bice-light); }
-        .main-btn-claves { background: #28a745; }
+        .main-btn { background: var(--btn-primary); color: var(--btn-primary-text); border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 0.95em; font-weight: bold; box-shadow: 0 2px 5px var(--shadow); margin-bottom: 15px; transition: background 0.2s; }
+        .main-btn:hover { filter: brightness(1.2); }
+        .main-btn-claves { background: #28a745; color: white;}
         .main-btn-claves:hover { background: #218838; }
         
         /* Botones de Datos */
         .data-actions { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 15px; }
-        .data-btn { width: 100%; padding: 8px 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.85em; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; transition: filter 0.2s; box-sizing: border-box; }
+        .data-btn { width: 100%; padding: 8px 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.85em; cursor: pointer; box-shadow: 0 2px 5px var(--shadow); text-align: center; transition: filter 0.2s; box-sizing: border-box; }
         .data-btn:hover { filter: brightness(0.9); }
         .export-btn { background: #17a2b8; color: white; }
         .import-btn { background: #6c757d; color: white; display: block; }
         .delete-all-btn { background: #dc3545; color: white; margin-top: 5px; }
 
         /* Panel Indicadores Económicos */
-        .indicadores-panel { margin-top: auto; padding: 15px 10px 5px 10px; text-align: center; border-top: 2px dashed #eee; }
-        .indicadores-title { font-size: 0.8em; font-weight: bold; color: var(--bice-blue); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .indicadores-box { display: flex; justify-content: space-around; font-size: 0.9em; color: #333; font-weight: bold; gap: 5px;}
-        .indicadores-val { background: #f0f4f8; padding: 6px 8px; border-radius: 4px; border: 1px solid #dce4ec; color: var(--bice-blue); width: 100%;}
+        .indicadores-panel { margin-top: auto; padding: 15px 10px 5px 10px; text-align: center; border-top: 2px dashed var(--border-light); }
+        .indicadores-title { font-size: 0.8em; font-weight: bold; color: var(--primary-color); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .indicadores-box { display: flex; justify-content: space-around; font-size: 0.9em; font-weight: bold; gap: 5px;}
+        .indicadores-val { background: var(--bg-group); padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary-color); width: 100%;}
         
         /* PANEL DERECHO */
         .view-section { flex: 3; display: flex; flex-direction: column; gap: 15px; width: 100%; }
@@ -81,58 +132,62 @@
         .view-container.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Clases base para Herramientas */
+        .tool-panel { display: none; background: var(--bg-panel); padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); max-width: 600px; margin: 0 auto; transition: background-color 0.3s; }
+        .tool-result { display: none; margin-top: 25px; background: var(--bg-group); padding: 20px; border-left: 5px solid; border-radius: 6px; }
+
         /* Modales */
-        .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px); align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.3); width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto; position: relative; }
+        .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: var(--modal-overlay, rgba(0,0,0,0.6)); backdrop-filter: blur(3px); align-items: center; justify-content: center; }
+        .modal-content { background: var(--bg-panel); padding: 30px; border-radius: 12px; box-shadow: 0 5px 25px var(--shadow-modal, rgba(0,0,0,0.3)); width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto; position: relative; }
         .modal-content-small { max-width: 500px; }
-        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 1.8em; color: #888; cursor: pointer; line-height: 1; transition: color 0.2s; }
-        .close-modal:hover { color: #dc3545; }
-        .modal-content h2 { color: var(--bice-blue); margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
-        label { display: block; margin-top: 15px; font-weight: bold; font-size: 0.95em; color: #444; }
-        input[type="text"], input[type="password"], input[type="number"], textarea, select { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1em; }
+        .close-modal { position: absolute; top: 20px; right: 25px; font-size: 1.8em; color: var(--text-muted); cursor: pointer; line-height: 1; transition: color 0.2s; }
+        .close-modal:hover { color: var(--color-danger); }
+        .modal-content h2 { color: var(--primary-color); margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        label { display: block; margin-top: 15px; font-weight: bold; font-size: 0.95em; color: var(--text-main); }
+        input[type="text"], input[type="password"], input[type="number"], textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: var(--bg-input, var(--bg-panel)); color: var(--text-main); border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1em; transition: background-color 0.3s, color 0.3s, border-color 0.3s;}
         textarea { height: 80px; resize: vertical; }
-        .save-btn { background: #28a745; color: white; border: none; padding: 15px; margin-top: 25px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 1.1em; font-weight: bold; transition: background 0.2s; }
-        .save-btn:hover { background: #218838; }
-        .generate-btn { background: var(--bice-blue); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s; margin-top: 5px; white-space: nowrap; }
-        .generate-btn:hover { background: var(--bice-light); }
-        .outline-btn { background: transparent; color: #fd7e14; border: 1px solid #fd7e14; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 15px; transition: all 0.2s; }
-        .outline-btn:hover { background: #fff5eb; }
+        .save-btn { background: #28a745; color: white; border: none; padding: 15px; margin-top: 25px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 1.1em; font-weight: bold; transition: filter 0.2s; }
+        .save-btn:hover { filter: brightness(0.9); }
+        .generate-btn { background: var(--btn-primary); color: var(--btn-primary-text); border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: filter 0.2s; margin-top: 5px; white-space: nowrap; }
+        .generate-btn:hover { filter: brightness(1.2); }
+        .outline-btn { background: transparent; color: var(--color-warning); border: 1px solid var(--color-warning); padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 15px; transition: all 0.2s; }
+        .outline-btn:hover { background: var(--bg-hover); }
         
         /* Buscador y Ordenamiento */
-        .search-container { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 15px; display: flex; gap: 15px; align-items: center; }
-        .search-container input { flex: 3; font-size: 1.1em; padding: 12px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; margin: 0; }
-        .search-container select { flex: 1; font-size: 1em; padding: 12px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; margin: 0; }
+        .search-container { background: var(--bg-panel); padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); margin-bottom: 15px; display: flex; gap: 15px; align-items: center; transition: background-color 0.3s; }
+        .search-container input { flex: 3; font-size: 1.1em; padding: 12px; }
+        .search-container select { flex: 1; font-size: 1em; padding: 12px; cursor: pointer; }
 
         /* Acordeones Panel Derecho */
-        details.card, details.clave-card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 15px; transition: all 0.3s ease; }
-        details.clave-card { border-left: 6px solid #28a745; }
-        summary.card-header, summary.clave-title { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; cursor: pointer; list-style: none; font-weight: bold; color: var(--bice-blue); font-size: 1.15em; border-radius: 8px; margin: 0; }
-        summary.card-header { border-left: 6px solid var(--bice-blue); }
+        details.card, details.clave-card { background: var(--bg-card); border-radius: 8px; box-shadow: 0 2px 5px var(--shadow); margin-bottom: 15px; transition: all 0.3s ease; }
+        details.clave-card { border-left: 6px solid var(--color-success); }
+        summary.card-header, summary.clave-title { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; cursor: pointer; list-style: none; font-weight: bold; color: var(--primary-color); font-size: 1.15em; border-radius: 8px; margin: 0; }
+        summary.card-header { border-left: 6px solid var(--primary-color); }
         summary.card-header::-webkit-details-marker, summary.clave-title::-webkit-details-marker { display: none; }
-        summary.card-header:hover, summary.clave-title:hover { background-color: #f8f9fa; }
+        summary.card-header:hover, summary.clave-title:hover { background-color: var(--bg-hover); }
         
-        .tags { font-size: 0.85em; background: #e0e0e0; padding: 4px 10px; border-radius: 12px; margin-left: 10px; color: #333; font-weight: normal; }
-        .card-content, .clave-content-wrapper { padding: 0 20px 20px 20px; border-top: 1px solid #eee; margin-top: 5px; padding-top: 15px; }
-        .field-group { margin-bottom: 15px; background: #f9f9f9; padding: 15px; border-left: 4px solid var(--bice-light); border-radius: 6px; position: relative; }
-        .field-title { font-weight: bold; font-size: 1.05em; color: var(--bice-blue); margin-bottom: 8px; }
-        .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: #222; line-height: 1.6; padding-right: 50px; word-break: break-word; }
-        .last-modified { font-size: 0.8em; color: #777; font-style: italic; margin-top: 20px; text-align: left; }
+        .tags { font-size: 0.85em; background: var(--tag-bg); padding: 4px 10px; border-radius: 12px; margin-left: 10px; color: var(--text-main); font-weight: normal; }
+        .card-content, .clave-content-wrapper { padding: 0 20px 20px 20px; border-top: 1px solid var(--border-light); margin-top: 5px; padding-top: 15px; }
+        .field-group { margin-bottom: 15px; background: var(--bg-group); padding: 15px; border-left: 4px solid var(--primary-color); border-radius: 6px; position: relative; }
+        .field-title { font-weight: bold; font-size: 1.05em; color: var(--primary-color); margin-bottom: 8px; }
+        .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: var(--text-main); line-height: 1.6; padding-right: 50px; word-break: break-word; }
+        .last-modified { font-size: 0.8em; color: var(--text-muted); font-style: italic; margin-top: 20px; text-align: left; }
 
         /* Estilos Claves */
-        .clave-link { color: #0066cc; font-size: 0.85em; text-decoration: none; font-weight: normal; background: #eef5ff; padding: 5px 12px; border-radius: 20px; transition: background 0.2s; }
-        .clave-link:hover { background: #d0e3ff; }
-        .clave-row { display: flex; margin-bottom: 10px; align-items: center; background: #f9f9f9; padding: 10px 15px; border-radius: 6px; }
-        .clave-label { font-weight: bold; width: 140px; color: #555; }
-        .clave-value { flex: 1; font-family: monospace; font-size: 1.2em; letter-spacing: 1px; color: #111; word-break: break-word; }
+        .clave-link { color: var(--primary-light); font-size: 0.85em; text-decoration: none; font-weight: normal; background: var(--bg-active); padding: 5px 12px; border-radius: 20px; transition: filter 0.2s; }
+        .clave-link:hover { filter: brightness(0.9); }
+        .clave-row { display: flex; margin-bottom: 10px; align-items: center; background: var(--bg-group); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border-light); }
+        .clave-label { font-weight: bold; width: 140px; color: var(--text-muted); }
+        .clave-value { flex: 1; font-family: monospace; font-size: 1.2em; letter-spacing: 1px; color: var(--text-main); word-break: break-word; }
         .clave-hidden { filter: blur(4px); user-select: none; }
-        .toggle-visibility-btn { background: none; border: none; color: #666; cursor: pointer; font-size: 0.9em; text-decoration: underline; margin-right: 15px; }
+        .toggle-visibility-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9em; text-decoration: underline; margin-right: 15px; }
 
         /* Botón de copiar */
-        .copy-btn { background: white; border: 1px solid #ccc; color: #555; padding: 6px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
-        .copy-btn:hover { background: #f1f1f1; color: var(--bice-blue); border-color: var(--bice-blue); }
+        .copy-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .copy-btn:hover { background: var(--bg-hover); color: var(--primary-color); border-color: var(--primary-color); }
         .copy-btn-absolute { position: absolute; top: 15px; right: 15px; }
         
-        .card-actions { display: flex; gap: 10px; margin-top: 15px; border-top: 1px solid #eee; padding-top: 15px; }
+        .card-actions { display: flex; gap: 10px; margin-top: 15px; border-top: 1px solid var(--border-light); padding-top: 15px; }
         .action-btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95em; font-weight: bold; flex: 1; text-align: center;}
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
@@ -140,27 +195,38 @@
         /* Paginación */
         .pagination-container { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 30px; padding-bottom: 30px; }
         .pagination-buttons { display: flex; gap: 15px; align-items: center; }
-        .pagination-buttons button { background: var(--bice-blue); color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
-        .pagination-buttons button:disabled { background: #ccc; cursor: not-allowed; }
-        .page-info-text { font-weight: bold; color: #333; font-size: 1.05em; }
-        .total-info-text { font-size: 0.9em; color: #666; }
+        .pagination-buttons button { background: var(--btn-primary); color: var(--btn-primary-text); border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .pagination-buttons button:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+        .page-info-text { font-weight: bold; color: var(--text-main); font-size: 1.05em; }
+        .total-info-text { font-size: 0.9em; color: var(--text-muted); }
 
-        #toast { visibility: hidden; min-width: 250px; background-color: #28a745; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 2000; right: 30px; bottom: 30px; font-size: 1.1em; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
+        /* Toast Notificación */
+        #toast { visibility: hidden; min-width: 250px; background-color: var(--color-success); color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 2000; right: 30px; bottom: 30px; font-size: 1.1em; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
         #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
         
-        footer { background-color: var(--bice-blue); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; }
+        footer { background-color: var(--btn-primary); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; transition: background-color 0.3s; }
+
+        /* MODO OSCURO SWITCH (TIPO IOS) */
+        .theme-switch-wrapper { display: flex; align-items: center; }
+        .theme-switch { display: inline-block; height: 26px; position: relative; width: 54px; margin: 0; }
+        .theme-switch input { display: none; }
+        .slider { background-color: #ddd; border: 1px solid #ccc; bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .3s; border-radius: 26px; display: flex; align-items: center; justify-content: space-between; padding: 0 4px; box-sizing: border-box;}
+        .slider:before { background-color: white; bottom: 3px; content: ""; height: 18px; left: 4px; position: absolute; transition: .3s; width: 18px; border-radius: 50%; z-index: 2; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+        input:checked + .slider { background-color: #1a334d; border-color: #111; }
+        input:checked + .slider:before { transform: translateX(26px); background-color: #e0e0e0;}
+        .slider-icon { font-size: 12px; z-index: 1; user-select: none; }
 
         /* HERRAMIENTAS COMISIONES RADIO BUTTONS */
-        .radio-group { display: flex; gap: 25px; margin-bottom: 15px; background: #f4f7f6; padding: 15px; border-radius: 6px; border: 1px solid #ddd; }
-        .radio-group label { margin-top: 0; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 1.05em; color: var(--bice-blue);}
+        .radio-group { display: flex; gap: 25px; margin-bottom: 15px; background: var(--bg-group); padding: 15px; border-radius: 6px; border: 1px solid var(--border); }
+        .radio-group label { margin-top: 0; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 1.05em; color: var(--primary-color);}
         .radio-group input[type="radio"] { width: auto; margin: 0; transform: scale(1.2); }
 
         /* RESPONSIVO */
         @media (max-width: 850px) {
             .container { flex-direction: column; padding: 0 15px; }
             .left-panel { min-width: 100%; max-width: 100%; position: static; margin-bottom: 10px; padding: 15px; box-sizing: border-box; max-height: none;}
-            header { flex-direction: column; text-align: center; gap: 10px; padding: 15px; }
-            header h1 { font-size: 1.3em; }
+            header { padding: 15px; }
+            header h1 { font-size: 1.2em; }
             .search-container { flex-direction: column; gap: 10px; padding: 12px; }
             .search-container input, .search-container select { width: 100%; flex: none; }
             .clave-row { flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -187,8 +253,21 @@
 <body>
 
 <header>
-    <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Banco_BICE-300dpi.jpg/960px-Logo_Banco_BICE-300dpi.jpg" alt="Logo Banco BICE" class="logo">
-    <h1>BICE Hub Ejecutivo</h1>
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Banco_BICE-300dpi.jpg/960px-Logo_Banco_BICE-300dpi.jpg" alt="Logo Banco BICE" class="logo">
+        <h1>BICE Hub Ejecutivo</h1>
+    </div>
+    
+    <!-- MODO OSCURO TOGGLE -->
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch" for="themeCheckbox" title="Cambiar a Modo Oscuro">
+            <input type="checkbox" id="themeCheckbox" onchange="toggleTheme(this)"/>
+            <div class="slider">
+                <span class="slider-icon" style="margin-left:4px;">☀️</span>
+                <span class="slider-icon" style="margin-right:4px;">🌙</span>
+            </div>
+        </label>
+    </div>
 </header>
 
 <div class="container">
@@ -253,7 +332,7 @@
                 <div class="indicadores-val" id="val-dolar">USD: ...</div>
                 <div class="indicadores-val" id="val-euro">EUR: ...</div>
             </div>
-            <div style="font-size: 0.7em; color: #aaa; margin-top: 8px;">Fuente: mindicador.cl</div>
+            <div style="font-size: 0.7em; color: var(--text-muted); margin-top: 8px;">Fuente: mindicador.cl</div>
         </div>
 
     </div>
@@ -264,8 +343,8 @@
         <!-- VISTA 0: BIENVENIDA -->
         <div id="view-welcome" class="view-container active" style="text-align: center; padding-top: 10vh;">
             <div style="font-size: 4em; margin-bottom: 10px;">👋</div>
-            <h2 style="color: var(--bice-blue); font-size: 2em; margin-bottom: 10px;">Bienvenido a tu Espacio</h2>
-            <p style="color: #666; font-size: 1.2em; max-width: 500px; margin: 0 auto; line-height: 1.5;">Selecciona una opción en el menú izquierdo para comenzar a gestionar tu información o usar las herramientas.</p>
+            <h2 style="color: var(--primary-color); font-size: 2em; margin-bottom: 10px;">Bienvenido a tu Espacio</h2>
+            <p style="color: var(--text-muted); font-size: 1.2em; max-width: 500px; margin: 0 auto; line-height: 1.5;">Selecciona una opción en el menú izquierdo para comenzar a gestionar tu información o usar las herramientas.</p>
         </div>
 
         <!-- VISTA 1: BASE DE CONOCIMIENTO -->
@@ -315,13 +394,13 @@
         <!-- VISTA 3: HERRAMIENTAS -->
         <div id="view-herramientas" class="view-container">
             <div id="tools-welcome" style="text-align: center; padding-top: 5vh;">
-                <h3 style="color: #666; font-size: 1.5em;">👈 Selecciona una herramienta del submenú izquierdo</h3>
+                <h3 style="color: var(--text-muted); font-size: 1.5em;">👈 Selecciona una herramienta del submenú izquierdo</h3>
             </div>
 
             <!-- RECONSTRUCCIÓN TC -->
-            <div id="tool-reconst" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid #17a2b8;">
-                <h2 style="color: #17a2b8; margin-top: 0;">💳 Reconstrucción Tarjeta de Crédito</h2>
-                <p style="color: #666; margin-bottom: 20px;">Arma la tarjeta de crédito completa pegando el formato abreviado de Platcom y seleccionando la categoría correcta.</p>
+            <div id="tool-reconst" class="tool-panel" style="border-top: 6px solid var(--color-info);">
+                <h2 style="color: var(--color-info); margin-top: 0;">💳 Reconstrucción Tarjeta de Crédito</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Arma la tarjeta de crédito completa pegando el formato abreviado de Platcom y seleccionando la categoría correcta.</p>
                 <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 150px;">
                         <label>Formato Platcom:</label>
@@ -343,11 +422,11 @@
                         </select>
                     </div>
                 </div>
-                <button class="save-btn" onclick="reconstruirTC()" style="margin-top: 10px; background: #17a2b8;">⚙️ Reconstruir Tarjeta</button>
-                <div id="reconstResult" style="display: none; margin-top: 25px; background: #f9f9f9; padding: 20px; border-left: 5px solid #28a745; border-radius: 6px;">
-                    <div class="clave-row" style="margin-bottom: 0; background: white; border: 1px solid #ddd;">
+                <button class="save-btn" onclick="reconstruirTC()" style="margin-top: 10px; background: var(--color-info);">⚙️ Reconstruir Tarjeta</button>
+                <div id="reconstResult" class="tool-result" style="border-left-color: var(--color-success);">
+                    <div class="clave-row" style="margin-bottom: 0;">
                         <span class="clave-label" style="width: 140px;">Tarjeta armada:</span>
-                        <span class="clave-value" id="resReconst" style="color: #28a745; font-weight: bold; font-size: 1.4em;"></span>
+                        <span class="clave-value" id="resReconst" style="color: var(--color-success); font-weight: bold; font-size: 1.4em;"></span>
                         <button class="copy-btn" onclick="copyText(event, 'resReconst')" title="Copiar Tarjeta Completa">
                             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         </button>
@@ -356,40 +435,40 @@
             </div>
 
             <!-- VALIDADOR BIN TD -->
-            <div id="tool-bin" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid var(--bice-blue);">
-                <h2 style="color: var(--bice-blue); margin-top: 0;">💳 Validador BIN TD</h2>
-                <p style="color: #666; margin-bottom: 20px;">Pega o escribe los 16 dígitos de la tarjeta que aparecen en Platcom para conocer su categoría y el límite de compras diario asignado.</p>
+            <div id="tool-bin" class="tool-panel" style="border-top: 6px solid var(--primary-color);">
+                <h2 style="color: var(--primary-color); margin-top: 0;">💳 Validador BIN TD</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Pega o escribe los 16 dígitos de la tarjeta que aparecen en Platcom para conocer su categoría y el límite de compras diario asignado.</p>
                 <label>Número de Tarjeta (16 dígitos):</label>
                 <input type="text" id="binInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="font-size: 1.3em; text-align: center; letter-spacing: 2px;" oninput="formatCardInput(event)">
-                <button class="save-btn" onclick="analizarTarjeta()" style="margin-top: 15px;">🔍 Analizar Tarjeta</button>
+                <button class="save-btn" onclick="analizarTarjeta()" style="margin-top: 15px; background: var(--primary-color);">🔍 Analizar Tarjeta</button>
 
-                <div id="binResult" style="display: none; margin-top: 25px; background: #f9f9f9; padding: 20px; border-left: 5px solid #28a745; border-radius: 6px;">
-                    <div class="clave-row" style="margin-bottom: 15px; background: white; border: 1px solid #ddd;">
+                <div id="binResult" class="tool-result">
+                    <div class="clave-row" style="margin-bottom: 15px;">
                         <span class="clave-label" style="width: 130px;">Tarjeta limpia:</span>
                         <span class="clave-value" id="resCard"></span>
                         <button class="copy-btn" onclick="copyText(event, 'resCard')" title="Copiar Tarjeta limpia">
                             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         </button>
                     </div>
-                    <div class="clave-row" style="background: transparent; padding: 5px 0;">
+                    <div class="clave-row" style="background: transparent; border: none; padding: 5px 0;">
                         <span class="clave-label" style="width: 130px;">Categoría:</span>
-                        <span class="clave-value" id="resCat" style="color: var(--bice-blue); font-weight: bold;"></span>
+                        <span class="clave-value" id="resCat" style="color: var(--primary-color); font-weight: bold;"></span>
                     </div>
-                    <div class="clave-row" style="background: transparent; padding: 5px 0; margin-bottom: 0;">
+                    <div class="clave-row" style="background: transparent; border: none; padding: 5px 0; margin-bottom: 0;">
                         <span class="clave-label" style="width: 130px;">Límite Diario:</span>
-                        <span class="clave-value" id="resLimit" style="color: #28a745; font-weight: bold;"></span>
+                        <span class="clave-value" id="resLimit" style="color: var(--color-success); font-weight: bold;"></span>
                     </div>
                 </div>
             </div>
 
             <!-- COMISIONES INTERNACIONALES -->
-            <div id="tool-comisiones" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid #fd7e14;">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                    <h2 style="color: #fd7e14; margin-top: 0;">✈️ Comisiones Internacionales</h2>
+            <div id="tool-comisiones" class="tool-panel" style="border-top: 6px solid var(--color-warning);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                    <h2 style="color: var(--color-warning); margin-top: 0;">✈️ Comisiones Internacionales</h2>
+                    <button class="outline-btn" onclick="openModal('procedimientoModal')">ℹ️ Ver Procedimiento</button>
                 </div>
                 
-                <button class="outline-btn" onclick="openModal('procedimientoModal')">ℹ️ Ver Procedimiento Fecha Apertura</button>
-                <p style="color: #666; margin-bottom: 20px;">Calcula los cobros exactos por uso en el extranjero ingresando la fecha de apertura y el tipo de tarjeta.</p>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Calcula los cobros exactos por uso en el extranjero ingresando la fecha de apertura y el tipo de tarjeta.</p>
                 
                 <div class="radio-group">
                     <label><input type="radio" name="comTipo" value="Tarjeta Crédito" checked onchange="updateSegmentos()"> Tarjeta Crédito (TC)</label>
@@ -437,29 +516,29 @@
                     </div>
                 </div>
                 
-                <button class="save-btn" onclick="calcularComisiones()" style="margin-top: 10px; background: #fd7e14;">🧮 Calcular Comisiones</button>
+                <button class="save-btn" onclick="calcularComisiones()" style="margin-top: 10px; background: var(--color-warning);">🧮 Calcular Comisiones</button>
 
-                <div id="comisionesResult" style="display: none; margin-top: 25px; background: #fdf5ec; padding: 20px; border-left: 5px solid #fd7e14; border-radius: 6px;">
+                <div id="comisionesResult" class="tool-result" style="border-left-color: var(--color-warning);">
                     <div style="margin-bottom: 15px;">
-                        <div style="font-weight: bold; color: #555; font-size: 0.9em; text-transform: uppercase;">Comisión Compra Internacional:</div>
-                        <div id="resComCompra" style="font-size: 1.15em; color: var(--bice-blue); font-weight: bold; margin-top: 4px;"></div>
+                        <div style="font-weight: bold; color: var(--text-muted); font-size: 0.9em; text-transform: uppercase;">Comisión Compra Internacional:</div>
+                        <div id="resComCompra" style="font-size: 1.15em; color: var(--primary-color); font-weight: bold; margin-top: 4px;"></div>
                     </div>
                     <div style="margin-bottom: 15px;">
-                        <div style="font-weight: bold; color: #555; font-size: 0.9em; text-transform: uppercase;">Comisión Giro ATM:</div>
-                        <div id="resComGiro" style="font-size: 1.15em; color: var(--bice-blue); font-weight: bold; margin-top: 4px;"></div>
+                        <div style="font-weight: bold; color: var(--text-muted); font-size: 0.9em; text-transform: uppercase;">Comisión Giro ATM:</div>
+                        <div id="resComGiro" style="font-size: 1.15em; color: var(--primary-color); font-weight: bold; margin-top: 4px;"></div>
                     </div>
                     
-                    <button class="copy-btn" style="width: 100%; margin-top: 10px; background: white; border: 2px solid #fd7e14; color: #fd7e14; font-weight: bold;" onclick="copiarComisiones(event)">
+                    <button class="copy-btn" style="width: 100%; margin-top: 10px; border: 2px solid var(--color-warning); color: var(--color-warning); font-weight: bold;" onclick="copiarComisiones(event)">
                         📋 Copiar Respuesta para el Cliente
                     </button>
                 </div>
             </div>
 
             <!-- CONVERSOR DE MONEDA -->
-            <div id="tool-conversor" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid #28a745;">
-                <h2 style="color: #28a745; margin-top: 0;">💱 Conversor de Moneda a Pesos</h2>
-                <p style="color: #666; margin-bottom: 20px;">Calcula el equivalente entre pesos chilenos (CLP) y moneda extranjera. Puedes ajustar la tasa si necesitas usar una del banco.</p>
-                <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; background: #f4f7f6; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+            <div id="tool-conversor" class="tool-panel" style="border-top: 6px solid var(--color-success);">
+                <h2 style="color: var(--color-success); margin-top: 0;">💱 Conversor de Moneda a Pesos</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Calcula el equivalente entre pesos chilenos (CLP) y moneda extranjera. Puedes ajustar la tasa si necesitas usar una del banco.</p>
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; background: var(--bg-group); padding: 15px; border-radius: 8px; border: 1px solid var(--border);">
                     <div style="flex: 1; min-width: 130px;">
                         <label style="margin-top: 0;">Moneda:</label>
                         <select id="convSelect" onchange="changeCurrency()" style="padding: 10px; font-size: 1.05em; margin-top: 5px;">
@@ -469,22 +548,22 @@
                     </div>
                     <div style="flex: 1; min-width: 130px;">
                         <label style="margin-top: 0;">Tasa de cambio ($):</label>
-                        <input type="number" id="convTasa" step="0.01" oninput="calcToCLP()" style="padding: 10px; font-size: 1.05em; font-weight: bold; margin-top: 5px; color: var(--bice-blue);">
+                        <input type="number" id="convTasa" step="0.01" oninput="calcToCLP()" style="padding: 10px; font-size: 1.05em; font-weight: bold; margin-top: 5px; color: var(--primary-color);">
                     </div>
                 </div>
                 <div style="display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 200px;">
-                        <label id="labelExtranjera" style="color: var(--bice-blue);">Monto en USD:</label>
+                        <label id="labelExtranjera" style="color: var(--primary-color);">Monto en USD:</label>
                         <div style="position: relative;">
-                            <span style="position: absolute; left: 15px; top: 16px; font-size: 1.2em; color: #555;">$</span>
+                            <span style="position: absolute; left: 15px; top: 16px; font-size: 1.2em; color: var(--text-muted);">$</span>
                             <input type="number" id="inputExt" step="0.01" placeholder="0.00" oninput="calcToCLP()" style="font-size: 1.3em; padding: 15px 15px 15px 35px;">
                         </div>
                     </div>
-                    <div style="font-size: 2em; color: #ccc; margin-top: 25px;">⇌</div>
+                    <div style="font-size: 2em; color: var(--text-muted); margin-top: 25px;">⇌</div>
                     <div style="flex: 1; min-width: 200px;">
-                        <label style="color: #28a745;">Monto en CLP:</label>
+                        <label style="color: var(--color-success);">Monto en CLP:</label>
                         <div style="position: relative;">
-                            <span style="position: absolute; left: 15px; top: 16px; font-size: 1.2em; color: #555;">$</span>
+                            <span style="position: absolute; left: 15px; top: 16px; font-size: 1.2em; color: var(--text-muted);">$</span>
                             <input type="number" id="inputCLP" placeholder="0" oninput="calcToExt()" style="font-size: 1.3em; padding: 15px 15px 15px 35px;">
                         </div>
                     </div>
@@ -494,7 +573,7 @@
     </div>
 </div>
 
-<!-- === MODAL 1: BASE DE CONOCIMIENTO === -->
+<!-- === MODAL 1: BASE DE CONOCIMIENTO (REORDENADO) === -->
 <div class="modal-overlay" id="kbModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
@@ -505,9 +584,9 @@
             <label>Categoría:</label>
             <select id="categoriaSelect" required onchange="handleCategoriaChange()">
                 <option value="">Selecciona una categoría...</option>
-                <option value="nueva" style="font-weight:bold; color:var(--bice-blue);">➕ Crear Nueva Categoría...</option>
+                <option value="nueva" style="font-weight:bold; color:var(--primary-color);">➕ Crear Nueva Categoría...</option>
             </select>
-            <input type="text" id="categoriaNueva" placeholder="Escribe el nombre de la nueva categoría" style="display: none; margin-top: 5px; border-color: var(--bice-blue);">
+            <input type="text" id="categoriaNueva" placeholder="Escribe el nombre de la nueva categoría" style="display: none; margin-top: 5px; border-color: var(--primary-color);">
             
             <label>Validación:</label><textarea id="validacion"></textarea>
             <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
@@ -523,6 +602,7 @@
                 <input type="text" id="etiquetas" placeholder="Ej: fraude, bloqueo, tc" style="flex: 1;">
                 <button type="button" class="generate-btn" onclick="generarEtiquetas()">✨ Generar</button>
             </div>
+
             <button type="submit" class="save-btn">Guardar Información</button>
         </form>
     </div>
@@ -539,7 +619,7 @@
             <label>Link de acceso (Opcional):</label><input type="text" id="claveLink" placeholder="Ej: https://sistema.bice.cl">
             <label>Usuario / Rut:</label><input type="text" id="claveUser" required>
             <label>Clave:</label><input type="password" id="clavePass" required>
-            <button type="submit" class="save-btn" style="background:#28a745;">Guardar Clave</button>
+            <button type="submit" class="save-btn" style="background:var(--color-success);">Guardar Clave</button>
         </form>
     </div>
 </div>
@@ -548,22 +628,22 @@
 <div class="modal-overlay" id="procedimientoModal">
     <div class="modal-content" style="max-width: 650px;">
         <span class="close-modal" onclick="closeModal('procedimientoModal')" title="Cerrar">&times;</span>
-        <h2 style="color: #fd7e14; margin-top: 0;">📋 Procedimiento Fecha de Apertura TC</h2>
+        <h2 style="color: var(--color-warning); margin-top: 0;">📋 Procedimiento Fecha de Apertura TC</h2>
         
-        <div style="font-size: 1.05em; line-height: 1.6; color: #444;">
-            <p style="color: var(--bice-blue); font-weight: bold; margin-bottom: 5px;">PASO 1: Verificar cantidad de tarjetas</p>
+        <div style="font-size: 1.05em; line-height: 1.6;">
+            <p style="color: var(--primary-color); font-weight: bold; margin-bottom: 5px;">PASO 1: Verificar cantidad de tarjetas</p>
             <p style="margin-top: 0;">✅ Revisar si el cliente tiene una sola tarjeta de crédito activa.<br>
             Si solo tiene una tarjeta y no posee tarjetas bloqueadas:</p>
-            <ul style="background: #f9f9f9; padding: 15px 15px 15px 35px; border-radius: 6px; border-left: 4px solid var(--bice-blue);">
+            <ul style="background: var(--bg-group); padding: 15px 15px 15px 35px; border-radius: 6px; border-left: 4px solid var(--primary-color);">
                 <li>Seleccionar la tarjeta.</li>
                 <li>Ingresar a <strong>Detalle</strong>.</li>
                 <li>Revisar <strong>Fecha de Creación</strong>.</li>
                 <li>Esa será la fecha a utilizar para buscar las comisiones.</li>
             </ul>
 
-            <p style="color: var(--bice-blue); font-weight: bold; margin-bottom: 5px; margin-top: 25px;">PASO 2: Si existen tarjetas bloqueadas</p>
+            <p style="color: var(--primary-color); font-weight: bold; margin-bottom: 5px; margin-top: 25px;">PASO 2: Si existen tarjetas bloqueadas</p>
             <p style="margin-top: 0;">⚠️ La comisión depende de la fecha de apertura original de la categoría de tarjeta. Por lo tanto:</p>
-            <ol style="background: #f9f9f9; padding: 15px 15px 15px 35px; border-radius: 6px; border-left: 4px solid #fd7e14;">
+            <ol style="background: var(--bg-group); padding: 15px 15px 15px 35px; border-radius: 6px; border-left: 4px solid var(--color-warning);">
                 <li>Revisar las tarjetas bloqueadas.</li>
                 <li>Buscar la misma categoría de tarjeta que posee actualmente.</li>
                 <li>Revisar las tarjetas bloqueadas desde abajo hacia arriba.</li>
@@ -571,13 +651,13 @@
                 <li>Utilizar la fecha de creación de esa tarjeta para consultar el tarifario.</li>
             </ol>
 
-            <p style="color: var(--bice-blue); font-weight: bold; margin-bottom: 5px; margin-top: 25px;">PASO 3: Buscar tarifa en el Hub</p>
+            <p style="color: var(--primary-color); font-weight: bold; margin-bottom: 5px; margin-top: 25px;">PASO 3: Buscar tarifa en el Hub</p>
             <p style="margin-top: 0;">Una vez obtenida la fecha correcta:<br>
             ✅ Ingresar el Año, Mes, Tipo de Tarjeta y Segmento en <strong>esta herramienta</strong>.<br>
             El sistema mostrará automáticamente la Comisión Compra Internacional y Comisión Giro ATM listas para copiar y pegar.</p>
 
-            <div style="background: #fff3cd; border-left: 5px solid #ffc107; padding: 12px; margin-top: 20px; border-radius: 4px; font-size: 0.95em;">
-                <strong>*Nota Importante:</strong> Si la tarjeta es generada posterior a <strong>Marzo 2025</strong>, se debe ocupar esa fecha para ver el tarifario. <em>(El Hub ya hace este ajuste automáticamente en el cálculo).</em>
+            <div style="background: rgba(255, 193, 7, 0.15); border-left: 5px solid #ffc107; padding: 12px; margin-top: 20px; border-radius: 4px; font-size: 0.95em;">
+                <strong style="color: #d39e00;">*Nota Importante:</strong> Si la tarjeta es generada posterior a <strong>Marzo 2025</strong>, se debe ocupar esa fecha para ver el tarifario. <em>(El Hub ya hace este ajuste automáticamente en el cálculo).</em>
             </div>
         </div>
     </div>
@@ -590,6 +670,22 @@
 </footer>
 
 <script>
+    // --- MODO OSCURO (DARK MODE LOGIC) ---
+    function toggleTheme(e) {
+        if (e.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('bice_theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('bice_theme', 'light');
+        }
+    }
+    
+    // Inicializar el switch si estaba oscuro guardado
+    if (localStorage.getItem('bice_theme') === 'dark') {
+        document.getElementById('themeCheckbox').checked = true;
+    }
+
     // --- VARIABLES GLOBALES Y API ---
     let entries = JSON.parse(localStorage.getItem('bice_kb_data')) || [];
     let claves = JSON.parse(localStorage.getItem('bice_claves_data')) || [];
@@ -787,7 +883,6 @@
         
         if(!segmento) { alert("Por favor seleccione un segmento"); return; }
         
-        // Creamos valor numérico YYYYMM
         let inputDateVal = (year * 100) + month;
         
         // CLAMP: Tope máximo en Marzo 2025 (202503)
@@ -798,7 +893,6 @@
         const reglas = comisionesData[tipo][segmento];
         let reglaAplicada = null;
 
-        // Búsqueda de la regla
         for (let r of reglas) {
             if (inputDateVal >= r.date_val) {
                 reglaAplicada = r;
@@ -822,9 +916,9 @@
 
         const showSuccess = () => {
             btn.innerHTML = `✅ Copiado Exitosamente`;
-            btn.style.borderColor = '#28a745'; 
-            btn.style.color = '#28a745';
-            setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = '#fd7e14'; btn.style.color = '#fd7e14'; }, 2000);
+            btn.style.borderColor = 'var(--color-success)'; 
+            btn.style.color = 'var(--color-success)';
+            setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = 'var(--color-warning)'; btn.style.color = 'var(--color-warning)'; }, 2000);
         };
 
         if (navigator.clipboard && window.isSecureContext) {
@@ -931,15 +1025,15 @@
         if (binData[bin]) {
             document.getElementById('resCard').innerText = cleanCard;
             document.getElementById('resCat').innerText = binData[bin].category;
-            document.getElementById('resCat').style.color = 'var(--bice-blue)';
+            document.getElementById('resCat').style.color = 'var(--primary-color)';
             document.getElementById('resLimit').innerText = binData[bin].limit;
-            resultDiv.style.display = 'block'; resultDiv.style.borderLeftColor = '#28a745'; 
+            resultDiv.style.display = 'block'; resultDiv.style.borderLeftColor = 'var(--color-success)'; 
         } else {
             document.getElementById('resCard').innerText = cleanCard;
             document.getElementById('resCat').innerText = `BIN No Reconocido (${bin})`;
-            document.getElementById('resCat').style.color = '#dc3545'; 
+            document.getElementById('resCat').style.color = 'var(--color-danger)'; 
             document.getElementById('resLimit').innerText = 'No disponible';
-            resultDiv.style.display = 'block'; resultDiv.style.borderLeftColor = '#dc3545'; 
+            resultDiv.style.display = 'block'; resultDiv.style.borderLeftColor = 'var(--color-danger)'; 
         }
     }
 
@@ -987,7 +1081,7 @@
         });
         const optNueva = document.createElement('option');
         optNueva.value = "nueva"; optNueva.innerText = "➕ Crear Nueva Categoría...";
-        optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--bice-blue)";
+        optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--primary-color)";
         select.appendChild(optNueva);
     }
 
@@ -1196,7 +1290,7 @@
         const totalPages = Math.ceil(filteredClaves.length / itemsPerPage) || 1;
         if(currentClavesPage < 1) currentClavesPage = 1; if(currentClavesPage > totalPages) currentClavesPage = totalPages;
 
-        if(filteredClaves.length === 0) list.innerHTML = '<p style="text-align:center; color:#888; margin-top:30px;">No tienes claves guardadas aún.</p>';
+        if(filteredClaves.length === 0) list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px;">No tienes claves guardadas aún.</p>';
         else {
             filteredClaves.slice((currentClavesPage - 1) * itemsPerPage, currentClavesPage * itemsPerPage).forEach(c => {
                 const card = document.createElement('details'); card.className = 'clave-card';
@@ -1243,9 +1337,9 @@
         const text = rawText ? rawText : document.getElementById(elementId).innerText;
         const btn = event.currentTarget; const originalHTML = btn.innerHTML;
         const showSuccess = () => {
-            btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="#28a745" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-            btn.style.borderColor = '#28a745'; btn.style.background = '#f0fff4';
-            setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = '#ccc'; btn.style.background = 'white'; }, 1500);
+            btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--color-success)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+            btn.style.borderColor = 'var(--color-success)'; 
+            setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = 'var(--border)'; }, 1500);
         };
         if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(showSuccess).catch(err => useFallback(text)); } else { useFallback(text); }
         function useFallback(t) {
