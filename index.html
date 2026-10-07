@@ -663,7 +663,6 @@
 </div>
 
 <!-- === MODALES DE CREACIÓN DE DATOS === -->
-
 <div class="modal-overlay" id="kbModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
@@ -819,10 +818,25 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    Creado por Luis Muñoz | v2.8.6
+    Creado por Luis Muñoz | v2.8.7
 </footer>
 
 <script>
+    // --- MODO OSCURO ---
+    function toggleTheme(e) {
+        if (e.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('bice_theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('bice_theme', 'light');
+        }
+    }
+    if (localStorage.getItem('bice_theme') === 'dark') {
+        const check = document.getElementById('themeCheckbox');
+        if (check) check.checked = true;
+    }
+
     // --- VARIABLES Y API ---
     let entries = JSON.parse(localStorage.getItem('bice_kb_data')) || [];
     let claves = JSON.parse(localStorage.getItem('bice_claves_data')) || [];
