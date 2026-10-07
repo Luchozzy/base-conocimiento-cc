@@ -312,10 +312,11 @@
                 </button>
                 <div class="menu-content" id="content-herramientas">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <button id="btn-tool-plazos" class="tool-btn" onclick="openTool('plazos')">📅 Calculadora SLA</button>
+                        <button id="btn-tool-pendientes" class="tool-btn" onclick="openTool('pendientes')">✅ Mis Pendientes</button>
                         <button id="btn-tool-reconst" class="tool-btn" onclick="openTool('reconst')">💳 Reconstrucción TC</button>
                         <button id="btn-tool-bin" class="tool-btn" onclick="openTool('bin')">💳 Validador BIN TD</button>
                         <button id="btn-tool-comisiones" class="tool-btn" onclick="openTool('comisiones')">✈️ Comisiones Int.</button>
+                        <button id="btn-tool-plazos" class="tool-btn" onclick="openTool('plazos')">📅 Calculadora SLA</button>
                         <button id="btn-tool-conversor" class="tool-btn" onclick="openTool('conversor')">💱 Conversor Monedas</button>
                         <button id="btn-tool-directorio" class="tool-btn" onclick="openTool('directorio')">📞 Directorio Rápido</button>
                     </div>
@@ -402,40 +403,23 @@
                 <h3 style="color: var(--text-muted); font-size: 1.5em;">👈 Selecciona una herramienta del submenú izquierdo</h3>
             </div>
 
-            <!-- CALCULADORA DE PLAZOS (SLA) -->
-            <div id="tool-plazos" class="tool-panel" style="border-top: 6px solid var(--color-pink);">
-                <h2 style="color: var(--color-pink); margin-top: 0;">📅 Calculadora de Plazos (SLA)</h2>
-                <p style="color: var(--text-muted); margin-bottom: 20px;">Calcula la fecha exacta de respuesta saltando automáticamente los fines de semana y feriados de Chile.</p>
+            <!-- MIS PENDIENTES (TO-DO LIST) -->
+            <div id="tool-pendientes" class="tool-panel" style="border-top: 6px solid var(--color-success); max-width: 800px;">
+                <h2 style="color: var(--color-success); margin-top: 0;">✅ Mis Pendientes (Listas Blancas y Casos)</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Anota códigos de mensajería, listas blancas o tareas pendientes para hacerlas más tarde. Márcalas cuando termines para mantener tu pizarra limpia.</p>
                 
-                <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
-                    <div style="flex: 1; min-width: 150px;">
-                        <label>Fecha Inicial (Día 0):</label>
-                        <input type="date" id="plazoFecha" style="font-size: 1.1em; cursor: pointer;">
-                    </div>
-                    <div style="flex: 1; min-width: 150px;">
-                        <label>Plazo a sumar (Días):</label>
-                        <input type="number" id="plazoDias" placeholder="Ej: 15" min="1" style="font-size: 1.1em;">
-                    </div>
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <input type="text" id="nuevaTareaInput" placeholder="Ej: Caso Salesforce 123456, Lista blanca RUT..." style="flex: 1; font-size: 1.1em; margin: 0;" onkeypress="if(event.key === 'Enter') agregarTarea()">
+                    <button class="save-btn" style="margin-top: 0; width: auto; padding: 10px 20px; background: var(--color-success);" onclick="agregarTarea()">Agregar Tarea</button>
                 </div>
 
-                <div style="margin-bottom: 20px;">
-                    <label>Tipo de Plazo:</label>
-                    <select id="plazoTipo" style="font-size: 1.1em;">
-                        <option value="habiles">Días Hábiles (Salta Sábado, Domingo y Feriados)</option>
-                        <option value="corridos">Días Corridos (Suma todos los días)</option>
-                    </select>
+                <div id="listaPendientes" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; max-height: 450px; overflow-y: auto; padding-right: 5px;">
+                    <!-- Las tareas se renderizan aquí -->
                 </div>
-                
-                <button class="save-btn" onclick="calcularPlazo()" style="margin-top: 10px; background: var(--color-pink);">📅 Calcular Fecha</button>
 
-                <div id="plazoResult" class="tool-result" style="border-left-color: var(--color-pink);">
-                    <div class="clave-row" style="margin-bottom: 0; background: var(--bg-card);">
-                        <span class="clave-label" style="width: auto; margin-right: 15px;">Fecha de Respuesta:</span>
-                        <span class="clave-value" id="resPlazo" style="color: var(--color-pink); font-weight: bold; font-size: 1.3em;"></span>
-                        <button class="copy-btn" onclick="copyText(event, 'resPlazo')" title="Copiar Fecha">
-                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                        </button>
-                    </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
+                    <button class="outline-btn" style="margin: 0; border-color: var(--color-info); color: var(--color-info);" onclick="limpiarTareasCompletadas()">🧹 Limpiar Resueltas</button>
+                    <button class="outline-btn" style="margin: 0; border-color: var(--color-danger); color: var(--color-danger);" onclick="borrarTodasTareas()">🗑️ Borrar Todo</button>
                 </div>
             </div>
 
@@ -555,6 +539,43 @@
                     <button class="copy-btn" style="width: 100%; margin-top: 10px; border: 2px solid var(--color-warning); color: var(--color-warning); font-weight: bold;" onclick="copiarComisiones(event)">
                         📋 Copiar Respuesta para el Cliente
                     </button>
+                </div>
+            </div>
+
+            <!-- CALCULADORA DE PLAZOS (SLA) -->
+            <div id="tool-plazos" class="tool-panel" style="border-top: 6px solid var(--color-pink);">
+                <h2 style="color: var(--color-pink); margin-top: 0;">📅 Calculadora de Plazos (SLA)</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Calcula la fecha exacta de respuesta saltando automáticamente los fines de semana y feriados de Chile.</p>
+                
+                <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 150px;">
+                        <label>Fecha Inicial (Día 0):</label>
+                        <input type="date" id="plazoFecha" style="font-size: 1.1em; cursor: pointer;">
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label>Plazo a sumar (Días):</label>
+                        <input type="number" id="plazoDias" placeholder="Ej: 15" min="1" style="font-size: 1.1em;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label>Tipo de Plazo:</label>
+                    <select id="plazoTipo" style="font-size: 1.1em;">
+                        <option value="habiles">Días Hábiles (Salta Sábado, Domingo y Feriados)</option>
+                        <option value="corridos">Días Corridos (Suma todos los días)</option>
+                    </select>
+                </div>
+                
+                <button class="save-btn" onclick="calcularPlazo()" style="margin-top: 10px; background: var(--color-pink);">📅 Calcular Fecha</button>
+
+                <div id="plazoResult" class="tool-result" style="border-left-color: var(--color-pink);">
+                    <div class="clave-row" style="margin-bottom: 0; background: var(--bg-card);">
+                        <span class="clave-label" style="width: auto; margin-right: 15px;">Fecha de Respuesta:</span>
+                        <span class="clave-value" id="resPlazo" style="color: var(--color-pink); font-weight: bold; font-size: 1.3em;"></span>
+                        <button class="copy-btn" onclick="copyText(event, 'resPlazo')" title="Copiar Fecha">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -680,6 +701,9 @@
             </ol>
             <p style="color: var(--primary-color); font-weight: bold; margin-bottom: 5px; margin-top: 25px;">PASO 3: Buscar tarifa en el Hub</p>
             <p style="margin-top: 0;">✅ Ingresar el Año, Mes, Tipo y Segmento en <strong>esta herramienta</strong>.</p>
+            <div style="background: rgba(255, 193, 7, 0.15); border-left: 5px solid #ffc107; padding: 12px; margin-top: 20px; border-radius: 4px; font-size: 0.95em;">
+                <strong style="color: #d39e00;">*Nota Importante:</strong> Si la tarjeta es generada posterior a <strong>Marzo 2025</strong>, se debe ocupar esa fecha para ver el tarifario. <em>(El Hub ya hace este ajuste automáticamente en el cálculo).</em>
+            </div>
         </div>
     </div>
 </div>
@@ -747,7 +771,7 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    Creado por Luis Muñoz | v2.5.0
+    Creado por Luis Muñoz | v2.6.0
 </footer>
 
 <script>
@@ -769,6 +793,7 @@
     let entries = JSON.parse(localStorage.getItem('bice_kb_data')) || [];
     let claves = JSON.parse(localStorage.getItem('bice_claves_data')) || [];
     let directorio = JSON.parse(localStorage.getItem('bice_directorio_data')) || [];
+    let pendientes = JSON.parse(localStorage.getItem('bice_pendientes_data')) || [];
     
     const itemsPerPage = 10; 
     let currentKbPage = 1; let currentClavesPage = 1;
@@ -798,7 +823,6 @@
         return new Date().toLocaleDateString('es-CL', options).replace(/\//g, '-');
     }
 
-    // Poner fecha de hoy por defecto en la calculadora de plazos
     document.addEventListener("DOMContentLoaded", function() {
         const today = new Date();
         const y = today.getFullYear();
@@ -829,6 +853,7 @@
             if(viewName === 'claves') handleSearchClaves();
             if(viewName === 'herramientas') {
                 document.getElementById('tools-welcome').style.display = 'block';
+                document.getElementById('tool-pendientes').style.display = 'none';
                 document.getElementById('tool-plazos').style.display = 'none';
                 document.getElementById('tool-bin').style.display = 'none';
                 document.getElementById('tool-conversor').style.display = 'none';
@@ -844,6 +869,7 @@
         document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('btn-tool-' + toolId).classList.add('active');
         document.getElementById('tools-welcome').style.display = 'none';
+        document.getElementById('tool-pendientes').style.display = 'none';
         document.getElementById('tool-plazos').style.display = 'none';
         document.getElementById('tool-bin').style.display = 'none';
         document.getElementById('tool-conversor').style.display = 'none';
@@ -857,10 +883,108 @@
         if(toolId === 'conversor') document.getElementById('inputExt').focus();
         if(toolId === 'reconst') document.getElementById('platcomInput').focus();
         if(toolId === 'directorio') renderDirectorio();
+        if(toolId === 'pendientes') { renderPendientes(); document.getElementById('nuevaTareaInput').focus(); }
+    }
+
+    // --- LÓGICA MIS PENDIENTES (TO-DO LIST) ---
+    function renderPendientes() {
+        const list = document.getElementById('listaPendientes');
+        list.innerHTML = '';
+        if (pendientes.length === 0) {
+            list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px; font-style: italic;">No tienes tareas pendientes. ¡Estás al día! 🎉</p>';
+            return;
+        }
+
+        const sorted = [...pendientes].sort((a, b) => {
+            if(a.done === b.done) return b.timestamp - a.timestamp; 
+            return a.done ? 1 : -1;
+        });
+
+        sorted.forEach(t => {
+            const div = document.createElement('div');
+            div.style.cssText = `display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px var(--shadow); border-left: 4px solid ${t.done ? 'var(--border)' : 'var(--color-success)'}; transition: all 0.2s; opacity: ${t.done ? '0.6' : '1'};`;
+            
+            const leftDiv = document.createElement('div');
+            leftDiv.style.cssText = "display: flex; align-items: center; gap: 12px; flex: 1; cursor: pointer;";
+            leftDiv.onclick = () => toggleTarea(t.id);
+            
+            const check = document.createElement('input');
+            check.type = "checkbox";
+            check.checked = t.done;
+            check.style.cssText = "width: 18px; height: 18px; margin: 0; cursor: pointer;";
+            check.onclick = (e) => e.stopPropagation();
+            check.onchange = () => toggleTarea(t.id);
+
+            const textSpan = document.createElement('span');
+            textSpan.innerText = t.text;
+            textSpan.style.cssText = `font-size: 1.1em; color: var(--text-main); transition: all 0.2s; ${t.done ? 'text-decoration: line-through; color: var(--text-muted);' : ''} word-break: break-word;`;
+
+            leftDiv.appendChild(check);
+            leftDiv.appendChild(textSpan);
+
+            const delBtn = document.createElement('button');
+            delBtn.className = "action-btn delete-btn";
+            delBtn.style.cssText = "padding: 5px 8px; font-size: 0.9em; margin: 0; flex-shrink: 0; background: transparent; color: var(--color-danger); border: 1px solid var(--color-danger); width: auto;";
+            delBtn.innerHTML = "🗑️";
+            delBtn.title = "Eliminar tarea";
+            delBtn.onclick = (e) => { e.stopPropagation(); eliminarTarea(t.id); };
+
+            div.appendChild(leftDiv);
+            div.appendChild(delBtn);
+            list.appendChild(div);
+        });
+    }
+
+    function agregarTarea() {
+        const input = document.getElementById('nuevaTareaInput');
+        const text = input.value.trim();
+        if(!text) return;
+        pendientes.push({
+            id: 'TSK_' + Date.now(),
+            text: text,
+            done: false,
+            timestamp: Date.now()
+        });
+        localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes));
+        input.value = '';
+        renderPendientes();
+    }
+
+    function toggleTarea(id) {
+        const idx = pendientes.findIndex(t => t.id === id);
+        if(idx > -1) {
+            pendientes[idx].done = !pendientes[idx].done;
+            localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes));
+            renderPendientes();
+        }
+    }
+
+    function eliminarTarea(id) {
+        pendientes = pendientes.filter(t => t.id !== id);
+        localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes));
+        renderPendientes();
+    }
+
+    function limpiarTareasCompletadas() {
+        const cantidadOriginal = pendientes.length;
+        pendientes = pendientes.filter(t => !t.done);
+        if (pendientes.length !== cantidadOriginal) {
+            localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes));
+            renderPendientes();
+            showToast("Tareas resueltas eliminadas");
+        }
+    }
+
+    function borrarTodasTareas() {
+        if(pendientes.length === 0) return;
+        if(confirm("¿Estás seguro de borrar toda tu lista de tareas pendientes?")) {
+            pendientes = [];
+            localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes));
+            renderPendientes();
+        }
     }
 
     // --- LÓGICA CALCULADORA DE PLAZOS (SLA) ---
-    // Feriados Chile fijos y móviles pre-cargados (2024 a 2027)
     const feriadosChile = [
         "2024-01-01", "2024-03-29", "2024-03-30", "2024-05-01", "2024-05-21", "2024-06-20", "2024-06-29", "2024-07-16", "2024-08-15", "2024-09-18", "2024-09-19", "2024-09-20", "2024-10-12", "2024-10-31", "2024-11-01", "2024-12-08", "2024-12-25",
         "2025-01-01", "2025-04-18", "2025-04-19", "2025-05-01", "2025-05-21", "2025-06-20", "2025-06-29", "2025-07-16", "2025-08-15", "2025-09-18", "2025-09-19", "2025-10-12", "2025-10-31", "2025-11-01", "2025-12-08", "2025-12-25",
@@ -873,32 +997,18 @@
         const diasInput = parseInt(document.getElementById('plazoDias').value);
         const tipoPlazo = document.getElementById('plazoTipo').value;
 
-        if (!startDateInput || isNaN(diasInput) || diasInput <= 0) {
-            alert('Por favor, ingresa una fecha válida y una cantidad de días mayor a cero.');
-            return;
-        }
+        if (!startDateInput || isNaN(diasInput) || diasInput <= 0) { alert('Ingresa una fecha y cantidad de días válidos.'); return; }
 
-        // Usamos T12:00:00 para evitar desfases de zona horaria al sumar días
         let date = new Date(startDateInput + 'T12:00:00'); 
         let daysAdded = 0;
 
         while (daysAdded < diasInput) {
             date.setDate(date.getDate() + 1);
-
             if (tipoPlazo === 'habiles') {
-                const dayOfWeek = date.getDay(); // 0 = Domingo, 6 = Sábado
-                if (dayOfWeek === 0 || dayOfWeek === 6) {
-                    continue; // Saltar fin de semana
-                }
-                
-                const y = date.getFullYear();
-                const m = String(date.getMonth() + 1).padStart(2, '0');
-                const d = String(date.getDate()).padStart(2, '0');
-                const dateString = `${y}-${m}-${d}`;
-                
-                if (feriadosChile.includes(dateString)) {
-                    continue; // Saltar feriado
-                }
+                const dayOfWeek = date.getDay();
+                if (dayOfWeek === 0 || dayOfWeek === 6) { continue; }
+                const y = date.getFullYear(); const m = String(date.getMonth() + 1).padStart(2, '0'); const d = String(date.getDate()).padStart(2, '0');
+                if (feriadosChile.includes(`${y}-${m}-${d}`)) { continue; }
             }
             daysAdded++;
         }
@@ -906,20 +1016,16 @@
         const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let fechaFormateada = date.toLocaleDateString('es-CL', opciones);
         fechaFormateada = fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1);
-
-        document.getElementById('resPlazo').innerText = fechaFormateada;
-        document.getElementById('plazoResult').style.display = 'block';
+        document.getElementById('resPlazo').innerText = fechaFormateada; document.getElementById('plazoResult').style.display = 'block';
     }
 
 
     // --- LÓGICA DIRECTORIO RÁPIDO ---
     document.getElementById('directorioForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const id = document.getElementById('dirId').value;
-        const nombre = document.getElementById('dirNombre').value.trim();
+        const id = document.getElementById('dirId').value; const nombre = document.getElementById('dirNombre').value.trim();
         const newDir = { id: id ? id : 'DIR_' + Date.now().toString(), nombre: nombre, anexo: document.getElementById('dirAnexo').value.trim(), correo: document.getElementById('dirCorreo').value.trim(), notas: document.getElementById('dirNotas').value.trim() };
-        if (id) { directorio[directorio.findIndex(d => d.id === id)] = newDir; showToast("Contacto actualizado"); } 
-        else { directorio.push(newDir); showToast("Contacto guardado"); }
+        if (id) { directorio[directorio.findIndex(d => d.id === id)] = newDir; showToast("Contacto actualizado"); } else { directorio.push(newDir); showToast("Contacto guardado"); }
         localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); closeModal('directorioModal'); renderDirectorio();
     });
 
@@ -939,11 +1045,7 @@
         });
     }
 
-    function editDir(id) {
-        const d = directorio.find(x => x.id === id);
-        document.getElementById('dirId').value = d.id; document.getElementById('dirNombre').value = d.nombre; document.getElementById('dirAnexo').value = d.anexo || ''; document.getElementById('dirCorreo').value = d.correo || ''; document.getElementById('dirNotas').value = d.notas || ''; document.getElementById('formTitleDir').innerText = 'Editar Contacto'; openModal('directorioModal'); 
-    }
-
+    function editDir(id) { const d = directorio.find(x => x.id === id); document.getElementById('dirId').value = d.id; document.getElementById('dirNombre').value = d.nombre; document.getElementById('dirAnexo').value = d.anexo || ''; document.getElementById('dirCorreo').value = d.correo || ''; document.getElementById('dirNotas').value = d.notas || ''; document.getElementById('formTitleDir').innerText = 'Editar Contacto'; openModal('directorioModal'); }
     function deleteDir(id) { if(confirm('¿Seguro de eliminar este contacto?')) { directorio = directorio.filter(x => x.id !== id); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); showToast("Contacto eliminado"); renderDirectorio(); } }
 
 
@@ -1001,111 +1103,50 @@
     };
 
     function updateSegmentos() {
-        const tipo = document.querySelector('input[name="comTipo"]:checked').value;
-        const selectSeg = document.getElementById('comSegmento');
-        selectSeg.innerHTML = '';
-        if (comisionesData[tipo]) {
-            Object.keys(comisionesData[tipo]).sort().forEach(seg => {
-                let opt = document.createElement('option'); opt.value = seg; opt.innerText = seg; selectSeg.appendChild(opt);
-            });
-        }
+        const tipo = document.querySelector('input[name="comTipo"]:checked').value; const selectSeg = document.getElementById('comSegmento'); selectSeg.innerHTML = '';
+        if (comisionesData[tipo]) { Object.keys(comisionesData[tipo]).sort().forEach(seg => { let opt = document.createElement('option'); opt.value = seg; opt.innerText = seg; selectSeg.appendChild(opt); }); }
         document.getElementById('comisionesResult').style.display = 'none';
     }
 
     function calcularComisiones() {
-        const tipo = document.querySelector('input[name="comTipo"]:checked').value;
-        const segmento = document.getElementById('comSegmento').value;
-        const year = parseInt(document.getElementById('comYear').value);
-        const month = parseInt(document.getElementById('comMonth').value);
-        
+        const tipo = document.querySelector('input[name="comTipo"]:checked').value; const segmento = document.getElementById('comSegmento').value;
+        const year = parseInt(document.getElementById('comYear').value); const month = parseInt(document.getElementById('comMonth').value);
         if(!segmento) { alert("Por favor seleccione un segmento"); return; }
-        
-        let inputDateVal = (year * 100) + month;
-        if (inputDateVal > 202503) { inputDateVal = 202503; }
-
-        const reglas = comisionesData[tipo][segmento];
-        let reglaAplicada = null;
-
+        let inputDateVal = (year * 100) + month; if (inputDateVal > 202503) { inputDateVal = 202503; }
+        const reglas = comisionesData[tipo][segmento]; let reglaAplicada = null;
         for (let r of reglas) { if (inputDateVal >= r.date_val) { reglaAplicada = r; break; } }
         if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; }
-
-        document.getElementById('resComCompra').innerText = reglaAplicada.compra;
-        document.getElementById('resComGiro').innerText = reglaAplicada.giro;
-        document.getElementById('comisionesResult').style.display = 'block';
+        document.getElementById('resComCompra').innerText = reglaAplicada.compra; document.getElementById('resComGiro').innerText = reglaAplicada.giro; document.getElementById('comisionesResult').style.display = 'block';
     }
 
     function copiarComisiones(event) {
         const cCompra = document.getElementById('resComCompra').innerText; const cGiro = document.getElementById('resComGiro').innerText;
         const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`;
         const btn = event.currentTarget; const originalHTML = btn.innerHTML;
-
-        const showSuccess = () => {
-            btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)';
-            setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = 'var(--color-warning)'; btn.style.color = 'var(--color-warning)'; }, 2000);
-        };
-
-        if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); 
-        } else { useFallback(textoFInal); }
-
-        function useFallback(t) {
-            const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0";
-            document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); 
-        }
+        const showSuccess = () => { btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = 'var(--color-warning)'; btn.style.color = 'var(--color-warning)'; }, 2000); };
+        if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); } else { useFallback(textoFInal); }
+        function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); }
     }
 
     // --- LÓGICA RECONSTRUCCIÓN TC ---
-    function formatPlatcomInput(e) {
-        let val = e.target.value.replace(/\D/g, ''); 
-        if (val.length > 1) val = val.substring(0, 1) + '-' + val.substring(1);
-        if (val.length > 6) val = val.substring(0, 6) + '-' + val.substring(6);
-        e.target.value = val;
-    }
-
+    function formatPlatcomInput(e) { let val = e.target.value.replace(/\D/g, ''); if (val.length > 1) val = val.substring(0, 1) + '-' + val.substring(1); if (val.length > 6) val = val.substring(0, 6) + '-' + val.substring(6); e.target.value = val; }
     function reconstruirTC() {
-        const inputStr = document.getElementById('platcomInput').value;
-        const cleanInput = inputStr.replace(/\D/g, '');
-        const category = document.getElementById('tcCategory').value;
-        
-        if (cleanInput.length !== 9) { alert('El código debe tener 9 números, ej: 3-0018-8361'); return; }
-        if (!category) { alert('Por favor selecciona una categoría.'); return; }
-
-        const table = {
-            "Oro": { antiguo: "4259440", nuevo: "4259441" }, "Platinum": { antiguo: "4512480", nuevo: "4512486" },
-            "Infinite": { antiguo: "4093200", nuevo: "4093205" }, "Infinite II": { antiguo: "4245250", nuevo: "4245255" },
-            "Empresarial_4259": { antiguo: "4259470", nuevo: "4259474" }, "Platinum BIA": { antiguo: "4633070", nuevo: "4633076" },
-            "Empresarial_4633": { antiguo: "4633050", nuevo: "4633054" }, "Signature": { antiguo: "", nuevo: "4234710" },
-            "Limitless": { antiguo: "4093200", nuevo: "4093205" }
-        };
-
-        const primerDigito = cleanInput.charAt(0);
-        let bin = "";
-
-        if (primerDigito === '4') {
-            bin = table[category].antiguo; if (!bin) { alert('Esta categoría no tiene un BIN Antiguo registrado.'); return; }
-        } else if (['0', '1', '2', '3'].includes(primerDigito)) {
-            bin = table[category].nuevo;
-        } else { alert('El código Platcom debe comenzar con 4 (Antiguo) o 0, 1, 2, 3 (Nuevo).'); return; }
-
+        const inputStr = document.getElementById('platcomInput').value; const cleanInput = inputStr.replace(/\D/g, ''); const category = document.getElementById('tcCategory').value;
+        if (cleanInput.length !== 9) { alert('El código debe tener 9 números, ej: 3-0018-8361'); return; } if (!category) { alert('Por favor selecciona una categoría.'); return; }
+        const table = { "Oro": { antiguo: "4259440", nuevo: "4259441" }, "Platinum": { antiguo: "4512480", nuevo: "4512486" }, "Infinite": { antiguo: "4093200", nuevo: "4093205" }, "Infinite II": { antiguo: "4245250", nuevo: "4245255" }, "Empresarial_4259": { antiguo: "4259470", nuevo: "4259474" }, "Platinum BIA": { antiguo: "4633070", nuevo: "4633076" }, "Empresarial_4633": { antiguo: "4633050", nuevo: "4633054" }, "Signature": { antiguo: "", nuevo: "4234710" }, "Limitless": { antiguo: "4093200", nuevo: "4093205" } };
+        const primerDigito = cleanInput.charAt(0); let bin = "";
+        if (primerDigito === '4') { bin = table[category].antiguo; if (!bin) { alert('Esta categoría no tiene un BIN Antiguo registrado.'); return; } } else if (['0', '1', '2', '3'].includes(primerDigito)) { bin = table[category].nuevo; } else { alert('El código Platcom debe comenzar con 4 (Antiguo) o 0, 1, 2, 3 (Nuevo).'); return; }
         document.getElementById('resReconst').innerText = bin + cleanInput; document.getElementById('reconstResult').style.display = 'block';
     }
 
     // --- LÓGICA CONVERSOR DE MONEDAS ---
     function changeCurrency() {
-        const currency = document.getElementById('convSelect').value;
-        let tasa = 0;
+        const currency = document.getElementById('convSelect').value; let tasa = 0;
         if (currency === 'USD') tasa = tasaDolar; else if (currency === 'EUR') tasa = tasaEuro; else if (currency === 'UF') tasa = tasaUF; else if (currency === 'UTM') tasa = tasaUTM;
         document.getElementById('convTasa').value = tasa; document.getElementById('labelExtranjera').innerText = `Monto en ${currency}:`; calcToCLP(); 
     }
-
-    function calcToCLP() {
-        const extVal = parseFloat(document.getElementById('inputExt').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0;
-        const clpVal = Math.round(extVal * rate); document.getElementById('inputCLP').value = extVal > 0 ? clpVal : '';
-    }
-
-    function calcToExt() {
-        const clpVal = parseFloat(document.getElementById('inputCLP').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0;
-        if (rate > 0) { const extVal = (clpVal / rate).toFixed(2); document.getElementById('inputExt').value = clpVal > 0 ? extVal : ''; }
-    }
+    function calcToCLP() { const extVal = parseFloat(document.getElementById('inputExt').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; const clpVal = Math.round(extVal * rate); document.getElementById('inputCLP').value = extVal > 0 ? clpVal : ''; }
+    function calcToExt() { const clpVal = parseFloat(document.getElementById('inputCLP').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; if (rate > 0) { const extVal = (clpVal / rate).toFixed(2); document.getElementById('inputExt').value = clpVal > 0 ? extVal : ''; } }
 
     // --- LÓGICA VALIDADOR BIN TD ---
     function formatCardInput(e) { let val = e.target.value.replace(/\D/g, ''); e.target.value = val.replace(/(\d{4})(?=\d)/g, '$1-'); }
@@ -1113,21 +1154,11 @@
         const input = document.getElementById('binInput').value; const cleanCard = input.replace(/-/g, '').replace(/\s/g, '');
         if (cleanCard.length < 6) { alert('Ingresa al menos los primeros 6 dígitos (BIN).'); return; }
         const bin = cleanCard.substring(0, 6); const resultDiv = document.getElementById('binResult');
-        
-        const binData = {
-            "409674": { category: "Family Card / Go BICE", limit: "$500.000" }, "425943": { category: "Check Card Clásica", limit: "$500.000" },
-            "450638": { category: "Check Card Gold / Banca Joven", limit: "$500.000" }, "421767": { category: "Check Card Platinum", limit: "$1.250.000" },
-            "475778": { category: "Check Card Signature", limit: "$1.500.000" }, "463306": { category: "Check Card Infinite", limit: "$1.500.000" }
-        };
-
+        const binData = { "409674": { category: "Family Card / Go BICE", limit: "$500.000" }, "425943": { category: "Check Card Clásica", limit: "$500.000" }, "450638": { category: "Check Card Gold / Banca Joven", limit: "$500.000" }, "421767": { category: "Check Card Platinum", limit: "$1.250.000" }, "475778": { category: "Check Card Signature", limit: "$1.500.000" }, "463306": { category: "Check Card Infinite", limit: "$1.500.000" } };
         if (binData[bin]) {
-            document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = binData[bin].category;
-            document.getElementById('resCat').style.color = 'var(--primary-color)'; document.getElementById('resLimit').innerText = binData[bin].limit;
-            resultDiv.style.display = 'block'; resultDiv.style.borderLeftColor = 'var(--color-success)'; 
+            document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = binData[bin].category; document.getElementById('resCat').style.color = 'var(--primary-color)'; document.getElementById('resLimit').innerText = binData[bin].limit; resultDiv.style.display = 'block'; resultDiv.style.borderLeftColor = 'var(--color-success)'; 
         } else {
-            document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = `BIN No Reconocido (${bin})`;
-            document.getElementById('resCat').style.color = 'var(--color-danger)'; document.getElementById('resLimit').innerText = 'No disponible';
-            resultDiv.style.display = 'block'; resultDiv.style.borderLeftColor = 'var(--color-danger)'; 
+            document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = `BIN No Reconocido (${bin})`; document.getElementById('resCat').style.color = 'var(--color-danger)'; document.getElementById('resLimit').innerText = 'No disponible'; resultDiv.style.display = 'block'; resultDiv.style.borderLeftColor = 'var(--color-danger)'; 
         }
     }
 
@@ -1139,110 +1170,62 @@
         if (modalId === 'importModal') { document.getElementById('importTextarea').value = ''; }
         document.getElementById(modalId).style.display = 'flex'; document.body.style.overflow = 'hidden'; 
     }
-
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none'; document.body.style.overflow = 'auto'; 
         if (modalId === 'kbModal') { document.getElementById('kbForm').reset(); document.getElementById('entryId').value = ''; }
         if (modalId === 'clavesModal') { document.getElementById('clavesForm').reset(); document.getElementById('claveId').value = ''; }
         if (modalId === 'directorioModal') { document.getElementById('directorioForm').reset(); document.getElementById('dirId').value = ''; }
     }
-
-    function showToast(message) {
-        const toast = document.getElementById("toast"); toast.innerText = "✅ " + message; toast.className = "show";
-        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
-    }
+    function showToast(message) { const toast = document.getElementById("toast"); toast.innerText = "✅ " + message; toast.className = "show"; setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000); }
 
     // ==========================================
-    // BASE DE CONOCIMIENTO (LOGICA GENERAL)
+    // BASE DE CONOCIMIENTO
     // ==========================================
     function cargarCategoriasEnSelect() {
         const select = document.getElementById('categoriaSelect'); select.innerHTML = '<option value="">Selecciona una categoría...</option>';
         const categoriasUnicas = [...new Set(entries.map(e => e.categoria))].filter(Boolean).sort();
         categoriasUnicas.forEach(cat => { const opt = document.createElement('option'); opt.value = cat; opt.innerText = cat; select.appendChild(opt); });
-        const optNueva = document.createElement('option'); optNueva.value = "nueva"; optNueva.innerText = "➕ Crear Nueva Categoría...";
-        optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--primary-color)"; select.appendChild(optNueva);
+        const optNueva = document.createElement('option'); optNueva.value = "nueva"; optNueva.innerText = "➕ Crear Nueva Categoría..."; optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--primary-color)"; select.appendChild(optNueva);
     }
-
-    function handleCategoriaChange() {
-        const select = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva');
-        if (select.value === 'nueva') { inputNueva.style.display = 'block'; inputNueva.required = true; inputNueva.focus(); } 
-        else { inputNueva.style.display = 'none'; inputNueva.required = false; }
-    }
-
+    function handleCategoriaChange() { const select = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva'); if (select.value === 'nueva') { inputNueva.style.display = 'block'; inputNueva.required = true; inputNueva.focus(); } else { inputNueva.style.display = 'none'; inputNueva.required = false; } }
     function generarEtiquetas() {
         const titulo = document.getElementById('titulo').value; const catSelect = document.getElementById('categoriaSelect').value; const categoria = catSelect === 'nueva' ? document.getElementById('categoriaNueva').value : catSelect;
         const textos = [ titulo, categoria, document.getElementById('validacion').value, document.getElementById('scriptInicial').value, document.getElementById('pasoApaso').value ].join(' ').toLowerCase();
         if (textos.trim().length < 5) { alert('Llena el título o algún otro campo primero para generar etiquetas.'); return; }
         const textoLimpio = textos.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ' ');
         const stopWords = ['para','como','pero','este','esta','estos','estas','todo','toda','todos','todas','sobre','entre','hacia','desde','hasta','segun','antes','despues','luego','mientras','cuando','donde','quien','cual','que','con','por','del','los','las','una','unos','unas','tiene','tienen','hacer','paso','script'];
-        const palabras = textoLimpio.split(/\s+/); const contador = {};
-        palabras.forEach(p => { if (p.length > 3 && !stopWords.includes(p)) contador[p] = (contador[p] || 0) + 1; });
-        const ordenadas = Object.keys(contador).sort((a, b) => contador[b] - contador[a]);
-        const topTags = ordenadas.slice(0, 6);
-        if(topTags.length > 0) { document.getElementById('etiquetas').value = topTags.join(', '); showToast("Etiquetas autogeneradas"); } 
-        else { alert('No se encontró suficiente texto relevante.'); }
+        const palabras = textoLimpio.split(/\s+/); const contador = {}; palabras.forEach(p => { if (p.length > 3 && !stopWords.includes(p)) contador[p] = (contador[p] || 0) + 1; });
+        const ordenadas = Object.keys(contador).sort((a, b) => contador[b] - contador[a]); const topTags = ordenadas.slice(0, 6);
+        if(topTags.length > 0) { document.getElementById('etiquetas').value = topTags.join(', '); showToast("Etiquetas autogeneradas"); } else { alert('No se encontró suficiente texto relevante.'); }
     }
-
     document.getElementById('kbForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const id = document.getElementById('entryId').value; const inputTitulo = document.getElementById('titulo').value.trim();
-        const catSelectValue = document.getElementById('categoriaSelect').value; const categoriaFinal = catSelectValue === 'nueva' ? document.getElementById('categoriaNueva').value.trim() : catSelectValue;
+        e.preventDefault(); const id = document.getElementById('entryId').value; const inputTitulo = document.getElementById('titulo').value.trim(); const catSelectValue = document.getElementById('categoriaSelect').value; const categoriaFinal = catSelectValue === 'nueva' ? document.getElementById('categoriaNueva').value.trim() : catSelectValue;
         const duplicate = entries.find(emp => emp.titulo.toLowerCase() === inputTitulo.toLowerCase() && emp.id !== id);
         if (duplicate) { if (!id) { if (confirm(`⚠️ El título ya existe.\n\n"Aceptar" para cargar existente.`)) { editEntry(duplicate.id); } } else alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".`); return; }
         const isFavorito = id ? (entries.find(emp => emp.id === id).favorito || false) : false;
-        const newEntry = {
-            id: id ? id : 'KB_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), titulo: inputTitulo, categoria: categoriaFinal, etiquetas: document.getElementById('etiquetas').value,
-            validacion: document.getElementById('validacion').value, scriptInicial: document.getElementById('scriptInicial').value, pasoApaso: document.getElementById('pasoApaso').value, cti: document.getElementById('cti').value,
-            plantilla: document.getElementById('plantilla').value, scriptFinal: document.getElementById('scriptFinal').value, detalles: document.getElementById('detalles').value, otro: document.getElementById('otro').value, favorito: isFavorito
-        };
+        const newEntry = { id: id ? id : 'KB_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), titulo: inputTitulo, categoria: categoriaFinal, etiquetas: document.getElementById('etiquetas').value, validacion: document.getElementById('validacion').value, scriptInicial: document.getElementById('scriptInicial').value, pasoApaso: document.getElementById('pasoApaso').value, cti: document.getElementById('cti').value, plantilla: document.getElementById('plantilla').value, scriptFinal: document.getElementById('scriptFinal').value, detalles: document.getElementById('detalles').value, otro: document.getElementById('otro').value, favorito: isFavorito };
         if (id) { entries[entries.findIndex(emp => emp.id === id)] = newEntry; showToast("Actualizado"); } else { entries.push(newEntry); showToast("Guardado"); }
         localStorage.setItem('bice_kb_data', JSON.stringify(entries)); closeModal('kbModal'); handleSearchKB(); 
     });
-
-    function toggleFavKB(event, id) {
-        event.preventDefault(); event.stopPropagation(); const idx = entries.findIndex(e => e.id === id);
-        if(idx > -1) { entries[idx].favorito = !entries[idx].favorito; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); }
-    }
-
-    function sortData(dataArray, sortValue, nameField) {
-        return dataArray.sort((a, b) => {
-            const favA = a.favorito ? 1 : 0; const favB = b.favorito ? 1 : 0; if (favA !== favB) return favB - favA;
-            if (sortValue === 'name_asc') return a[nameField].localeCompare(b[nameField]); if (sortValue === 'name_desc') return b[nameField].localeCompare(a[nameField]);
-            const tA = a.timestamp || parseInt(a.id.split('_')[1]||0), tB = b.timestamp || parseInt(b.id.split('_')[1]||0); return sortValue === 'date_asc' ? tA - tB : tB - tA;
-        });
-    }
-
-    function handleSearchKB() {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase(); const sortValue = document.getElementById('sortSelectKB').value;
-        filteredEntries = entries.filter(e => e.titulo.toLowerCase().includes(searchTerm) || e.categoria.toLowerCase().includes(searchTerm) || e.etiquetas.toLowerCase().includes(searchTerm) || e.detalles.toLowerCase().includes(searchTerm));
-        filteredEntries = sortData(filteredEntries, sortValue, 'titulo'); currentKbPage = 1; renderEntries();
-    }
-
+    function toggleFavKB(event, id) { event.preventDefault(); event.stopPropagation(); const idx = entries.findIndex(e => e.id === id); if(idx > -1) { entries[idx].favorito = !entries[idx].favorito; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); } }
+    function sortData(dataArray, sortValue, nameField) { return dataArray.sort((a, b) => { const favA = a.favorito ? 1 : 0; const favB = b.favorito ? 1 : 0; if (favA !== favB) return favB - favA; if (sortValue === 'name_asc') return a[nameField].localeCompare(b[nameField]); if (sortValue === 'name_desc') return b[nameField].localeCompare(a[nameField]); const tA = a.timestamp || parseInt(a.id.split('_')[1]||0), tB = b.timestamp || parseInt(b.id.split('_')[1]||0); return sortValue === 'date_asc' ? tA - tB : tB - tA; }); }
+    function handleSearchKB() { const searchTerm = document.getElementById('searchInput').value.toLowerCase(); const sortValue = document.getElementById('sortSelectKB').value; filteredEntries = entries.filter(e => e.titulo.toLowerCase().includes(searchTerm) || e.categoria.toLowerCase().includes(searchTerm) || e.etiquetas.toLowerCase().includes(searchTerm) || e.detalles.toLowerCase().includes(searchTerm)); filteredEntries = sortData(filteredEntries, sortValue, 'titulo'); currentKbPage = 1; renderEntries(); }
     function changePageKB(direction) { currentKbPage += direction; renderEntries(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-
     function renderEntries() {
-        const list = document.getElementById('entriesList'); list.innerHTML = '';
-        const totalPages = Math.ceil(filteredEntries.length / itemsPerPage) || 1;
-        if(currentKbPage < 1) currentKbPage = 1; if(currentKbPage > totalPages) currentKbPage = totalPages;
-        const paginated = filteredEntries.slice((currentKbPage - 1) * itemsPerPage, currentKbPage * itemsPerPage);
-
+        const list = document.getElementById('entriesList'); list.innerHTML = ''; const totalPages = Math.ceil(filteredEntries.length / itemsPerPage) || 1; if(currentKbPage < 1) currentKbPage = 1; if(currentKbPage > totalPages) currentKbPage = totalPages; const paginated = filteredEntries.slice((currentKbPage - 1) * itemsPerPage, currentKbPage * itemsPerPage);
         paginated.forEach(entry => {
             const card = document.createElement('details'); card.className = 'card';
             const starColor = entry.favorito ? 'var(--color-star)' : 'var(--border)'; const starFill = entry.favorito ? 'var(--color-star)' : 'none';
             const starHtml = `<button class="star-btn" onclick="toggleFavKB(event, '${entry.id}')" title="Marcar como favorito" style="color: ${starColor};"><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="${starFill}" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>`;
-
             let html = `<summary class="card-header"><div style="display:flex; align-items:center; gap:8px;">${starHtml}<div>${entry.titulo}</div></div><div><span class="tags">${entry.categoria}</span></div></summary><div class="card-content">`;
             const fields = [ { key: 'validacion', label: 'Validación' }, { key: 'scriptInicial', label: 'Script Inicial' }, { key: 'pasoApaso', label: 'Paso a Paso' }, { key: 'cti', label: 'CTI' }, { key: 'plantilla', label: 'Plantilla' }, { key: 'scriptFinal', label: 'Script Final' }, { key: 'detalles', label: 'Detalles importantes' }, { key: 'otro', label: 'Otro' } ];
             fields.forEach(f => { if(entry[f.key] && entry[f.key].trim() !== '') { html += `<div class="field-group"><div class="field-title">${f.label}</div><div class="field-content" id="txt-${entry.id}-${f.key}">${entry[f.key]}</div><button class="copy-btn copy-btn-absolute" onclick="copyText(event, 'txt-${entry.id}-${f.key}')" title="Copiar texto">${copySvg}</button></div>`; } });
             html += `<div class="last-modified">(Última modificación: ${entry.fecha || 'N/A'})</div><div class="card-actions"><button class="action-btn edit-btn" onclick="editEntry('${entry.id}')">✏️ Editar</button><button class="action-btn delete-btn" onclick="deleteEntry('${entry.id}')">🗑️ Eliminar</button></div></div>`; 
             card.innerHTML = html; list.appendChild(card);
         });
-
-        document.getElementById('pageInfoKB').innerText = `Página ${currentKbPage} de ${totalPages}`;
-        document.getElementById('totalInfoKB').innerText = `Total: ${filteredEntries.length} registros`;
+        document.getElementById('pageInfoKB').innerText = `Página ${currentKbPage} de ${totalPages}`; document.getElementById('totalInfoKB').innerText = `Total: ${filteredEntries.length} registros`;
         document.getElementById('prevBtnKB').disabled = currentKbPage === 1; document.getElementById('nextBtnKB').disabled = currentKbPage === totalPages || totalPages === 0;
     }
-
     function editEntry(id) {
         const entry = entries.find(e => e.id === id); document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo;
         cargarCategoriasEnSelect(); const catSelect = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva');
@@ -1250,7 +1233,6 @@
         document.getElementById('etiquetas').value = entry.etiquetas; document.getElementById('validacion').value = entry.validacion; document.getElementById('scriptInicial').value = entry.scriptInicial; document.getElementById('pasoApaso').value = entry.pasoApaso; document.getElementById('cti').value = entry.cti; document.getElementById('plantilla').value = entry.plantilla; document.getElementById('scriptFinal').value = entry.scriptFinal; document.getElementById('detalles').value = entry.detalles; document.getElementById('otro').value = entry.otro;
         document.getElementById('formTitleKB').innerText = 'Editar Registro'; document.getElementById('kbModal').style.display = 'flex'; document.body.style.overflow = 'hidden';
     }
-
     function deleteEntry(id) { if(confirm('¿Estás seguro de eliminar este registro?')) { entries = entries.filter(e => e.id !== id); localStorage.setItem('bice_kb_data', JSON.stringify(entries)); showToast("Registro eliminado"); handleSearchKB(); } }
 
     // ==========================================
@@ -1260,7 +1242,6 @@
         event.preventDefault(); event.stopPropagation(); const idx = claves.findIndex(e => e.id === id);
         if(idx > -1) { claves[idx].favorito = !claves[idx].favorito; localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); }
     }
-
     document.getElementById('clavesForm').addEventListener('submit', function(e) {
         e.preventDefault(); const id = document.getElementById('claveId').value; const inputApp = document.getElementById('claveApp').value.trim();
         const duplicate = claves.find(c => c.app.toLowerCase() === inputApp.toLowerCase() && c.id !== id);
@@ -1270,18 +1251,11 @@
         if (id) { claves[claves.findIndex(c => c.id === id)] = newClave; showToast("Clave actualizada"); } else { claves.push(newClave); showToast("Clave guardada"); }
         localStorage.setItem('bice_claves_data', JSON.stringify(claves)); closeModal('clavesModal'); handleSearchClaves(); 
     });
-
-    function handleSearchClaves() {
-        const searchTerm = document.getElementById('searchClaves').value.toLowerCase();
-        filteredClaves = sortData(claves.filter(c => c.app.toLowerCase().includes(searchTerm) || c.user.toLowerCase().includes(searchTerm)), document.getElementById('sortSelectClaves').value, 'app'); currentClavesPage = 1; renderClaves();
-    }
-
+    function handleSearchClaves() { const searchTerm = document.getElementById('searchClaves').value.toLowerCase(); filteredClaves = sortData(claves.filter(c => c.app.toLowerCase().includes(searchTerm) || c.user.toLowerCase().includes(searchTerm)), document.getElementById('sortSelectClaves').value, 'app'); currentClavesPage = 1; renderClaves(); }
     function changePageClaves(direction) { currentClavesPage += direction; renderClaves(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-
     function renderClaves() {
         const list = document.getElementById('clavesList'); list.innerHTML = '';
-        const totalPages = Math.ceil(filteredClaves.length / itemsPerPage) || 1;
-        if(currentClavesPage < 1) currentClavesPage = 1; if(currentClavesPage > totalPages) currentClavesPage = totalPages;
+        const totalPages = Math.ceil(filteredClaves.length / itemsPerPage) || 1; if(currentClavesPage < 1) currentClavesPage = 1; if(currentClavesPage > totalPages) currentClavesPage = totalPages;
         if(filteredClaves.length === 0) list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px;">No tienes claves guardadas aún.</p>';
         else {
             filteredClaves.slice((currentClavesPage - 1) * itemsPerPage, currentClavesPage * itemsPerPage).forEach(c => {
@@ -1293,21 +1267,11 @@
                 list.appendChild(card);
             });
         }
-        document.getElementById('pageInfoClaves').innerText = `Página ${currentClavesPage} de ${totalPages}`;
-        document.getElementById('totalInfoClaves').innerText = `Total: ${filteredClaves.length} registros`;
+        document.getElementById('pageInfoClaves').innerText = `Página ${currentClavesPage} de ${totalPages}`; document.getElementById('totalInfoClaves').innerText = `Total: ${filteredClaves.length} registros`;
         document.getElementById('prevBtnClaves').disabled = currentClavesPage === 1; document.getElementById('nextBtnClaves').disabled = currentClavesPage === totalPages || totalPages === 0;
     }
-
-    function togglePass(id) {
-        const span = document.getElementById('pass-' + id), btn = document.getElementById('toggle-' + id);
-        if (span.classList.contains('clave-hidden')) { span.innerText = span.getAttribute('data-pass'); span.classList.remove('clave-hidden'); btn.innerText = "Ocultar"; } 
-        else { span.innerText = "••••••••"; span.classList.add('clave-hidden'); btn.innerText = "Mostrar"; }
-    }
-
-    function editClave(id) {
-        const c = claves.find(x => x.id === id); document.getElementById('claveId').value = c.id; document.getElementById('claveApp').value = c.app; document.getElementById('claveLink').value = c.link || ''; document.getElementById('claveUser').value = c.user; document.getElementById('clavePass').value = c.pass; document.getElementById('formTitleClaves').innerText = 'Editar Clave'; openModal('clavesModal'); 
-    }
-
+    function togglePass(id) { const span = document.getElementById('pass-' + id), btn = document.getElementById('toggle-' + id); if (span.classList.contains('clave-hidden')) { span.innerText = span.getAttribute('data-pass'); span.classList.remove('clave-hidden'); btn.innerText = "Ocultar"; } else { span.innerText = "••••••••"; span.classList.add('clave-hidden'); btn.innerText = "Mostrar"; } }
+    function editClave(id) { const c = claves.find(x => x.id === id); document.getElementById('claveId').value = c.id; document.getElementById('claveApp').value = c.app; document.getElementById('claveLink').value = c.link || ''; document.getElementById('claveUser').value = c.user; document.getElementById('clavePass').value = c.pass; document.getElementById('formTitleClaves').innerText = 'Editar Clave'; openModal('clavesModal'); }
     function deleteClave(id) { if(confirm('¿Seguro de eliminar esta clave?')) { claves = claves.filter(x => x.id !== id); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); showToast("Clave eliminada"); handleSearchClaves(); } }
 
     // ==========================================
@@ -1321,14 +1285,14 @@
     }
 
     function handleFileExport() {
-        const data = { kb: entries, claves: claves, directorio: directorio };
-        if(entries.length === 0 && claves.length === 0 && directorio.length === 0) { alert('No hay datos guardados para exportar.'); return; }
+        const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes };
+        if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0) { alert('No hay datos guardados para exportar.'); return; }
         const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })); a.download = `Backup_BICE_Hub_${new Date().toISOString().slice(0,10)}.json`; a.click(); closeModal('exportModal');
     }
 
     function handleTextExport() {
-        const data = { kb: entries, claves: claves, directorio: directorio };
-        if(entries.length === 0 && claves.length === 0 && directorio.length === 0) { alert('No hay datos para exportar.'); return; }
+        const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes };
+        if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0) { alert('No hay datos para exportar.'); return; }
         const stringData = JSON.stringify(data); const encodedData = btoa(encodeURIComponent(stringData));
         document.getElementById('exportTextarea').value = encodedData; document.getElementById('exportTextContainer').style.display = 'block';
     }
@@ -1346,16 +1310,20 @@
                 if(confirm("Se detectó un respaldo antiguo de Mis Claves. ¿Deseas integrarlo a tu Hub actual?")) { importedData.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); }); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); showToast("Claves antiguas integradas"); }
             }
         } 
-        else if (importedData.kb || importedData.claves || importedData.directorio) {
+        else if (importedData.kb || importedData.claves || importedData.directorio || importedData.pendientes) {
             if(confirm(`Se encontró un Respaldo Global del Hub.\n\n• Presiona "Aceptar" para SUMAR estos datos a los que ya tienes.\n• Presiona "Cancelar" para REEMPLAZAR toda tu información actual.`)) {
                 if(importedData.kb) importedData.kb.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); });
                 if(importedData.claves) importedData.claves.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); });
                 if(importedData.directorio) importedData.directorio.forEach(item => { if(!directorio.find(x=>x.id===item.id)) directorio.push(item); });
+                if(importedData.pendientes) importedData.pendientes.forEach(item => { if(!pendientes.find(x=>x.id===item.id)) pendientes.push(item); });
                 showToast("Respaldo sumado con éxito");
             } else {
-                if(confirm('⚠️ ESTO ELIMINARÁ TUS DATOS ACTUALES y los reemplazará por el respaldo. ¿Continuar?')) { entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || []; showToast("Respaldo reemplazado con éxito"); } else { return; }
+                if(confirm('⚠️ ESTO ELIMINARÁ TUS DATOS ACTUALES y los reemplazará por el respaldo. ¿Continuar?')) { 
+                    entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || []; pendientes = importedData.pendientes || []; 
+                    showToast("Respaldo reemplazado con éxito"); 
+                } else { return; }
             }
-            localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); handleSearchKB(); handleSearchClaves(); renderDirectorio();
+            localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes();
         } else { alert('Formato de archivo no reconocido o corrupto.'); }
         closeModal('importModal');
     }
@@ -1373,7 +1341,7 @@
 
     function deleteAllData() {
         if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves y Directorio)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) {
-            entries = []; claves = []; directorio = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); showToast("Toda la información fue eliminada");
+            entries = []; claves = []; directorio = []; pendientes = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); showToast("Toda la información fue eliminada");
         }
     }
 
