@@ -162,9 +162,9 @@
 
         .backup-option-box { background: var(--bg-group); border: 1px solid var(--border-light); padding: 20px; border-radius: 8px; margin-top: 15px; }
         .backup-option-box h4 { margin-top: 0; color: var(--primary-color); margin-bottom: 10px; }
-        #tcTarifarioDetails summary::-webkit-details-marker { display: none; }
+        
+        details summary::-webkit-details-marker { display: none; }
 
-        /* Estilos específicos Generador Plantillas */
         .plantilla-preview-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 15px; margin-bottom: 10px; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; }
         .plantilla-preview-label { font-weight: bold; color: var(--color-indigo); width: 80px; flex-shrink: 0; }
         .plantilla-preview-text { flex: 1; white-space: pre-wrap; font-family: monospace; font-size: 1.1em; word-break: break-word; color: var(--text-main); }
@@ -344,11 +344,14 @@
             <div id="tool-pendientes" class="tool-panel" style="border-top: 6px solid var(--color-success); max-width: 800px;">
                 <h2 style="color: var(--color-success); margin-top: 0;">✅ Mis Pendientes (Listas Blancas y Casos)</h2>
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Escribe tareas únicas o <strong>pega una lista completa</strong> (como una columna de Excel). El sistema etiquetará y separará todo automáticamente.</p>
+                
                 <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: stretch;">
                     <textarea id="nuevaTareaInput" placeholder="Ej: Caso 084125125, MS-17941124, o pega una lista completa..." style="flex: 1; font-size: 1.1em; margin: 0; padding: 10px; border-radius: 6px; border: 1px solid var(--border); resize: vertical; min-height: 46px; font-family: inherit; line-height: 1.4;" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); agregarTarea(); }"></textarea>
                     <button class="save-btn" style="margin-top: 0; width: auto; padding: 10px 20px; background: var(--color-success); display: flex; align-items: center; justify-content: center;" onclick="agregarTarea()">Agregar</button>
                 </div>
+
                 <div id="listaPendientes" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; max-height: 450px; overflow-y: auto; padding-right: 5px;"></div>
+
                 <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
                     <button class="outline-btn" style="margin: 0; border-color: var(--color-info); color: var(--color-info);" onclick="limpiarTareasCompletadas()">🧹 Limpiar Resueltas</button>
                     <button class="outline-btn" style="margin: 0; border-color: var(--color-danger); color: var(--color-danger);" onclick="borrarTodasTareas()">🗑️ Borrar Todo</button>
@@ -365,7 +368,6 @@
                 
                 <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center;">
                     <select id="plantillaSelect" style="flex: 1; font-size: 1.1em; height: 46px; cursor: pointer; border-color: var(--color-indigo);" onchange="seleccionarPlantilla()">
-                        <!-- Opciones cargadas por JS -->
                     </select>
                     <button id="btnEditPlantilla" class="action-btn edit-btn" style="display:none; padding: 10px;" onclick="editarPlantillaActual()">✏️ Editar</button>
                     <button id="btnDelPlantilla" class="action-btn delete-btn" style="display:none; padding: 10px;" onclick="eliminarPlantillaActual()">🗑️ Eliminar</button>
@@ -374,9 +376,7 @@
                 <div id="plantillaWorkspace" style="display: none;">
                     <div style="background: var(--bg-group); padding: 15px; border-radius: 8px; border: 1px solid var(--border-light); margin-bottom: 20px;">
                         <h4 style="margin: 0 0 15px 0; color: var(--color-indigo);">✍️ Ingresa los datos:</h4>
-                        <div id="plantillaVars" style="display: flex; flex-wrap: wrap; gap: 15px;">
-                            <!-- Cajitas mágicas se generan aquí -->
-                        </div>
+                        <div id="plantillaVars" style="display: flex; flex-wrap: wrap; gap: 15px;"></div>
                     </div>
 
                     <h4 style="margin: 0 0 10px 0; color: var(--primary-color);">📄 Resultado (Listo para copiar):</h4>
@@ -467,22 +467,37 @@
                 <label>Número de Tarjeta (16 dígitos):</label>
                 <input type="text" id="binInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="font-size: 1.3em; text-align: center; letter-spacing: 2px;" oninput="formatCardInput(event)">
                 <button class="save-btn" onclick="analizarTarjeta()" style="margin-top: 15px; background: var(--primary-color);">🔍 Analizar Tarjeta</button>
-                <div id="binResult" class="tool-result">
-                    <div class="clave-row" style="margin-bottom: 15px;">
-                        <span class="clave-label" style="width: 130px;">Tarjeta limpia:</span>
-                        <span class="clave-value" id="resCard"></span>
-                        <button class="copy-btn" onclick="copyText(event, 'resCard')" title="Copiar Tarjeta limpia">
-                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                        </button>
+                <div id="binResult" class="tool-result" style="flex-direction: column; gap: 15px;">
+                    <div style="background: var(--bg-card); border-radius: 6px; padding: 15px; border: 1px solid var(--border-light);">
+                        <div class="clave-row" style="margin-bottom: 10px;">
+                            <span class="clave-label" style="width: 130px;">Tarjeta limpia:</span>
+                            <span class="clave-value" id="resCard"></span>
+                            <button class="copy-btn" onclick="copyText(event, 'resCard')" title="Copiar Tarjeta limpia">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>
+                        <div class="clave-row" style="background: transparent; border: none; padding: 5px 0; margin-bottom: 0;">
+                            <span class="clave-label" style="width: 130px;">Categoría:</span>
+                            <span class="clave-value" id="resCat" style="color: var(--primary-color); font-weight: bold;"></span>
+                        </div>
+                        <div class="clave-row" style="background: transparent; border: none; padding: 5px 0; margin-bottom: 0;">
+                            <span class="clave-label" style="width: 130px;">Límite Diario:</span>
+                            <span class="clave-value" id="resLimit" style="color: var(--color-success); font-weight: bold;"></span>
+                        </div>
                     </div>
-                    <div class="clave-row" style="background: transparent; border: none; padding: 5px 0;">
-                        <span class="clave-label" style="width: 130px;">Categoría:</span>
-                        <span class="clave-value" id="resCat" style="color: var(--primary-color); font-weight: bold;"></span>
-                    </div>
-                    <div class="clave-row" style="background: transparent; border: none; padding: 5px 0; margin-bottom: 0;">
-                        <span class="clave-label" style="width: 130px;">Límite Diario:</span>
-                        <span class="clave-value" id="resLimit" style="color: var(--color-success); font-weight: bold;"></span>
-                    </div>
+                    
+                    <details id="tdTarifarioDetails" style="display:none; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 6px;">
+                        <summary style="padding: 12px 15px; font-weight: bold; cursor: pointer; color: var(--primary-color); list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; outline: none;">
+                            <span style="display: flex; align-items: center; gap: 5px;"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Costos de Administración</span>
+                            <span style="font-size: 0.8em; color: var(--text-muted);">▼</span>
+                        </summary>
+                        <div style="padding: 15px; border-top: 1px solid var(--border-light); background: var(--bg-group);">
+                            <div id="tdTarifarioContent" style="color: var(--text-main); line-height: 1.5; margin-bottom: 15px; font-size: 0.95em;"></div>
+                            <button class="copy-btn" style="width: 100%; border: 2px solid var(--primary-color); color: var(--primary-color); font-weight: bold;" onclick="copyText(event, null, currentTarifarioTDText)">
+                                📋 Copiar Costos para el Cliente
+                            </button>
+                        </div>
+                    </details>
                 </div>
             </div>
 
@@ -839,7 +854,7 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    Creado por Luis Muñoz | v2.8.0
+    Creado por Luis Muñoz | v2.8.1
 </footer>
 
 <script>
@@ -864,20 +879,13 @@
     let pendientes = JSON.parse(localStorage.getItem('bice_pendientes_data')) || [];
     let plantillas = JSON.parse(localStorage.getItem('bice_plantillas_data')) || [];
     
-    // Plantilla Demo por defecto si está vacío
     if(plantillas.length === 0) {
-        plantillas.push({
-            id: 'TPL_DEMO',
-            titulo: 'Creación TC (Ejemplo)',
-            para: 'maria.lecaros@bice.cl',
-            cc: 'SupervisoresCONTACT@bancobice.onmicrosoft.com ; plataformacalidad@bice.cl',
-            asunto: 'Creacion TC - [RUT Cliente]',
-            mensaje: 'Hola María,\n\nSolicito apoyo con la creación de la Tarjeta de Crédito para el cliente.\n\nRUT: [RUT Cliente]\nNombre: [Nombre Cliente]\nTipo de Tarjeta: [Tipo TC]\n\nQuedo atento, saludos.'
-        });
+        plantillas.push({ id: 'TPL_DEMO', titulo: 'Creación TC (Ejemplo)', para: 'maria.lecaros@bice.cl', cc: 'SupervisoresCONTACT@bancobice.onmicrosoft.com ; plataformacalidad@bice.cl', asunto: 'Creacion TC - [RUT Cliente]', mensaje: 'Hola María,\n\nSolicito apoyo con la creación de la Tarjeta de Crédito para el cliente.\n\nRUT: [RUT Cliente]\nNombre: [Nombre Cliente]\nTipo de Tarjeta: [Tipo TC]\n\nQuedo atento, saludos.' });
         localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
     }
 
     let currentTarifarioText = ""; 
+    let currentTarifarioTDText = ""; // Variable para copiar texto de TD
     let currentPlantillaObj = null;
 
     const itemsPerPage = 10; 
@@ -977,127 +985,61 @@
         if (id) { plantillas[plantillas.findIndex(p => p.id === id)] = newP; showToast("Plantilla actualizada"); } 
         else { plantillas.push(newP); showToast("Plantilla guardada"); }
         
-        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
-        closeModal('plantillasModal');
-        renderPlantillasDropdown();
-        
-        // Auto-select the newly created/edited template
-        document.getElementById('plantillaSelect').value = newP.id;
-        seleccionarPlantilla();
+        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); closeModal('plantillasModal'); renderPlantillasDropdown();
+        document.getElementById('plantillaSelect').value = newP.id; seleccionarPlantilla();
     });
 
     function renderPlantillasDropdown() {
-        const select = document.getElementById('plantillaSelect');
-        select.innerHTML = '<option value="">Selecciona una plantilla...</option>';
-        
+        const select = document.getElementById('plantillaSelect'); select.innerHTML = '<option value="">Selecciona una plantilla...</option>';
         const sorted = [...plantillas].sort((a, b) => a.titulo.localeCompare(b.titulo));
-        sorted.forEach(p => {
-            const opt = document.createElement('option');
-            opt.value = p.id;
-            opt.innerText = p.titulo;
-            select.appendChild(opt);
-        });
-        
-        document.getElementById('plantillaWorkspace').style.display = 'none';
-        document.getElementById('btnEditPlantilla').style.display = 'none';
-        document.getElementById('btnDelPlantilla').style.display = 'none';
+        sorted.forEach(p => { const opt = document.createElement('option'); opt.value = p.id; opt.innerText = p.titulo; select.appendChild(opt); });
+        document.getElementById('plantillaWorkspace').style.display = 'none'; document.getElementById('btnEditPlantilla').style.display = 'none'; document.getElementById('btnDelPlantilla').style.display = 'none';
     }
 
     function seleccionarPlantilla() {
-        const id = document.getElementById('plantillaSelect').value;
-        const container = document.getElementById('plantillaWorkspace');
-        if(!id) { 
-            container.style.display = 'none'; 
-            document.getElementById('btnEditPlantilla').style.display = 'none';
-            document.getElementById('btnDelPlantilla').style.display = 'none';
-            return; 
-        }
+        const id = document.getElementById('plantillaSelect').value; const container = document.getElementById('plantillaWorkspace');
+        if(!id) { container.style.display = 'none'; document.getElementById('btnEditPlantilla').style.display = 'none'; document.getElementById('btnDelPlantilla').style.display = 'none'; return; }
         
         currentPlantillaObj = plantillas.find(p => p.id === id);
-        document.getElementById('btnEditPlantilla').style.display = 'block';
-        document.getElementById('btnDelPlantilla').style.display = 'block';
+        document.getElementById('btnEditPlantilla').style.display = 'block'; document.getElementById('btnDelPlantilla').style.display = 'block';
         
-        const regex = /\[([^\]]+)\]/g;
-        const allText = `${currentPlantillaObj.para || ''} ${currentPlantillaObj.cc || ''} ${currentPlantillaObj.asunto || ''} ${currentPlantillaObj.mensaje || ''}`;
-        let vars = [];
-        let match;
-        while ((match = regex.exec(allText)) !== null) {
-            if(!vars.includes(match[1])) vars.push(match[1]);
-        }
+        const regex = /\[([^\]]+)\]/g; const allText = `${currentPlantillaObj.para || ''} ${currentPlantillaObj.cc || ''} ${currentPlantillaObj.asunto || ''} ${currentPlantillaObj.mensaje || ''}`;
+        let vars = []; let match;
+        while ((match = regex.exec(allText)) !== null) { if(!vars.includes(match[1])) vars.push(match[1]); }
         
-        const varsContainer = document.getElementById('plantillaVars');
-        varsContainer.innerHTML = '';
+        const varsContainer = document.getElementById('plantillaVars'); varsContainer.innerHTML = '';
         if(vars.length > 0) {
-            vars.forEach(v => {
-                varsContainer.innerHTML += `
-                    <div style="flex: 1; min-width: 200px;">
-                        <label style="margin-top: 0; color: var(--text-muted); font-size: 0.9em;">${v}:</label>
-                        <input type="text" class="plantilla-var-input" data-var="${v}" oninput="updatePlantillaPreview()" placeholder="Ingresa ${v}..." style="border-color: var(--color-indigo);">
-                    </div>
-                `;
-            });
-        } else {
-            varsContainer.innerHTML = '<p style="color:var(--text-muted); width: 100%; font-style: italic; margin: 0;">Esta plantilla no requiere variables adicionales. Está lista para copiar.</p>';
-        }
+            vars.forEach(v => { varsContainer.innerHTML += `<div style="flex: 1; min-width: 200px;"><label style="margin-top: 0; color: var(--text-muted); font-size: 0.9em;">${v}:</label><input type="text" class="plantilla-var-input" data-var="${v}" oninput="updatePlantillaPreview()" placeholder="Ingresa ${v}..." style="border-color: var(--color-indigo);"></div>`; });
+        } else { varsContainer.innerHTML = '<p style="color:var(--text-muted); width: 100%; font-style: italic; margin: 0;">Esta plantilla no requiere variables adicionales. Está lista para copiar.</p>'; }
         
-        container.style.display = 'block';
-        updatePlantillaPreview();
+        container.style.display = 'block'; updatePlantillaPreview();
     }
 
     function updatePlantillaPreview() {
         if(!currentPlantillaObj) return;
-        
-        let pPara = currentPlantillaObj.para || '';
-        let pCc = currentPlantillaObj.cc || '';
-        let pAsunto = currentPlantillaObj.asunto || '';
-        let pMensaje = currentPlantillaObj.mensaje || '';
-        
+        let pPara = currentPlantillaObj.para || ''; let pCc = currentPlantillaObj.cc || ''; let pAsunto = currentPlantillaObj.asunto || ''; let pMensaje = currentPlantillaObj.mensaje || '';
         document.querySelectorAll('.plantilla-var-input').forEach(input => {
-            const v = input.getAttribute('data-var');
-            const val = input.value || `[${v}]`; 
-            
-            // Reemplazar todas las ocurrencias de [Variable]
+            const v = input.getAttribute('data-var'); const val = input.value || `[${v}]`; 
             const splitRegex = new RegExp(`\\[${v}\\]`, 'gi');
-            pPara = pPara.replace(splitRegex, val);
-            pCc = pCc.replace(splitRegex, val);
-            pAsunto = pAsunto.replace(splitRegex, val);
-            pMensaje = pMensaje.replace(splitRegex, val);
+            pPara = pPara.replace(splitRegex, val); pCc = pCc.replace(splitRegex, val); pAsunto = pAsunto.replace(splitRegex, val); pMensaje = pMensaje.replace(splitRegex, val);
         });
-        
-        document.getElementById('prevPara').innerText = pPara;
-        document.getElementById('prevCc').innerText = pCc;
-        document.getElementById('prevAsunto').innerText = pAsunto;
-        document.getElementById('prevMensaje').innerText = pMensaje;
-        
-        document.getElementById('rowPara').style.display = pPara ? 'flex' : 'none';
-        document.getElementById('rowCc').style.display = pCc ? 'flex' : 'none';
-        document.getElementById('rowAsunto').style.display = pAsunto ? 'flex' : 'none';
+        document.getElementById('prevPara').innerText = pPara; document.getElementById('prevCc').innerText = pCc; document.getElementById('prevAsunto').innerText = pAsunto; document.getElementById('prevMensaje').innerText = pMensaje;
+        document.getElementById('rowPara').style.display = pPara ? 'flex' : 'none'; document.getElementById('rowCc').style.display = pCc ? 'flex' : 'none'; document.getElementById('rowAsunto').style.display = pAsunto ? 'flex' : 'none';
     }
 
     function editarPlantillaActual() {
         if(!currentPlantillaObj) return;
-        document.getElementById('plantillaId').value = currentPlantillaObj.id;
-        document.getElementById('plantillaTitulo').value = currentPlantillaObj.titulo;
-        document.getElementById('plantillaPara').value = currentPlantillaObj.para || '';
-        document.getElementById('plantillaCc').value = currentPlantillaObj.cc || '';
-        document.getElementById('plantillaAsunto').value = currentPlantillaObj.asunto || '';
-        document.getElementById('plantillaMensaje').value = currentPlantillaObj.mensaje || '';
-        document.getElementById('formTitlePlantilla').innerText = 'Editar Plantilla'; 
-        openModal('plantillasModal');
+        document.getElementById('plantillaId').value = currentPlantillaObj.id; document.getElementById('plantillaTitulo').value = currentPlantillaObj.titulo; document.getElementById('plantillaPara').value = currentPlantillaObj.para || ''; document.getElementById('plantillaCc').value = currentPlantillaObj.cc || ''; document.getElementById('plantillaAsunto').value = currentPlantillaObj.asunto || ''; document.getElementById('plantillaMensaje').value = currentPlantillaObj.mensaje || '';
+        document.getElementById('formTitlePlantilla').innerText = 'Editar Plantilla'; openModal('plantillasModal');
     }
 
     function eliminarPlantillaActual() {
         if(!currentPlantillaObj) return;
-        if(confirm(`¿Seguro que deseas eliminar la plantilla "${currentPlantillaObj.titulo}"?`)) {
-            plantillas = plantillas.filter(p => p.id !== currentPlantillaObj.id);
-            localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
-            showToast("Plantilla eliminada");
-            renderPlantillasDropdown();
-        }
+        if(confirm(`¿Seguro que deseas eliminar la plantilla "${currentPlantillaObj.titulo}"?`)) { plantillas = plantillas.filter(p => p.id !== currentPlantillaObj.id); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); showToast("Plantilla eliminada"); renderPlantillasDropdown(); }
     }
 
 
-    // --- LÓGICA MIS PENDIENTES CON IMPORTACIÓN INTELIGENTE ---
+    // --- LÓGICA MIS PENDIENTES ---
     function renderPendientes() {
         const list = document.getElementById('listaPendientes'); list.innerHTML = '';
         if (pendientes.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px; font-style: italic;">No tienes tareas pendientes. ¡Estás al día! 🎉</p>'; return; }
@@ -1124,8 +1066,7 @@
         let lines = []; if (allAreCodes && tokens.length > 1) { lines = tokens; } else { lines = rawText.split(/\n+/); }
         let added = 0;
         lines.forEach((line, index) => {
-            let text = line.trim(); if(!text) return;
-            let tipo = ""; let badgeColor = "";
+            let text = line.trim(); if(!text) return; let tipo = ""; let badgeColor = "";
             if (text.toUpperCase().startsWith("MS-")) { tipo = "💬 Mensajería"; badgeColor = "var(--color-info)"; } else if (/^\d+$/.test(text)) { tipo = "☁️ Salesforce"; badgeColor = "var(--primary-color)"; }
             pendientes.push({ id: 'TSK_' + Date.now() + '_' + index, text: text, tipo: tipo, badgeColor: badgeColor, done: false, timestamp: Date.now() }); added++;
         });
@@ -1214,7 +1155,6 @@
         
         document.getElementById('resReconst').innerText = bin + cleanInput; document.getElementById('reconstResult').style.display = 'flex';
 
-        // Lógica de Tarifa
         const tarifarioVisa = {
             "Infinite": { semestral: "UF 2,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,09 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 30.<br>• 40% Dscto. si es ≥ UF 20 y < UF 30." },
             "Infinite II": { semestral: "UF 2,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,09 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 30.<br>• 40% Dscto. si es ≥ UF 20 y < UF 30." },
@@ -1224,82 +1164,60 @@
             "Limitless": { semestral: "UF 2,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,09 + IVA", dcto: "• Aplica regla equivalente a línea Infinite." }
         };
 
-        const detailsBox = document.getElementById('tcTarifarioDetails');
-        const contentHTML = document.getElementById('tcTarifarioContent');
+        const detailsBox = document.getElementById('tcTarifarioDetails'); const contentHTML = document.getElementById('tcTarifarioContent');
 
         if (tarifarioVisa[category]) {
             const info = tarifarioVisa[category];
             contentHTML.innerHTML = `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;"><tr><td style="padding: 4px 0; font-weight: bold; width: 50%;">Mantención Semestral:</td><td style="padding: 4px 0;">${info.semestral}</td></tr><tr><td style="padding: 4px 0; font-weight: bold;">Semestral Adicional Plus:</td><td style="padding: 4px 0;">${info.adicional}</td></tr><tr><td style="padding: 4px 0; font-weight: bold;">Administración Mensual:</td><td style="padding: 4px 0;">${info.mensual}</td></tr></table><div style="background: rgba(23, 162, 184, 0.1); padding: 10px; border-radius: 4px; border-left: 3px solid var(--color-info);"><strong style="display:block; margin-bottom: 5px;">🎁 Reglas de Descuento (Semestral):</strong>${info.dcto}</div>`;
-            
             let cleanDcto = info.dcto.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "");
             currentTarifarioText = `COSTOS DE MANTENCIÓN TC ${category.toUpperCase()}\n---------------------------------------\nMantención Semestral:\t\t${info.semestral}\nSemestral Adicional Plus:\t${info.adicional}\nAdministración Mensual:\t\t${info.mensual}\n\nREGLAS DE DESCUENTO (Mant. Semestral):\n${cleanDcto}`;
-            
-            detailsBox.style.display = 'block';
-            detailsBox.open = false; 
+            detailsBox.style.display = 'block'; detailsBox.open = false; 
+        } else { detailsBox.style.display = 'none'; }
+    }
+
+    // --- LÓGICA VALIDADOR BIN TD ---
+    function formatCardInput(e) { let val = e.target.value.replace(/\D/g, ''); e.target.value = val.replace(/(\d{4})(?=\d)/g, '$1-'); }
+    function analizarTarjeta() {
+        const input = document.getElementById('binInput').value; const cleanCard = input.replace(/-/g, '').replace(/\s/g, '');
+        if (cleanCard.length < 6) { alert('Ingresa al menos los primeros 6 dígitos (BIN).'); return; }
+        const bin = cleanCard.substring(0, 6); const resultDiv = document.getElementById('binResult');
+        
+        const binData = {
+            "409674": { category: "Family Card / Go BICE", limit: "$500.000" }, "425943": { category: "Check Card Clásica", limit: "$500.000" },
+            "450638": { category: "Check Card Gold / Banca Joven", limit: "$500.000" }, "421767": { category: "Check Card Platinum", limit: "$1.250.000" },
+            "475778": { category: "Check Card Signature", limit: "$1.500.000" }, "463306": { category: "Check Card Infinite", limit: "$1.500.000" }
+        };
+
+        if (binData[bin]) {
+            document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = binData[bin].category;
+            document.getElementById('resCat').style.color = 'var(--primary-color)'; document.getElementById('resLimit').innerText = binData[bin].limit;
+            resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-success)'; 
+
+            // Tarifario TD
+            const tarifarioTD = {
+                "Family Card / Go BICE": { mensual: "Go BICE: Sin Costo\nFamily Card: UF 1 + IVA (Anual)", dcto: "• Family Card: Exenta hasta los 24 años. Comienza a cobrar a partir de los 25 años del titular o si el Patrocinador cierra su Cuenta Corriente/CheckCard." },
+                "Check Card Clásica": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." },
+                "Check Card Gold / Banca Joven": { mensual: "UF 0,15 + IVA", dcto: "• 100% Exenta a menores de 26 años sin condiciones.<br>• 100% Exenta a menores de 30 años si: mantiene vigente TC y Línea de Crédito, recibe abonos mensuales ≥ $500.000 y tiene al menos 1 cargo automático (PAC/PAT o FFMM/DAP)." },
+                "Check Card Platinum": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." },
+                "Check Card Signature": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." },
+                "Check Card Infinite": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }
+            };
+
+            const detailsBoxTD = document.getElementById('tdTarifarioDetails'); const contentHTMLTD = document.getElementById('tdTarifarioContent');
+            if (tarifarioTD[binData[bin].category]) {
+                const info = tarifarioTD[binData[bin].category];
+                contentHTMLTD.innerHTML = `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;"><tr><td style="padding: 4px 0; font-weight: bold; width: 50%;">Administración:</td><td style="padding: 4px 0;">${info.mensual.replace(/\n/g, '<br>')}</td></tr></table><div style="background: rgba(0, 45, 98, 0.05); padding: 10px; border-radius: 4px; border-left: 3px solid var(--primary-color);"><strong style="display:block; margin-bottom: 5px;">🎁 Reglas de Gratuidad:</strong>${info.dcto}</div>`;
+                let cleanDcto = info.dcto.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "");
+                currentTarifarioTDText = `COSTOS DE ADMINISTRACIÓN TD ${binData[bin].category.toUpperCase()}\n---------------------------------------\nAdministración:\t\t${info.mensual.replace(/\n/g, ' / ')}\n\nEXCEPCIONES:\n${cleanDcto}`;
+                detailsBoxTD.style.display = 'block'; detailsBoxTD.open = false;
+            } else { detailsBoxTD.style.display = 'none'; }
+
         } else {
-            detailsBox.style.display = 'none';
+            document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = `BIN No Reconocido (${bin})`;
+            document.getElementById('resCat').style.color = 'var(--color-danger)'; document.getElementById('resLimit').innerText = 'No disponible';
+            resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-danger)'; 
+            document.getElementById('tdTarifarioDetails').style.display = 'none';
         }
-    }
-
-    // --- LÓGICA DIRECTORIO RÁPIDO ---
-    document.getElementById('directorioForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const id = document.getElementById('dirId').value; const nombre = document.getElementById('dirNombre').value.trim();
-        const newDir = { id: id ? id : 'DIR_' + Date.now().toString(), nombre: nombre, anexo: document.getElementById('dirAnexo').value.trim(), correo: document.getElementById('dirCorreo').value.trim(), notas: document.getElementById('dirNotas').value.trim() };
-        if (id) { directorio[directorio.findIndex(d => d.id === id)] = newDir; showToast("Contacto actualizado"); } else { directorio.push(newDir); showToast("Contacto guardado"); }
-        localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); closeModal('directorioModal'); renderDirectorio();
-    });
-
-    function renderDirectorio() {
-        const list = document.getElementById('dirList'); list.innerHTML = '';
-        const searchTerm = document.getElementById('searchDir').value.toLowerCase();
-        let filteredDir = directorio.filter(d => d.nombre.toLowerCase().includes(searchTerm) || d.anexo.toLowerCase().includes(searchTerm) || d.correo.toLowerCase().includes(searchTerm) || d.notas.toLowerCase().includes(searchTerm) );
-        filteredDir.sort((a, b) => a.nombre.localeCompare(b.nombre));
-        if(filteredDir.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px; grid-column: 1 / -1;">No hay contactos o anexos guardados.</p>'; return; }
-        filteredDir.forEach(d => {
-            const card = document.createElement('div'); card.style.cssText = "background: var(--bg-card); border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px var(--shadow); border-left: 4px solid var(--color-purple); display: flex; flex-direction: column;";
-            let html = `<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap:10px;"><h3 style="margin: 0; color: var(--primary-color); font-size: 1.1em; line-height:1.2;">${d.nombre}</h3><div style="display:flex; gap:5px; flex-shrink:0;"><button class="action-btn edit-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="editDir('${d.id}')">✏️</button><button class="action-btn delete-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="deleteDir('${d.id}')">🗑️</button></div></div>`;
-            if (d.anexo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">📞 Anexo:</span><span class="clave-value" id="dir-tel-${d.id}" style="font-size:1.1em;">${d.anexo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-tel-${d.id}')">${copySvg}</button></div>`; }
-            if (d.correo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">✉️ Correo:</span><span class="clave-value" id="dir-mail-${d.id}" style="font-size:0.9em;">${d.correo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-mail-${d.id}')">${copySvg}</button></div>`; }
-            if (d.notas) { html += `<div style="background: var(--bg-group); padding: 10px; border-radius: 4px; font-size: 0.85em; color: var(--text-muted); margin-top: auto; white-space: pre-wrap; border: 1px solid var(--border-light);">${d.notas}</div>`; }
-            card.innerHTML = html; list.appendChild(card);
-        });
-    }
-
-    function editDir(id) { const d = directorio.find(x => x.id === id); document.getElementById('dirId').value = d.id; document.getElementById('dirNombre').value = d.nombre; document.getElementById('dirAnexo').value = d.anexo || ''; document.getElementById('dirCorreo').value = d.correo || ''; document.getElementById('dirNotas').value = d.notas || ''; document.getElementById('formTitleDir').innerText = 'Editar Contacto'; openModal('directorioModal'); }
-    function deleteDir(id) { if(confirm('¿Seguro de eliminar este contacto?')) { directorio = directorio.filter(x => x.id !== id); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); showToast("Contacto eliminado"); renderDirectorio(); } }
-
-
-    // --- LÓGICA COMISIONES INTERNACIONALES ---
-    const comisionesData = {
-      "Tarjeta Débito": {
-        "CHECKCARD CLASICA": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 202007, compra: "1,6% + IVA sobre valor de compra (a excepción de Tarjetas de Débito Visa Platinum, Signature e Infinite)", giro: "US$ 3 + IVA por evento" }, { date_val: 202006, compra: "1,6% + IVA sobre valor de compra (aplica solo para tarjetas de débito visa gold)", giro: "US$ 3 + IVA por evento" }, { date_val: 202005, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ],
-        "FAMILY CARD": [ { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "GO BICE": [ { date_val: 202302, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "GO UC": [ { date_val: 202305, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "CHECKCARD GOLD": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" } ], "CHECKCARD PLATINUM": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "CHECKCARD SIGNATURE": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ]
-      },
-      "Tarjeta Crédito": {
-        "GO BICE": [ { date_val: 202402, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ],
-        "GOLD (ORO)": [ { date_val: 202007, compra: "1,6%+IVA sobre valor de compra", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra / Gold Joven (US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
-        "PLATINUM": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
-        "INFINITE": [ { date_val: 202101, compra: "Sin Comisión", giro: "Sin Comisión" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ],
-        "EMPRESARIAL": [ { date_val: 202308, compra: "1,6%+IVA sobre valor de compra (excepto Business Signature e Infinite)", giro: "1,6%+IVA sobre valor del avance (excepto Business Signature e Infinite)" }, { date_val: 202101, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
-        "PLATINUM BIA": [ { date_val: 202302, compra: "1,6% + IVA", giro: "1,6% + IVA" } ],
-        "SIGNATURE": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ]
-      }
-    };
-    function updateSegmentos() { const tipo = document.querySelector('input[name="comTipo"]:checked').value; const selectSeg = document.getElementById('comSegmento'); selectSeg.innerHTML = ''; if (comisionesData[tipo]) { Object.keys(comisionesData[tipo]).sort().forEach(seg => { let opt = document.createElement('option'); opt.value = seg; opt.innerText = seg; selectSeg.appendChild(opt); }); } document.getElementById('comisionesResult').style.display = 'none'; }
-    function calcularComisiones() {
-        const tipo = document.querySelector('input[name="comTipo"]:checked').value; const segmento = document.getElementById('comSegmento').value; const year = parseInt(document.getElementById('comYear').value); const month = parseInt(document.getElementById('comMonth').value);
-        if(!segmento) { alert("Por favor seleccione un segmento"); return; }
-        let inputDateVal = (year * 100) + month; if (inputDateVal > 202503) { inputDateVal = 202503; }
-        const reglas = comisionesData[tipo][segmento]; let reglaAplicada = null;
-        for (let r of reglas) { if (inputDateVal >= r.date_val) { reglaAplicada = r; break; } } if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; }
-        document.getElementById('resComCompra').innerText = reglaAplicada.compra; document.getElementById('resComGiro').innerText = reglaAplicada.giro; document.getElementById('comisionesResult').style.display = 'block';
-    }
-    function copiarComisiones(event) {
-        const cCompra = document.getElementById('resComCompra').innerText; const cGiro = document.getElementById('resComGiro').innerText; const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`;
-        const btn = event.currentTarget; const originalHTML = btn.innerHTML; const showSuccess = () => { btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = 'var(--color-warning)'; btn.style.color = 'var(--color-warning)'; }, 2000); };
-        if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); } else { useFallback(textoFInal); }
-        function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); }
     }
 
     // --- MODALES Y TOAST ---
