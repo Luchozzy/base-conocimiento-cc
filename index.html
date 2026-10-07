@@ -64,6 +64,7 @@
         .data-btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.85em; cursor: pointer; box-shadow: 0 2px 5px var(--shadow); text-align: center; transition: filter 0.2s; box-sizing: border-box; }
         .data-btn:hover { filter: brightness(0.9); }
         .export-btn { background: #17a2b8; color: white; }
+        .share-btn { background: #6610f2; color: white; }
         .import-btn { background: #6c757d; color: white; display: block; margin: 0; }
         .delete-all-btn { background: #dc3545; color: white; }
 
@@ -80,8 +81,8 @@
         .tool-panel { display: none; background: var(--bg-panel); padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); max-width: 650px; margin: 0 auto; transition: background-color 0.3s; }
         .tool-result { display: none; margin-top: 25px; background: var(--bg-group); padding: 20px; border-left: 5px solid; border-radius: 6px; }
 
-        .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: var(--modal-overlay, rgba(0,0,0,0.6)); backdrop-filter: blur(3px); align-items: center; justify-content: center; }
-        .modal-content { background: var(--bg-panel); padding: 30px; border-radius: 12px; box-shadow: 0 5px 25px var(--shadow-modal, rgba(0,0,0,0.3)); width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto; position: relative; }
+        .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(3px); align-items: center; justify-content: center; }
+        .modal-content { background: var(--bg-panel); padding: 30px; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.3); width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto; position: relative; }
         .modal-content-small { max-width: 500px; }
         .close-modal { position: absolute; top: 20px; right: 25px; font-size: 1.8em; color: var(--text-muted); cursor: pointer; line-height: 1; transition: color 0.2s; }
         .close-modal:hover { color: var(--color-danger); }
@@ -221,30 +222,17 @@
     
     <!-- === PANEL IZQUIERDO === -->
     <div class="left-panel">
-        
         <div class="accordion-menu">
             <div class="menu-section" id="section-kb">
-                <button class="nav-btn" id="nav-kb" onclick="switchView('kb')">
-                    📚 Base de Conocimiento <span class="nav-arrow" id="arrow-kb">▶</span>
-                </button>
-                <div class="menu-content" id="content-kb">
-                    <button class="main-btn" onclick="openModal('kbModal')">➕ Crear Registro</button>
-                </div>
+                <button class="nav-btn" id="nav-kb" onclick="switchView('kb')">📚 Base de Conocimiento <span class="nav-arrow" id="arrow-kb">▶</span></button>
+                <div class="menu-content" id="content-kb"><button class="main-btn" onclick="openModal('kbModal')">➕ Crear Registro</button></div>
             </div>
-
             <div class="menu-section" id="section-claves">
-                <button class="nav-btn" id="nav-claves" onclick="switchView('claves')">
-                    🔑 Mis Claves <span class="nav-arrow" id="arrow-claves">▶</span>
-                </button>
-                <div class="menu-content" id="content-claves">
-                    <button class="main-btn main-btn-claves" onclick="openModal('clavesModal')">➕ Nueva Clave</button>
-                </div>
+                <button class="nav-btn" id="nav-claves" onclick="switchView('claves')">🔑 Mis Claves <span class="nav-arrow" id="arrow-claves">▶</span></button>
+                <div class="menu-content" id="content-claves"><button class="main-btn main-btn-claves" onclick="openModal('clavesModal')">➕ Nueva Clave</button></div>
             </div>
-
             <div class="menu-section" id="section-herramientas">
-                <button class="nav-btn" id="nav-herramientas" onclick="switchView('herramientas')">
-                    🧮 Herramientas <span class="nav-arrow" id="arrow-herramientas">▶</span>
-                </button>
+                <button class="nav-btn" id="nav-herramientas" onclick="switchView('herramientas')">🧮 Herramientas <span class="nav-arrow" id="arrow-herramientas">▶</span></button>
                 <div class="menu-content" id="content-herramientas">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
                         <button id="btn-tool-pendientes" class="tool-btn" onclick="openTool('pendientes')">✅ Mis Pendientes</button>
@@ -265,6 +253,7 @@
             <div class="indicadores-title" style="margin-bottom: 2px;">💾 Gestión de Datos</div>
             <p style="font-size: 0.75em; color: var(--text-muted); margin: 0 0 8px 0; line-height: 1.3;">Respalda toda tu información.</p>
             <button class="data-btn export-btn" onclick="openModal('exportModal')">⬇️ Exportar Datos</button>
+            <button class="data-btn share-btn" onclick="handleShareExport()">🤝 Compartir Datos</button>
             <button class="data-btn import-btn" onclick="openModal('importModal')">⬆️ Importar Datos</button>
             <button class="data-btn delete-all-btn" onclick="deleteAllData()">🗑️ Borrar Todo</button>
         </div>
@@ -290,7 +279,6 @@
             <p style="color: var(--text-muted); font-size: 1.2em; max-width: 500px; margin: 0 auto; line-height: 1.5;">Selecciona una opción en el menú izquierdo para comenzar a gestionar tu información o usar las herramientas.</p>
         </div>
 
-        <!-- KB -->
         <div id="view-kb" class="view-container">
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="🔍 Buscar por título, categoría, etiqueta o contenido..." onkeyup="handleSearchKB()">
@@ -312,7 +300,6 @@
             </div>
         </div>
 
-        <!-- CLAVES -->
         <div id="view-claves" class="view-container">
             <div class="search-container">
                 <input type="text" id="searchClaves" placeholder="🔍 Buscar aplicativo o usuario..." onkeyup="handleSearchClaves()">
@@ -334,71 +321,60 @@
             </div>
         </div>
 
-        <!-- HERRAMIENTAS -->
         <div id="view-herramientas" class="view-container">
             <div id="tools-welcome" style="text-align: center; padding-top: 5vh;">
                 <h3 style="color: var(--text-muted); font-size: 1.5em;">👈 Selecciona una herramienta del submenú izquierdo</h3>
             </div>
 
-            <!-- MIS PENDIENTES (TO-DO LIST) -->
+            <!-- MIS PENDIENTES -->
             <div id="tool-pendientes" class="tool-panel" style="border-top: 6px solid var(--color-success); max-width: 800px;">
                 <h2 style="color: var(--color-success); margin-top: 0;">✅ Mis Pendientes (Listas Blancas y Casos)</h2>
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Escribe tareas únicas o <strong>pega una lista completa</strong> (como una columna de Excel). El sistema etiquetará y separará todo automáticamente.</p>
-                
                 <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: stretch;">
                     <textarea id="nuevaTareaInput" placeholder="Ej: Caso 084125125, MS-17941124, o pega una lista completa..." style="flex: 1; font-size: 1.1em; margin: 0; padding: 10px; border-radius: 6px; border: 1px solid var(--border); resize: vertical; min-height: 46px; font-family: inherit; line-height: 1.4;" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); agregarTarea(); }"></textarea>
                     <button class="save-btn" style="margin-top: 0; width: auto; padding: 10px 20px; background: var(--color-success); display: flex; align-items: center; justify-content: center;" onclick="agregarTarea()">Agregar</button>
                 </div>
-
                 <div id="listaPendientes" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; max-height: 450px; overflow-y: auto; padding-right: 5px;"></div>
-
                 <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
                     <button class="outline-btn" style="margin: 0; border-color: var(--color-info); color: var(--color-info);" onclick="limpiarTareasCompletadas()">🧹 Limpiar Resueltas</button>
                     <button class="outline-btn" style="margin: 0; border-color: var(--color-danger); color: var(--color-danger);" onclick="borrarTodasTareas()">🗑️ Borrar Todo</button>
                 </div>
             </div>
 
-            <!-- GENERADOR DE PLANTILLAS INTELIGENTE -->
+            <!-- GENERADOR DE PLANTILLAS -->
             <div id="tool-plantillas" class="tool-panel" style="border-top: 6px solid var(--color-indigo); max-width: 800px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
                     <h2 style="color: var(--color-indigo); margin-top: 0;">📝 Generador de Plantillas</h2>
                     <button class="main-btn" style="background: var(--color-indigo); width: auto; margin: 0;" onclick="openModal('plantillasModal')">➕ Nueva Plantilla</button>
                 </div>
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Selecciona una plantilla. Rellena las cajitas con los datos del cliente y el correo se armará solo, listo para copiar y pegar.</p>
-                
                 <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center;">
-                    <select id="plantillaSelect" style="flex: 1; font-size: 1.1em; height: 46px; cursor: pointer; border-color: var(--color-indigo);" onchange="seleccionarPlantilla()">
-                    </select>
+                    <select id="plantillaSelect" style="flex: 1; font-size: 1.1em; height: 46px; cursor: pointer; border-color: var(--color-indigo);" onchange="seleccionarPlantilla()"></select>
                     <button id="btnEditPlantilla" class="action-btn edit-btn" style="display:none; padding: 10px;" onclick="editarPlantillaActual()">✏️ Editar</button>
                     <button id="btnDelPlantilla" class="action-btn delete-btn" style="display:none; padding: 10px;" onclick="eliminarPlantillaActual()">🗑️ Eliminar</button>
                 </div>
-
                 <div id="plantillaWorkspace" style="display: none;">
                     <div style="background: var(--bg-group); padding: 15px; border-radius: 8px; border: 1px solid var(--border-light); margin-bottom: 20px;">
                         <h4 style="margin: 0 0 15px 0; color: var(--color-indigo);">✍️ Ingresa los datos:</h4>
                         <div id="plantillaVars" style="display: flex; flex-wrap: wrap; gap: 15px;"></div>
                     </div>
-
                     <h4 style="margin: 0 0 10px 0; color: var(--primary-color);">📄 Resultado (Listo para copiar):</h4>
                     
                     <div id="rowPara" class="plantilla-preview-box">
                         <div class="plantilla-preview-label">Para:</div>
                         <div class="plantilla-preview-text" id="prevPara"></div>
-                        <button class="copy-btn" onclick="copyText(event, 'prevPara')">${copySvg}</button>
+                        <button class="copy-btn" onclick="copyText(event, 'prevPara')"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                     </div>
-                    
                     <div id="rowCc" class="plantilla-preview-box">
                         <div class="plantilla-preview-label">CC:</div>
                         <div class="plantilla-preview-text" id="prevCc"></div>
-                        <button class="copy-btn" onclick="copyText(event, 'prevCc')">${copySvg}</button>
+                        <button class="copy-btn" onclick="copyText(event, 'prevCc')"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                     </div>
-
                     <div id="rowAsunto" class="plantilla-preview-box">
                         <div class="plantilla-preview-label">Asunto:</div>
                         <div class="plantilla-preview-text" id="prevAsunto" style="font-weight: bold;"></div>
-                        <button class="copy-btn" onclick="copyText(event, 'prevAsunto')">${copySvg}</button>
+                        <button class="copy-btn" onclick="copyText(event, 'prevAsunto')"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
                     </div>
-
                     <div id="rowMensaje" class="plantilla-preview-box" style="align-items: stretch; flex-direction: column;">
                         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 10px;">
                             <div class="plantilla-preview-label">Mensaje:</div>
@@ -467,6 +443,7 @@
                 <label>Número de Tarjeta (16 dígitos):</label>
                 <input type="text" id="binInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="font-size: 1.3em; text-align: center; letter-spacing: 2px;" oninput="formatCardInput(event)">
                 <button class="save-btn" onclick="analizarTarjeta()" style="margin-top: 15px; background: var(--primary-color);">🔍 Analizar Tarjeta</button>
+                
                 <div id="binResult" class="tool-result" style="flex-direction: column; gap: 15px;">
                     <div style="background: var(--bg-card); border-radius: 6px; padding: 15px; border: 1px solid var(--border-light);">
                         <div class="clave-row" style="margin-bottom: 10px;">
@@ -485,7 +462,7 @@
                             <span class="clave-value" id="resLimit" style="color: var(--color-success); font-weight: bold;"></span>
                         </div>
                     </div>
-                    
+
                     <details id="tdTarifarioDetails" style="display:none; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 6px;">
                         <summary style="padding: 12px 15px; font-weight: bold; cursor: pointer; color: var(--primary-color); list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; outline: none;">
                             <span style="display: flex; align-items: center; gap: 5px;"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Costos de Administración</span>
@@ -594,7 +571,6 @@
             <div id="tool-simulador" class="tool-panel" style="border-top: 6px solid var(--color-teal);">
                 <h2 style="color: var(--color-teal); margin-top: 0;">📈 Simulador Rápido de Cuotas</h2>
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Calcula el valor referencial de la cuota mensual para compras o avances nacionales en Tarjeta de Crédito BICE (2 a 48 cuotas).</p>
-                
                 <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 150px;">
                         <label>Monto a Simular ($):</label>
@@ -605,7 +581,6 @@
                         <input type="number" id="simCuotas" placeholder="Ej: 12" min="2" max="48" style="font-size: 1.2em;">
                     </div>
                 </div>
-
                 <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 150px;">
                         <label>Tipo de Operación:</label>
@@ -619,16 +594,13 @@
                         <input type="number" id="simTasa" value="3.45" step="0.01" style="font-size: 1.1em; color: var(--color-teal); font-weight: bold;" title="Tasa máxima referencial del tarifario.">
                     </div>
                 </div>
-
                 <div style="margin-bottom: 20px; background: var(--bg-group); padding: 12px 15px; border-radius: 6px; border: 1px solid var(--border);">
                     <label style="margin: 0; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--primary-color);">
                         <input type="checkbox" id="simSinInteres" onchange="toggleTasaSimulador()" style="width: 20px; height: 20px; margin: 0; cursor: pointer;">
                         <strong>Operación Sin Interés (Ej: 3 Cuotas Precio Contado)</strong>
                     </label>
                 </div>
-
                 <button class="save-btn" onclick="calcularSimulador()" style="margin-top: 5px; background: var(--color-teal);">🧮 Simular Cuota</button>
-
                 <div id="simuladorResult" class="tool-result" style="border-left-color: var(--color-teal);">
                     <div id="resSimText" style="white-space: pre-wrap; font-size: 1.05em; line-height: 1.6; color: var(--text-main); font-family: monospace;"></div>
                     <button class="copy-btn" style="width: 100%; margin-top: 15px; border: 2px solid var(--color-teal); color: var(--color-teal); font-weight: bold;" onclick="copyText(event, 'resSimText')">
@@ -692,7 +664,6 @@
 
 <!-- === MODALES DE CREACIÓN DE DATOS === -->
 
-<!-- MODAL 1: BASE DE CONOCIMIENTO -->
 <div class="modal-overlay" id="kbModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
@@ -721,7 +692,6 @@
     </div>
 </div>
 
-<!-- MODAL 2: MIS CLAVES -->
 <div class="modal-overlay" id="clavesModal">
     <div class="modal-content modal-content-small">
         <span class="close-modal" onclick="closeModal('clavesModal')" title="Cerrar">&times;</span>
@@ -737,7 +707,6 @@
     </div>
 </div>
 
-<!-- MODAL 3: PROCEDIMIENTO FECHA APERTURA -->
 <div class="modal-overlay" id="procedimientoModal">
     <div class="modal-content" style="max-width: 650px;">
         <span class="close-modal" onclick="closeModal('procedimientoModal')" title="Cerrar">&times;</span>
@@ -766,7 +735,6 @@
     </div>
 </div>
 
-<!-- MODAL 4: DIRECTORIO RAPIDO -->
 <div class="modal-overlay" id="directorioModal">
     <div class="modal-content modal-content-small" style="border-top: 6px solid var(--color-purple);">
         <span class="close-modal" onclick="closeModal('directorioModal')" title="Cerrar">&times;</span>
@@ -782,7 +750,6 @@
     </div>
 </div>
 
-<!-- MODAL 5: PLANTILLAS -->
 <div class="modal-overlay" id="plantillasModal">
     <div class="modal-content" style="border-top: 6px solid var(--color-indigo);">
         <span class="close-modal" onclick="closeModal('plantillasModal')" title="Cerrar">&times;</span>
@@ -808,7 +775,6 @@
 </div>
 
 <!-- === MODALES DE RESPALDO (EXPORT / IMPORT) === -->
-<!-- MODAL EXPORTAR -->
 <div class="modal-overlay" id="exportModal">
     <div class="modal-content modal-content-small" style="border-top: 6px solid var(--color-info);">
         <span class="close-modal" onclick="closeModal('exportModal')" title="Cerrar">&times;</span>
@@ -831,7 +797,6 @@
     </div>
 </div>
 
-<!-- MODAL IMPORTAR -->
 <div class="modal-overlay" id="importModal">
     <div class="modal-content modal-content-small" style="border-top: 6px solid var(--text-muted);">
         <span class="close-modal" onclick="closeModal('importModal')" title="Cerrar">&times;</span>
@@ -854,24 +819,10 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    Creado por Luis Muñoz | v2.8.1
+    Creado por Luis Muñoz | v2.8.5
 </footer>
 
 <script>
-    // --- MODO OSCURO ---
-    function toggleTheme(e) {
-        if (e.checked) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('bice_theme', 'dark');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            localStorage.setItem('bice_theme', 'light');
-        }
-    }
-    if (localStorage.getItem('bice_theme') === 'dark') {
-        document.getElementById('themeCheckbox').checked = true;
-    }
-
     // --- VARIABLES Y API ---
     let entries = JSON.parse(localStorage.getItem('bice_kb_data')) || [];
     let claves = JSON.parse(localStorage.getItem('bice_claves_data')) || [];
@@ -885,7 +836,7 @@
     }
 
     let currentTarifarioText = ""; 
-    let currentTarifarioTDText = ""; // Variable para copiar texto de TD
+    let currentTarifarioTDText = "";
     let currentPlantillaObj = null;
 
     const itemsPerPage = 10; 
@@ -967,6 +918,27 @@
         if(toolId === 'plantillas') { renderPlantillasDropdown(); }
     }
 
+    // --- LÓGICA COMPARTIR DATOS ---
+    function handleShareExport() {
+        const sharedData = { kb: entries, directorio: directorio, plantillas: plantillas };
+        if(entries.length === 0 && directorio.length === 0 && plantillas.length === 0) { alert('No hay datos para compartir.'); return; }
+        const stringData = JSON.stringify(sharedData);
+        const encodedData = btoa(encodeURIComponent(stringData));
+        const modalHtml = `
+            <div class="modal-overlay" id="shareModal" style="display: flex;">
+                <div class="modal-content modal-content-small" style="border-top: 6px solid #6610f2;">
+                    <span class="close-modal" onclick="document.getElementById('shareModal').remove(); document.body.style.overflow='auto';" title="Cerrar">&times;</span>
+                    <h2 style="color: #6610f2;">🤝 Compartir Datos del Hub</h2>
+                    <p style="color: var(--text-muted); font-size: 0.95em;">Este paquete incluye <strong>solo</strong> tu Base de Conocimiento, Directorio y Plantillas (Excluye Claves y Tareas Pendientes por seguridad).</p>
+                    <textarea readonly style="height: 120px; font-family: monospace; font-size: 0.85em; background: var(--bg-group); color: var(--text-main); margin-top: 10px;">${encodedData}</textarea>
+                    <button class="save-btn" style="background: #6610f2; margin-top: 15px;" onclick="navigator.clipboard.writeText(this.previousElementSibling.value); showToast('Paquete copiado'); document.getElementById('shareModal').remove(); document.body.style.overflow='auto';">📋 Copiar Código Compartible</button>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        document.body.style.overflow = 'hidden';
+    }
+
     // --- LÓGICA GENERADOR DE PLANTILLAS ---
     document.getElementById('plantillaForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -985,8 +957,11 @@
         if (id) { plantillas[plantillas.findIndex(p => p.id === id)] = newP; showToast("Plantilla actualizada"); } 
         else { plantillas.push(newP); showToast("Plantilla guardada"); }
         
-        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); closeModal('plantillasModal'); renderPlantillasDropdown();
-        document.getElementById('plantillaSelect').value = newP.id; seleccionarPlantilla();
+        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
+        closeModal('plantillasModal');
+        renderPlantillasDropdown();
+        document.getElementById('plantillaSelect').value = newP.id;
+        seleccionarPlantilla();
     });
 
     function renderPlantillasDropdown() {
@@ -1193,7 +1168,6 @@
             document.getElementById('resCat').style.color = 'var(--primary-color)'; document.getElementById('resLimit').innerText = binData[bin].limit;
             resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-success)'; 
 
-            // Tarifario TD
             const tarifarioTD = {
                 "Family Card / Go BICE": { mensual: "Go BICE: Sin Costo\nFamily Card: UF 1 + IVA (Anual)", dcto: "• Family Card: Exenta hasta los 24 años. Comienza a cobrar a partir de los 25 años del titular o si el Patrocinador cierra su Cuenta Corriente/CheckCard." },
                 "Check Card Clásica": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." },
@@ -1220,6 +1194,47 @@
         }
     }
 
+    // --- LÓGICA COMISIONES INTERNACIONALES ---
+    const comisionesData = {
+      "Tarjeta Débito": {
+        "CHECKCARD CLASICA": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 202007, compra: "1,6% + IVA sobre valor de compra (a excepción de Tarjetas de Débito Visa Platinum, Signature e Infinite)", giro: "US$ 3 + IVA por evento" }, { date_val: 202006, compra: "1,6% + IVA sobre valor de compra (aplica solo para tarjetas de débito visa gold)", giro: "US$ 3 + IVA por evento" }, { date_val: 202005, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ],
+        "FAMILY CARD": [ { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "GO BICE": [ { date_val: 202302, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "GO UC": [ { date_val: 202305, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "CHECKCARD GOLD": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" } ], "CHECKCARD PLATINUM": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "CHECKCARD SIGNATURE": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ]
+      },
+      "Tarjeta Crédito": {
+        "GO BICE": [ { date_val: 202402, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ],
+        "GOLD (ORO)": [ { date_val: 202007, compra: "1,6%+IVA sobre valor de compra", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra / Gold Joven (US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
+        "PLATINUM": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
+        "INFINITE": [ { date_val: 202101, compra: "Sin Comisión", giro: "Sin Comisión" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ],
+        "EMPRESARIAL": [ { date_val: 202308, compra: "1,6%+IVA sobre valor de compra (excepto Business Signature e Infinite)", giro: "1,6%+IVA sobre valor del avance (excepto Business Signature e Infinite)" }, { date_val: 202101, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
+        "PLATINUM BIA": [ { date_val: 202302, compra: "1,6% + IVA", giro: "1,6% + IVA" } ],
+        "SIGNATURE": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ]
+      }
+    };
+    function updateSegmentos() { const tipo = document.querySelector('input[name="comTipo"]:checked').value; const selectSeg = document.getElementById('comSegmento'); selectSeg.innerHTML = ''; if (comisionesData[tipo]) { Object.keys(comisionesData[tipo]).sort().forEach(seg => { let opt = document.createElement('option'); opt.value = seg; opt.innerText = seg; selectSeg.appendChild(opt); }); } document.getElementById('comisionesResult').style.display = 'none'; }
+    function calcularComisiones() {
+        const tipo = document.querySelector('input[name="comTipo"]:checked').value; const segmento = document.getElementById('comSegmento').value; const year = parseInt(document.getElementById('comYear').value); const month = parseInt(document.getElementById('comMonth').value);
+        if(!segmento) { alert("Por favor seleccione un segmento"); return; }
+        let inputDateVal = (year * 100) + month; if (inputDateVal > 202503) { inputDateVal = 202503; }
+        const reglas = comisionesData[tipo][segmento]; let reglaAplicada = null;
+        for (let r of reglas) { if (inputDateVal >= r.date_val) { reglaAplicada = r; break; } } if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; }
+        document.getElementById('resComCompra').innerText = reglaAplicada.compra; document.getElementById('resComGiro').innerText = reglaAplicada.giro; document.getElementById('comisionesResult').style.display = 'block';
+    }
+    function copiarComisiones(event) {
+        const cCompra = document.getElementById('resComCompra').innerText; const cGiro = document.getElementById('resComGiro').innerText; const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`;
+        const btn = event.currentTarget; const originalHTML = btn.innerHTML; const showSuccess = () => { btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); };
+        if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); } else { useFallback(textoFInal); }
+        function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); }
+    }
+
+    // --- CONVERSOR Y RESTO DE UTILS ---
+    function changeCurrency() {
+        const currency = document.getElementById('convSelect').value; let tasa = 0;
+        if (currency === 'USD') tasa = tasaDolar; else if (currency === 'EUR') tasa = tasaEuro; else if (currency === 'UF') tasa = tasaUF; else if (currency === 'UTM') tasa = tasaUTM;
+        document.getElementById('convTasa').value = tasa; document.getElementById('labelExtranjera').innerText = `Monto en ${currency}:`; calcToCLP(); 
+    }
+    function calcToCLP() { const extVal = parseFloat(document.getElementById('inputExt').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; const clpVal = Math.round(extVal * rate); document.getElementById('inputCLP').value = extVal > 0 ? clpVal : ''; }
+    function calcToExt() { const clpVal = parseFloat(document.getElementById('inputCLP').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; if (rate > 0) { const extVal = (clpVal / rate).toFixed(2); document.getElementById('inputExt').value = extVal > 0 ? extVal : ''; } }
+
     // --- MODALES Y TOAST ---
     function openModal(modalId) { 
         if (modalId === 'kbModal') { cargarCategoriasEnSelect(); document.getElementById('categoriaNueva').style.display = 'none'; document.getElementById('categoriaNueva').required = false; }
@@ -1238,9 +1253,7 @@
     }
     function showToast(message) { const toast = document.getElementById("toast"); toast.innerText = "✅ " + message; toast.className = "show"; setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000); }
 
-    // ==========================================
-    // BASE DE CONOCIMIENTO (LOGICA GENERAL)
-    // ==========================================
+    // --- BASE DE CONOCIMIENTO (LOGICA GENERAL) ---
     function cargarCategoriasEnSelect() { const select = document.getElementById('categoriaSelect'); select.innerHTML = '<option value="">Selecciona una categoría...</option>'; const categoriasUnicas = [...new Set(entries.map(e => e.categoria))].filter(Boolean).sort(); categoriasUnicas.forEach(cat => { const opt = document.createElement('option'); opt.value = cat; opt.innerText = cat; select.appendChild(opt); }); const optNueva = document.createElement('option'); optNueva.value = "nueva"; optNueva.innerText = "➕ Crear Nueva Categoría..."; optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--primary-color)"; select.appendChild(optNueva); }
     function handleCategoriaChange() { const select = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva'); if (select.value === 'nueva') { inputNueva.style.display = 'block'; inputNueva.required = true; inputNueva.focus(); } else { inputNueva.style.display = 'none'; inputNueva.required = false; } }
     function generarEtiquetas() { const titulo = document.getElementById('titulo').value; const catSelect = document.getElementById('categoriaSelect').value; const categoria = catSelect === 'nueva' ? document.getElementById('categoriaNueva').value : catSelect; const textos = [ titulo, categoria, document.getElementById('validacion').value, document.getElementById('scriptInicial').value, document.getElementById('pasoApaso').value ].join(' ').toLowerCase(); if (textos.trim().length < 5) { alert('Llena el título o algún otro campo primero para generar etiquetas.'); return; } const textoLimpio = textos.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ' '); const stopWords = ['para','como','pero','este','esta','estos','estas','todo','toda','todos','todas','sobre','entre','hacia','desde','hasta','segun','antes','despues','luego','mientras','cuando','donde','quien','cual','que','con','por','del','los','las','una','unos','unas','tiene','tienen','hacer','paso','script']; const palabras = textoLimpio.split(/\s+/); const contador = {}; palabras.forEach(p => { if (p.length > 3 && !stopWords.includes(p)) contador[p] = (contador[p] || 0) + 1; }); const ordenadas = Object.keys(contador).sort((a, b) => contador[b] - contador[a]); const topTags = ordenadas.slice(0, 6); if(topTags.length > 0) { document.getElementById('etiquetas').value = topTags.join(', '); showToast("Etiquetas autogeneradas"); } else { alert('No se encontró suficiente texto relevante.'); } }
@@ -1253,9 +1266,7 @@
     function editEntry(id) { const entry = entries.find(e => e.id === id); document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo; cargarCategoriasEnSelect(); const catSelect = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva'); if (Array.from(catSelect.options).some(opt => opt.value === entry.categoria)) { catSelect.value = entry.categoria; inputNueva.style.display = 'none'; inputNueva.required = false; } else { catSelect.value = 'nueva'; inputNueva.style.display = 'block'; inputNueva.value = entry.categoria; inputNueva.required = true; } document.getElementById('etiquetas').value = entry.etiquetas; document.getElementById('validacion').value = entry.validacion; document.getElementById('scriptInicial').value = entry.scriptInicial; document.getElementById('pasoApaso').value = entry.pasoApaso; document.getElementById('cti').value = entry.cti; document.getElementById('plantilla').value = entry.plantilla; document.getElementById('scriptFinal').value = entry.scriptFinal; document.getElementById('detalles').value = entry.detalles; document.getElementById('otro').value = entry.otro; document.getElementById('formTitleKB').innerText = 'Editar Registro'; document.getElementById('kbModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
     function deleteEntry(id) { if(confirm('¿Estás seguro de eliminar este registro?')) { entries = entries.filter(e => e.id !== id); localStorage.setItem('bice_kb_data', JSON.stringify(entries)); showToast("Registro eliminado"); handleSearchKB(); } }
 
-    // ==========================================
-    // MÓDULO 2: MIS CLAVES
-    // ==========================================
+    // --- MIS CLAVES ---
     function toggleFavClave(event, id) { event.preventDefault(); event.stopPropagation(); const idx = claves.findIndex(e => e.id === id); if(idx > -1) { claves[idx].favorito = !claves[idx].favorito; localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); } }
     document.getElementById('clavesForm').addEventListener('submit', function(e) { e.preventDefault(); const id = document.getElementById('claveId').value; const inputApp = document.getElementById('claveApp').value.trim(); const duplicate = claves.find(c => c.app.toLowerCase() === inputApp.toLowerCase() && c.id !== id); if (duplicate) { if (!id) { if (confirm(`⚠️ El aplicativo ya existe.\n\n"Aceptar" para editar.`)) { editClave(duplicate.id); } } else alert(`⚠️ Ya existe otra clave guardada con el nombre "${duplicate.app}".`); return; } const isFavorito = id ? (claves.find(c => c.id === id).favorito || false) : false; const newClave = { id: id ? id : 'CLV_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), app: inputApp, link: document.getElementById('claveLink').value, user: document.getElementById('claveUser').value, pass: document.getElementById('clavePass').value, favorito: isFavorito }; if (id) { claves[claves.findIndex(c => c.id === id)] = newClave; showToast("Clave actualizada"); } else { claves.push(newClave); showToast("Clave guardada"); } localStorage.setItem('bice_claves_data', JSON.stringify(claves)); closeModal('clavesModal'); handleSearchClaves(); });
     function handleSearchClaves() { const searchTerm = document.getElementById('searchClaves').value.toLowerCase(); filteredClaves = sortData(claves.filter(c => c.app.toLowerCase().includes(searchTerm) || c.user.toLowerCase().includes(searchTerm)), document.getElementById('sortSelectClaves').value, 'app'); currentClavesPage = 1; renderClaves(); }
@@ -1265,9 +1276,7 @@
     function editClave(id) { const c = claves.find(x => x.id === id); document.getElementById('claveId').value = c.id; document.getElementById('claveApp').value = c.app; document.getElementById('claveLink').value = c.link || ''; document.getElementById('claveUser').value = c.user; document.getElementById('clavePass').value = c.pass; document.getElementById('formTitleClaves').innerText = 'Editar Clave'; openModal('clavesModal'); }
     function deleteClave(id) { if(confirm('¿Seguro de eliminar esta clave?')) { claves = claves.filter(x => x.id !== id); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); showToast("Clave eliminada"); handleSearchClaves(); } }
 
-    // ==========================================
-    // UTILS GLOBALES Y EXPORT/IMPORT UNIFICADO
-    // ==========================================
+    // --- FUNCIONES GLOBALES Y EXPORT/IMPORT ---
     function copyText(event, elementId, rawText = null) {
         const text = rawText ? rawText : document.getElementById(elementId).innerText; const btn = event.currentTarget; const originalHTML = btn.innerHTML;
         const showSuccess = () => { btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--color-success)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); };
@@ -1320,17 +1329,8 @@
         closeModal('importModal');
     }
 
-    function handleFileImport(event) {
-        const file = event.target.files[0]; if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) { try { const importedData = JSON.parse(e.target.result); processImportedData(importedData); } catch (error) { alert('Error leyendo el archivo JSON.'); } event.target.value = ''; }; reader.readAsText(file);
-    }
-
-    function handleTextImport() {
-        const text = document.getElementById('importTextarea').value.trim(); if(!text) { alert('Por favor, pega el código de respaldo.'); return; }
-        try { const jsonString = decodeURIComponent(atob(text)); const importedData = JSON.parse(jsonString); processImportedData(importedData); } catch (error) { alert('Código inválido o corrupto. Verifica que hayas copiado el texto completo sin agregar espacios.'); }
-    }
-
+    function handleFileImport(event) { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(e) { try { const importedData = JSON.parse(e.target.result); processImportedData(importedData); } catch (error) { alert('Error leyendo el archivo JSON.'); } event.target.value = ''; }; reader.readAsText(file); }
+    function handleTextImport() { const text = document.getElementById('importTextarea').value.trim(); if(!text) { alert('Por favor, pega el código de respaldo.'); return; } try { const jsonString = decodeURIComponent(atob(text)); const importedData = JSON.parse(jsonString); processImportedData(importedData); } catch (error) { alert('Código inválido o corrupto. Verifica que hayas copiado el texto completo sin agregar espacios.'); } }
     function deleteAllData() {
         if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves, Directorio, Tareas y Plantillas)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) {
             entries = []; claves = []; directorio = []; pendientes = []; plantillas = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown(); showToast("Toda la información fue eliminada");
