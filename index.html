@@ -222,6 +222,7 @@
     
     <!-- === PANEL IZQUIERDO === -->
     <div class="left-panel">
+        
         <div class="accordion-menu">
             <div class="menu-section" id="section-kb">
                 <button class="nav-btn" id="nav-kb" onclick="switchView('kb')">📚 Base de Conocimiento <span class="nav-arrow" id="arrow-kb">▶</span></button>
@@ -662,7 +663,7 @@
     </div>
 </div>
 
-<!-- === MODALES DE CREACIÓN DE DATOS === -->
+<!-- === MODALES === -->
 <div class="modal-overlay" id="kbModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
@@ -670,8 +671,7 @@
         <form id="kbForm">
             <input type="hidden" id="entryId">
             <label>Título:</label><input type="text" id="titulo" required>
-            <label>Categoría:</label>
-            <select id="categoriaSelect" required onchange="handleCategoriaChange()"></select>
+            <label>Categoría:</label><select id="categoriaSelect" required onchange="handleCategoriaChange()"></select>
             <input type="text" id="categoriaNueva" placeholder="Escribe el nombre de la nueva categoría" style="display: none; margin-top: 5px; border-color: var(--primary-color);">
             <label>Validación:</label><textarea id="validacion"></textarea>
             <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
@@ -727,9 +727,6 @@
             </ol>
             <p style="color: var(--primary-color); font-weight: bold; margin-bottom: 5px; margin-top: 25px;">PASO 3: Buscar tarifa en el Hub</p>
             <p style="margin-top: 0;">✅ Ingresar el Año, Mes, Tipo y Segmento en <strong>esta herramienta</strong>.</p>
-            <div style="background: rgba(255, 193, 7, 0.15); border-left: 5px solid #ffc107; padding: 12px; margin-top: 20px; border-radius: 4px; font-size: 0.95em;">
-                <strong style="color: #d39e00;">*Nota Importante:</strong> Si la tarjeta es generada posterior a <strong>Marzo 2025</strong>, se debe ocupar esa fecha para ver el tarifario. <em>(El Hub ya hace este ajuste automáticamente en el cálculo).</em>
-            </div>
         </div>
     </div>
 </div>
@@ -758,35 +755,26 @@
         </p>
         <form id="plantillaForm">
             <input type="hidden" id="plantillaId">
-            <label>Título de la Plantilla:</label>
-            <input type="text" id="plantillaTitulo" required placeholder="Ej: Creación TC, Derivación Fraude...">
-            <label>Para (Opcional):</label>
-            <input type="text" id="plantillaPara" placeholder="Ej: soporte@bice.cl">
-            <label>CC (Opcional):</label>
-            <input type="text" id="plantillaCc" placeholder="Ej: jefatura@bice.cl">
-            <label>Asunto (Opcional):</label>
-            <input type="text" id="plantillaAsunto" placeholder="Ej: Solicitud de Tarjeta - [RUT]">
-            <label>Mensaje:</label>
-            <textarea id="plantillaMensaje" required style="height: 150px;" placeholder="Estimado equipo,\n\nFavor su apoyo con el cliente [Nombre Cliente] RUT: [RUT].\n\nSaludos."></textarea>
+            <label>Título de la Plantilla:</label><input type="text" id="plantillaTitulo" required placeholder="Ej: Creación TC, Derivación Fraude...">
+            <label>Para (Opcional):</label><input type="text" id="plantillaPara" placeholder="Ej: soporte@bice.cl">
+            <label>CC (Opcional):</label><input type="text" id="plantillaCc" placeholder="Ej: jefatura@bice.cl">
+            <label>Asunto (Opcional):</label><input type="text" id="plantillaAsunto" placeholder="Ej: Solicitud de Tarjeta - [RUT]">
+            <label>Mensaje:</label><textarea id="plantillaMensaje" required style="height: 150px;" placeholder="Estimado equipo,\n\nFavor su apoyo con el cliente [Nombre Cliente] RUT: [RUT].\n\nSaludos."></textarea>
             <button type="submit" class="save-btn" style="background:var(--color-indigo);">Guardar Plantilla</button>
         </form>
     </div>
 </div>
 
-<!-- === MODALES DE RESPALDO (EXPORT / IMPORT) === -->
 <div class="modal-overlay" id="exportModal">
     <div class="modal-content modal-content-small" style="border-top: 6px solid var(--color-info);">
         <span class="close-modal" onclick="closeModal('exportModal')" title="Cerrar">&times;</span>
         <h2 style="color: var(--color-info);">⬇️ Exportar Respaldo</h2>
-        <p style="color: var(--text-muted);">Elige cómo deseas guardar tu información.</p>
         <div class="backup-option-box">
             <h4>📁 Opción 1: Archivo Descargable</h4>
-            <p style="font-size: 0.9em; color: var(--text-muted); margin-top: 0;">Descarga un archivo .json tradicional.</p>
             <button class="save-btn" style="background: var(--color-info); margin-top: 10px; padding: 10px;" onclick="handleFileExport()">Descargar Archivo (.json)</button>
         </div>
         <div class="backup-option-box">
             <h4>🔒 Opción 2: Texto Seguro (Base64)</h4>
-            <p style="font-size: 0.9em; color: var(--text-muted); margin-top: 0;">Genera un bloque de texto encriptado para copiar y enviar.</p>
             <button class="outline-btn" style="width: 100%; border-color: var(--color-info); color: var(--color-info); margin-bottom: 0;" onclick="handleTextExport()">Generar Texto de Respaldo</button>
             <div id="exportTextContainer" style="display: none; margin-top: 15px;">
                 <textarea id="exportTextarea" readonly style="height: 100px; font-family: monospace; font-size: 0.85em; background: var(--bg-group); color: var(--text-main); cursor: text;"></textarea>
@@ -800,17 +788,15 @@
     <div class="modal-content modal-content-small" style="border-top: 6px solid var(--text-muted);">
         <span class="close-modal" onclick="closeModal('importModal')" title="Cerrar">&times;</span>
         <h2 style="color: var(--text-muted);">⬆️ Importar Respaldo</h2>
-        <p style="color: var(--text-muted);">Elige el método para cargar tu información al Hub.</p>
         <div class="backup-option-box">
             <h4>📁 Opción 1: Subir Archivo (.json)</h4>
-            <label for="importFileInput" class="save-btn" style="background: var(--text-muted); margin-top: 10px; padding: 10px; display: block; text-align: center; cursor: pointer; color: white;">Seleccionar y Cargar Archivo</label>
+            <label for="importFileInput" class="save-btn" style="background: var(--text-muted); margin-top: 10px; padding: 10px; display: block; text-align: center; cursor: pointer; color: white;">Seleccionar Archivo</label>
             <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="handleFileImport(event)">
         </div>
         <div class="backup-option-box">
             <h4>🔒 Opción 2: Pegar Texto Seguro</h4>
-            <p style="font-size: 0.9em; color: var(--text-muted); margin-top: 0;">Si te enviaste un respaldo en texto (Base64), pégalo abajo.</p>
             <textarea id="importTextarea" style="height: 100px; font-family: monospace; font-size: 0.85em;" placeholder="Pega aquí el código encriptado..."></textarea>
-            <button class="save-btn" style="background: var(--primary-color); margin-top: 10px; padding: 10px;" onclick="handleTextImport()">Procesar e Importar Texto</button>
+            <button class="save-btn" style="background: var(--primary-color); margin-top: 10px; padding: 10px;" onclick="handleTextImport()">Procesar e Importar</button>
         </div>
     </div>
 </div>
@@ -818,25 +804,10 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    Creado por Luis Muñoz | v2.8.7
+    Creado por Luis Muñoz | v2.8.8
 </footer>
 
 <script>
-    // --- MODO OSCURO ---
-    function toggleTheme(e) {
-        if (e.checked) {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            localStorage.setItem('bice_theme', 'dark');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            localStorage.setItem('bice_theme', 'light');
-        }
-    }
-    if (localStorage.getItem('bice_theme') === 'dark') {
-        const check = document.getElementById('themeCheckbox');
-        if (check) check.checked = true;
-    }
-
     // --- VARIABLES Y API ---
     let entries = JSON.parse(localStorage.getItem('bice_kb_data')) || [];
     let claves = JSON.parse(localStorage.getItem('bice_claves_data')) || [];
@@ -886,6 +857,27 @@
         document.getElementById('plazoFecha').value = `${y}-${m}-${d}`;
     });
 
+    // --- MODALES Y TOAST ---
+    function openModal(modalId) { 
+        if (modalId === 'kbModal') { cargarCategoriasEnSelect(); document.getElementById('categoriaNueva').style.display = 'none'; document.getElementById('categoriaNueva').required = false; }
+        if (modalId === 'directorioModal') { document.getElementById('formTitleDir').innerText = 'Nuevo Contacto / Anexo'; document.getElementById('directorioForm').reset(); document.getElementById('dirId').value = ''; }
+        if (modalId === 'plantillasModal') { document.getElementById('formTitlePlantilla').innerText = 'Nueva Plantilla de Correo/CRM'; document.getElementById('plantillaForm').reset(); document.getElementById('plantillaId').value = ''; }
+        if (modalId === 'exportModal') { document.getElementById('exportTextContainer').style.display = 'none'; }
+        if (modalId === 'importModal') { document.getElementById('importTextarea').value = ''; }
+        document.getElementById(modalId).style.display = 'flex'; document.body.style.overflow = 'hidden'; 
+    }
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none'; document.body.style.overflow = 'auto'; 
+        if (modalId === 'kbModal') { document.getElementById('kbForm').reset(); document.getElementById('entryId').value = ''; }
+        if (modalId === 'clavesModal') { document.getElementById('clavesForm').reset(); document.getElementById('claveId').value = ''; }
+        if (modalId === 'directorioModal') { document.getElementById('directorioForm').reset(); document.getElementById('dirId').value = ''; }
+        if (modalId === 'plantillasModal') { document.getElementById('plantillaForm').reset(); document.getElementById('plantillaId').value = ''; }
+    }
+    function showToast(message) { 
+        const toast = document.getElementById("toast"); toast.innerText = "✅ " + message; toast.className = "show"; 
+        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000); 
+    }
+
     // --- NAVEGACIÓN ---
     function switchView(viewName) {
         const navBtn = document.getElementById('nav-' + viewName);
@@ -932,359 +924,101 @@
         if(toolId === 'plantillas') { renderPlantillasDropdown(); }
     }
 
-    // --- LÓGICA COMPARTIR DATOS ---
+    // --- BASE DE CONOCIMIENTO ---
+    function cargarCategoriasEnSelect() { const select = document.getElementById('categoriaSelect'); select.innerHTML = '<option value="">Selecciona una categoría...</option>'; const categoriasUnicas = [...new Set(entries.map(e => e.categoria))].filter(Boolean).sort(); categoriasUnicas.forEach(cat => { const opt = document.createElement('option'); opt.value = cat; opt.innerText = cat; select.appendChild(opt); }); const optNueva = document.createElement('option'); optNueva.value = "nueva"; optNueva.innerText = "➕ Crear Nueva Categoría..."; optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--primary-color)"; select.appendChild(optNueva); }
+    function handleCategoriaChange() { const select = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva'); if (select.value === 'nueva') { inputNueva.style.display = 'block'; inputNueva.required = true; inputNueva.focus(); } else { inputNueva.style.display = 'none'; inputNueva.required = false; } }
+    function generarEtiquetas() { const titulo = document.getElementById('titulo').value; const catSelect = document.getElementById('categoriaSelect').value; const categoria = catSelect === 'nueva' ? document.getElementById('categoriaNueva').value : catSelect; const textos = [ titulo, categoria, document.getElementById('validacion').value, document.getElementById('scriptInicial').value, document.getElementById('pasoApaso').value ].join(' ').toLowerCase(); if (textos.trim().length < 5) { alert('Llena el título o algún otro campo primero para generar etiquetas.'); return; } const textoLimpio = textos.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ' '); const stopWords = ['para','como','pero','este','esta','estos','estas','todo','toda','todos','todas','sobre','entre','hacia','desde','hasta','segun','antes','despues','luego','mientras','cuando','donde','quien','cual','que','con','por','del','los','las','una','unos','unas','tiene','tienen','hacer','paso','script']; const palabras = textoLimpio.split(/\s+/); const contador = {}; palabras.forEach(p => { if (p.length > 3 && !stopWords.includes(p)) contador[p] = (contador[p] || 0) + 1; }); const ordenadas = Object.keys(contador).sort((a, b) => contador[b] - contador[a]); const topTags = ordenadas.slice(0, 6); if(topTags.length > 0) { document.getElementById('etiquetas').value = topTags.join(', '); showToast("Etiquetas autogeneradas"); } else { alert('No se encontró suficiente texto relevante.'); } }
+    document.getElementById('kbForm').addEventListener('submit', function(e) { e.preventDefault(); const id = document.getElementById('entryId').value; const inputTitulo = document.getElementById('titulo').value.trim(); const catSelectValue = document.getElementById('categoriaSelect').value; const categoriaFinal = catSelectValue === 'nueva' ? document.getElementById('categoriaNueva').value.trim() : catSelectValue; const duplicate = entries.find(emp => emp.titulo.toLowerCase() === inputTitulo.toLowerCase() && emp.id !== id); if (duplicate) { if (!id) { if (confirm(`⚠️ El título ya existe.\n\n"Aceptar" para cargar existente.`)) { editEntry(duplicate.id); } } else alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".`); return; } const isFavorito = id ? (entries.find(emp => emp.id === id).favorito || false) : false; const newEntry = { id: id ? id : 'KB_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), titulo: inputTitulo, categoria: categoriaFinal, etiquetas: document.getElementById('etiquetas').value, validacion: document.getElementById('validacion').value, scriptInicial: document.getElementById('scriptInicial').value, pasoApaso: document.getElementById('pasoApaso').value, cti: document.getElementById('cti').value, plantilla: document.getElementById('plantilla').value, scriptFinal: document.getElementById('scriptFinal').value, detalles: document.getElementById('detalles').value, otro: document.getElementById('otro').value, favorito: isFavorito }; if (id) { entries[entries.findIndex(emp => emp.id === id)] = newEntry; showToast("Actualizado"); } else { entries.push(newEntry); showToast("Guardado"); } localStorage.setItem('bice_kb_data', JSON.stringify(entries)); closeModal('kbModal'); handleSearchKB(); });
+    function toggleFavKB(event, id) { event.preventDefault(); event.stopPropagation(); const idx = entries.findIndex(e => e.id === id); if(idx > -1) { entries[idx].favorito = !entries[idx].favorito; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); } }
+    function sortData(dataArray, sortValue, nameField) { return dataArray.sort((a, b) => { const favA = a.favorito ? 1 : 0; const favB = b.favorito ? 1 : 0; if (favA !== favB) return favB - favA; if (sortValue === 'name_asc') return a[nameField].localeCompare(b[nameField]); if (sortValue === 'name_desc') return b[nameField].localeCompare(a[nameField]); const tA = a.timestamp || parseInt(a.id.split('_')[1]||0), tB = b.timestamp || parseInt(b.id.split('_')[1]||0); return sortValue === 'date_asc' ? tA - tB : tB - tA; }); }
+    function handleSearchKB() { const searchTerm = document.getElementById('searchInput').value.toLowerCase(); const sortValue = document.getElementById('sortSelectKB').value; filteredEntries = entries.filter(e => e.titulo.toLowerCase().includes(searchTerm) || e.categoria.toLowerCase().includes(searchTerm) || e.etiquetas.toLowerCase().includes(searchTerm) || e.detalles.toLowerCase().includes(searchTerm)); filteredEntries = sortData(filteredEntries, sortValue, 'titulo'); currentKbPage = 1; renderEntries(); }
+    function changePageKB(direction) { currentKbPage += direction; renderEntries(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function renderEntries() { const list = document.getElementById('entriesList'); list.innerHTML = ''; const totalPages = Math.ceil(filteredEntries.length / itemsPerPage) || 1; if(currentKbPage < 1) currentKbPage = 1; if(currentKbPage > totalPages) currentKbPage = totalPages; const paginated = filteredEntries.slice((currentKbPage - 1) * itemsPerPage, currentKbPage * itemsPerPage); paginated.forEach(entry => { const card = document.createElement('details'); card.className = 'card'; const starColor = entry.favorito ? 'var(--color-star)' : 'var(--border)'; const starFill = entry.favorito ? 'var(--color-star)' : 'none'; const starHtml = `<button class="star-btn" onclick="toggleFavKB(event, '${entry.id}')" title="Marcar como favorito" style="color: ${starColor};"><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="${starFill}" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>`; let html = `<summary class="card-header"><div style="display:flex; align-items:center; gap:8px;">${starHtml}<div>${entry.titulo}</div></div><div><span class="tags">${entry.categoria}</span></div></summary><div class="card-content">`; const fields = [ { key: 'validacion', label: 'Validación' }, { key: 'scriptInicial', label: 'Script Inicial' }, { key: 'pasoApaso', label: 'Paso a Paso' }, { key: 'cti', label: 'CTI' }, { key: 'plantilla', label: 'Plantilla' }, { key: 'scriptFinal', label: 'Script Final' }, { key: 'detalles', label: 'Detalles importantes' }, { key: 'otro', label: 'Otro' } ]; fields.forEach(f => { if(entry[f.key] && entry[f.key].trim() !== '') { html += `<div class="field-group"><div class="field-title">${f.label}</div><div class="field-content" id="txt-${entry.id}-${f.key}">${entry[f.key]}</div><button class="copy-btn copy-btn-absolute" onclick="copyText(event, 'txt-${entry.id}-${f.key}')" title="Copiar texto">${copySvg}</button></div>`; } }); html += `<div class="last-modified">(Última modificación: ${entry.fecha || 'N/A'})</div><div class="card-actions"><button class="action-btn edit-btn" onclick="editEntry('${entry.id}')">✏️ Editar</button><button class="action-btn delete-btn" onclick="deleteEntry('${entry.id}')">🗑️ Eliminar</button></div></div>`; card.innerHTML = html; list.appendChild(card); }); document.getElementById('pageInfoKB').innerText = `Página ${currentKbPage} de ${totalPages}`; document.getElementById('totalInfoKB').innerText = `Total: ${filteredEntries.length} registros`; document.getElementById('prevBtnKB').disabled = currentKbPage === 1; document.getElementById('nextBtnKB').disabled = currentKbPage === totalPages || totalPages === 0; }
+    function editEntry(id) { const entry = entries.find(e => e.id === id); document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo; cargarCategoriasEnSelect(); const catSelect = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva'); if (Array.from(catSelect.options).some(opt => opt.value === entry.categoria)) { catSelect.value = entry.categoria; inputNueva.style.display = 'none'; inputNueva.required = false; } else { catSelect.value = 'nueva'; inputNueva.style.display = 'block'; inputNueva.value = entry.categoria; inputNueva.required = true; } document.getElementById('etiquetas').value = entry.etiquetas; document.getElementById('validacion').value = entry.validacion; document.getElementById('scriptInicial').value = entry.scriptInicial; document.getElementById('pasoApaso').value = entry.pasoApaso; document.getElementById('cti').value = entry.cti; document.getElementById('plantilla').value = entry.plantilla; document.getElementById('scriptFinal').value = entry.scriptFinal; document.getElementById('detalles').value = entry.detalles; document.getElementById('otro').value = entry.otro; document.getElementById('formTitleKB').innerText = 'Editar Registro'; document.getElementById('kbModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+    function deleteEntry(id) { if(confirm('¿Estás seguro de eliminar este registro?')) { entries = entries.filter(e => e.id !== id); localStorage.setItem('bice_kb_data', JSON.stringify(entries)); showToast("Registro eliminado"); handleSearchKB(); } }
+
+    // --- MIS CLAVES ---
+    function toggleFavClave(event, id) { event.preventDefault(); event.stopPropagation(); const idx = claves.findIndex(e => e.id === id); if(idx > -1) { claves[idx].favorito = !claves[idx].favorito; localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); } }
+    document.getElementById('clavesForm').addEventListener('submit', function(e) { e.preventDefault(); const id = document.getElementById('claveId').value; const inputApp = document.getElementById('claveApp').value.trim(); const duplicate = claves.find(c => c.app.toLowerCase() === inputApp.toLowerCase() && c.id !== id); if (duplicate) { if (!id) { if (confirm(`⚠️ El aplicativo ya existe.\n\n"Aceptar" para editar.`)) { editClave(duplicate.id); } } else alert(`⚠️ Ya existe otra clave guardada con el nombre "${duplicate.app}".`); return; } const isFavorito = id ? (claves.find(c => c.id === id).favorito || false) : false; const newClave = { id: id ? id : 'CLV_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), app: inputApp, link: document.getElementById('claveLink').value, user: document.getElementById('claveUser').value, pass: document.getElementById('clavePass').value, favorito: isFavorito }; if (id) { claves[claves.findIndex(c => c.id === id)] = newClave; showToast("Clave actualizada"); } else { claves.push(newClave); showToast("Clave guardada"); } localStorage.setItem('bice_claves_data', JSON.stringify(claves)); closeModal('clavesModal'); handleSearchClaves(); });
+    function handleSearchClaves() { const searchTerm = document.getElementById('searchClaves').value.toLowerCase(); filteredClaves = sortData(claves.filter(c => c.app.toLowerCase().includes(searchTerm) || c.user.toLowerCase().includes(searchTerm)), document.getElementById('sortSelectClaves').value, 'app'); currentClavesPage = 1; renderClaves(); }
+    function changePageClaves(direction) { currentClavesPage += direction; renderClaves(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function renderClaves() { const list = document.getElementById('clavesList'); list.innerHTML = ''; const totalPages = Math.ceil(filteredClaves.length / itemsPerPage) || 1; if(currentClavesPage < 1) currentClavesPage = 1; if(currentClavesPage > totalPages) currentClavesPage = totalPages; if(filteredClaves.length === 0) list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px;">No tienes claves guardadas aún.</p>'; else { filteredClaves.slice((currentClavesPage - 1) * itemsPerPage, currentClavesPage * itemsPerPage).forEach(c => { const card = document.createElement('details'); card.className = 'clave-card'; const starColor = c.favorito ? 'var(--color-star)' : 'var(--border)'; const starFill = c.favorito ? 'var(--color-star)' : 'none'; const starHtml = `<button class="star-btn" onclick="toggleFavClave(event, '${c.id}')" title="Marcar como favorito" style="color: ${starColor};"><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="${starFill}" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>`; let linkHtml = c.link ? `<a href="${c.link}" target="_blank" class="clave-link" onclick="event.stopPropagation()">🔗 Abrir Link</a>` : ''; card.innerHTML = `<summary class="clave-title"><div style="display:flex; align-items:center; gap:8px;">${starHtml}<span>🔐 ${c.app}</span></div>${linkHtml}</summary><div class="clave-content-wrapper"><div class="clave-row"><span class="clave-label">Usuario:</span><span class="clave-value" id="usr-${c.id}">${c.user}</span><button class="copy-btn" onclick="copyText(event, 'usr-${c.id}')" title="Copiar Usuario">${copySvg}</button></div><div class="clave-row"><span class="clave-label">Clave:</span><span class="clave-value clave-hidden" id="pass-${c.id}" data-pass="${c.pass}">••••••••</span><button class="toggle-visibility-btn" onclick="togglePass('${c.id}')" id="toggle-${c.id}">Mostrar</button><button class="copy-btn" onclick="copyText(event, null, '${c.pass}')" title="Copiar Clave">${copySvg}</button></div><div class="last-modified">(Última modificación: ${c.fecha || 'N/A'})</div><div class="card-actions"><button class="action-btn edit-btn" onclick="editClave('${c.id}')">✏️ Editar</button><button class="action-btn delete-btn" onclick="deleteClave('${c.id}')">🗑️ Eliminar</button></div></div>`; list.appendChild(card); }); } document.getElementById('pageInfoClaves').innerText = `Página ${currentClavesPage} de ${totalPages}`; document.getElementById('totalInfoClaves').innerText = `Total: ${filteredClaves.length} registros`; document.getElementById('prevBtnClaves').disabled = currentClavesPage === 1; document.getElementById('nextBtnClaves').disabled = currentClavesPage === totalPages || totalPages === 0; }
+    function togglePass(id) { const span = document.getElementById('pass-' + id), btn = document.getElementById('toggle-' + id); if (span.classList.contains('clave-hidden')) { span.innerText = span.getAttribute('data-pass'); span.classList.remove('clave-hidden'); btn.innerText = "Ocultar"; } else { span.innerText = "••••••••"; span.classList.add('clave-hidden'); btn.innerText = "Mostrar"; } }
+    function editClave(id) { const c = claves.find(x => x.id === id); document.getElementById('claveId').value = c.id; document.getElementById('claveApp').value = c.app; document.getElementById('claveLink').value = c.link || ''; document.getElementById('claveUser').value = c.user; document.getElementById('clavePass').value = c.pass; document.getElementById('formTitleClaves').innerText = 'Editar Clave'; openModal('clavesModal'); }
+    function deleteClave(id) { if(confirm('¿Seguro de eliminar esta clave?')) { claves = claves.filter(x => x.id !== id); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); showToast("Clave eliminada"); handleSearchClaves(); } }
+
+    // --- COMPARTIR DATOS ---
     function handleShareExport() {
         const sharedData = { kb: entries, directorio: directorio, plantillas: plantillas };
-        if(entries.length === 0 && directorio.length === 0 && plantillas.length === 0) { alert('No hay datos para compartir.'); return; }
-        const stringData = JSON.stringify(sharedData);
-        const encodedData = btoa(encodeURIComponent(stringData));
-        const modalHtml = `
-            <div class="modal-overlay" id="shareModal" style="display: flex;">
-                <div class="modal-content modal-content-small" style="border-top: 6px solid #6610f2;">
-                    <span class="close-modal" onclick="document.getElementById('shareModal').remove(); document.body.style.overflow='auto';" title="Cerrar">&times;</span>
-                    <h2 style="color: #6610f2;">🤝 Compartir Datos del Hub</h2>
-                    <p style="color: var(--text-muted); font-size: 0.95em;">Este paquete incluye <strong>solo</strong> tu Base de Conocimiento, Directorio y Plantillas (Excluye Claves y Tareas Pendientes por seguridad).</p>
-                    <textarea readonly style="height: 120px; font-family: monospace; font-size: 0.85em; background: var(--bg-group); color: var(--text-main); margin-top: 10px;">${encodedData}</textarea>
-                    <button class="save-btn" style="background: #6610f2; margin-top: 15px;" onclick="navigator.clipboard.writeText(this.previousElementSibling.value); showToast('Paquete copiado'); document.getElementById('shareModal').remove(); document.body.style.overflow='auto';">📋 Copiar Código Compartible</button>
-                </div>
-            </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
-        document.body.style.overflow = 'hidden';
+        if(entries.length === 0 && directorio.length === 0 && plantillas.length === 0) { alert('No hay datos (Base, Directorio o Plantillas) para compartir.'); return; }
+        const stringData = JSON.stringify(sharedData); const encodedData = btoa(encodeURIComponent(stringData));
+        const modalHtml = `<div class="modal-overlay" id="shareModal" style="display: flex;"><div class="modal-content modal-content-small" style="border-top: 6px solid #6610f2;"><span class="close-modal" onclick="document.getElementById('shareModal').remove(); document.body.style.overflow='auto';" title="Cerrar">&times;</span><h2 style="color: #6610f2;">🤝 Compartir Datos del Hub</h2><p style="color: var(--text-muted); font-size: 0.95em;">Este paquete incluye <strong>solo</strong> tu Base de Conocimiento, Directorio y Plantillas (Excluye Claves y Tareas Pendientes por seguridad).</p><textarea readonly style="height: 120px; font-family: monospace; font-size: 0.85em; background: var(--bg-group); color: var(--text-main); margin-top: 10px;">${encodedData}</textarea><button class="save-btn" style="background: #6610f2; margin-top: 15px;" onclick="navigator.clipboard.writeText(this.previousElementSibling.value); showToast('Paquete de compartir copiado'); document.getElementById('shareModal').remove(); document.body.style.overflow='auto';">📋 Copiar Código Compartible</button></div></div>`;
+        document.body.insertAdjacentHTML('beforeend', modalHtml); document.body.style.overflow = 'hidden';
     }
 
-    // --- LÓGICA GENERADOR DE PLANTILLAS ---
-    document.getElementById('plantillaForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const id = document.getElementById('plantillaId').value;
-        const titulo = document.getElementById('plantillaTitulo').value.trim();
-        const para = document.getElementById('plantillaPara').value.trim();
-        const cc = document.getElementById('plantillaCc').value.trim();
-        const asunto = document.getElementById('plantillaAsunto').value.trim();
-        const mensaje = document.getElementById('plantillaMensaje').value.trim();
+    // --- GENERADOR DE PLANTILLAS ---
+    document.getElementById('plantillaForm').addEventListener('submit', function(e) { e.preventDefault(); const id = document.getElementById('plantillaId').value; const titulo = document.getElementById('plantillaTitulo').value.trim(); const para = document.getElementById('plantillaPara').value.trim(); const cc = document.getElementById('plantillaCc').value.trim(); const asunto = document.getElementById('plantillaAsunto').value.trim(); const mensaje = document.getElementById('plantillaMensaje').value.trim(); const duplicate = plantillas.find(p => p.titulo.toLowerCase() === titulo.toLowerCase() && p.id !== id); if (duplicate) { alert(`⚠️ Ya existe una plantilla con el nombre "${duplicate.titulo}".`); return; } const newP = { id: id ? id : 'TPL_' + Date.now().toString(), titulo, para, cc, asunto, mensaje }; if (id) { plantillas[plantillas.findIndex(p => p.id === id)] = newP; showToast("Plantilla actualizada"); } else { plantillas.push(newP); showToast("Plantilla guardada"); } localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); closeModal('plantillasModal'); renderPlantillasDropdown(); document.getElementById('plantillaSelect').value = newP.id; seleccionarPlantilla(); });
+    function renderPlantillasDropdown() { const select = document.getElementById('plantillaSelect'); select.innerHTML = '<option value="">Selecciona una plantilla...</option>'; const sorted = [...plantillas].sort((a, b) => a.titulo.localeCompare(b.titulo)); sorted.forEach(p => { const opt = document.createElement('option'); opt.value = p.id; opt.innerText = p.titulo; select.appendChild(opt); }); document.getElementById('plantillaWorkspace').style.display = 'none'; document.getElementById('btnEditPlantilla').style.display = 'none'; document.getElementById('btnDelPlantilla').style.display = 'none'; }
+    function seleccionarPlantilla() { const id = document.getElementById('plantillaSelect').value; const container = document.getElementById('plantillaWorkspace'); if(!id) { container.style.display = 'none'; document.getElementById('btnEditPlantilla').style.display = 'none'; document.getElementById('btnDelPlantilla').style.display = 'none'; return; } currentPlantillaObj = plantillas.find(p => p.id === id); document.getElementById('btnEditPlantilla').style.display = 'block'; document.getElementById('btnDelPlantilla').style.display = 'block'; const regex = /\[([^\]]+)\]/g; const allText = `${currentPlantillaObj.para || ''} ${currentPlantillaObj.cc || ''} ${currentPlantillaObj.asunto || ''} ${currentPlantillaObj.mensaje || ''}`; let vars = []; let match; while ((match = regex.exec(allText)) !== null) { if(!vars.includes(match[1])) vars.push(match[1]); } const varsContainer = document.getElementById('plantillaVars'); varsContainer.innerHTML = ''; if(vars.length > 0) { vars.forEach(v => { varsContainer.innerHTML += `<div style="flex: 1; min-width: 200px;"><label style="margin-top: 0; color: var(--text-muted); font-size: 0.9em;">${v}:</label><input type="text" class="plantilla-var-input" data-var="${v}" oninput="updatePlantillaPreview()" placeholder="Ingresa ${v}..." style="border-color: var(--color-indigo);"></div>`; }); } else { varsContainer.innerHTML = '<p style="color:var(--text-muted); width: 100%; font-style: italic; margin: 0;">Esta plantilla no requiere variables adicionales. Está lista para copiar.</p>'; } container.style.display = 'block'; updatePlantillaPreview(); }
+    function updatePlantillaPreview() { if(!currentPlantillaObj) return; let pPara = currentPlantillaObj.para || ''; let pCc = currentPlantillaObj.cc || ''; let pAsunto = currentPlantillaObj.asunto || ''; let pMensaje = currentPlantillaObj.mensaje || ''; document.querySelectorAll('.plantilla-var-input').forEach(input => { const v = input.getAttribute('data-var'); const val = input.value || `[${v}]`; const splitRegex = new RegExp(`\\[${v}\\]`, 'gi'); pPara = pPara.replace(splitRegex, val); pCc = pCc.replace(splitRegex, val); pAsunto = pAsunto.replace(splitRegex, val); pMensaje = pMensaje.replace(splitRegex, val); }); document.getElementById('prevPara').innerText = pPara; document.getElementById('prevCc').innerText = pCc; document.getElementById('prevAsunto').innerText = pAsunto; document.getElementById('prevMensaje').innerText = pMensaje; document.getElementById('rowPara').style.display = pPara ? 'flex' : 'none'; document.getElementById('rowCc').style.display = pCc ? 'flex' : 'none'; document.getElementById('rowAsunto').style.display = pAsunto ? 'flex' : 'none'; }
+    function editarPlantillaActual() { if(!currentPlantillaObj) return; document.getElementById('plantillaId').value = currentPlantillaObj.id; document.getElementById('plantillaTitulo').value = currentPlantillaObj.titulo; document.getElementById('plantillaPara').value = currentPlantillaObj.para || ''; document.getElementById('plantillaCc').value = currentPlantillaObj.cc || ''; document.getElementById('plantillaAsunto').value = currentPlantillaObj.asunto || ''; document.getElementById('plantillaMensaje').value = currentPlantillaObj.mensaje || ''; document.getElementById('formTitlePlantilla').innerText = 'Editar Plantilla'; openModal('plantillasModal'); }
+    function eliminarPlantillaActual() { if(!currentPlantillaObj) return; if(confirm(`¿Seguro que deseas eliminar la plantilla "${currentPlantillaObj.titulo}"?`)) { plantillas = plantillas.filter(p => p.id !== currentPlantillaObj.id); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); showToast("Plantilla eliminada"); renderPlantillasDropdown(); } }
 
-        const duplicate = plantillas.find(p => p.titulo.toLowerCase() === titulo.toLowerCase() && p.id !== id);
-        if (duplicate) { alert(`⚠️ Ya existe una plantilla con el nombre "${duplicate.titulo}".`); return; }
-
-        const newP = { id: id ? id : 'TPL_' + Date.now().toString(), titulo, para, cc, asunto, mensaje };
-
-        if (id) { plantillas[plantillas.findIndex(p => p.id === id)] = newP; showToast("Plantilla actualizada"); } 
-        else { plantillas.push(newP); showToast("Plantilla guardada"); }
-        
-        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
-        closeModal('plantillasModal');
-        renderPlantillasDropdown();
-        document.getElementById('plantillaSelect').value = newP.id;
-        seleccionarPlantilla();
-    });
-
-    function renderPlantillasDropdown() {
-        const select = document.getElementById('plantillaSelect'); select.innerHTML = '<option value="">Selecciona una plantilla...</option>';
-        const sorted = [...plantillas].sort((a, b) => a.titulo.localeCompare(b.titulo));
-        sorted.forEach(p => { const opt = document.createElement('option'); opt.value = p.id; opt.innerText = p.titulo; select.appendChild(opt); });
-        document.getElementById('plantillaWorkspace').style.display = 'none'; document.getElementById('btnEditPlantilla').style.display = 'none'; document.getElementById('btnDelPlantilla').style.display = 'none';
-    }
-
-    function seleccionarPlantilla() {
-        const id = document.getElementById('plantillaSelect').value; const container = document.getElementById('plantillaWorkspace');
-        if(!id) { container.style.display = 'none'; document.getElementById('btnEditPlantilla').style.display = 'none'; document.getElementById('btnDelPlantilla').style.display = 'none'; return; }
-        
-        currentPlantillaObj = plantillas.find(p => p.id === id);
-        document.getElementById('btnEditPlantilla').style.display = 'block'; document.getElementById('btnDelPlantilla').style.display = 'block';
-        
-        const regex = /\[([^\]]+)\]/g; const allText = `${currentPlantillaObj.para || ''} ${currentPlantillaObj.cc || ''} ${currentPlantillaObj.asunto || ''} ${currentPlantillaObj.mensaje || ''}`;
-        let vars = []; let match;
-        while ((match = regex.exec(allText)) !== null) { if(!vars.includes(match[1])) vars.push(match[1]); }
-        
-        const varsContainer = document.getElementById('plantillaVars'); varsContainer.innerHTML = '';
-        if(vars.length > 0) {
-            vars.forEach(v => { varsContainer.innerHTML += `<div style="flex: 1; min-width: 200px;"><label style="margin-top: 0; color: var(--text-muted); font-size: 0.9em;">${v}:</label><input type="text" class="plantilla-var-input" data-var="${v}" oninput="updatePlantillaPreview()" placeholder="Ingresa ${v}..." style="border-color: var(--color-indigo);"></div>`; });
-        } else { varsContainer.innerHTML = '<p style="color:var(--text-muted); width: 100%; font-style: italic; margin: 0;">Esta plantilla no requiere variables adicionales. Está lista para copiar.</p>'; }
-        
-        container.style.display = 'block'; updatePlantillaPreview();
-    }
-
-    function updatePlantillaPreview() {
-        if(!currentPlantillaObj) return;
-        let pPara = currentPlantillaObj.para || ''; let pCc = currentPlantillaObj.cc || ''; let pAsunto = currentPlantillaObj.asunto || ''; let pMensaje = currentPlantillaObj.mensaje || '';
-        document.querySelectorAll('.plantilla-var-input').forEach(input => {
-            const v = input.getAttribute('data-var'); const val = input.value || `[${v}]`; 
-            const splitRegex = new RegExp(`\\[${v}\\]`, 'gi');
-            pPara = pPara.replace(splitRegex, val); pCc = pCc.replace(splitRegex, val); pAsunto = pAsunto.replace(splitRegex, val); pMensaje = pMensaje.replace(splitRegex, val);
-        });
-        document.getElementById('prevPara').innerText = pPara; document.getElementById('prevCc').innerText = pCc; document.getElementById('prevAsunto').innerText = pAsunto; document.getElementById('prevMensaje').innerText = pMensaje;
-        document.getElementById('rowPara').style.display = pPara ? 'flex' : 'none'; document.getElementById('rowCc').style.display = pCc ? 'flex' : 'none'; document.getElementById('rowAsunto').style.display = pAsunto ? 'flex' : 'none';
-    }
-
-    function editarPlantillaActual() {
-        if(!currentPlantillaObj) return;
-        document.getElementById('plantillaId').value = currentPlantillaObj.id; document.getElementById('plantillaTitulo').value = currentPlantillaObj.titulo; document.getElementById('plantillaPara').value = currentPlantillaObj.para || ''; document.getElementById('plantillaCc').value = currentPlantillaObj.cc || ''; document.getElementById('plantillaAsunto').value = currentPlantillaObj.asunto || ''; document.getElementById('plantillaMensaje').value = currentPlantillaObj.mensaje || '';
-        document.getElementById('formTitlePlantilla').innerText = 'Editar Plantilla'; openModal('plantillasModal');
-    }
-
-    function eliminarPlantillaActual() {
-        if(!currentPlantillaObj) return;
-        if(confirm(`¿Seguro que deseas eliminar la plantilla "${currentPlantillaObj.titulo}"?`)) { plantillas = plantillas.filter(p => p.id !== currentPlantillaObj.id); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); showToast("Plantilla eliminada"); renderPlantillasDropdown(); }
-    }
-
-
-    // --- LÓGICA MIS PENDIENTES ---
-    function renderPendientes() {
-        const list = document.getElementById('listaPendientes'); list.innerHTML = '';
-        if (pendientes.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px; font-style: italic;">No tienes tareas pendientes. ¡Estás al día! 🎉</p>'; return; }
-        const sorted = [...pendientes].sort((a, b) => { if(a.done === b.done) return b.timestamp - a.timestamp; return a.done ? 1 : -1; });
-        sorted.forEach(t => {
-            const div = document.createElement('div'); div.style.cssText = `display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px var(--shadow); border-left: 4px solid ${t.done ? 'var(--border)' : 'var(--color-success)'}; transition: all 0.2s; opacity: ${t.done ? '0.6' : '1'}; gap: 10px;`;
-            const leftDiv = document.createElement('div'); leftDiv.style.cssText = "display: flex; align-items: center; gap: 12px; flex: 1; cursor: pointer; min-width: 0;"; leftDiv.onclick = () => toggleTarea(t.id);
-            const check = document.createElement('input'); check.type = "checkbox"; check.checked = t.done; check.style.cssText = "width: 18px; height: 18px; margin: 0; cursor: pointer; flex-shrink: 0;"; check.onclick = (e) => e.stopPropagation(); check.onchange = () => toggleTarea(t.id);
-            const textSpan = document.createElement('span'); textSpan.style.cssText = `font-size: 1.05em; color: var(--text-main); transition: all 0.2s; word-break: break-word; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;`;
-            if (t.done) { textSpan.style.textDecoration = 'line-through'; textSpan.style.color = 'var(--text-muted)'; }
-            if (t.tipo) { const badge = document.createElement('span'); badge.innerText = t.tipo; badge.style.cssText = `background: ${t.done ? 'var(--border)' : t.badgeColor}; color: ${t.done ? 'var(--text-muted)' : 'white'}; padding: 3px 8px; border-radius: 12px; font-size: 0.75em; font-weight: bold;`; textSpan.appendChild(badge); }
-            const nodeText = document.createTextNode(t.text); textSpan.appendChild(nodeText);
-            leftDiv.appendChild(check); leftDiv.appendChild(textSpan);
-            const actionDiv = document.createElement('div'); actionDiv.style.cssText = "display: flex; gap: 5px; flex-shrink: 0;";
-            const copyBtn = document.createElement('button'); copyBtn.className = "copy-btn"; copyBtn.style.cssText = "padding: 4px 6px; font-size: 0.9em; margin: 0; display: flex; align-items: center; justify-content: center;"; copyBtn.innerHTML = copySvg; copyBtn.title = "Copiar al portapapeles"; copyBtn.onclick = (e) => { e.stopPropagation(); copyText(e, null, t.text); };
-            const delBtn = document.createElement('button'); delBtn.className = "action-btn delete-btn"; delBtn.style.cssText = "padding: 4px 8px; font-size: 0.9em; margin: 0; background: transparent; color: var(--color-danger); border: 1px solid var(--color-danger); width: auto;"; delBtn.innerHTML = "🗑️"; delBtn.title = "Eliminar tarea"; delBtn.onclick = (e) => { e.stopPropagation(); eliminarTarea(t.id); };
-            actionDiv.appendChild(copyBtn); actionDiv.appendChild(delBtn); div.appendChild(leftDiv); div.appendChild(actionDiv); list.appendChild(div);
-        });
-    }
-
-    function agregarTarea() {
-        const input = document.getElementById('nuevaTareaInput'); const rawText = input.value.trim(); if(!rawText) return;
-        const tokens = rawText.split(/\s+/); const allAreCodes = tokens.every(t => /^\d+$/.test(t) || t.toUpperCase().startsWith("MS-"));
-        let lines = []; if (allAreCodes && tokens.length > 1) { lines = tokens; } else { lines = rawText.split(/\n+/); }
-        let added = 0;
-        lines.forEach((line, index) => {
-            let text = line.trim(); if(!text) return; let tipo = ""; let badgeColor = "";
-            if (text.toUpperCase().startsWith("MS-")) { tipo = "💬 Mensajería"; badgeColor = "var(--color-info)"; } else if (/^\d+$/.test(text)) { tipo = "☁️ Salesforce"; badgeColor = "var(--primary-color)"; }
-            pendientes.push({ id: 'TSK_' + Date.now() + '_' + index, text: text, tipo: tipo, badgeColor: badgeColor, done: false, timestamp: Date.now() }); added++;
-        });
-        if (added > 0) { localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); input.value = ''; renderPendientes(); }
-    }
+    // --- MIS PENDIENTES ---
+    function renderPendientes() { const list = document.getElementById('listaPendientes'); list.innerHTML = ''; if (pendientes.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px; font-style: italic;">No tienes tareas pendientes. ¡Estás al día! 🎉</p>'; return; } const sorted = [...pendientes].sort((a, b) => { if(a.done === b.done) return b.timestamp - a.timestamp; return a.done ? 1 : -1; }); sorted.forEach(t => { const div = document.createElement('div'); div.style.cssText = `display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px var(--shadow); border-left: 4px solid ${t.done ? 'var(--border)' : 'var(--color-success)'}; transition: all 0.2s; opacity: ${t.done ? '0.6' : '1'}; gap: 10px;`; const leftDiv = document.createElement('div'); leftDiv.style.cssText = "display: flex; align-items: center; gap: 12px; flex: 1; cursor: pointer; min-width: 0;"; leftDiv.onclick = () => toggleTarea(t.id); const check = document.createElement('input'); check.type = "checkbox"; check.checked = t.done; check.style.cssText = "width: 18px; height: 18px; margin: 0; cursor: pointer; flex-shrink: 0;"; check.onclick = (e) => e.stopPropagation(); check.onchange = () => toggleTarea(t.id); const textSpan = document.createElement('span'); textSpan.style.cssText = `font-size: 1.05em; color: var(--text-main); transition: all 0.2s; word-break: break-word; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;`; if (t.done) { textSpan.style.textDecoration = 'line-through'; textSpan.style.color = 'var(--text-muted)'; } if (t.tipo) { const badge = document.createElement('span'); badge.innerText = t.tipo; badge.style.cssText = `background: ${t.done ? 'var(--border)' : t.badgeColor}; color: ${t.done ? 'var(--text-muted)' : 'white'}; padding: 3px 8px; border-radius: 12px; font-size: 0.75em; font-weight: bold;`; textSpan.appendChild(badge); } const nodeText = document.createTextNode(t.text); textSpan.appendChild(nodeText); leftDiv.appendChild(check); leftDiv.appendChild(textSpan); const actionDiv = document.createElement('div'); actionDiv.style.cssText = "display: flex; gap: 5px; flex-shrink: 0;"; const copyBtn = document.createElement('button'); copyBtn.className = "copy-btn"; copyBtn.style.cssText = "padding: 4px 6px; font-size: 0.9em; margin: 0; display: flex; align-items: center; justify-content: center;"; copyBtn.innerHTML = copySvg; copyBtn.title = "Copiar al portapapeles"; copyBtn.onclick = (e) => { e.stopPropagation(); copyText(e, null, t.text); }; const delBtn = document.createElement('button'); delBtn.className = "action-btn delete-btn"; delBtn.style.cssText = "padding: 4px 8px; font-size: 0.9em; margin: 0; background: transparent; color: var(--color-danger); border: 1px solid var(--color-danger); width: auto;"; delBtn.innerHTML = "🗑️"; delBtn.title = "Eliminar tarea"; delBtn.onclick = (e) => { e.stopPropagation(); eliminarTarea(t.id); }; actionDiv.appendChild(copyBtn); actionDiv.appendChild(delBtn); div.appendChild(leftDiv); div.appendChild(actionDiv); list.appendChild(div); }); }
+    function agregarTarea() { const input = document.getElementById('nuevaTareaInput'); const rawText = input.value.trim(); if(!rawText) return; const tokens = rawText.split(/\s+/); const allAreCodes = tokens.every(t => /^\d+$/.test(t) || t.toUpperCase().startsWith("MS-")); let lines = []; if (allAreCodes && tokens.length > 1) { lines = tokens; } else { lines = rawText.split(/\n+/); } let added = 0; lines.forEach((line, index) => { let text = line.trim(); if(!text) return; let tipo = ""; let badgeColor = ""; if (text.toUpperCase().startsWith("MS-")) { tipo = "💬 Mensajería"; badgeColor = "var(--color-info)"; } else if (/^\d+$/.test(text)) { tipo = "☁️ Salesforce"; badgeColor = "var(--primary-color)"; } pendientes.push({ id: 'TSK_' + Date.now() + '_' + index, text: text, tipo: tipo, badgeColor: badgeColor, done: false, timestamp: Date.now() }); added++; }); if (added > 0) { localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); input.value = ''; renderPendientes(); } }
     function toggleTarea(id) { const idx = pendientes.findIndex(t => t.id === id); if(idx > -1) { pendientes[idx].done = !pendientes[idx].done; localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); renderPendientes(); } }
     function eliminarTarea(id) { pendientes = pendientes.filter(t => t.id !== id); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); renderPendientes(); }
     function limpiarTareasCompletadas() { const cantidadOriginal = pendientes.length; pendientes = pendientes.filter(t => !t.done); if (pendientes.length !== cantidadOriginal) { localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); renderPendientes(); showToast("Tareas resueltas eliminadas"); } }
     function borrarTodasTareas() { if(pendientes.length === 0) return; if(confirm("¿Estás seguro de borrar toda tu lista de tareas pendientes?")) { pendientes = []; localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); renderPendientes(); } }
 
-    // --- LÓGICA CALCULADORA DE PLAZOS (SLA) ---
-    const feriadosChile = [
-        "2024-01-01", "2024-03-29", "2024-03-30", "2024-05-01", "2024-05-21", "2024-06-20", "2024-06-29", "2024-07-16", "2024-08-15", "2024-09-18", "2024-09-19", "2024-09-20", "2024-10-12", "2024-10-31", "2024-11-01", "2024-12-08", "2024-12-25",
-        "2025-01-01", "2025-04-18", "2025-04-19", "2025-05-01", "2025-05-21", "2025-06-20", "2025-06-29", "2025-07-16", "2025-08-15", "2025-09-18", "2025-09-19", "2025-10-12", "2025-10-31", "2025-11-01", "2025-12-08", "2025-12-25",
-        "2026-01-01", "2026-04-03", "2026-04-04", "2026-05-01", "2026-05-21", "2026-06-21", "2026-06-29", "2026-07-16", "2026-08-15", "2026-09-18", "2026-09-19", "2026-10-12", "2026-10-31", "2026-11-01", "2026-12-08", "2026-12-25",
-        "2027-01-01", "2027-03-26", "2027-03-27", "2027-05-01", "2027-05-21", "2027-06-21", "2027-06-28", "2027-07-16", "2027-08-15", "2027-09-17", "2027-09-18", "2027-09-19", "2027-10-11", "2027-10-31", "2027-11-01", "2027-12-08", "2027-12-25"
-    ];
+    // --- CALCULADORA DE PLAZOS (SLA) ---
+    const feriadosChile = ["2024-01-01", "2024-03-29", "2024-03-30", "2024-05-01", "2024-05-21", "2024-06-20", "2024-06-29", "2024-07-16", "2024-08-15", "2024-09-18", "2024-09-19", "2024-09-20", "2024-10-12", "2024-10-31", "2024-11-01", "2024-12-08", "2024-12-25", "2025-01-01", "2025-04-18", "2025-04-19", "2025-05-01", "2025-05-21", "2025-06-20", "2025-06-29", "2025-07-16", "2025-08-15", "2025-09-18", "2025-09-19", "2025-10-12", "2025-10-31", "2025-11-01", "2025-12-08", "2025-12-25", "2026-01-01", "2026-04-03", "2026-04-04", "2026-05-01", "2026-05-21", "2026-06-21", "2026-06-29", "2026-07-16", "2026-08-15", "2026-09-18", "2026-09-19", "2026-10-12", "2026-10-31", "2026-11-01", "2026-12-08", "2026-12-25", "2027-01-01", "2027-03-26", "2027-03-27", "2027-05-01", "2027-05-21", "2027-06-21", "2027-06-28", "2027-07-16", "2027-08-15", "2027-09-17", "2027-09-18", "2027-09-19", "2027-10-11", "2027-10-31", "2027-11-01", "2027-12-08", "2027-12-25"];
+    function calcularPlazo() { const startDateInput = document.getElementById('plazoFecha').value; const diasInput = parseInt(document.getElementById('plazoDias').value); const tipoPlazo = document.getElementById('plazoTipo').value; if (!startDateInput || isNaN(diasInput) || diasInput <= 0) { alert('Ingresa una fecha y cantidad de días válidos.'); return; } let date = new Date(startDateInput + 'T12:00:00'); let daysAdded = 0; while (daysAdded < diasInput) { date.setDate(date.getDate() + 1); if (tipoPlazo === 'habiles') { const dayOfWeek = date.getDay(); if (dayOfWeek === 0 || dayOfWeek === 6) { continue; } const y = date.getFullYear(); const m = String(date.getMonth() + 1).padStart(2, '0'); const d = String(date.getDate()).padStart(2, '0'); if (feriadosChile.includes(`${y}-${m}-${d}`)) { continue; } } daysAdded++; } const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; let fechaFormateada = date.toLocaleDateString('es-CL', opciones); fechaFormateada = fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1); document.getElementById('resPlazo').innerText = fechaFormateada; document.getElementById('plazoResult').style.display = 'block'; }
 
-    function calcularPlazo() {
-        const startDateInput = document.getElementById('plazoFecha').value; const diasInput = parseInt(document.getElementById('plazoDias').value); const tipoPlazo = document.getElementById('plazoTipo').value;
-        if (!startDateInput || isNaN(diasInput) || diasInput <= 0) { alert('Ingresa una fecha y cantidad de días válidos.'); return; }
-        let date = new Date(startDateInput + 'T12:00:00'); let daysAdded = 0;
-        while (daysAdded < diasInput) {
-            date.setDate(date.getDate() + 1);
-            if (tipoPlazo === 'habiles') {
-                const dayOfWeek = date.getDay(); if (dayOfWeek === 0 || dayOfWeek === 6) { continue; }
-                const y = date.getFullYear(); const m = String(date.getMonth() + 1).padStart(2, '0'); const d = String(date.getDate()).padStart(2, '0');
-                if (feriadosChile.includes(`${y}-${m}-${d}`)) { continue; }
-            }
-            daysAdded++;
-        }
-        const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; let fechaFormateada = date.toLocaleDateString('es-CL', opciones);
-        fechaFormateada = fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1);
-        document.getElementById('resPlazo').innerText = fechaFormateada; document.getElementById('plazoResult').style.display = 'block';
-    }
+    // --- SIMULADOR RÁPIDO DE CUOTAS ---
+    function toggleTasaSimulador() { const sinInteres = document.getElementById('simSinInteres').checked; const inputTasa = document.getElementById('simTasa'); if (sinInteres) { inputTasa.value = 0; inputTasa.disabled = true; } else { inputTasa.value = 3.45; inputTasa.disabled = false; } }
+    function calcularSimulador() { const monto = parseFloat(document.getElementById('simMonto').value); const cuotas = parseInt(document.getElementById('simCuotas').value); const tipoOp = document.getElementById('simTipo').value; const tasaManual = parseFloat(document.getElementById('simTasa').value) || 0; const sinInteres = document.getElementById('simSinInteres').checked; if (isNaN(monto) || monto <= 0) { alert('Ingresa un monto válido a simular.'); return; } if (isNaN(cuotas) || cuotas < 2 || cuotas > 48) { alert('El número de cuotas permitido es entre 2 y 48.'); return; } let tasaMensual = sinInteres ? 0 : (tasaManual / 100); let valorCuotaMensual = 0; let costoTotal = 0; let aplicaImpuesto = true; if (tasaMensual === 0) { valorCuotaMensual = monto / cuotas; costoTotal = monto; if (cuotas === 3) aplicaImpuesto = false; } else { valorCuotaMensual = monto * (tasaMensual * Math.pow(1 + tasaMensual, cuotas)) / (Math.pow(1 + tasaMensual, cuotas) - 1); costoTotal = valorCuotaMensual * cuotas; } let impuesto = 0; if (aplicaImpuesto) { let tasaImp = Math.min(0.008, 0.00066 * cuotas); impuesto = monto * tasaImp; } let cuotaStr = Math.round(valorCuotaMensual).toLocaleString('es-CL'); let costoTotalStr = Math.round(costoTotal).toLocaleString('es-CL'); let impuestoStr = Math.round(impuesto).toLocaleString('es-CL'); let textoSalida = `SIMULACIÓN TARJETA DE CRÉDITO BICE\n----------------------------------\nOperación:\t${tipoOp}\nMonto:\t\t$ ${monto.toLocaleString('es-CL')}\nCuotas:\t\t${cuotas}\nTasa Mensual:\t${tasaManual}%\n\nVALOR CUOTA:\t$ ${cuotaStr} (Referencial)\nCOSTO TOTAL:\t$ ${costoTotalStr}\n\n`; if (!aplicaImpuesto && sinInteres && cuotas === 3) { textoSalida += `* Operación de 3 Cuotas Precio Contado Exenta de Impuesto al Crédito.\n`; } else { textoSalida += `* Valores NO incluyen Impuesto al Crédito. Éste se cobrará por única vez en el próximo estado de cuenta (Aprox. $ ${impuestoStr}).\n`; } document.getElementById('resSimText').innerText = textoSalida; document.getElementById('simuladorResult').style.display = 'block'; }
 
-
-    // --- LÓGICA SIMULADOR RÁPIDO DE CUOTAS ---
-    function toggleTasaSimulador() {
-        const sinInteres = document.getElementById('simSinInteres').checked; const inputTasa = document.getElementById('simTasa');
-        if (sinInteres) { inputTasa.value = 0; inputTasa.disabled = true; } else { inputTasa.value = 3.45; inputTasa.disabled = false; }
-    }
-
-    function calcularSimulador() {
-        const monto = parseFloat(document.getElementById('simMonto').value); const cuotas = parseInt(document.getElementById('simCuotas').value);
-        const tipoOp = document.getElementById('simTipo').value; const tasaManual = parseFloat(document.getElementById('simTasa').value) || 0;
-        const sinInteres = document.getElementById('simSinInteres').checked;
-
-        if (isNaN(monto) || monto <= 0) { alert('Ingresa un monto válido a simular.'); return; }
-        if (isNaN(cuotas) || cuotas < 2 || cuotas > 48) { alert('El número de cuotas permitido es entre 2 y 48.'); return; }
-
-        let tasaMensual = sinInteres ? 0 : (tasaManual / 100); let valorCuotaMensual = 0; let costoTotal = 0; let aplicaImpuesto = true;
-
-        if (tasaMensual === 0) {
-            valorCuotaMensual = monto / cuotas; costoTotal = monto;
-            if (cuotas === 3) aplicaImpuesto = false; 
-        } else {
-            valorCuotaMensual = monto * (tasaMensual * Math.pow(1 + tasaMensual, cuotas)) / (Math.pow(1 + tasaMensual, cuotas) - 1);
-            costoTotal = valorCuotaMensual * cuotas;
-        }
-
-        let impuesto = 0;
-        if (aplicaImpuesto) { let tasaImp = Math.min(0.008, 0.00066 * cuotas); impuesto = monto * tasaImp; }
-        
-        let cuotaStr = Math.round(valorCuotaMensual).toLocaleString('es-CL'); let costoTotalStr = Math.round(costoTotal).toLocaleString('es-CL'); let impuestoStr = Math.round(impuesto).toLocaleString('es-CL');
-        let textoSalida = `SIMULACIÓN TARJETA DE CRÉDITO BICE\n----------------------------------\nOperación:\t${tipoOp}\nMonto:\t\t$ ${monto.toLocaleString('es-CL')}\nCuotas:\t\t${cuotas}\nTasa Mensual:\t${tasaManual}%\n\nVALOR CUOTA:\t$ ${cuotaStr} (Referencial)\nCOSTO TOTAL:\t$ ${costoTotalStr}\n\n`;
-        
-        if (!aplicaImpuesto && sinInteres && cuotas === 3) { textoSalida += `* Operación de 3 Cuotas Precio Contado Exenta de Impuesto al Crédito.\n`;
-        } else { textoSalida += `* Valores NO incluyen Impuesto al Crédito. Éste se cobrará por única vez en el próximo estado de cuenta (Aprox. $ ${impuestoStr}).\n`; }
-
-        document.getElementById('resSimText').innerText = textoSalida; document.getElementById('simuladorResult').style.display = 'block';
-    }
-
-
-    // --- LÓGICA RECONSTRUCCIÓN TC Y TARIFAS VISA ---
+    // --- RECONSTRUCCIÓN TC Y TARIFAS VISA ---
     function formatPlatcomInput(e) { let val = e.target.value.replace(/\D/g, ''); if (val.length > 1) val = val.substring(0, 1) + '-' + val.substring(1); if (val.length > 6) val = val.substring(0, 6) + '-' + val.substring(6); e.target.value = val; }
-    
-    function reconstruirTC() {
-        const inputStr = document.getElementById('platcomInput').value; const cleanInput = inputStr.replace(/\D/g, ''); const category = document.getElementById('tcCategory').value;
-        if (cleanInput.length !== 9) { alert('El código debe tener 9 números, ej: 3-0018-8361'); return; } if (!category) { alert('Por favor selecciona una categoría.'); return; }
-        
-        const table = { "Oro": { antiguo: "4259440", nuevo: "4259441" }, "Platinum": { antiguo: "4512480", nuevo: "4512486" }, "Infinite": { antiguo: "4093200", nuevo: "4093205" }, "Infinite II": { antiguo: "4245250", nuevo: "4245255" }, "Empresarial_4259": { antiguo: "4259470", nuevo: "4259474" }, "Platinum BIA": { antiguo: "4633070", nuevo: "4633076" }, "Empresarial_4633": { antiguo: "4633050", nuevo: "4633054" }, "Signature": { antiguo: "", nuevo: "4234710" }, "Limitless": { antiguo: "4093200", nuevo: "4093205" } };
-        const primerDigito = cleanInput.charAt(0); let bin = "";
-        
-        if (primerDigito === '4') { bin = table[category].antiguo; if (!bin) { alert('Esta categoría no tiene un BIN Antiguo registrado.'); return; } } else if (['0', '1', '2', '3'].includes(primerDigito)) { bin = table[category].nuevo; } else { alert('El código Platcom debe comenzar con 4 (Antiguo) o 0, 1, 2, 3 (Nuevo).'); return; }
-        
-        document.getElementById('resReconst').innerText = bin + cleanInput; document.getElementById('reconstResult').style.display = 'flex';
+    function reconstruirTC() { const inputStr = document.getElementById('platcomInput').value; const cleanInput = inputStr.replace(/\D/g, ''); const category = document.getElementById('tcCategory').value; if (cleanInput.length !== 9) { alert('El código debe tener 9 números, ej: 3-0018-8361'); return; } if (!category) { alert('Por favor selecciona una categoría.'); return; } const table = { "Oro": { antiguo: "4259440", nuevo: "4259441" }, "Platinum": { antiguo: "4512480", nuevo: "4512486" }, "Infinite": { antiguo: "4093200", nuevo: "4093205" }, "Infinite II": { antiguo: "4245250", nuevo: "4245255" }, "Empresarial_4259": { antiguo: "4259470", nuevo: "4259474" }, "Platinum BIA": { antiguo: "4633070", nuevo: "4633076" }, "Empresarial_4633": { antiguo: "4633050", nuevo: "4633054" }, "Signature": { antiguo: "", nuevo: "4234710" }, "Limitless": { antiguo: "4093200", nuevo: "4093205" } }; const primerDigito = cleanInput.charAt(0); let bin = ""; if (primerDigito === '4') { bin = table[category].antiguo; if (!bin) { alert('Esta categoría no tiene un BIN Antiguo registrado.'); return; } } else if (['0', '1', '2', '3'].includes(primerDigito)) { bin = table[category].nuevo; } else { alert('El código Platcom debe comenzar con 4 (Antiguo) o 0, 1, 2, 3 (Nuevo).'); return; } document.getElementById('resReconst').innerText = bin + cleanInput; document.getElementById('reconstResult').style.display = 'flex'; const tarifarioVisa = { "Infinite": { semestral: "UF 2,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,09 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 30.<br>• 40% Dscto. si es ≥ UF 20 y < UF 30." }, "Infinite II": { semestral: "UF 2,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,09 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 30.<br>• 40% Dscto. si es ≥ UF 20 y < UF 30." }, "Signature": { semestral: "UF 1,5 + IVA", adicional: "Sin Comisión", mensual: "UF 0,07 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 20.<br>• 40% Dscto. si es ≥ UF 15 y < UF 20." }, "Platinum": { semestral: "UF 1,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,06 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 9.<br>• 40% Dscto. si es ≥ UF 5 y < UF 9." }, "Oro": { semestral: "UF 0,7 + IVA", adicional: "Sin Comisión", mensual: "UF 0,04 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 6.<br>• 40% Dscto. si es ≥ UF 4 y < UF 6.<br><span style='color:var(--color-danger);font-weight:bold;'>* Exenta de mantención y uso a menores de 30 años.</span>" }, "Limitless": { semestral: "UF 2,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,09 + IVA", dcto: "• Aplica regla equivalente a línea Infinite." } }; const detailsBox = document.getElementById('tcTarifarioDetails'); const contentHTML = document.getElementById('tcTarifarioContent'); if (tarifarioVisa[category]) { const info = tarifarioVisa[category]; contentHTML.innerHTML = `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;"><tr><td style="padding: 4px 0; font-weight: bold; width: 50%;">Mantención Semestral:</td><td style="padding: 4px 0;">${info.semestral}</td></tr><tr><td style="padding: 4px 0; font-weight: bold;">Semestral Adicional Plus:</td><td style="padding: 4px 0;">${info.adicional}</td></tr><tr><td style="padding: 4px 0; font-weight: bold;">Administración Mensual:</td><td style="padding: 4px 0;">${info.mensual}</td></tr></table><div style="background: rgba(23, 162, 184, 0.1); padding: 10px; border-radius: 4px; border-left: 3px solid var(--color-info);"><strong style="display:block; margin-bottom: 5px;">🎁 Reglas de Descuento (Semestral):</strong>${info.dcto}</div>`; let cleanDcto = info.dcto.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, ""); currentTarifarioText = `COSTOS DE MANTENCIÓN TC ${category.toUpperCase()}\n---------------------------------------\nMantención Semestral:\t\t${info.semestral}\nSemestral Adicional Plus:\t${info.adicional}\nAdministración Mensual:\t\t${info.mensual}\n\nREGLAS DE DESCUENTO (Mant. Semestral):\n${cleanDcto}`; detailsBox.style.display = 'block'; detailsBox.open = false; } else { detailsBox.style.display = 'none'; } }
 
-        const tarifarioVisa = {
-            "Infinite": { semestral: "UF 2,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,09 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 30.<br>• 40% Dscto. si es ≥ UF 20 y < UF 30." },
-            "Infinite II": { semestral: "UF 2,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,09 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 30.<br>• 40% Dscto. si es ≥ UF 20 y < UF 30." },
-            "Signature": { semestral: "UF 1,5 + IVA", adicional: "Sin Comisión", mensual: "UF 0,07 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 20.<br>• 40% Dscto. si es ≥ UF 15 y < UF 20." },
-            "Platinum": { semestral: "UF 1,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,06 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 9.<br>• 40% Dscto. si es ≥ UF 5 y < UF 9." },
-            "Oro": { semestral: "UF 0,7 + IVA", adicional: "Sin Comisión", mensual: "UF 0,04 + IVA", dcto: "• 100% Dscto. si el promedio compras últimos 6 meses es ≥ UF 6.<br>• 40% Dscto. si es ≥ UF 4 y < UF 6.<br><span style='color:var(--color-danger);font-weight:bold;'>* Exenta de mantención y uso a menores de 30 años.</span>" },
-            "Limitless": { semestral: "UF 2,0 + IVA", adicional: "Sin Comisión", mensual: "UF 0,09 + IVA", dcto: "• Aplica regla equivalente a línea Infinite." }
-        };
-
-        const detailsBox = document.getElementById('tcTarifarioDetails'); const contentHTML = document.getElementById('tcTarifarioContent');
-
-        if (tarifarioVisa[category]) {
-            const info = tarifarioVisa[category];
-            contentHTML.innerHTML = `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;"><tr><td style="padding: 4px 0; font-weight: bold; width: 50%;">Mantención Semestral:</td><td style="padding: 4px 0;">${info.semestral}</td></tr><tr><td style="padding: 4px 0; font-weight: bold;">Semestral Adicional Plus:</td><td style="padding: 4px 0;">${info.adicional}</td></tr><tr><td style="padding: 4px 0; font-weight: bold;">Administración Mensual:</td><td style="padding: 4px 0;">${info.mensual}</td></tr></table><div style="background: rgba(23, 162, 184, 0.1); padding: 10px; border-radius: 4px; border-left: 3px solid var(--color-info);"><strong style="display:block; margin-bottom: 5px;">🎁 Reglas de Descuento (Semestral):</strong>${info.dcto}</div>`;
-            let cleanDcto = info.dcto.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "");
-            currentTarifarioText = `COSTOS DE MANTENCIÓN TC ${category.toUpperCase()}\n---------------------------------------\nMantención Semestral:\t\t${info.semestral}\nSemestral Adicional Plus:\t${info.adicional}\nAdministración Mensual:\t\t${info.mensual}\n\nREGLAS DE DESCUENTO (Mant. Semestral):\n${cleanDcto}`;
-            detailsBox.style.display = 'block'; detailsBox.open = false; 
-        } else { detailsBox.style.display = 'none'; }
-    }
-
-    // --- LÓGICA VALIDADOR BIN TD ---
+    // --- VALIDADOR BIN TD ---
     function formatCardInput(e) { let val = e.target.value.replace(/\D/g, ''); e.target.value = val.replace(/(\d{4})(?=\d)/g, '$1-'); }
-    function analizarTarjeta() {
-        const input = document.getElementById('binInput').value; const cleanCard = input.replace(/-/g, '').replace(/\s/g, '');
-        if (cleanCard.length < 6) { alert('Ingresa al menos los primeros 6 dígitos (BIN).'); return; }
-        const bin = cleanCard.substring(0, 6); const resultDiv = document.getElementById('binResult');
-        
-        const binData = {
-            "409674": { category: "Family Card / Go BICE", limit: "$500.000" }, "425943": { category: "Check Card Clásica", limit: "$500.000" },
-            "450638": { category: "Check Card Gold / Banca Joven", limit: "$500.000" }, "421767": { category: "Check Card Platinum", limit: "$1.250.000" },
-            "475778": { category: "Check Card Signature", limit: "$1.500.000" }, "463306": { category: "Check Card Infinite", limit: "$1.500.000" }
-        };
-
-        if (binData[bin]) {
-            document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = binData[bin].category;
-            document.getElementById('resCat').style.color = 'var(--primary-color)'; document.getElementById('resLimit').innerText = binData[bin].limit;
-            resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-success)'; 
-
-            const tarifarioTD = {
-                "Family Card / Go BICE": { mensual: "Go BICE: Sin Costo\nFamily Card: UF 1 + IVA (Anual)", dcto: "• Family Card: Exenta hasta los 24 años. Comienza a cobrar a partir de los 25 años del titular o si el Patrocinador cierra su Cuenta Corriente/CheckCard." },
-                "Check Card Clásica": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." },
-                "Check Card Gold / Banca Joven": { mensual: "UF 0,15 + IVA", dcto: "• 100% Exenta a menores de 26 años sin condiciones.<br>• 100% Exenta a menores de 30 años si: mantiene vigente TC y Línea de Crédito, recibe abonos mensuales ≥ $500.000 y tiene al menos 1 cargo automático (PAC/PAT o FFMM/DAP)." },
-                "Check Card Platinum": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." },
-                "Check Card Signature": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." },
-                "Check Card Infinite": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }
-            };
-
-            const detailsBoxTD = document.getElementById('tdTarifarioDetails'); const contentHTMLTD = document.getElementById('tdTarifarioContent');
-            if (tarifarioTD[binData[bin].category]) {
-                const info = tarifarioTD[binData[bin].category];
-                contentHTMLTD.innerHTML = `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;"><tr><td style="padding: 4px 0; font-weight: bold; width: 50%;">Administración:</td><td style="padding: 4px 0;">${info.mensual.replace(/\n/g, '<br>')}</td></tr></table><div style="background: rgba(0, 45, 98, 0.05); padding: 10px; border-radius: 4px; border-left: 3px solid var(--primary-color);"><strong style="display:block; margin-bottom: 5px;">🎁 Reglas de Gratuidad:</strong>${info.dcto}</div>`;
-                let cleanDcto = info.dcto.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "");
-                currentTarifarioTDText = `COSTOS DE ADMINISTRACIÓN TD ${binData[bin].category.toUpperCase()}\n---------------------------------------\nAdministración:\t\t${info.mensual.replace(/\n/g, ' / ')}\n\nEXCEPCIONES:\n${cleanDcto}`;
-                detailsBoxTD.style.display = 'block'; detailsBoxTD.open = false;
-            } else { detailsBoxTD.style.display = 'none'; }
-
-        } else {
-            document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = `BIN No Reconocido (${bin})`;
-            document.getElementById('resCat').style.color = 'var(--color-danger)'; document.getElementById('resLimit').innerText = 'No disponible';
-            resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-danger)'; 
-            document.getElementById('tdTarifarioDetails').style.display = 'none';
-        }
-    }
+    function analizarTarjeta() { const input = document.getElementById('binInput').value; const cleanCard = input.replace(/-/g, '').replace(/\s/g, ''); if (cleanCard.length < 6) { alert('Ingresa al menos los primeros 6 dígitos (BIN).'); return; } const bin = cleanCard.substring(0, 6); const resultDiv = document.getElementById('binResult'); const binData = { "409674": { category: "Family Card / Go BICE", limit: "$500.000" }, "425943": { category: "Check Card Clásica", limit: "$500.000" }, "450638": { category: "Check Card Gold / Banca Joven", limit: "$500.000" }, "421767": { category: "Check Card Platinum", limit: "$1.250.000" }, "475778": { category: "Check Card Signature", limit: "$1.500.000" }, "463306": { category: "Check Card Infinite", limit: "$1.500.000" } }; if (binData[bin]) { document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = binData[bin].category; document.getElementById('resCat').style.color = 'var(--primary-color)'; document.getElementById('resLimit').innerText = binData[bin].limit; resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-success)'; const tarifarioTD = { "Family Card / Go BICE": { mensual: "Go BICE: Sin Costo\nFamily Card: UF 1 + IVA (Anual)", dcto: "• Family Card: Exenta hasta los 24 años. Comienza a cobrar a partir de los 25 años del titular o si el Patrocinador cierra su Cuenta Corriente/CheckCard." }, "Check Card Clásica": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }, "Check Card Gold / Banca Joven": { mensual: "UF 0,15 + IVA", dcto: "• 100% Exenta a menores de 26 años sin condiciones.<br>• 100% Exenta a menores de 30 años si: mantiene vigente TC y Línea de Crédito, recibe abonos mensuales ≥ $500.000 y tiene al menos 1 cargo automático (PAC/PAT o FFMM/DAP)." }, "Check Card Platinum": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }, "Check Card Signature": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }, "Check Card Infinite": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." } }; const detailsBoxTD = document.getElementById('tdTarifarioDetails'); const contentHTMLTD = document.getElementById('tdTarifarioContent'); if (tarifarioTD[binData[bin].category]) { const info = tarifarioTD[binData[bin].category]; contentHTMLTD.innerHTML = `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;"><tr><td style="padding: 4px 0; font-weight: bold; width: 50%;">Administración:</td><td style="padding: 4px 0;">${info.mensual.replace(/\n/g, '<br>')}</td></tr></table><div style="background: rgba(0, 45, 98, 0.05); padding: 10px; border-radius: 4px; border-left: 3px solid var(--primary-color);"><strong style="display:block; margin-bottom: 5px;">🎁 Reglas de Gratuidad:</strong>${info.dcto}</div>`; let cleanDcto = info.dcto.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, ""); currentTarifarioTDText = `COSTOS DE ADMINISTRACIÓN TD ${binData[bin].category.toUpperCase()}\n---------------------------------------\nAdministración:\t\t${info.mensual.replace(/\n/g, ' / ')}\n\nEXCEPCIONES:\n${cleanDcto}`; detailsBoxTD.style.display = 'block'; detailsBoxTD.open = false; } else { detailsBoxTD.style.display = 'none'; } } else { document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = `BIN No Reconocido (${bin})`; document.getElementById('resCat').style.color = 'var(--color-danger)'; document.getElementById('resLimit').innerText = 'No disponible'; resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-danger)'; document.getElementById('tdTarifarioDetails').style.display = 'none'; } }
 
     // --- DIRECTORIO RÁPIDO ---
-    document.getElementById('directorioForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const id = document.getElementById('dirId').value; const nombre = document.getElementById('dirNombre').value.trim();
-        const newDir = { id: id ? id : 'DIR_' + Date.now().toString(), nombre: nombre, anexo: document.getElementById('dirAnexo').value.trim(), correo: document.getElementById('dirCorreo').value.trim(), notas: document.getElementById('dirNotas').value.trim() };
-        if (id) { directorio[directorio.findIndex(d => d.id === id)] = newDir; showToast("Contacto actualizado"); } else { directorio.push(newDir); showToast("Contacto guardado"); }
-        localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); closeModal('directorioModal'); renderDirectorio();
-    });
-
-    function renderDirectorio() {
-        const list = document.getElementById('dirList'); list.innerHTML = '';
-        const searchTerm = document.getElementById('searchDir').value.toLowerCase();
-        let filteredDir = directorio.filter(d => d.nombre.toLowerCase().includes(searchTerm) || d.anexo.toLowerCase().includes(searchTerm) || d.correo.toLowerCase().includes(searchTerm) || d.notas.toLowerCase().includes(searchTerm) );
-        filteredDir.sort((a, b) => a.nombre.localeCompare(b.nombre));
-        if(filteredDir.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px; grid-column: 1 / -1;">No hay contactos o anexos guardados.</p>'; return; }
-        filteredDir.forEach(d => {
-            const card = document.createElement('div'); card.style.cssText = "background: var(--bg-card); border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px var(--shadow); border-left: 4px solid var(--color-purple); display: flex; flex-direction: column;";
-            let html = `<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap:10px;"><h3 style="margin: 0; color: var(--primary-color); font-size: 1.1em; line-height:1.2;">${d.nombre}</h3><div style="display:flex; gap:5px; flex-shrink:0;"><button class="action-btn edit-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="editDir('${d.id}')">✏️</button><button class="action-btn delete-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="deleteDir('${d.id}')">🗑️</button></div></div>`;
-            if (d.anexo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">📞 Anexo:</span><span class="clave-value" id="dir-tel-${d.id}" style="font-size:1.1em;">${d.anexo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-tel-${d.id}')">${copySvg}</button></div>`; }
-            if (d.correo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">✉️ Correo:</span><span class="clave-value" id="dir-mail-${d.id}" style="font-size:0.9em;">${d.correo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-mail-${d.id}')">${copySvg}</button></div>`; }
-            if (d.notas) { html += `<div style="background: var(--bg-group); padding: 10px; border-radius: 4px; font-size: 0.85em; color: var(--text-muted); margin-top: auto; white-space: pre-wrap; border: 1px solid var(--border-light);">${d.notas}</div>`; }
-            card.innerHTML = html; list.appendChild(card);
-        });
-    }
-
+    document.getElementById('directorioForm').addEventListener('submit', function(e) { e.preventDefault(); const id = document.getElementById('dirId').value; const nombre = document.getElementById('dirNombre').value.trim(); const newDir = { id: id ? id : 'DIR_' + Date.now().toString(), nombre: nombre, anexo: document.getElementById('dirAnexo').value.trim(), correo: document.getElementById('dirCorreo').value.trim(), notas: document.getElementById('dirNotas').value.trim() }; if (id) { directorio[directorio.findIndex(d => d.id === id)] = newDir; showToast("Contacto actualizado"); } else { directorio.push(newDir); showToast("Contacto guardado"); } localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); closeModal('directorioModal'); renderDirectorio(); });
+    function renderDirectorio() { const list = document.getElementById('dirList'); list.innerHTML = ''; const searchTerm = document.getElementById('searchDir').value.toLowerCase(); let filteredDir = directorio.filter(d => d.nombre.toLowerCase().includes(searchTerm) || d.anexo.toLowerCase().includes(searchTerm) || d.correo.toLowerCase().includes(searchTerm) || d.notas.toLowerCase().includes(searchTerm) ); filteredDir.sort((a, b) => a.nombre.localeCompare(b.nombre)); if(filteredDir.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px; grid-column: 1 / -1;">No hay contactos o anexos guardados.</p>'; return; } filteredDir.forEach(d => { const card = document.createElement('div'); card.style.cssText = "background: var(--bg-card); border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px var(--shadow); border-left: 4px solid var(--color-purple); display: flex; flex-direction: column;"; let html = `<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap:10px;"><h3 style="margin: 0; color: var(--primary-color); font-size: 1.1em; line-height:1.2;">${d.nombre}</h3><div style="display:flex; gap:5px; flex-shrink:0;"><button class="action-btn edit-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="editDir('${d.id}')">✏️</button><button class="action-btn delete-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="deleteDir('${d.id}')">🗑️</button></div></div>`; if (d.anexo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">📞 Anexo:</span><span class="clave-value" id="dir-tel-${d.id}" style="font-size:1.1em;">${d.anexo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-tel-${d.id}')">${copySvg}</button></div>`; } if (d.correo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">✉️ Correo:</span><span class="clave-value" id="dir-mail-${d.id}" style="font-size:0.9em;">${d.correo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-mail-${d.id}')">${copySvg}</button></div>`; } if (d.notas) { html += `<div style="background: var(--bg-group); padding: 10px; border-radius: 4px; font-size: 0.85em; color: var(--text-muted); margin-top: auto; white-space: pre-wrap; border: 1px solid var(--border-light);">${d.notas}</div>`; } card.innerHTML = html; list.appendChild(card); }); }
     function editDir(id) { const d = directorio.find(x => x.id === id); document.getElementById('dirId').value = d.id; document.getElementById('dirNombre').value = d.nombre; document.getElementById('dirAnexo').value = d.anexo || ''; document.getElementById('dirCorreo').value = d.correo || ''; document.getElementById('dirNotas').value = d.notas || ''; document.getElementById('formTitleDir').innerText = 'Editar Contacto'; openModal('directorioModal'); }
     function deleteDir(id) { if(confirm('¿Seguro de eliminar este contacto?')) { directorio = directorio.filter(x => x.id !== id); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); showToast("Contacto eliminado"); renderDirectorio(); } }
 
-
-    // --- LÓGICA COMISIONES INTERNACIONALES ---
-    const comisionesData = {
-      "Tarjeta Débito": {
-        "CHECKCARD CLASICA": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 202007, compra: "1,6% + IVA sobre valor de compra (a excepción de Tarjetas de Débito Visa Platinum, Signature e Infinite)", giro: "US$ 3 + IVA por evento" }, { date_val: 202006, compra: "1,6% + IVA sobre valor de compra (aplica solo para tarjetas de débito visa gold)", giro: "US$ 3 + IVA por evento" }, { date_val: 202005, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ],
-        "FAMILY CARD": [ { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "GO BICE": [ { date_val: 202302, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "GO UC": [ { date_val: 202305, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "CHECKCARD GOLD": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" } ], "CHECKCARD PLATINUM": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "CHECKCARD SIGNATURE": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ]
-      },
-      "Tarjeta Crédito": {
-        "GO BICE": [ { date_val: 202402, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ],
-        "GOLD (ORO)": [ { date_val: 202007, compra: "1,6%+IVA sobre valor de compra", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra / Gold Joven (US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
-        "PLATINUM": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
-        "INFINITE": [ { date_val: 202101, compra: "Sin Comisión", giro: "Sin Comisión" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ],
-        "EMPRESARIAL": [ { date_val: 202308, compra: "1,6%+IVA sobre valor de compra (excepto Business Signature e Infinite)", giro: "1,6%+IVA sobre valor del avance (excepto Business Signature e Infinite)" }, { date_val: 202101, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
-        "PLATINUM BIA": [ { date_val: 202302, compra: "1,6% + IVA", giro: "1,6% + IVA" } ],
-        "SIGNATURE": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ]
-      }
-    };
+    // --- COMISIONES INTERNACIONALES ---
+    const comisionesData = { "Tarjeta Débito": { "CHECKCARD CLASICA": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 202007, compra: "1,6% + IVA sobre valor de compra (a excepción de Tarjetas de Débito Visa Platinum, Signature e Infinite)", giro: "US$ 3 + IVA por evento" }, { date_val: 202006, compra: "1,6% + IVA sobre valor de compra (aplica solo para tarjetas de débito visa gold)", giro: "US$ 3 + IVA por evento" }, { date_val: 202005, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "FAMILY CARD": [ { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "GO BICE": [ { date_val: 202302, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "GO UC": [ { date_val: 202305, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "CHECKCARD GOLD": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" } ], "CHECKCARD PLATINUM": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "CHECKCARD SIGNATURE": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ] }, "Tarjeta Crédito": { "GO BICE": [ { date_val: 202402, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ], "GOLD (ORO)": [ { date_val: 202007, compra: "1,6%+IVA sobre valor de compra", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra / Gold Joven (US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "PLATINUM": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "INFINITE": [ { date_val: 202101, compra: "Sin Comisión", giro: "Sin Comisión" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "EMPRESARIAL": [ { date_val: 202308, compra: "1,6%+IVA sobre valor de compra (excepto Business Signature e Infinite)", giro: "1,6%+IVA sobre valor del avance (excepto Business Signature e Infinite)" }, { date_val: 202101, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "PLATINUM BIA": [ { date_val: 202302, compra: "1,6% + IVA", giro: "1,6% + IVA" } ], "SIGNATURE": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ] } };
     function updateSegmentos() { const tipo = document.querySelector('input[name="comTipo"]:checked').value; const selectSeg = document.getElementById('comSegmento'); selectSeg.innerHTML = ''; if (comisionesData[tipo]) { Object.keys(comisionesData[tipo]).sort().forEach(seg => { let opt = document.createElement('option'); opt.value = seg; opt.innerText = seg; selectSeg.appendChild(opt); }); } document.getElementById('comisionesResult').style.display = 'none'; }
-    function calcularComisiones() {
-        const tipo = document.querySelector('input[name="comTipo"]:checked').value; const segmento = document.getElementById('comSegmento').value; const year = parseInt(document.getElementById('comYear').value); const month = parseInt(document.getElementById('comMonth').value);
-        if(!segmento) { alert("Por favor seleccione un segmento"); return; }
-        let inputDateVal = (year * 100) + month; if (inputDateVal > 202503) { inputDateVal = 202503; }
-        const reglas = comisionesData[tipo][segmento]; let reglaAplicada = null;
-        for (let r of reglas) { if (inputDateVal >= r.date_val) { reglaAplicada = r; break; } } if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; }
-        document.getElementById('resComCompra').innerText = reglaAplicada.compra; document.getElementById('resComGiro').innerText = reglaAplicada.giro; document.getElementById('comisionesResult').style.display = 'block';
-    }
-    function copiarComisiones(event) {
-        const cCompra = document.getElementById('resComCompra').innerText; const cGiro = document.getElementById('resComGiro').innerText; const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`;
-        const btn = event.currentTarget; const originalHTML = btn.innerHTML; const showSuccess = () => { btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); };
-        if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); } else { useFallback(textoFInal); }
-        function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); }
-    }
+    function calcularComisiones() { const tipo = document.querySelector('input[name="comTipo"]:checked').value; const segmento = document.getElementById('comSegmento').value; const year = parseInt(document.getElementById('comYear').value); const month = parseInt(document.getElementById('comMonth').value); if(!segmento) { alert("Por favor seleccione un segmento"); return; } let inputDateVal = (year * 100) + month; if (inputDateVal > 202503) { inputDateVal = 202503; } const reglas = comisionesData[tipo][segmento]; let reglaAplicada = null; for (let r of reglas) { if (inputDateVal >= r.date_val) { reglaAplicada = r; break; } } if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; } document.getElementById('resComCompra').innerText = reglaAplicada.compra; document.getElementById('resComGiro').innerText = reglaAplicada.giro; document.getElementById('comisionesResult').style.display = 'block'; }
+    function copiarComisiones(event) { const cCompra = document.getElementById('resComCompra').innerText; const cGiro = document.getElementById('resComGiro').innerText; const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`; const btn = event.currentTarget; const originalHTML = btn.innerHTML; const showSuccess = () => { btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); }; if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); } else { useFallback(textoFInal); } function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); } }
 
-    // --- CONVERSOR Y RESTO DE UTILS ---
-    function changeCurrency() {
-        const currency = document.getElementById('convSelect').value; let tasa = 0;
-        if (currency === 'USD') tasa = tasaDolar; else if (currency === 'EUR') tasa = tasaEuro; else if (currency === 'UF') tasa = tasaUF; else if (currency === 'UTM') tasa = tasaUTM;
-        document.getElementById('convTasa').value = tasa; document.getElementById('labelExtranjera').innerText = `Monto en ${currency}:`; calcToCLP(); 
-    }
+    // --- CONVERSOR ---
+    function changeCurrency() { const currency = document.getElementById('convSelect').value; let tasa = 0; if (currency === 'USD') tasa = tasaDolar; else if (currency === 'EUR') tasa = tasaEuro; else if (currency === 'UF') tasa = tasaUF; else if (currency === 'UTM') tasa = tasaUTM; document.getElementById('convTasa').value = tasa; document.getElementById('labelExtranjera').innerText = `Monto en ${currency}:`; calcToCLP(); }
     function calcToCLP() { const extVal = parseFloat(document.getElementById('inputExt').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; const clpVal = Math.round(extVal * rate); document.getElementById('inputCLP').value = extVal > 0 ? clpVal : ''; }
     function calcToExt() { const clpVal = parseFloat(document.getElementById('inputCLP').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; if (rate > 0) { const extVal = (clpVal / rate).toFixed(2); document.getElementById('inputExt').value = extVal > 0 ? extVal : ''; } }
 
-    function deleteAllData() {
-        if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves, Directorio, Tareas y Plantillas)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) {
-            entries = []; claves = []; directorio = []; pendientes = []; plantillas = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown(); showToast("Toda la información fue eliminada");
-        }
-    }
+    // --- EXPORTAR E IMPORTAR DATOS ---
+    function copyText(event, elementId, rawText = null) { const text = rawText ? rawText : document.getElementById(elementId).innerText; const btn = event.currentTarget; const originalHTML = btn.innerHTML; const showSuccess = () => { btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--color-success)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); }; if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(showSuccess).catch(err => useFallback(text)); } else { useFallback(text); } function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); } }
+    function handleFileExport() { const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes, plantillas: plantillas }; if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0 && plantillas.length === 0) { alert('No hay datos guardados para exportar.'); return; } const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })); a.download = `Backup_BICE_Hub_${new Date().toISOString().slice(0,10)}.json`; a.click(); closeModal('exportModal'); }
+    function handleTextExport() { const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes, plantillas: plantillas }; if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0 && plantillas.length === 0) { alert('No hay datos para exportar.'); return; } const stringData = JSON.stringify(data); const encodedData = btoa(encodeURIComponent(stringData)); document.getElementById('exportTextarea').value = encodedData; document.getElementById('exportTextContainer').style.display = 'block'; }
+    function copyBackupText() { const text = document.getElementById('exportTextarea').value; if(navigator.clipboard) { navigator.clipboard.writeText(text).then(() => { showToast("Texto copiado al portapapeles"); closeModal('exportModal'); }); } }
+    function processImportedData(importedData) { if (Array.isArray(importedData)) { if (importedData.length > 0 && importedData[0].titulo) { if(confirm("Se detectó un respaldo antiguo de Base de Conocimiento. ¿Deseas integrarlo a tu Hub actual?")) { importedData.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); }); localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); showToast("Base antigua integrada"); } } else if (importedData.length > 0 && importedData[0].app) { if(confirm("Se detectó un respaldo antiguo de Mis Claves. ¿Deseas integrarlo a tu Hub actual?")) { importedData.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); }); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); showToast("Claves antiguas integradas"); } } } else if (importedData.kb || importedData.claves || importedData.directorio || importedData.pendientes || importedData.plantillas) { if(confirm(`Se encontró un Respaldo Global del Hub.\n\n• Presiona "Aceptar" para SUMAR estos datos a los que ya tienes.\n• Presiona "Cancelar" para REEMPLAZAR toda tu información actual.`)) { if(importedData.kb) importedData.kb.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); }); if(importedData.claves) importedData.claves.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); }); if(importedData.directorio) importedData.directorio.forEach(item => { if(!directorio.find(x=>x.id===item.id)) directorio.push(item); }); if(importedData.pendientes) importedData.pendientes.forEach(item => { if(!pendientes.find(x=>x.id===item.id)) pendientes.push(item); }); if(importedData.plantillas) importedData.plantillas.forEach(item => { if(!plantillas.find(x=>x.id===item.id)) plantillas.push(item); }); showToast("Respaldo sumado con éxito"); } else { if(confirm('⚠️ ESTO ELIMINARÁ TUS DATOS ACTUALES y los reemplazará por el respaldo. ¿Continuar?')) { entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || []; pendientes = importedData.pendientes || []; plantillas = importedData.plantillas || []; showToast("Respaldo reemplazado con éxito"); } else { return; } } localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown(); } else { alert('Formato de archivo no reconocido o corrupto.'); } closeModal('importModal'); }
+    function handleFileImport(event) { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(e) { try { const importedData = JSON.parse(e.target.result); processImportedData(importedData); } catch (error) { alert('Error leyendo el archivo JSON.'); } event.target.value = ''; }; reader.readAsText(file); }
+    function handleTextImport() { const text = document.getElementById('importTextarea').value.trim(); if(!text) { alert('Por favor, pega el código de respaldo.'); return; } try { const jsonString = decodeURIComponent(atob(text)); const importedData = JSON.parse(jsonString); processImportedData(importedData); } catch (error) { alert('Código inválido o corrupto. Verifica que hayas copiado el texto completo sin agregar espacios.'); } }
+    function deleteAllData() { if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves, Directorio, Tareas y Plantillas)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) { entries = []; claves = []; directorio = []; pendientes = []; plantillas = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown(); showToast("Toda la información fue eliminada"); } }
 
-    handleSearchKB(); handleSearchClaves(); cargarIndicadores();
+    // INICIALIZADORES AL CARGAR
+    handleSearchKB(); 
+    handleSearchClaves(); 
+    cargarIndicadores();
 </script>
 
 </body>
