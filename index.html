@@ -146,7 +146,7 @@
         
         footer { background-color: var(--bice-blue); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; }
 
-        /* RESPONSIVO */
+        /* RESPONSIVO MÓVILES */
         @media (max-width: 850px) {
             .container { flex-direction: column; padding: 0 15px; }
             .left-panel { min-width: 100%; max-width: 100%; position: static; margin-bottom: 10px; padding: 15px; box-sizing: border-box; max-height: none;}
@@ -187,6 +187,7 @@
     <div class="left-panel">
         
         <div class="accordion-menu">
+            
             <!-- ACORDEÓN: BASE DE CONOCIMIENTO -->
             <div class="menu-section" id="section-kb">
                 <button class="nav-btn" id="nav-kb" onclick="switchView('kb')">
@@ -226,11 +227,13 @@
                 </button>
                 <div class="menu-content" id="content-herramientas">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <button class="tool-btn" onclick="openTool('bin')">💳 Validador de BIN</button>
+                        <button class="tool-btn" onclick="openTool('reconst')">💳 Reconstrucción TC</button>
+                        <button class="tool-btn" onclick="openTool('bin')">💳 Validador BIN TD</button>
                         <button class="tool-btn" onclick="openTool('conversor')">💱 Conversor Monedas</button>
                     </div>
                 </div>
             </div>
+
         </div>
 
         <!-- INDICADORES ECONÓMICOS -->
@@ -242,6 +245,7 @@
             </div>
             <div style="font-size: 0.7em; color: #aaa; margin-top: 8px;">Fuente: mindicador.cl</div>
         </div>
+
     </div>
 
     <!-- === PANEL DERECHO === -->
@@ -304,9 +308,49 @@
                 <h3 style="color: #666; font-size: 1.5em;">👈 Selecciona una herramienta del menú izquierdo</h3>
             </div>
 
-            <!-- VALIDADOR BIN -->
+            <!-- RECONSTRUCCIÓN DE TC -->
+            <div id="tool-reconst" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid #17a2b8;">
+                <h2 style="color: #17a2b8; margin-top: 0;">💳 Reconstrucción Tarjeta de Crédito</h2>
+                <p style="color: #666; margin-bottom: 20px;">Arma la tarjeta de crédito completa pegando el formato abreviado de Platcom y seleccionando la categoría correcta.</p>
+                
+                <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 150px;">
+                        <label>Formato Platcom:</label>
+                        <input type="text" id="platcomInput" placeholder="X-XXXX-XXXX" maxlength="11" oninput="formatPlatcomInput(event)" style="font-size: 1.2em; text-align: center; letter-spacing: 2px;">
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label>Categoría TC:</label>
+                        <select id="tcCategory" style="padding: 10px; font-size: 1.05em; height: 46px;">
+                            <option value="">Seleccione...</option>
+                            <option value="Oro">Oro</option>
+                            <option value="Platinum">Platinum</option>
+                            <option value="Infinite">Infinite</option>
+                            <option value="Infinite II">Infinite II</option>
+                            <option value="Empresarial_4259">Empresarial (4259)</option>
+                            <option value="Empresarial_4633">Empresarial (4633)</option>
+                            <option value="Platinum BIA">Platinum BIA</option>
+                            <option value="Signature">Signature</option>
+                            <option value="Limitless">Limitless</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="save-btn" onclick="reconstruirTC()" style="margin-top: 10px; background: #17a2b8;">⚙️ Reconstruir Tarjeta</button>
+
+                <div id="reconstResult" style="display: none; margin-top: 25px; background: #f9f9f9; padding: 20px; border-left: 5px solid #28a745; border-radius: 6px;">
+                    <div class="clave-row" style="margin-bottom: 0; background: white; border: 1px solid #ddd;">
+                        <span class="clave-label" style="width: 140px;">Tarjeta armada:</span>
+                        <span class="clave-value" id="resReconst" style="color: #28a745; font-weight: bold; font-size: 1.4em;"></span>
+                        <button class="copy-btn" onclick="copyText(event, 'resReconst')" title="Copiar Tarjeta Completa">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VALIDADOR BIN TD -->
             <div id="tool-bin" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid var(--bice-blue);">
-                <h2 style="color: var(--bice-blue); margin-top: 0;">💳 Validador de BIN - Tarjetas de Débito</h2>
+                <h2 style="color: var(--bice-blue); margin-top: 0;">💳 Validador BIN TD</h2>
                 <p style="color: #666; margin-bottom: 20px;">Pega o escribe los 16 dígitos de la tarjeta que aparecen en Platcom para conocer su categoría y el límite de compras diario asignado.</p>
                 <label>Número de Tarjeta (16 dígitos):</label>
                 <input type="text" id="binInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="font-size: 1.3em; text-align: center; letter-spacing: 2px;" oninput="formatCardInput(event)">
@@ -377,32 +421,33 @@
         <h2 id="formTitleKB">Nuevo Registro</h2>
         <form id="kbForm">
             <input type="hidden" id="entryId">
-            <label>Título:</label><input type="text" id="titulo" required>
             
-            <!-- NUEVO: SELECTOR DE CATEGORÍAS -->
+            <label>Título:</label>
+            <input type="text" id="titulo" required>
+            
             <label>Categoría:</label>
             <select id="categoriaSelect" required onchange="handleCategoriaChange()">
                 <option value="">Selecciona una categoría...</option>
-                <!-- Las opciones se generan solas con JS -->
                 <option value="nueva" style="font-weight:bold; color:var(--bice-blue);">➕ Crear Nueva Categoría...</option>
             </select>
             <input type="text" id="categoriaNueva" placeholder="Escribe el nombre de la nueva categoría" style="display: none; margin-top: 5px; border-color: var(--bice-blue);">
             
-            <!-- NUEVO: GENERADOR DE ETIQUETAS -->
+            <label>Validación:</label><textarea id="validacion"></textarea>
+            <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
+            <label>Paso a Paso:</label><textarea id="pasoApaso"></textarea>
+            
+            <label>CTI:</label><textarea id="cti"></textarea>
+            <label>Plantilla:</label><textarea id="plantilla"></textarea>
+            <label>Script Final:</label><textarea id="scriptFinal"></textarea>
+            <label>Detalles importantes:</label><textarea id="detalles"></textarea>
+            <label>Otro:</label><textarea id="otro"></textarea>
+
             <label>Etiquetas (separadas por coma):</label>
             <div style="display: flex; gap: 10px;">
                 <input type="text" id="etiquetas" placeholder="Ej: fraude, bloqueo, tc" style="flex: 1;">
                 <button type="button" class="generate-btn" onclick="generarEtiquetas()">✨ Generar</button>
             </div>
 
-            <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
-            <label>Paso a Paso:</label><textarea id="pasoApaso"></textarea>
-            <label>Validación:</label><textarea id="validacion"></textarea>
-            <label>CTI:</label><textarea id="cti"></textarea>
-            <label>Plantilla:</label><textarea id="plantilla"></textarea>
-            <label>Script Final:</label><textarea id="scriptFinal"></textarea>
-            <label>Detalles importantes:</label><textarea id="detalles"></textarea>
-            <label>Otro:</label><textarea id="otro"></textarea>
             <button type="submit" class="save-btn">Guardar Información</button>
         </form>
     </div>
@@ -503,6 +548,7 @@
                 document.getElementById('tools-welcome').style.display = 'block';
                 document.getElementById('tool-bin').style.display = 'none';
                 document.getElementById('tool-conversor').style.display = 'none';
+                document.getElementById('tool-reconst').style.display = 'none';
             }
         }
     }
@@ -511,11 +557,72 @@
         document.getElementById('tools-welcome').style.display = 'none';
         document.getElementById('tool-bin').style.display = 'none';
         document.getElementById('tool-conversor').style.display = 'none';
+        document.getElementById('tool-reconst').style.display = 'none';
 
         document.getElementById('tool-' + toolId).style.display = 'block';
         
         if(toolId === 'bin') document.getElementById('binInput').focus();
         if(toolId === 'conversor') document.getElementById('inputExt').focus();
+        if(toolId === 'reconst') document.getElementById('platcomInput').focus();
+    }
+
+    // --- LÓGICA RECONSTRUCCIÓN TC ---
+    function formatPlatcomInput(e) {
+        let val = e.target.value.replace(/\D/g, ''); 
+        if (val.length > 1) {
+            val = val.substring(0, 1) + '-' + val.substring(1);
+        }
+        if (val.length > 6) {
+            val = val.substring(0, 6) + '-' + val.substring(6);
+        }
+        e.target.value = val;
+    }
+
+    function reconstruirTC() {
+        const inputStr = document.getElementById('platcomInput').value;
+        const cleanInput = inputStr.replace(/\D/g, '');
+        const category = document.getElementById('tcCategory').value;
+        
+        if (cleanInput.length !== 9) {
+            alert('El código debe tener exactamente 9 números, ej: 3-0018-8361');
+            return;
+        }
+        if (!category) {
+            alert('Por favor selecciona una categoría.');
+            return;
+        }
+
+        const table = {
+            "Oro": { antiguo: "4259440", nuevo: "4259441" },
+            "Platinum": { antiguo: "4512480", nuevo: "4512486" },
+            "Infinite": { antiguo: "4093200", nuevo: "4093205" },
+            "Infinite II": { antiguo: "4245250", nuevo: "4245255" },
+            "Empresarial_4259": { antiguo: "4259470", nuevo: "4259474" },
+            "Platinum BIA": { antiguo: "4633070", nuevo: "4633076" },
+            "Empresarial_4633": { antiguo: "4633050", nuevo: "4633054" },
+            "Signature": { antiguo: "", nuevo: "4234710" },
+            "Limitless": { antiguo: "4093200", nuevo: "4093205" }
+        };
+
+        const primerDigito = cleanInput.charAt(0);
+        let bin = "";
+
+        if (primerDigito === '4') {
+            bin = table[category].antiguo;
+            if (!bin) {
+                alert('Esta categoría no tiene un BIN Antiguo registrado en el sistema.');
+                return;
+            }
+        } else if (['0', '1', '2', '3'].includes(primerDigito)) {
+            bin = table[category].nuevo;
+        } else {
+            alert('El código Platcom debe comenzar con 4 (Antiguo) o 0, 1, 2, 3 (Nuevo). El primer dígito ingresado fue: ' + primerDigito);
+            return;
+        }
+
+        const tarjetaCompleta = bin + cleanInput;
+        document.getElementById('resReconst').innerText = tarjetaCompleta;
+        document.getElementById('reconstResult').style.display = 'block';
     }
 
     // --- LÓGICA CONVERSOR DE MONEDAS ---
@@ -542,7 +649,7 @@
         }
     }
 
-    // --- LÓGICA VALIDADOR BIN ---
+    // --- LÓGICA VALIDADOR BIN TD ---
     function formatCardInput(e) {
         let val = e.target.value.replace(/\D/g, ''); 
         e.target.value = val.replace(/(\d{4})(?=\d)/g, '$1-');
@@ -611,49 +718,33 @@
     }
 
     // ==========================================
-    // MÓDULO 1: BASE DE CONOCIMIENTO (CON NUEVAS MEJORAS)
+    // MÓDULO 1: BASE DE CONOCIMIENTO
     // ==========================================
-    
-    // 1. Lógica para cargar y mostrar categorías en el select
     function cargarCategoriasEnSelect() {
         const select = document.getElementById('categoriaSelect');
-        // Limpiamos las opciones actuales (dejando solo la primera y la última por defecto)
         select.innerHTML = '<option value="">Selecciona una categoría...</option>';
-        
-        // Extraemos categorías únicas de los registros actuales
         const categoriasUnicas = [...new Set(entries.map(e => e.categoria))].filter(Boolean).sort();
-        
         categoriasUnicas.forEach(cat => {
             const opt = document.createElement('option');
-            opt.value = cat;
-            opt.innerText = cat;
+            opt.value = cat; opt.innerText = cat;
             select.appendChild(opt);
         });
-
-        // Agregamos la opción de crear nueva al final
         const optNueva = document.createElement('option');
-        optNueva.value = "nueva";
-        optNueva.innerText = "➕ Crear Nueva Categoría...";
-        optNueva.style.fontWeight = "bold";
-        optNueva.style.color = "var(--bice-blue)";
+        optNueva.value = "nueva"; optNueva.innerText = "➕ Crear Nueva Categoría...";
+        optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--bice-blue)";
         select.appendChild(optNueva);
     }
 
-    // Muestra u oculta la caja de texto según lo que se elija en el select
     function handleCategoriaChange() {
         const select = document.getElementById('categoriaSelect');
         const inputNueva = document.getElementById('categoriaNueva');
         if (select.value === 'nueva') {
-            inputNueva.style.display = 'block';
-            inputNueva.required = true;
-            inputNueva.focus();
+            inputNueva.style.display = 'block'; inputNueva.required = true; inputNueva.focus();
         } else {
-            inputNueva.style.display = 'none';
-            inputNueva.required = false;
+            inputNueva.style.display = 'none'; inputNueva.required = false;
         }
     }
 
-    // 2. Lógica para Auto-Generar Etiquetas (Inteligencia de Texto)
     function generarEtiquetas() {
         const titulo = document.getElementById('titulo').value;
         const catSelect = document.getElementById('categoriaSelect').value;
@@ -661,51 +752,35 @@
         
         const textos = [
             titulo, categoria,
+            document.getElementById('validacion').value,
             document.getElementById('scriptInicial').value,
-            document.getElementById('pasoApaso').value,
-            document.getElementById('validacion').value
+            document.getElementById('pasoApaso').value
         ].join(' ').toLowerCase();
 
         if (textos.trim().length < 5) {
-            alert('Por favor, llena el título o algún otro campo primero para poder generar etiquetas.');
-            return;
+            alert('Por favor, llena el título o algún otro campo primero para poder generar etiquetas.'); return;
         }
 
-        // Limpiar acentos y puntuación
         const textoLimpio = textos.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ' ');
-
-        // Palabras comunes a ignorar en español
-        const stopWords = ['para', 'como', 'pero', 'este', 'esta', 'estos', 'estas', 'todo', 'toda', 'todos', 'todas', 'sobre', 'entre', 'hacia', 'desde', 'hasta', 'segun', 'antes', 'despues', 'luego', 'mientras', 'cuando', 'donde', 'quien', 'cual', 'que', 'con', 'por', 'del', 'los', 'las', 'una', 'unos', 'unas', 'para', 'como', 'tiene', 'tienen', 'hacer', 'paso', 'script'];
+        const stopWords = ['para', 'como', 'pero', 'este', 'esta', 'estos', 'estas', 'todo', 'toda', 'todos', 'todas', 'sobre', 'entre', 'hacia', 'desde', 'hasta', 'segun', 'antes', 'despues', 'luego', 'mientras', 'cuando', 'donde', 'quien', 'cual', 'que', 'con', 'por', 'del', 'los', 'las', 'una', 'unos', 'unas', 'tiene', 'tienen', 'hacer', 'paso', 'script'];
 
         const palabras = textoLimpio.split(/\s+/);
         const contador = {};
-        
-        palabras.forEach(p => {
-            if (p.length > 3 && !stopWords.includes(p)) {
-                contador[p] = (contador[p] || 0) + 1;
-            }
-        });
+        palabras.forEach(p => { if (p.length > 3 && !stopWords.includes(p)) contador[p] = (contador[p] || 0) + 1; });
 
-        // Ordenar por las palabras que más se repiten
         const ordenadas = Object.keys(contador).sort((a, b) => contador[b] - contador[a]);
-        
-        // Tomar máximo las mejores 6 palabras
         const topTags = ordenadas.slice(0, 6);
         
         if(topTags.length > 0) {
             document.getElementById('etiquetas').value = topTags.join(', ');
             showToast("Etiquetas autogeneradas con éxito");
-        } else {
-            alert('No se encontró suficiente texto relevante para generar etiquetas.');
-        }
+        } else { alert('No se encontró suficiente texto relevante para generar etiquetas.'); }
     }
 
     document.getElementById('kbForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const id = document.getElementById('entryId').value;
         const inputTitulo = document.getElementById('titulo').value.trim();
-        
-        // Obtener la categoría real (del select o de la caja nueva)
         const catSelectValue = document.getElementById('categoriaSelect').value;
         const categoriaFinal = catSelectValue === 'nueva' ? document.getElementById('categoriaNueva').value.trim() : catSelectValue;
 
@@ -719,13 +794,11 @@
 
         const newEntry = {
             id: id ? id : 'KB_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), 
-            titulo: inputTitulo, 
-            categoria: categoriaFinal, // Guardamos la categoría unificada
-            etiquetas: document.getElementById('etiquetas').value, scriptInicial: document.getElementById('scriptInicial').value,
-            pasoApaso: document.getElementById('pasoApaso').value, validacion: document.getElementById('validacion').value,
-            cti: document.getElementById('cti').value, plantilla: document.getElementById('plantilla').value,
-            scriptFinal: document.getElementById('scriptFinal').value, detalles: document.getElementById('detalles').value,
-            otro: document.getElementById('otro').value
+            titulo: inputTitulo, categoria: categoriaFinal, etiquetas: document.getElementById('etiquetas').value,
+            validacion: document.getElementById('validacion').value, scriptInicial: document.getElementById('scriptInicial').value,
+            pasoApaso: document.getElementById('pasoApaso').value, cti: document.getElementById('cti').value,
+            plantilla: document.getElementById('plantilla').value, scriptFinal: document.getElementById('scriptFinal').value,
+            detalles: document.getElementById('detalles').value, otro: document.getElementById('otro').value
         };
 
         if (id) { entries[entries.findIndex(emp => emp.id === id)] = newEntry; showToast("Actualizado correctamente"); } 
@@ -765,12 +838,18 @@
         paginated.forEach(entry => {
             const card = document.createElement('details'); card.className = 'card';
             let html = `<summary class="card-header"><div>${entry.titulo}</div><div><span class="tags">${entry.categoria}</span></div></summary><div class="card-content">`;
+            
             const fields = [
-                { key: 'scriptInicial', label: 'Script Inicial' }, { key: 'pasoApaso', label: 'Paso a Paso' },
-                { key: 'validacion', label: 'Validación' }, { key: 'cti', label: 'CTI' },
-                { key: 'plantilla', label: 'Plantilla' }, { key: 'scriptFinal', label: 'Script Final' },
-                { key: 'detalles', label: 'Detalles importantes' }, { key: 'otro', label: 'Otro' }
+                { key: 'validacion', label: 'Validación' },
+                { key: 'scriptInicial', label: 'Script Inicial' }, 
+                { key: 'pasoApaso', label: 'Paso a Paso' },
+                { key: 'cti', label: 'CTI' },
+                { key: 'plantilla', label: 'Plantilla' }, 
+                { key: 'scriptFinal', label: 'Script Final' },
+                { key: 'detalles', label: 'Detalles importantes' }, 
+                { key: 'otro', label: 'Otro' }
             ];
+            
             fields.forEach(f => {
                 if(entry[f.key] && entry[f.key].trim() !== '') {
                     html += `<div class="field-group"><div class="field-title">${f.label}</div><div class="field-content" id="txt-${entry.id}-${f.key}">${entry[f.key]}</div><button class="copy-btn copy-btn-absolute" onclick="copyText(event, 'txt-${entry.id}-${f.key}')" title="Copiar texto">${copySvg}</button></div>`;
@@ -791,35 +870,30 @@
         document.getElementById('entryId').value = entry.id; 
         document.getElementById('titulo').value = entry.titulo;
         
-        // Manejar el selector de categoría al editar
         cargarCategoriasEnSelect();
         const catSelect = document.getElementById('categoriaSelect');
         const inputNueva = document.getElementById('categoriaNueva');
-        
-        // Verificar si la categoría del registro existe en el desplegable
         let existeOpcion = Array.from(catSelect.options).some(opt => opt.value === entry.categoria);
         
         if (existeOpcion) {
             catSelect.value = entry.categoria;
-            inputNueva.style.display = 'none';
-            inputNueva.required = false;
+            inputNueva.style.display = 'none'; inputNueva.required = false;
         } else {
-            // Si por alguna razón no está (datos antiguos), forzamos a mostrarla como nueva
             catSelect.value = 'nueva';
-            inputNueva.style.display = 'block';
-            inputNueva.value = entry.categoria;
-            inputNueva.required = true;
+            inputNueva.style.display = 'block'; inputNueva.value = entry.categoria; inputNueva.required = true;
         }
         
         document.getElementById('etiquetas').value = entry.etiquetas;
-        document.getElementById('scriptInicial').value = entry.scriptInicial; document.getElementById('pasoApaso').value = entry.pasoApaso;
-        document.getElementById('validacion').value = entry.validacion; document.getElementById('cti').value = entry.cti;
-        document.getElementById('plantilla').value = entry.plantilla; document.getElementById('scriptFinal').value = entry.scriptFinal;
-        document.getElementById('detalles').value = entry.detalles; document.getElementById('otro').value = entry.otro;
+        document.getElementById('validacion').value = entry.validacion;
+        document.getElementById('scriptInicial').value = entry.scriptInicial; 
+        document.getElementById('pasoApaso').value = entry.pasoApaso;
+        document.getElementById('cti').value = entry.cti;
+        document.getElementById('plantilla').value = entry.plantilla; 
+        document.getElementById('scriptFinal').value = entry.scriptFinal;
+        document.getElementById('detalles').value = entry.detalles; 
+        document.getElementById('otro').value = entry.otro;
         
         document.getElementById('formTitleKB').innerText = 'Editar Registro'; 
-        
-        // Mostramos el modal sin resetear porque acabamos de cargar los datos
         document.getElementById('kbModal').style.display = 'flex'; 
         document.body.style.overflow = 'hidden';
     }
