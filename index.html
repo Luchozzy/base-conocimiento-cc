@@ -98,11 +98,11 @@
         .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: #222; line-height: 1.6; padding-right: 50px; word-break: break-word; }
         .last-modified { font-size: 0.8em; color: #777; font-style: italic; margin-top: 20px; text-align: left; }
 
-        /* Estilos Claves */
+        /* Estilos Claves y Herramientas */
         .clave-link { color: #0066cc; font-size: 0.85em; text-decoration: none; font-weight: normal; background: #eef5ff; padding: 5px 12px; border-radius: 20px; transition: background 0.2s; }
         .clave-link:hover { background: #d0e3ff; }
         .clave-row { display: flex; margin-bottom: 10px; align-items: center; background: #f9f9f9; padding: 10px 15px; border-radius: 6px; }
-        .clave-label { font-weight: bold; width: 100px; color: #555; }
+        .clave-label { font-weight: bold; width: 140px; color: #555; }
         .clave-value { flex: 1; font-family: monospace; font-size: 1.2em; letter-spacing: 1px; color: #111; word-break: break-all; }
         .clave-hidden { filter: blur(4px); user-select: none; }
         .toggle-visibility-btn { background: none; border: none; color: #666; cursor: pointer; font-size: 0.9em; text-decoration: underline; margin-right: 15px; }
@@ -135,47 +135,27 @@
            DISEÑO RESPONSIVO (MÓVILES Y TABLETS)
            ========================================= */
         @media (max-width: 850px) {
-            /* Pone el menú arriba y los resultados abajo */
             .container { flex-direction: column; padding: 0 15px; }
             .left-panel { min-width: 100%; max-width: 100%; position: static; margin-bottom: 10px; padding: 15px; box-sizing: border-box;}
-            
-            /* Ajustes del Encabezado */
             header { flex-direction: column; text-align: center; gap: 10px; padding: 15px; }
             header h1 { font-size: 1.3em; }
-            
-            /* Buscadores */
             .search-container { flex-direction: column; gap: 10px; padding: 12px; }
             .search-container input, .search-container select { width: 100%; flex: none; }
-            
-            /* Tarjetas de Claves */
             .clave-row { flex-direction: column; align-items: flex-start; gap: 8px; }
             .clave-label { width: auto; margin-bottom: -5px; }
             .toggle-visibility-btn { margin-right: 0; margin-bottom: 5px; }
-            
-            /* Botones de copiar */
             .copy-btn { width: 100%; padding: 10px; margin-top: 5px; }
             .copy-btn-absolute { position: relative; top: 0; right: 0; margin-top: 10px; width: 100%; }
             .field-content { padding-right: 0; }
-            
-            /* Cabeceras de tarjetas */
-            summary.card-header { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px; }
-            summary.clave-title { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px; }
+            summary.card-header, summary.clave-title { flex-direction: column; align-items: flex-start; gap: 10px; padding: 15px; }
             .tags { margin-left: 0; }
-            
-            /* Bienvenida */
             #view-welcome { padding-top: 5vh !important; }
             #view-welcome h2 { font-size: 1.5em !important; }
             #view-welcome p { font-size: 1em !important; padding: 0 10px; }
-            
-            /* Ventanas flotantes (Modales) */
             .modal-content { width: 95%; padding: 20px; margin: 10px; box-sizing: border-box; }
             .close-modal { top: 15px; right: 20px; font-size: 2em; }
-            
-            /* Botones inferiores en tarjetas */
             .card-actions { flex-direction: column; }
             .action-btn { width: 100%; padding: 12px; }
-
-            /* Notificación (Toast) */
             #toast { right: 15px; left: 15px; min-width: auto; bottom: 15px; font-size: 1em; }
             #toast.show { bottom: 20px; }
         }
@@ -229,21 +209,29 @@
                 </div>
             </div>
 
+            <!-- ACORDEÓN: HERRAMIENTAS (NUEVO) -->
+            <div class="menu-section" id="section-herramientas">
+                <button class="nav-btn" id="nav-herramientas" onclick="switchView('herramientas')">
+                    🧮 Herramientas <span class="nav-arrow" id="arrow-herramientas">▶</span>
+                </button>
+                
+                <div class="menu-content" id="content-herramientas" style="display: none;">
+                    <p style="font-size: 0.85em; color: #666; padding: 0 5px; margin-top: 0;">Calculadoras y validadores rápidos para agilizar la atención.</p>
+                </div>
+            </div>
+
         </div>
 
-        <div class="future-section">
-            <p><i>Espacio reservado para futuras herramientas del Contact Center</i></p>
-        </div>
     </div>
 
     <!-- === PANEL DERECHO === -->
     <div class="view-section">
         
-        <!-- VISTA 0: BIENVENIDA (Aparece al inicio o cuando todo está cerrado) -->
+        <!-- VISTA 0: BIENVENIDA -->
         <div id="view-welcome" class="view-container active" style="text-align: center; padding-top: 10vh;">
             <div style="font-size: 4em; margin-bottom: 10px;">👋</div>
             <h2 style="color: var(--bice-blue); font-size: 2em; margin-bottom: 10px;">Bienvenido a tu Espacio</h2>
-            <p style="color: #666; font-size: 1.2em; max-width: 500px; margin: 0 auto; line-height: 1.5;">Selecciona <b>Base de Conocimiento</b> o <b>Mis Claves</b> en el menú para comenzar a gestionar tu información.</p>
+            <p style="color: #666; font-size: 1.2em; max-width: 500px; margin: 0 auto; line-height: 1.5;">Selecciona una opción en el menú para comenzar a gestionar tu información o usar las herramientas.</p>
         </div>
 
         <!-- VISTA 1: BASE DE CONOCIMIENTO -->
@@ -291,6 +279,39 @@
                     <button id="nextBtnClaves" onclick="changePageClaves(1)">Siguiente ▶</button>
                 </div>
                 <div id="totalInfoClaves" class="total-info-text">Total: 0 registros</div>
+            </div>
+        </div>
+
+        <!-- VISTA 3: HERRAMIENTAS (VALIDADOR BIN) -->
+        <div id="view-herramientas" class="view-container">
+            <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid var(--bice-blue);">
+                <h2 style="color: var(--bice-blue); margin-top: 0;">💳 Validador de BIN - Tarjetas de Débito</h2>
+                <p style="color: #666; margin-bottom: 20px;">Pega o escribe los 16 dígitos de la tarjeta para conocer su categoría y el límite de compras diario asignado en Platcom.</p>
+                
+                <label>Número de Tarjeta (16 dígitos):</label>
+                <!-- oninput="formatCardInput(event)" formatea los guiones automáticamente -->
+                <input type="text" id="binInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="font-size: 1.3em; text-align: center; letter-spacing: 2px;" oninput="formatCardInput(event)">
+                
+                <button class="save-btn" onclick="analizarTarjeta()" style="margin-top: 15px;">🔍 Analizar Tarjeta</button>
+
+                <!-- Caja de Resultados -->
+                <div id="binResult" style="display: none; margin-top: 25px; background: #f9f9f9; padding: 20px; border-left: 5px solid #28a745; border-radius: 6px;">
+                    <div class="clave-row" style="margin-bottom: 15px; background: white; border: 1px solid #ddd;">
+                        <span class="clave-label" style="width: 130px;">Tarjeta limpia:</span>
+                        <span class="clave-value" id="resCard"></span>
+                        <button class="copy-btn" onclick="copyText(event, 'resCard')" title="Copiar Tarjeta limpia">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>
+                    <div class="clave-row" style="background: transparent; padding: 5px 0;">
+                        <span class="clave-label" style="width: 130px;">Categoría:</span>
+                        <span class="clave-value" id="resCat" style="color: var(--bice-blue); font-weight: bold;"></span>
+                    </div>
+                    <div class="clave-row" style="background: transparent; padding: 5px 0; margin-bottom: 0;">
+                        <span class="clave-label" style="width: 130px;">Límite Diario:</span>
+                        <span class="clave-value" id="resLimit" style="color: #28a745; font-weight: bold;"></span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -381,7 +402,7 @@
     }
 
     function deleteAll(type) {
-        if(confirm(`⚠️ ADVERTENCIA ⚠️️\n¿Estás seguro de que deseas ELIMINAR TODOS los registros de ${type === 'kb' ? 'la Base de Conocimiento' : 'Mis Claves'}?\n\nEsta acción NO se puede deshacer.`)) {
+        if(confirm(`⚠️ ADVERTENCIA ⚠️\n¿Estás seguro de que deseas ELIMINAR TODOS los registros de ${type === 'kb' ? 'la Base de Conocimiento' : 'Mis Claves'}?\n\nEsta acción NO se puede deshacer.`)) {
             if(type === 'kb') {
                 entries = [];
                 localStorage.setItem('bice_kb_data', JSON.stringify(entries));
@@ -395,7 +416,7 @@
         }
     }
 
-    // --- NUEVA NAVEGACIÓN TIPO ACORDEÓN ---
+    // --- NAVEGACIÓN TIPO ACORDEÓN ---
     function switchView(viewName) {
         const navBtn = document.getElementById('nav-' + viewName);
         const isActive = navBtn.classList.contains('active');
@@ -403,14 +424,19 @@
         // 1. Ocultar todo y apagar todos los botones
         document.getElementById('nav-kb').classList.remove('active');
         document.getElementById('nav-claves').classList.remove('active');
+        document.getElementById('nav-herramientas').classList.remove('active');
+        
         document.getElementById('arrow-kb').innerText = '▶';
         document.getElementById('arrow-claves').innerText = '▶';
+        document.getElementById('arrow-herramientas').innerText = '▶';
         
         document.getElementById('content-kb').style.display = 'none';
         document.getElementById('content-claves').style.display = 'none';
+        document.getElementById('content-herramientas').style.display = 'none';
 
         document.getElementById('view-kb').classList.remove('active');
         document.getElementById('view-claves').classList.remove('active');
+        document.getElementById('view-herramientas').classList.remove('active');
         document.getElementById('view-welcome').classList.remove('active');
 
         // 2. Lógica del Acordeón
@@ -418,15 +444,16 @@
             // Si estaba abierto y lo pinchaste, se cierra. Mostramos la vista de Bienvenida
             document.getElementById('view-welcome').classList.add('active');
         } else {
-            // Si estaba cerrado, lo abrimos y mostramos su contenido en ambos lados
+            // Si estaba cerrado, lo abrimos y mostramos su contenido
             navBtn.classList.add('active');
             document.getElementById('arrow-' + viewName).innerText = '▼';
             document.getElementById('content-' + viewName).style.display = 'block';
             document.getElementById('view-' + viewName).classList.add('active');
 
-            // Renderizamos los datos de esa vista
+            // Renderizamos o hacemos foco según corresponda
             if(viewName === 'kb') handleSearchKB();
             if(viewName === 'claves') handleSearchClaves();
+            if(viewName === 'herramientas') document.getElementById('binInput').focus();
         }
     }
 
@@ -468,13 +495,12 @@
         const inputTitulo = document.getElementById('titulo').value.trim();
         
         const duplicate = entries.find(emp => emp.titulo.toLowerCase() === inputTitulo.toLowerCase() && emp.id !== id);
-        
         if (duplicate) {
             if (!id) {
-                const msj = `⚠️ El título "${duplicate.titulo}" ya existe.\n\n• Presiona "Aceptar" para cargar y editar el registro existente (perderás lo que escribiste en este formulario).\n• Presiona "Cancelar" para quedarte aquí y cambiarle el título a este nuevo registro.`;
+                const msj = `⚠️ El título "${duplicate.titulo}" ya existe.\n\n• Presiona "Aceptar" para cargar y editar el registro existente.\n• Presiona "Cancelar" para quedarte aquí y cambiarle el título a este nuevo registro.`;
                 if (confirm(msj)) { editEntry(duplicate.id); }
             } else {
-                alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".\nPor favor, elige un nombre diferente para evitar confusiones.`);
+                alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".`);
             }
             return; 
         }
@@ -627,13 +653,12 @@
         const inputApp = document.getElementById('claveApp').value.trim();
 
         const duplicate = claves.find(c => c.app.toLowerCase() === inputApp.toLowerCase() && c.id !== id);
-        
         if (duplicate) {
             if (!id) {
-                const msj = `⚠️ El aplicativo "${duplicate.app}" ya existe en tus claves.\n\n• Presiona "Aceptar" para cargar y editar la clave existente (perderás lo que escribiste en este formulario).\n• Presiona "Cancelar" para quedarte aquí y cambiarle el nombre a este nuevo registro.`;
+                const msj = `⚠️ El aplicativo "${duplicate.app}" ya existe en tus claves.\n\n• Presiona "Aceptar" para cargar y editar la clave existente.\n• Presiona "Cancelar" para quedarte aquí y cambiarle el nombre a este nuevo registro.`;
                 if (confirm(msj)) { editClave(duplicate.id); }
             } else {
-                alert(`⚠️ Ya existe otra clave guardada con el nombre "${duplicate.app}".\nPor favor, diferéncialo (ej: "${duplicate.app} (2)") para evitar confusiones.`);
+                alert(`⚠️ Ya existe otra clave guardada con el nombre "${duplicate.app}".`);
             }
             return; 
         }
@@ -771,6 +796,61 @@
     }
 
     // ==========================================
+    // MÓDULO 3: HERRAMIENTAS (VALIDADOR BIN)
+    // ==========================================
+    
+    // 1. Formatea automáticamente el input poniendo guiones cada 4 números
+    function formatCardInput(e) {
+        // Remover todo lo que no sea número
+        let val = e.target.value.replace(/\D/g, ''); 
+        // Agrupar con guiones cada 4 números
+        e.target.value = val.replace(/(\d{4})(?=\d)/g, '$1-');
+    }
+
+    // 2. Analiza el BIN (los primeros 6 dígitos de la tarjeta)
+    function analizarTarjeta() {
+        const input = document.getElementById('binInput').value;
+        // Limpiamos los guiones para quedarnos con los números puros
+        const cleanCard = input.replace(/-/g, '').replace(/\s/g, '');
+        
+        if (cleanCard.length < 6) {
+            alert('Por favor ingresa al menos los primeros 6 dígitos (BIN) de la tarjeta para poder analizarla.');
+            return;
+        }
+
+        const bin = cleanCard.substring(0, 6);
+        const resultDiv = document.getElementById('binResult');
+        
+        // Tabla de datos entregada
+        const binData = {
+            "409674": { category: "Family Card / Go BICE", limit: "$500.000" },
+            "425943": { category: "Check Card Clásica / Check Card Gold", limit: "$500.000" },
+            "450638": { category: "Check Card Gold / Banca Joven", limit: "$500.000" },
+            "421767": { category: "Check Card Platinum", limit: "$1.250.000" },
+            "475778": { category: "Check Card Signature", limit: "$1.500.000" },
+            "463306": { category: "Check Card Infinite", limit: "$1.500.000" }
+        };
+
+        if (binData[bin]) {
+            document.getElementById('resCard').innerText = cleanCard;
+            document.getElementById('resCat').innerText = binData[bin].category;
+            document.getElementById('resCat').style.color = 'var(--bice-blue)';
+            document.getElementById('resLimit').innerText = binData[bin].limit;
+            
+            resultDiv.style.display = 'block';
+            resultDiv.style.borderLeftColor = '#28a745'; // Verde para éxito
+        } else {
+            document.getElementById('resCard').innerText = cleanCard;
+            document.getElementById('resCat').innerText = `BIN No Reconocido (${bin})`;
+            document.getElementById('resCat').style.color = '#dc3545'; // Rojo
+            document.getElementById('resLimit').innerText = 'No disponible';
+            
+            resultDiv.style.display = 'block';
+            resultDiv.style.borderLeftColor = '#dc3545'; // Rojo para error
+        }
+    }
+
+    // ==========================================
     // UTILIDADES GLOBALES (Copiar, Exportar, Importar)
     // ==========================================
 
@@ -870,8 +950,7 @@
         reader.readAsText(file);
     }
 
-    // Inicializamos con TODO oculto por defecto (mostramos vista bienvenida)
-    // No llamamos a switchView para que inicie cerrado, pero sí renderizamos por detrás
+    // Inicializamos sin abrir menús para ver el saludo
     handleSearchKB();
     handleSearchClaves(); 
 </script>
