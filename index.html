@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BICE Hub Ejecutivo - Contact Center BICE</title>
     
-    <!-- Script de inicialización de Modo Oscuro rápido -->
     <script>
         const savedTheme = localStorage.getItem('bice_theme') || 'light';
         if (savedTheme === 'dark') {
@@ -14,104 +13,45 @@
     </script>
 
     <style>
-        /* VARIABLES GLOBALES (MODO CLARO POR DEFECTO) */
+        /* VARIABLES GLOBALES */
         :root { 
-            --primary-color: #002D62; 
-            --primary-light: #004d99;
-            --btn-primary: #002D62;
-            --btn-primary-text: #ffffff;
-            --bg-body: #f4f7f6; 
-            --bg-panel: #ffffff;
-            --bg-card: #ffffff;
-            --bg-group: #f9f9f9;
-            --bg-active: #e6f0fa;
-            --bg-hover: #f0f0f0;
-            --text-main: #333333; 
-            --text-muted: #666666;
-            --border: #dddddd; 
-            --border-light: #eeeeee;
-            --shadow: rgba(0,0,0,0.05);
-            --color-success: #28a745;
-            --color-warning: #fd7e14;
-            --color-info: #17a2b8;
-            --color-danger: #dc3545;
-            --color-star: #ffc107;
-            --color-purple: #8e44ad;
-            --color-pink: #e83e8c;
-            --color-teal: #20c997;
+            --primary-color: #002D62; --primary-light: #004d99; --btn-primary: #002D62; --btn-primary-text: #ffffff;
+            --bg-body: #f4f7f6; --bg-panel: #ffffff; --bg-card: #ffffff; --bg-group: #f9f9f9; --bg-active: #e6f0fa; --bg-hover: #f0f0f0;
+            --text-main: #333333; --text-muted: #666666; --border: #dddddd; --border-light: #eeeeee; --shadow: rgba(0,0,0,0.05);
+            --color-success: #28a745; --color-warning: #fd7e14; --color-info: #17a2b8; --color-danger: #dc3545;
+            --color-star: #ffc107; --color-purple: #8e44ad; --color-pink: #e83e8c; --color-teal: #20c997; --color-indigo: #4a90e2;
             --tag-bg: #e0e0e0;
         }
 
-        /* VARIABLES MODO OSCURO */
+        /* MODO OSCURO */
         [data-theme="dark"] {
-            --primary-color: #6ab0ff; 
-            --primary-light: #99ccff;
-            --btn-primary: #004d99; 
-            --btn-primary-text: #ffffff;
-            --bg-body: #121212; 
-            --bg-panel: #1e1e1e;
-            --bg-card: #252525;
-            --bg-group: #2d2d2d;
-            --bg-active: #1a334d;
-            --bg-hover: #333333;
-            --text-main: #e0e0e0; 
-            --text-muted: #aaaaaa;
-            --border: #444444; 
-            --border-light: #333333;
-            --shadow: rgba(0,0,0,0.3);
-            --color-success: #4cd964;
-            --color-warning: #ffaa55;
-            --color-info: #3bc1d6;
-            --color-danger: #ff5c5c;
-            --color-star: #ffda6a;
-            --color-purple: #c37cdb;
-            --color-pink: #ff7eb3;
-            --color-teal: #38dfae;
+            --primary-color: #6ab0ff; --primary-light: #99ccff; --btn-primary: #004d99; --btn-primary-text: #ffffff;
+            --bg-body: #121212; --bg-panel: #1e1e1e; --bg-card: #252525; --bg-group: #2d2d2d; --bg-active: #1a334d; --bg-hover: #333333;
+            --text-main: #e0e0e0; --text-muted: #aaaaaa; --border: #444444; --border-light: #333333; --shadow: rgba(0,0,0,0.3);
+            --color-success: #4cd964; --color-warning: #ffaa55; --color-info: #3bc1d6; --color-danger: #ff5c5c;
+            --color-star: #ffda6a; --color-purple: #c37cdb; --color-pink: #ff7eb3; --color-teal: #38dfae; --color-indigo: #6fa8ff;
             --tag-bg: #444444;
         }
 
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-body); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; transition: background-color 0.3s, color 0.3s; }
-        
-        /* Header & Logo */
         header { background-color: var(--bg-panel); padding: 15px 40px; box-shadow: 0 2px 5px var(--shadow); display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; transition: background-color 0.3s; }
         .logo { height: 40px; border-radius: 4px; padding: 2px; background: white; transition: filter 0.3s; }
         [data-theme="dark"] .logo { filter: brightness(0.9); }
         header h1 { color: var(--primary-color); margin: 0; font-size: 1.5em; }
 
-        /* Estructura Principal a 2 Columnas */
         .container { max-width: 1300px; margin: 0 auto; display: flex; gap: 30px; align-items: flex-start; flex: 1; width: 100%; box-sizing: border-box; padding: 0 20px; }
         
-        /* === PANEL IZQUIERDO === */
-        .left-panel { 
-            flex: 1; min-width: 220px; max-width: 260px; position: sticky; top: 20px; 
-            background: var(--bg-panel); padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow);
-            display: flex; flex-direction: column; max-height: calc(100vh - 100px); overflow-y: auto;
-            transition: background-color 0.3s;
-        }
-        
-        /* Acordeón Menú Izquierdo */
+        .left-panel { flex: 1; min-width: 220px; max-width: 260px; position: sticky; top: 20px; background: var(--bg-panel); padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); display: flex; flex-direction: column; max-height: calc(100vh - 100px); overflow-y: auto; transition: background-color 0.3s; }
         .accordion-menu { display: flex; flex-direction: column; gap: 8px; border-bottom: 2px solid var(--border); padding-bottom: 15px; transition: border-color 0.3s; margin-bottom: 10px;}
         .menu-section { display: flex; flex-direction: column; }
         
-        .nav-btn { 
-            display: flex; justify-content: space-between; align-items: center; 
-            background: transparent; color: var(--text-muted); border: 1px solid transparent; 
-            padding: 10px 12px; border-radius: 6px; cursor: pointer; 
-            font-size: 0.95em; font-weight: bold; transition: all 0.2s; 
-            width: 100%; box-sizing: border-box; text-align: left;
-        }
+        .nav-btn { display: flex; justify-content: space-between; align-items: center; background: transparent; color: var(--text-muted); border: 1px solid transparent; padding: 10px 12px; border-radius: 6px; cursor: pointer; font-size: 0.95em; font-weight: bold; transition: all 0.2s; width: 100%; box-sizing: border-box; text-align: left; }
         .nav-btn:hover { background: var(--bg-hover); }
         .nav-btn.active { background: var(--bg-active); color: var(--primary-color); border-left: 4px solid var(--primary-color); border-radius: 0 6px 6px 0; }
         .nav-arrow { font-size: 0.8em; color: inherit; transition: transform 0.2s; }
-
         .menu-content { padding-top: 10px; display: none; animation: fadeIn 0.3s; }
         
-        /* Botones de Herramientas */
-        .tool-btn { 
-            display: block; width: 100%; text-align: left; background: var(--bg-card); border: 1px solid var(--border-light); 
-            padding: 10px; margin-bottom: 6px; border-radius: 6px; color: var(--text-muted); font-size: 0.9em; 
-            cursor: pointer; transition: all 0.2s; font-weight: bold; box-sizing: border-box;
-        }
+        .tool-btn { display: block; width: 100%; text-align: left; background: var(--bg-card); border: 1px solid var(--border-light); padding: 10px; margin-bottom: 6px; border-radius: 6px; color: var(--text-muted); font-size: 0.9em; cursor: pointer; transition: all 0.2s; font-weight: bold; box-sizing: border-box; }
         .tool-btn:hover { background: var(--bg-hover); color: var(--primary-color); border-color: var(--primary-light); }
         .tool-btn.active { background: var(--bg-active); color: var(--primary-color); border-color: var(--border-light); border-left: 4px solid var(--primary-color); border-radius: 0 6px 6px 0; }
         
@@ -120,7 +60,6 @@
         .main-btn-claves { background: #28a745; color: white;}
         .main-btn-claves:hover { background: #218838; }
         
-        /* Botones Globales (Datos) */
         .global-actions-panel { margin-top: 5px; padding-top: 15px; padding-bottom: 15px; border-top: 2px dashed var(--border-light); display: flex; flex-direction: column; gap: 8px;}
         .data-btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.85em; cursor: pointer; box-shadow: 0 2px 5px var(--shadow); text-align: center; transition: filter 0.2s; box-sizing: border-box; }
         .data-btn:hover { filter: brightness(0.9); }
@@ -128,29 +67,26 @@
         .import-btn { background: #6c757d; color: white; display: block; margin: 0; }
         .delete-all-btn { background: #dc3545; color: white; }
 
-        /* Panel Indicadores Económicos */
         .indicadores-panel { margin-top: auto; padding: 15px 5px 5px 5px; text-align: center; border-top: 2px dashed var(--border-light); }
         .indicadores-title { font-size: 0.8em; font-weight: bold; color: var(--primary-color); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
         .indicadores-box { display: grid; grid-template-columns: 1fr 1fr; font-size: 0.8em; font-weight: bold; gap: 6px;}
         .indicadores-val { background: var(--bg-group); padding: 6px 4px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary-color); text-align: center; white-space: nowrap;}
         
-        /* PANEL DERECHO */
         .view-section { flex: 3; display: flex; flex-direction: column; gap: 15px; width: 100%; }
         .view-container { display: none; }
         .view-container.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Clases base para Herramientas */
         .tool-panel { display: none; background: var(--bg-panel); padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); max-width: 650px; margin: 0 auto; transition: background-color 0.3s; }
         .tool-result { display: none; margin-top: 25px; background: var(--bg-group); padding: 20px; border-left: 5px solid; border-radius: 6px; }
 
-        /* Modales */
         .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: var(--modal-overlay, rgba(0,0,0,0.6)); backdrop-filter: blur(3px); align-items: center; justify-content: center; }
         .modal-content { background: var(--bg-panel); padding: 30px; border-radius: 12px; box-shadow: 0 5px 25px var(--shadow-modal, rgba(0,0,0,0.3)); width: 90%; max-width: 800px; max-height: 85vh; overflow-y: auto; position: relative; }
         .modal-content-small { max-width: 500px; }
         .close-modal { position: absolute; top: 20px; right: 25px; font-size: 1.8em; color: var(--text-muted); cursor: pointer; line-height: 1; transition: color 0.2s; }
         .close-modal:hover { color: var(--color-danger); }
         .modal-content h2 { color: var(--primary-color); margin-top: 0; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        
         label { display: block; margin-top: 15px; font-weight: bold; font-size: 0.95em; color: var(--text-main); }
         input[type="text"], input[type="password"], input[type="number"], input[type="date"], textarea, select { width: 100%; padding: 10px; margin-top: 5px; background: var(--bg-input, var(--bg-panel)); color: var(--text-main); border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1em; transition: background-color 0.3s, color 0.3s, border-color 0.3s;}
         textarea { height: 80px; resize: vertical; }
@@ -161,12 +97,10 @@
         .outline-btn { background: transparent; color: var(--color-warning); border: 1px solid var(--color-warning); padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 15px; transition: all 0.2s; }
         .outline-btn:hover { background: var(--bg-hover); }
         
-        /* Buscador y Ordenamiento */
         .search-container { background: var(--bg-panel); padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); margin-bottom: 15px; display: flex; gap: 15px; align-items: center; transition: background-color 0.3s; }
         .search-container input { flex: 3; font-size: 1.1em; padding: 12px; }
         .search-container select { flex: 1; font-size: 1em; padding: 12px; cursor: pointer; }
 
-        /* Acordeones Panel Derecho */
         details.card, details.clave-card { background: var(--bg-card); border-radius: 8px; box-shadow: 0 2px 5px var(--shadow); margin-bottom: 15px; transition: all 0.3s ease; }
         details.clave-card { border-left: 6px solid var(--color-success); }
         summary.card-header, summary.clave-title { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; cursor: pointer; list-style: none; font-weight: bold; color: var(--primary-color); font-size: 1.15em; border-radius: 8px; margin: 0; }
@@ -174,7 +108,6 @@
         summary.card-header::-webkit-details-marker, summary.clave-title::-webkit-details-marker { display: none; }
         summary.card-header:hover, summary.clave-title:hover { background-color: var(--bg-hover); }
         
-        /* Estrella de Favoritos */
         .star-btn { background: none; border: none; cursor: pointer; padding: 0 10px 0 0; display: flex; align-items: center; transition: transform 0.2s; margin-top: -2px; }
         .star-btn:hover { transform: scale(1.2); }
         
@@ -185,7 +118,6 @@
         .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: var(--text-main); line-height: 1.6; padding-right: 50px; word-break: break-word; }
         .last-modified { font-size: 0.8em; color: var(--text-muted); font-style: italic; margin-top: 20px; text-align: left; }
 
-        /* Estilos Claves */
         .clave-link { color: var(--primary-light); font-size: 0.85em; text-decoration: none; font-weight: normal; background: var(--bg-active); padding: 5px 12px; border-radius: 20px; transition: filter 0.2s; }
         .clave-link:hover { filter: brightness(0.9); }
         .clave-row { display: flex; margin-bottom: 10px; align-items: center; background: var(--bg-group); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border-light); }
@@ -194,7 +126,6 @@
         .clave-hidden { filter: blur(4px); user-select: none; }
         .toggle-visibility-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9em; text-decoration: underline; margin-right: 15px; }
 
-        /* Botón de copiar */
         .copy-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
         .copy-btn:hover { background: var(--bg-hover); color: var(--primary-color); border-color: var(--primary-color); }
         .copy-btn-absolute { position: absolute; top: 15px; right: 15px; }
@@ -204,7 +135,6 @@
         .edit-btn { background: #ffc107; color: #000; }
         .delete-btn { background: #dc3545; color: white; }
 
-        /* Paginación */
         .pagination-container { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 30px; padding-bottom: 30px; }
         .pagination-buttons { display: flex; gap: 15px; align-items: center; }
         .pagination-buttons button { background: var(--btn-primary); color: var(--btn-primary-text); border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold; }
@@ -212,13 +142,11 @@
         .page-info-text { font-weight: bold; color: var(--text-main); font-size: 1.05em; }
         .total-info-text { font-size: 0.9em; color: var(--text-muted); }
 
-        /* Toast Notificación */
         #toast { visibility: hidden; min-width: 250px; background-color: var(--color-success); color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 2000; right: 30px; bottom: 30px; font-size: 1.1em; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
         #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
         
         footer { background-color: var(--btn-primary); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; transition: background-color 0.3s; }
 
-        /* MODO OSCURO SWITCH */
         .theme-switch-wrapper { display: flex; align-items: center; }
         .theme-switch { display: inline-block; height: 26px; position: relative; width: 54px; margin: 0; }
         .theme-switch input { display: none; }
@@ -228,19 +156,19 @@
         input:checked + .slider:before { transform: translateX(26px); background-color: #e0e0e0;}
         .slider-icon { font-size: 12px; z-index: 1; user-select: none; }
 
-        /* HERRAMIENTAS RADIO BUTTONS */
         .radio-group { display: flex; gap: 25px; margin-bottom: 15px; background: var(--bg-group); padding: 15px; border-radius: 6px; border: 1px solid var(--border); }
         .radio-group label { margin-top: 0; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 1.05em; color: var(--primary-color);}
         .radio-group input[type="radio"] { width: auto; margin: 0; transform: scale(1.2); }
 
-        /* MODAL EXPORT/IMPORT EXTRA */
         .backup-option-box { background: var(--bg-group); border: 1px solid var(--border-light); padding: 20px; border-radius: 8px; margin-top: 15px; }
         .backup-option-box h4 { margin-top: 0; color: var(--primary-color); margin-bottom: 10px; }
-        
-        /* Detalles Tarifario TC */
         #tcTarifarioDetails summary::-webkit-details-marker { display: none; }
 
-        /* RESPONSIVO */
+        /* Estilos específicos Generador Plantillas */
+        .plantilla-preview-box { background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 15px; margin-bottom: 10px; display: flex; align-items: flex-start; justify-content: space-between; gap: 15px; }
+        .plantilla-preview-label { font-weight: bold; color: var(--color-indigo); width: 80px; flex-shrink: 0; }
+        .plantilla-preview-text { flex: 1; white-space: pre-wrap; font-family: monospace; font-size: 1.1em; word-break: break-word; color: var(--text-main); }
+        
         @media (max-width: 850px) {
             .container { flex-direction: column; padding: 0 15px; }
             .left-panel { min-width: 100%; max-width: 100%; position: static; margin-bottom: 10px; padding: 15px; box-sizing: border-box; max-height: none;}
@@ -266,6 +194,8 @@
             #toast { right: 15px; left: 15px; min-width: auto; bottom: 15px; font-size: 1em; }
             #toast.show { bottom: 20px; }
             .radio-group { flex-direction: column; gap: 15px; }
+            .plantilla-preview-box { flex-direction: column; }
+            .plantilla-preview-label { width: auto; margin-bottom: 5px; }
         }
     </style>
 </head>
@@ -318,6 +248,7 @@
                 <div class="menu-content" id="content-herramientas">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
                         <button id="btn-tool-pendientes" class="tool-btn" onclick="openTool('pendientes')">✅ Mis Pendientes</button>
+                        <button id="btn-tool-plantillas" class="tool-btn" onclick="openTool('plantillas')">📝 Generador Plantillas</button>
                         <button id="btn-tool-reconst" class="tool-btn" onclick="openTool('reconst')">💳 Reconstrucción TC</button>
                         <button id="btn-tool-bin" class="tool-btn" onclick="openTool('bin')">💳 Validador BIN TD</button>
                         <button id="btn-tool-comisiones" class="tool-btn" onclick="openTool('comisiones')">✈️ Comisiones Int.</button>
@@ -424,6 +355,60 @@
                 </div>
             </div>
 
+            <!-- GENERADOR DE PLANTILLAS INTELIGENTE -->
+            <div id="tool-plantillas" class="tool-panel" style="border-top: 6px solid var(--color-indigo); max-width: 800px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+                    <h2 style="color: var(--color-indigo); margin-top: 0;">📝 Generador de Plantillas</h2>
+                    <button class="main-btn" style="background: var(--color-indigo); width: auto; margin: 0;" onclick="openModal('plantillasModal')">➕ Nueva Plantilla</button>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Selecciona una plantilla. Rellena las cajitas con los datos del cliente y el correo se armará solo, listo para copiar y pegar.</p>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center;">
+                    <select id="plantillaSelect" style="flex: 1; font-size: 1.1em; height: 46px; cursor: pointer; border-color: var(--color-indigo);" onchange="seleccionarPlantilla()">
+                        <!-- Opciones cargadas por JS -->
+                    </select>
+                    <button id="btnEditPlantilla" class="action-btn edit-btn" style="display:none; padding: 10px;" onclick="editarPlantillaActual()">✏️ Editar</button>
+                    <button id="btnDelPlantilla" class="action-btn delete-btn" style="display:none; padding: 10px;" onclick="eliminarPlantillaActual()">🗑️ Eliminar</button>
+                </div>
+
+                <div id="plantillaWorkspace" style="display: none;">
+                    <div style="background: var(--bg-group); padding: 15px; border-radius: 8px; border: 1px solid var(--border-light); margin-bottom: 20px;">
+                        <h4 style="margin: 0 0 15px 0; color: var(--color-indigo);">✍️ Ingresa los datos:</h4>
+                        <div id="plantillaVars" style="display: flex; flex-wrap: wrap; gap: 15px;">
+                            <!-- Cajitas mágicas se generan aquí -->
+                        </div>
+                    </div>
+
+                    <h4 style="margin: 0 0 10px 0; color: var(--primary-color);">📄 Resultado (Listo para copiar):</h4>
+                    
+                    <div id="rowPara" class="plantilla-preview-box">
+                        <div class="plantilla-preview-label">Para:</div>
+                        <div class="plantilla-preview-text" id="prevPara"></div>
+                        <button class="copy-btn" onclick="copyText(event, 'prevPara')">${copySvg}</button>
+                    </div>
+                    
+                    <div id="rowCc" class="plantilla-preview-box">
+                        <div class="plantilla-preview-label">CC:</div>
+                        <div class="plantilla-preview-text" id="prevCc"></div>
+                        <button class="copy-btn" onclick="copyText(event, 'prevCc')">${copySvg}</button>
+                    </div>
+
+                    <div id="rowAsunto" class="plantilla-preview-box">
+                        <div class="plantilla-preview-label">Asunto:</div>
+                        <div class="plantilla-preview-text" id="prevAsunto" style="font-weight: bold;"></div>
+                        <button class="copy-btn" onclick="copyText(event, 'prevAsunto')">${copySvg}</button>
+                    </div>
+
+                    <div id="rowMensaje" class="plantilla-preview-box" style="align-items: stretch; flex-direction: column;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 10px;">
+                            <div class="plantilla-preview-label">Mensaje:</div>
+                            <button class="copy-btn" style="border-color: var(--color-indigo); color: var(--color-indigo);" onclick="copyText(event, 'prevMensaje')">📋 Copiar Mensaje</button>
+                        </div>
+                        <div class="plantilla-preview-text" id="prevMensaje" style="background: var(--bg-body); padding: 15px; border-radius: 6px; width: 100%; box-sizing: border-box; border: 1px solid var(--border-light);"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- RECONSTRUCCIÓN TC -->
             <div id="tool-reconst" class="tool-panel" style="border-top: 6px solid var(--color-info);">
                 <h2 style="color: var(--color-info); margin-top: 0;">💳 Reconstrucción Tarjeta de Crédito</h2>
@@ -460,7 +445,6 @@
                         </button>
                     </div>
                     
-                    <!-- Menú Desplegable Tarifario (Contraído por defecto) -->
                     <details id="tcTarifarioDetails" style="display:none; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 6px; margin-top: 15px;">
                         <summary style="padding: 12px 15px; font-weight: bold; cursor: pointer; color: var(--color-info); list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; outline: none;">
                             <span style="display: flex; align-items: center; gap: 5px;"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Costos de Mantención</span>
@@ -783,6 +767,31 @@
     </div>
 </div>
 
+<!-- MODAL 5: PLANTILLAS -->
+<div class="modal-overlay" id="plantillasModal">
+    <div class="modal-content" style="border-top: 6px solid var(--color-indigo);">
+        <span class="close-modal" onclick="closeModal('plantillasModal')" title="Cerrar">&times;</span>
+        <h2 id="formTitlePlantilla" style="color: var(--color-indigo);">Nueva Plantilla de Correo/CRM</h2>
+        <p style="color: var(--text-muted); font-size: 0.9em; margin-top: -5px; margin-bottom: 15px;">
+            Escribe las palabras que quieras rellenar entre corchetes <strong>[ ]</strong>. El sistema creará una cajita para cada una. Ej: <em>Hola [Nombre], tu RUT es [RUT].</em>
+        </p>
+        <form id="plantillaForm">
+            <input type="hidden" id="plantillaId">
+            <label>Título de la Plantilla:</label>
+            <input type="text" id="plantillaTitulo" required placeholder="Ej: Creación TC, Derivación Fraude...">
+            <label>Para (Opcional):</label>
+            <input type="text" id="plantillaPara" placeholder="Ej: soporte@bice.cl">
+            <label>CC (Opcional):</label>
+            <input type="text" id="plantillaCc" placeholder="Ej: jefatura@bice.cl">
+            <label>Asunto (Opcional):</label>
+            <input type="text" id="plantillaAsunto" placeholder="Ej: Solicitud de Tarjeta - [RUT]">
+            <label>Mensaje:</label>
+            <textarea id="plantillaMensaje" required style="height: 150px;" placeholder="Estimado equipo,\n\nFavor su apoyo con el cliente [Nombre Cliente] RUT: [RUT].\n\nSaludos."></textarea>
+            <button type="submit" class="save-btn" style="background:var(--color-indigo);">Guardar Plantilla</button>
+        </form>
+    </div>
+</div>
+
 <!-- === MODALES DE RESPALDO (EXPORT / IMPORT) === -->
 <!-- MODAL EXPORTAR -->
 <div class="modal-overlay" id="exportModal">
@@ -830,7 +839,7 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    Creado por Luis Muñoz | v2.7.1
+    Creado por Luis Muñoz | v2.8.0
 </footer>
 
 <script>
@@ -853,8 +862,24 @@
     let claves = JSON.parse(localStorage.getItem('bice_claves_data')) || [];
     let directorio = JSON.parse(localStorage.getItem('bice_directorio_data')) || [];
     let pendientes = JSON.parse(localStorage.getItem('bice_pendientes_data')) || [];
-    let currentTarifarioText = ""; // Guarda el texto para copiar
+    let plantillas = JSON.parse(localStorage.getItem('bice_plantillas_data')) || [];
     
+    // Plantilla Demo por defecto si está vacío
+    if(plantillas.length === 0) {
+        plantillas.push({
+            id: 'TPL_DEMO',
+            titulo: 'Creación TC (Ejemplo)',
+            para: 'maria.lecaros@bice.cl',
+            cc: 'SupervisoresCONTACT@bancobice.onmicrosoft.com ; plataformacalidad@bice.cl',
+            asunto: 'Creacion TC - [RUT Cliente]',
+            mensaje: 'Hola María,\n\nSolicito apoyo con la creación de la Tarjeta de Crédito para el cliente.\n\nRUT: [RUT Cliente]\nNombre: [Nombre Cliente]\nTipo de Tarjeta: [Tipo TC]\n\nQuedo atento, saludos.'
+        });
+        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
+    }
+
+    let currentTarifarioText = ""; 
+    let currentPlantillaObj = null;
+
     const itemsPerPage = 10; 
     let currentKbPage = 1; let currentClavesPage = 1;
     let filteredEntries = [...entries]; let filteredClaves = [...claves];
@@ -884,10 +909,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        const today = new Date();
-        const y = today.getFullYear();
-        const m = String(today.getMonth() + 1).padStart(2, '0');
-        const d = String(today.getDate()).padStart(2, '0');
+        const today = new Date(); const y = today.getFullYear(); const m = String(today.getMonth() + 1).padStart(2, '0'); const d = String(today.getDate()).padStart(2, '0');
         document.getElementById('plazoFecha').value = `${y}-${m}-${d}`;
     });
 
@@ -896,9 +918,7 @@
         const navBtn = document.getElementById('nav-' + viewName);
         const isActive = navBtn.classList.contains('active');
 
-        document.getElementById('nav-kb').classList.remove('active');
-        document.getElementById('nav-claves').classList.remove('active');
-        document.getElementById('nav-herramientas').classList.remove('active');
+        document.getElementById('nav-kb').classList.remove('active'); document.getElementById('nav-claves').classList.remove('active'); document.getElementById('nav-herramientas').classList.remove('active');
         document.getElementById('arrow-kb').innerText = '▶'; document.getElementById('arrow-claves').innerText = '▶'; document.getElementById('arrow-herramientas').innerText = '▶';
         document.getElementById('content-kb').style.display = 'none'; document.getElementById('content-claves').style.display = 'none'; document.getElementById('content-herramientas').style.display = 'none';
         document.getElementById('view-kb').classList.remove('active'); document.getElementById('view-claves').classList.remove('active'); document.getElementById('view-herramientas').classList.remove('active'); document.getElementById('view-welcome').classList.remove('active');
@@ -913,14 +933,8 @@
             if(viewName === 'claves') handleSearchClaves();
             if(viewName === 'herramientas') {
                 document.getElementById('tools-welcome').style.display = 'block';
-                document.getElementById('tool-pendientes').style.display = 'none';
-                document.getElementById('tool-plazos').style.display = 'none';
-                document.getElementById('tool-bin').style.display = 'none';
-                document.getElementById('tool-conversor').style.display = 'none';
-                document.getElementById('tool-reconst').style.display = 'none';
-                document.getElementById('tool-comisiones').style.display = 'none';
-                document.getElementById('tool-simulador').style.display = 'none';
-                document.getElementById('tool-directorio').style.display = 'none';
+                const toolIds = ['pendientes', 'plantillas', 'plazos', 'bin', 'conversor', 'reconst', 'comisiones', 'simulador', 'directorio'];
+                toolIds.forEach(id => document.getElementById(`tool-${id}`).style.display = 'none');
                 updateSegmentos(); 
             }
         }
@@ -929,15 +943,10 @@
     function openTool(toolId) {
         document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('btn-tool-' + toolId).classList.add('active');
+        
         document.getElementById('tools-welcome').style.display = 'none';
-        document.getElementById('tool-pendientes').style.display = 'none';
-        document.getElementById('tool-plazos').style.display = 'none';
-        document.getElementById('tool-bin').style.display = 'none';
-        document.getElementById('tool-conversor').style.display = 'none';
-        document.getElementById('tool-reconst').style.display = 'none';
-        document.getElementById('tool-comisiones').style.display = 'none';
-        document.getElementById('tool-simulador').style.display = 'none';
-        document.getElementById('tool-directorio').style.display = 'none';
+        const toolIds = ['pendientes', 'plantillas', 'plazos', 'bin', 'conversor', 'reconst', 'comisiones', 'simulador', 'directorio'];
+        toolIds.forEach(id => document.getElementById(`tool-${id}`).style.display = 'none');
 
         document.getElementById('tool-' + toolId).style.display = 'block';
         
@@ -947,7 +956,146 @@
         if(toolId === 'directorio') renderDirectorio();
         if(toolId === 'simulador') document.getElementById('simMonto').focus();
         if(toolId === 'pendientes') { renderPendientes(); document.getElementById('nuevaTareaInput').focus(); }
+        if(toolId === 'plantillas') { renderPlantillasDropdown(); }
     }
+
+    // --- LÓGICA GENERADOR DE PLANTILLAS ---
+    document.getElementById('plantillaForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = document.getElementById('plantillaId').value;
+        const titulo = document.getElementById('plantillaTitulo').value.trim();
+        const para = document.getElementById('plantillaPara').value.trim();
+        const cc = document.getElementById('plantillaCc').value.trim();
+        const asunto = document.getElementById('plantillaAsunto').value.trim();
+        const mensaje = document.getElementById('plantillaMensaje').value.trim();
+
+        const duplicate = plantillas.find(p => p.titulo.toLowerCase() === titulo.toLowerCase() && p.id !== id);
+        if (duplicate) { alert(`⚠️ Ya existe una plantilla con el nombre "${duplicate.titulo}".`); return; }
+
+        const newP = { id: id ? id : 'TPL_' + Date.now().toString(), titulo, para, cc, asunto, mensaje };
+
+        if (id) { plantillas[plantillas.findIndex(p => p.id === id)] = newP; showToast("Plantilla actualizada"); } 
+        else { plantillas.push(newP); showToast("Plantilla guardada"); }
+        
+        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
+        closeModal('plantillasModal');
+        renderPlantillasDropdown();
+        
+        // Auto-select the newly created/edited template
+        document.getElementById('plantillaSelect').value = newP.id;
+        seleccionarPlantilla();
+    });
+
+    function renderPlantillasDropdown() {
+        const select = document.getElementById('plantillaSelect');
+        select.innerHTML = '<option value="">Selecciona una plantilla...</option>';
+        
+        const sorted = [...plantillas].sort((a, b) => a.titulo.localeCompare(b.titulo));
+        sorted.forEach(p => {
+            const opt = document.createElement('option');
+            opt.value = p.id;
+            opt.innerText = p.titulo;
+            select.appendChild(opt);
+        });
+        
+        document.getElementById('plantillaWorkspace').style.display = 'none';
+        document.getElementById('btnEditPlantilla').style.display = 'none';
+        document.getElementById('btnDelPlantilla').style.display = 'none';
+    }
+
+    function seleccionarPlantilla() {
+        const id = document.getElementById('plantillaSelect').value;
+        const container = document.getElementById('plantillaWorkspace');
+        if(!id) { 
+            container.style.display = 'none'; 
+            document.getElementById('btnEditPlantilla').style.display = 'none';
+            document.getElementById('btnDelPlantilla').style.display = 'none';
+            return; 
+        }
+        
+        currentPlantillaObj = plantillas.find(p => p.id === id);
+        document.getElementById('btnEditPlantilla').style.display = 'block';
+        document.getElementById('btnDelPlantilla').style.display = 'block';
+        
+        const regex = /\[([^\]]+)\]/g;
+        const allText = `${currentPlantillaObj.para || ''} ${currentPlantillaObj.cc || ''} ${currentPlantillaObj.asunto || ''} ${currentPlantillaObj.mensaje || ''}`;
+        let vars = [];
+        let match;
+        while ((match = regex.exec(allText)) !== null) {
+            if(!vars.includes(match[1])) vars.push(match[1]);
+        }
+        
+        const varsContainer = document.getElementById('plantillaVars');
+        varsContainer.innerHTML = '';
+        if(vars.length > 0) {
+            vars.forEach(v => {
+                varsContainer.innerHTML += `
+                    <div style="flex: 1; min-width: 200px;">
+                        <label style="margin-top: 0; color: var(--text-muted); font-size: 0.9em;">${v}:</label>
+                        <input type="text" class="plantilla-var-input" data-var="${v}" oninput="updatePlantillaPreview()" placeholder="Ingresa ${v}..." style="border-color: var(--color-indigo);">
+                    </div>
+                `;
+            });
+        } else {
+            varsContainer.innerHTML = '<p style="color:var(--text-muted); width: 100%; font-style: italic; margin: 0;">Esta plantilla no requiere variables adicionales. Está lista para copiar.</p>';
+        }
+        
+        container.style.display = 'block';
+        updatePlantillaPreview();
+    }
+
+    function updatePlantillaPreview() {
+        if(!currentPlantillaObj) return;
+        
+        let pPara = currentPlantillaObj.para || '';
+        let pCc = currentPlantillaObj.cc || '';
+        let pAsunto = currentPlantillaObj.asunto || '';
+        let pMensaje = currentPlantillaObj.mensaje || '';
+        
+        document.querySelectorAll('.plantilla-var-input').forEach(input => {
+            const v = input.getAttribute('data-var');
+            const val = input.value || `[${v}]`; 
+            
+            // Reemplazar todas las ocurrencias de [Variable]
+            const splitRegex = new RegExp(`\\[${v}\\]`, 'gi');
+            pPara = pPara.replace(splitRegex, val);
+            pCc = pCc.replace(splitRegex, val);
+            pAsunto = pAsunto.replace(splitRegex, val);
+            pMensaje = pMensaje.replace(splitRegex, val);
+        });
+        
+        document.getElementById('prevPara').innerText = pPara;
+        document.getElementById('prevCc').innerText = pCc;
+        document.getElementById('prevAsunto').innerText = pAsunto;
+        document.getElementById('prevMensaje').innerText = pMensaje;
+        
+        document.getElementById('rowPara').style.display = pPara ? 'flex' : 'none';
+        document.getElementById('rowCc').style.display = pCc ? 'flex' : 'none';
+        document.getElementById('rowAsunto').style.display = pAsunto ? 'flex' : 'none';
+    }
+
+    function editarPlantillaActual() {
+        if(!currentPlantillaObj) return;
+        document.getElementById('plantillaId').value = currentPlantillaObj.id;
+        document.getElementById('plantillaTitulo').value = currentPlantillaObj.titulo;
+        document.getElementById('plantillaPara').value = currentPlantillaObj.para || '';
+        document.getElementById('plantillaCc').value = currentPlantillaObj.cc || '';
+        document.getElementById('plantillaAsunto').value = currentPlantillaObj.asunto || '';
+        document.getElementById('plantillaMensaje').value = currentPlantillaObj.mensaje || '';
+        document.getElementById('formTitlePlantilla').innerText = 'Editar Plantilla'; 
+        openModal('plantillasModal');
+    }
+
+    function eliminarPlantillaActual() {
+        if(!currentPlantillaObj) return;
+        if(confirm(`¿Seguro que deseas eliminar la plantilla "${currentPlantillaObj.titulo}"?`)) {
+            plantillas = plantillas.filter(p => p.id !== currentPlantillaObj.id);
+            localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
+            showToast("Plantilla eliminada");
+            renderPlantillasDropdown();
+        }
+    }
+
 
     // --- LÓGICA MIS PENDIENTES CON IMPORTACIÓN INTELIGENTE ---
     function renderPendientes() {
@@ -1083,12 +1231,11 @@
             const info = tarifarioVisa[category];
             contentHTML.innerHTML = `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;"><tr><td style="padding: 4px 0; font-weight: bold; width: 50%;">Mantención Semestral:</td><td style="padding: 4px 0;">${info.semestral}</td></tr><tr><td style="padding: 4px 0; font-weight: bold;">Semestral Adicional Plus:</td><td style="padding: 4px 0;">${info.adicional}</td></tr><tr><td style="padding: 4px 0; font-weight: bold;">Administración Mensual:</td><td style="padding: 4px 0;">${info.mensual}</td></tr></table><div style="background: rgba(23, 162, 184, 0.1); padding: 10px; border-radius: 4px; border-left: 3px solid var(--color-info);"><strong style="display:block; margin-bottom: 5px;">🎁 Reglas de Descuento (Semestral):</strong>${info.dcto}</div>`;
             
-            // Reemplazamos los <br> y etiquetas HTML por saltos de línea y texto plano para el portapapeles
             let cleanDcto = info.dcto.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, "");
             currentTarifarioText = `COSTOS DE MANTENCIÓN TC ${category.toUpperCase()}\n---------------------------------------\nMantención Semestral:\t\t${info.semestral}\nSemestral Adicional Plus:\t${info.adicional}\nAdministración Mensual:\t\t${info.mensual}\n\nREGLAS DE DESCUENTO (Mant. Semestral):\n${cleanDcto}`;
             
             detailsBox.style.display = 'block';
-            detailsBox.open = false; // Se asegura que empiece contraído
+            detailsBox.open = false; 
         } else {
             detailsBox.style.display = 'none';
         }
@@ -1159,6 +1306,7 @@
     function openModal(modalId) { 
         if (modalId === 'kbModal') { cargarCategoriasEnSelect(); document.getElementById('categoriaNueva').style.display = 'none'; document.getElementById('categoriaNueva').required = false; }
         if (modalId === 'directorioModal') { document.getElementById('formTitleDir').innerText = 'Nuevo Contacto / Anexo'; document.getElementById('directorioForm').reset(); document.getElementById('dirId').value = ''; }
+        if (modalId === 'plantillasModal') { document.getElementById('formTitlePlantilla').innerText = 'Nueva Plantilla de Correo/CRM'; document.getElementById('plantillaForm').reset(); document.getElementById('plantillaId').value = ''; }
         if (modalId === 'exportModal') { document.getElementById('exportTextContainer').style.display = 'none'; }
         if (modalId === 'importModal') { document.getElementById('importTextarea').value = ''; }
         document.getElementById(modalId).style.display = 'flex'; document.body.style.overflow = 'hidden'; 
@@ -1168,6 +1316,7 @@
         if (modalId === 'kbModal') { document.getElementById('kbForm').reset(); document.getElementById('entryId').value = ''; }
         if (modalId === 'clavesModal') { document.getElementById('clavesForm').reset(); document.getElementById('claveId').value = ''; }
         if (modalId === 'directorioModal') { document.getElementById('directorioForm').reset(); document.getElementById('dirId').value = ''; }
+        if (modalId === 'plantillasModal') { document.getElementById('plantillaForm').reset(); document.getElementById('plantillaId').value = ''; }
     }
     function showToast(message) { const toast = document.getElementById("toast"); toast.innerText = "✅ " + message; toast.className = "show"; setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000); }
 
@@ -1203,20 +1352,20 @@
     // ==========================================
     function copyText(event, elementId, rawText = null) {
         const text = rawText ? rawText : document.getElementById(elementId).innerText; const btn = event.currentTarget; const originalHTML = btn.innerHTML;
-        const showSuccess = () => { btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--color-success)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`; btn.style.borderColor = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = 'var(--border)'; }, 1500); };
+        const showSuccess = () => { btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--color-success)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); };
         if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(showSuccess).catch(err => useFallback(text)); } else { useFallback(text); }
         function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); }
     }
 
     function handleFileExport() {
-        const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes };
-        if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0) { alert('No hay datos guardados para exportar.'); return; }
+        const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes, plantillas: plantillas };
+        if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0 && plantillas.length === 0) { alert('No hay datos guardados para exportar.'); return; }
         const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })); a.download = `Backup_BICE_Hub_${new Date().toISOString().slice(0,10)}.json`; a.click(); closeModal('exportModal');
     }
 
     function handleTextExport() {
-        const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes };
-        if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0) { alert('No hay datos para exportar.'); return; }
+        const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes, plantillas: plantillas };
+        if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0 && plantillas.length === 0) { alert('No hay datos para exportar.'); return; }
         const stringData = JSON.stringify(data); const encodedData = btoa(encodeURIComponent(stringData));
         document.getElementById('exportTextarea').value = encodedData; document.getElementById('exportTextContainer').style.display = 'block';
     }
@@ -1234,20 +1383,21 @@
                 if(confirm("Se detectó un respaldo antiguo de Mis Claves. ¿Deseas integrarlo a tu Hub actual?")) { importedData.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); }); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); showToast("Claves antiguas integradas"); }
             }
         } 
-        else if (importedData.kb || importedData.claves || importedData.directorio || importedData.pendientes) {
+        else if (importedData.kb || importedData.claves || importedData.directorio || importedData.pendientes || importedData.plantillas) {
             if(confirm(`Se encontró un Respaldo Global del Hub.\n\n• Presiona "Aceptar" para SUMAR estos datos a los que ya tienes.\n• Presiona "Cancelar" para REEMPLAZAR toda tu información actual.`)) {
                 if(importedData.kb) importedData.kb.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); });
                 if(importedData.claves) importedData.claves.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); });
                 if(importedData.directorio) importedData.directorio.forEach(item => { if(!directorio.find(x=>x.id===item.id)) directorio.push(item); });
                 if(importedData.pendientes) importedData.pendientes.forEach(item => { if(!pendientes.find(x=>x.id===item.id)) pendientes.push(item); });
+                if(importedData.plantillas) importedData.plantillas.forEach(item => { if(!plantillas.find(x=>x.id===item.id)) plantillas.push(item); });
                 showToast("Respaldo sumado con éxito");
             } else {
                 if(confirm('⚠️ ESTO ELIMINARÁ TUS DATOS ACTUALES y los reemplazará por el respaldo. ¿Continuar?')) { 
-                    entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || []; pendientes = importedData.pendientes || []; 
+                    entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || []; pendientes = importedData.pendientes || []; plantillas = importedData.plantillas || [];
                     showToast("Respaldo reemplazado con éxito"); 
                 } else { return; }
             }
-            localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes();
+            localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown();
         } else { alert('Formato de archivo no reconocido o corrupto.'); }
         closeModal('importModal');
     }
@@ -1264,8 +1414,8 @@
     }
 
     function deleteAllData() {
-        if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves y Directorio)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) {
-            entries = []; claves = []; directorio = []; pendientes = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); showToast("Toda la información fue eliminada");
+        if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves, Directorio, Tareas y Plantillas)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) {
+            entries = []; claves = []; directorio = []; pendientes = []; plantillas = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown(); showToast("Toda la información fue eliminada");
         }
     }
 
