@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BICE Hub Ejecutivo - Contact Center BICE</title>
     
-    <!-- Script de inicialización de Modo Oscuro rápido para evitar pantallazo blanco -->
+    <!-- Script de inicialización de Modo Oscuro rápido -->
     <script>
         const savedTheme = localStorage.getItem('bice_theme') || 'light';
         if (savedTheme === 'dark') {
@@ -82,7 +82,7 @@
         }
         
         /* Acordeón Menú Izquierdo */
-        .accordion-menu { display: flex; flex-direction: column; gap: 8px; border-bottom: 2px solid var(--border); padding-bottom: 15px; transition: border-color 0.3s; }
+        .accordion-menu { display: flex; flex-direction: column; gap: 8px; border-bottom: 2px solid var(--border); padding-bottom: 15px; transition: border-color 0.3s; margin-bottom: 10px;}
         .menu-section { display: flex; flex-direction: column; }
         
         .nav-btn { 
@@ -107,18 +107,17 @@
         .tool-btn:hover { background: var(--bg-hover); color: var(--primary-color); border-color: var(--primary-light); }
         .tool-btn.active { background: var(--bg-active); color: var(--primary-color); border-color: var(--border-light); border-left: 4px solid var(--primary-color); border-radius: 0 6px 6px 0; }
         
-        .main-btn { background: var(--btn-primary); color: var(--btn-primary-text); border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 0.95em; font-weight: bold; box-shadow: 0 2px 5px var(--shadow); margin-bottom: 15px; transition: background 0.2s; }
+        .main-btn { background: var(--btn-primary); color: var(--btn-primary-text); border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 0.95em; font-weight: bold; box-shadow: 0 2px 5px var(--shadow); margin-bottom: 10px; transition: background 0.2s; }
         .main-btn:hover { filter: brightness(1.2); }
         .main-btn-claves { background: #28a745; color: white;}
         .main-btn-claves:hover { background: #218838; }
         
-        /* Botones de Datos */
-        .data-actions { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 15px; }
-        .data-btn { width: 100%; padding: 8px 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.85em; cursor: pointer; box-shadow: 0 2px 5px var(--shadow); text-align: center; transition: filter 0.2s; box-sizing: border-box; }
+        /* Botones Globales (Datos) */
+        .global-actions-panel { margin-top: 5px; padding-top: 15px; padding-bottom: 15px; border-top: 2px dashed var(--border-light); display: flex; flex-direction: column; gap: 8px;}
+        .data-btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.85em; cursor: pointer; box-shadow: 0 2px 5px var(--shadow); text-align: center; transition: filter 0.2s; box-sizing: border-box; }
         .data-btn:hover { filter: brightness(0.9); }
         .export-btn { background: #17a2b8; color: white; }
-        .import-btn { background: #6c757d; color: white; display: block; }
-        .delete-all-btn { background: #dc3545; color: white; margin-top: 5px; }
+        .import-btn { background: #6c757d; color: white; display: block; margin: 0; }
 
         /* Panel Indicadores Económicos */
         .indicadores-panel { margin-top: auto; padding: 15px 10px 5px 10px; text-align: center; border-top: 2px dashed var(--border-light); }
@@ -132,8 +131,8 @@
         .view-container.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Clases base para Herramientas */
-        .tool-panel { display: none; background: var(--bg-panel); padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); max-width: 600px; margin: 0 auto; transition: background-color 0.3s; }
+        /* Clases base para Herramientas y Directorio */
+        .tool-panel { display: none; background: var(--bg-panel); padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); max-width: 650px; margin: 0 auto; transition: background-color 0.3s; }
         .tool-result { display: none; margin-top: 25px; background: var(--bg-group); padding: 20px; border-left: 5px solid; border-radius: 6px; }
 
         /* Modales */
@@ -173,7 +172,7 @@
         .field-content { white-space: pre-wrap; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1.15em; color: var(--text-main); line-height: 1.6; padding-right: 50px; word-break: break-word; }
         .last-modified { font-size: 0.8em; color: var(--text-muted); font-style: italic; margin-top: 20px; text-align: left; }
 
-        /* Estilos Claves */
+        /* Estilos Claves & Directorio */
         .clave-link { color: var(--primary-light); font-size: 0.85em; text-decoration: none; font-weight: normal; background: var(--bg-active); padding: 5px 12px; border-radius: 20px; transition: filter 0.2s; }
         .clave-link:hover { filter: brightness(0.9); }
         .clave-row { display: flex; margin-bottom: 10px; align-items: center; background: var(--bg-group); padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border-light); }
@@ -206,7 +205,7 @@
         
         footer { background-color: var(--btn-primary); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; transition: background-color 0.3s; }
 
-        /* MODO OSCURO SWITCH (TIPO IOS) */
+        /* MODO OSCURO SWITCH */
         .theme-switch-wrapper { display: flex; align-items: center; }
         .theme-switch { display: inline-block; height: 26px; position: relative; width: 54px; margin: 0; }
         .theme-switch input { display: none; }
@@ -216,7 +215,7 @@
         input:checked + .slider:before { transform: translateX(26px); background-color: #e0e0e0;}
         .slider-icon { font-size: 12px; z-index: 1; user-select: none; }
 
-        /* HERRAMIENTAS COMISIONES RADIO BUTTONS */
+        /* HERRAMIENTAS RADIO BUTTONS */
         .radio-group { display: flex; gap: 25px; margin-bottom: 15px; background: var(--bg-group); padding: 15px; border-radius: 6px; border: 1px solid var(--border); }
         .radio-group label { margin-top: 0; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 1.05em; color: var(--primary-color);}
         .radio-group input[type="radio"] { width: auto; margin: 0; transform: scale(1.2); }
@@ -258,7 +257,6 @@
         <h1>BICE Hub Ejecutivo</h1>
     </div>
     
-    <!-- MODO OSCURO TOGGLE -->
     <div class="theme-switch-wrapper">
         <label class="theme-switch" for="themeCheckbox" title="Cambiar a Modo Oscuro">
             <input type="checkbox" id="themeCheckbox" onchange="toggleTheme(this)"/>
@@ -283,12 +281,6 @@
                 </button>
                 <div class="menu-content" id="content-kb">
                     <button class="main-btn" onclick="openModal('kbModal')">➕ Crear Registro</button>
-                    <div class="data-actions">
-                        <button class="data-btn export-btn" onclick="exportData('kb')">⬇️ Exportar Base</button>
-                        <label for="importFileKB" class="data-btn import-btn">⬆️ Importar Base</label>
-                        <input type="file" id="importFileKB" accept=".json" style="display: none;" onchange="importData(event, 'kb')">
-                        <button class="data-btn delete-all-btn" onclick="deleteAll('kb')">🗑️ Eliminar Toda la Base</button>
-                    </div>
                 </div>
             </div>
 
@@ -299,12 +291,6 @@
                 </button>
                 <div class="menu-content" id="content-claves">
                     <button class="main-btn main-btn-claves" onclick="openModal('clavesModal')">➕ Nueva Clave</button>
-                    <div class="data-actions">
-                        <button class="data-btn export-btn" onclick="exportData('claves')">⬇ Exportar Claves</button>
-                        <label for="importFileClaves" class="data-btn import-btn">⬆️ Importar Claves</label>
-                        <input type="file" id="importFileClaves" accept=".json" style="display: none;" onchange="importData(event, 'claves')">
-                        <button class="data-btn delete-all-btn" onclick="deleteAll('claves')">🗑️ Eliminar Todas Claves</button>
-                    </div>
                 </div>
             </div>
 
@@ -317,12 +303,22 @@
                     <div style="display: flex; flex-direction: column; gap: 4px;">
                         <button id="btn-tool-reconst" class="tool-btn" onclick="openTool('reconst')">💳 Reconstrucción TC</button>
                         <button id="btn-tool-bin" class="tool-btn" onclick="openTool('bin')">💳 Validador BIN TD</button>
-                        <button id="btn-tool-comisiones" class="tool-btn" onclick="openTool('comisiones')">✈️ Comisiones Internacionales</button>
+                        <button id="btn-tool-comisiones" class="tool-btn" onclick="openTool('comisiones')">✈️ Comisiones Int.</button>
                         <button id="btn-tool-conversor" class="tool-btn" onclick="openTool('conversor')">💱 Conversor Monedas</button>
+                        <button id="btn-tool-directorio" class="tool-btn" onclick="openTool('directorio')">📞 Directorio Rápido</button>
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- SECCIÓN DE RESPALDO GLOBAL -->
+        <div class="global-actions-panel">
+            <div class="indicadores-title" style="margin-bottom: 2px;">💾 Gestión de Datos</div>
+            <p style="font-size: 0.75em; color: var(--text-muted); margin: 0 0 8px 0; line-height: 1.3;">Respalda todo tu Hub (Base, Claves y Directorio) en un solo archivo JSON.</p>
+            <button class="data-btn export-btn" onclick="exportAllData()">⬇️ Exportar Base Completa</button>
+            <label for="importFileGlobal" class="data-btn import-btn">⬆️ Importar Base Completa</label>
+            <input type="file" id="importFileGlobal" accept=".json" style="display: none;" onchange="importAllData(event)">
+            <button class="data-btn delete-all-btn" onclick="deleteAllData()">🗑️ Borrar Toda la Data Local</button>
         </div>
 
         <!-- INDICADORES ECONÓMICOS -->
@@ -569,11 +565,29 @@
                     </div>
                 </div>
             </div>
+
+            <!-- DIRECTORIO RÁPIDO -->
+            <div id="tool-directorio" class="tool-panel" style="border-top: 6px solid #8e44ad; max-width: 100%;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+                    <h2 style="color: #8e44ad; margin: 0;">📞 Directorio de Apoyo</h2>
+                    <button class="main-btn" style="background: #8e44ad; width: auto; margin: 0;" onclick="openModal('directorioModal')">➕ Agregar Contacto</button>
+                </div>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Guarda aquí los anexos telefónicos y correos de las áreas de derivación interna para tenerlos a un clic de distancia.</p>
+                
+                <div class="search-container" style="box-shadow: none; border: 1px solid var(--border);">
+                    <input type="text" id="searchDir" placeholder="🔍 Buscar por nombre, área o anexo..." onkeyup="renderDirectorio()">
+                </div>
+                
+                <div id="dirList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <!-- Las tarjetas del directorio aparecen aquí -->
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 
-<!-- === MODAL 1: BASE DE CONOCIMIENTO (REORDENADO) === -->
+<!-- === MODAL 1: BASE DE CONOCIMIENTO === -->
 <div class="modal-overlay" id="kbModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
@@ -630,7 +644,7 @@
         <span class="close-modal" onclick="closeModal('procedimientoModal')" title="Cerrar">&times;</span>
         <h2 style="color: var(--color-warning); margin-top: 0;">📋 Procedimiento Fecha de Apertura TC</h2>
         
-        <div style="font-size: 1.05em; line-height: 1.6;">
+        <div style="font-size: 1.05em; line-height: 1.6; color: var(--text-main);">
             <p style="color: var(--primary-color); font-weight: bold; margin-bottom: 5px;">PASO 1: Verificar cantidad de tarjetas</p>
             <p style="margin-top: 0;">✅ Revisar si el cliente tiene una sola tarjeta de crédito activa.<br>
             Si solo tiene una tarjeta y no posee tarjetas bloqueadas:</p>
@@ -663,6 +677,30 @@
     </div>
 </div>
 
+<!-- === MODAL 4: DIRECTORIO RAPIDO === -->
+<div class="modal-overlay" id="directorioModal">
+    <div class="modal-content modal-content-small" style="border-top: 6px solid #8e44ad;">
+        <span class="close-modal" onclick="closeModal('directorioModal')" title="Cerrar">&times;</span>
+        <h2 id="formTitleDir" style="color: #8e44ad;">Nuevo Contacto / Anexo</h2>
+        <form id="directorioForm">
+            <input type="hidden" id="dirId">
+            <label>Nombre o Área de Apoyo:</label>
+            <input type="text" id="dirNombre" required placeholder="Ej: Mesa de Ayuda, Fraude TC...">
+            
+            <label>Anexo o Teléfono:</label>
+            <input type="text" id="dirAnexo" placeholder="Ej: 1234, 600 400 1000">
+            
+            <label>Correo Electrónico (Opcional):</label>
+            <input type="text" id="dirCorreo" placeholder="Ej: soporte@bice.cl">
+            
+            <label>Notas / Descripción breve:</label>
+            <textarea id="dirNotas" style="height: 60px;" placeholder="Ej: Solo atienden de 09:00 a 18:00 hrs"></textarea>
+            
+            <button type="submit" class="save-btn" style="background:#8e44ad;">Guardar Contacto</button>
+        </form>
+    </div>
+</div>
+
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
@@ -680,8 +718,6 @@
             localStorage.setItem('bice_theme', 'light');
         }
     }
-    
-    // Inicializar el switch si estaba oscuro guardado
     if (localStorage.getItem('bice_theme') === 'dark') {
         document.getElementById('themeCheckbox').checked = true;
     }
@@ -689,6 +725,7 @@
     // --- VARIABLES GLOBALES Y API ---
     let entries = JSON.parse(localStorage.getItem('bice_kb_data')) || [];
     let claves = JSON.parse(localStorage.getItem('bice_claves_data')) || [];
+    let directorio = JSON.parse(localStorage.getItem('bice_directorio_data')) || [];
     
     const itemsPerPage = 10; 
     let currentKbPage = 1;
@@ -727,7 +764,6 @@
         const navBtn = document.getElementById('nav-' + viewName);
         const isActive = navBtn.classList.contains('active');
 
-        // Reset main nav
         document.getElementById('nav-kb').classList.remove('active');
         document.getElementById('nav-claves').classList.remove('active');
         document.getElementById('nav-herramientas').classList.remove('active');
@@ -740,13 +776,11 @@
         document.getElementById('content-claves').style.display = 'none';
         document.getElementById('content-herramientas').style.display = 'none';
 
-        // Reset right views
         document.getElementById('view-kb').classList.remove('active');
         document.getElementById('view-claves').classList.remove('active');
         document.getElementById('view-herramientas').classList.remove('active');
         document.getElementById('view-welcome').classList.remove('active');
 
-        // Reset tool sub-buttons when changing main sections
         document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
 
         if (isActive) {
@@ -765,30 +799,133 @@
                 document.getElementById('tool-conversor').style.display = 'none';
                 document.getElementById('tool-reconst').style.display = 'none';
                 document.getElementById('tool-comisiones').style.display = 'none';
+                document.getElementById('tool-directorio').style.display = 'none';
                 updateSegmentos(); 
             }
         }
     }
 
     function openTool(toolId) {
-        // Pintar solo el botón activo en el sub-menú
         document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
         document.getElementById('btn-tool-' + toolId).classList.add('active');
 
-        // Ocultar todas las herramientas
         document.getElementById('tools-welcome').style.display = 'none';
         document.getElementById('tool-bin').style.display = 'none';
         document.getElementById('tool-conversor').style.display = 'none';
         document.getElementById('tool-reconst').style.display = 'none';
         document.getElementById('tool-comisiones').style.display = 'none';
+        document.getElementById('tool-directorio').style.display = 'none';
 
-        // Mostrar la seleccionada
         document.getElementById('tool-' + toolId).style.display = 'block';
         
         if(toolId === 'bin') document.getElementById('binInput').focus();
         if(toolId === 'conversor') document.getElementById('inputExt').focus();
         if(toolId === 'reconst') document.getElementById('platcomInput').focus();
+        if(toolId === 'directorio') renderDirectorio();
     }
+
+    // --- LÓGICA DIRECTORIO RÁPIDO ---
+    document.getElementById('directorioForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = document.getElementById('dirId').value;
+        const nombre = document.getElementById('dirNombre').value.trim();
+
+        const newDir = {
+            id: id ? id : 'DIR_' + Date.now().toString(),
+            nombre: nombre,
+            anexo: document.getElementById('dirAnexo').value.trim(),
+            correo: document.getElementById('dirCorreo').value.trim(),
+            notas: document.getElementById('dirNotas').value.trim()
+        };
+
+        if (id) {
+            directorio[directorio.findIndex(d => d.id === id)] = newDir;
+            showToast("Contacto actualizado");
+        } else {
+            directorio.push(newDir);
+            showToast("Contacto guardado");
+        }
+
+        localStorage.setItem('bice_directorio_data', JSON.stringify(directorio));
+        closeModal('directorioModal');
+        renderDirectorio();
+    });
+
+    function renderDirectorio() {
+        const list = document.getElementById('dirList');
+        list.innerHTML = '';
+        
+        const searchTerm = document.getElementById('searchDir').value.toLowerCase();
+        let filteredDir = directorio.filter(d => 
+            d.nombre.toLowerCase().includes(searchTerm) || 
+            d.anexo.toLowerCase().includes(searchTerm) ||
+            d.correo.toLowerCase().includes(searchTerm) ||
+            d.notas.toLowerCase().includes(searchTerm)
+        );
+
+        // Ordenar alfabéticamente
+        filteredDir.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        
+        if(filteredDir.length === 0) {
+            list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px; grid-column: 1 / -1;">No hay contactos o anexos guardados.</p>';
+            return;
+        }
+
+        filteredDir.forEach(d => {
+            const card = document.createElement('div');
+            card.style.cssText = "background: var(--bg-card); border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px var(--shadow); border-left: 4px solid #8e44ad; display: flex; flex-direction: column;";
+            
+            let html = `<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap:10px;">
+                            <h3 style="margin: 0; color: var(--primary-color); font-size: 1.1em; line-height:1.2;">${d.nombre}</h3>
+                            <div style="display:flex; gap:5px; flex-shrink:0;">
+                                <button class="action-btn edit-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="editDir('${d.id}')">✏️</button>
+                                <button class="action-btn delete-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="deleteDir('${d.id}')">🗑️</button>
+                            </div>
+                        </div>`;
+            
+            if (d.anexo) {
+                html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;">
+                            <span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">📞 Anexo/Tel:</span>
+                            <span class="clave-value" id="dir-tel-${d.id}" style="font-size:1.1em;">${d.anexo}</span>
+                            <button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-tel-${d.id}')">${copySvg}</button>
+                         </div>`;
+            }
+            if (d.correo) {
+                html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;">
+                            <span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">✉️ Correo:</span>
+                            <span class="clave-value" id="dir-mail-${d.id}" style="font-size:0.9em;">${d.correo}</span>
+                            <button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-mail-${d.id}')">${copySvg}</button>
+                         </div>`;
+            }
+            if (d.notas) {
+                html += `<div style="background: var(--bg-group); padding: 10px; border-radius: 4px; font-size: 0.85em; color: var(--text-muted); margin-top: auto; white-space: pre-wrap; border: 1px solid var(--border-light);">${d.notas}</div>`;
+            }
+
+            card.innerHTML = html;
+            list.appendChild(card);
+        });
+    }
+
+    function editDir(id) {
+        const d = directorio.find(x => x.id === id);
+        document.getElementById('dirId').value = d.id; 
+        document.getElementById('dirNombre').value = d.nombre;
+        document.getElementById('dirAnexo').value = d.anexo || ''; 
+        document.getElementById('dirCorreo').value = d.correo || '';
+        document.getElementById('dirNotas').value = d.notas || ''; 
+        document.getElementById('formTitleDir').innerText = 'Editar Contacto'; 
+        openModal('directorioModal'); 
+    }
+
+    function deleteDir(id) {
+        if(confirm('¿Seguro de eliminar este contacto?')) { 
+            directorio = directorio.filter(x => x.id !== id); 
+            localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); 
+            showToast("Contacto eliminado"); 
+            renderDirectorio(); 
+        }
+    }
+
 
     // --- LÓGICA COMISIONES INTERNACIONALES ---
     const comisionesData = {
@@ -1044,22 +1181,20 @@
             document.getElementById('categoriaNueva').style.display = 'none';
             document.getElementById('categoriaNueva').required = false;
         }
+        if (modalId === 'directorioModal') {
+            document.getElementById('formTitleDir').innerText = 'Nuevo Contacto / Anexo';
+            document.getElementById('directorioForm').reset();
+            document.getElementById('dirId').value = '';
+        }
         document.getElementById(modalId).style.display = 'flex'; 
         document.body.style.overflow = 'hidden'; 
     }
 
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none'; document.body.style.overflow = 'auto'; 
-        if (modalId === 'kbModal') { 
-            document.getElementById('kbForm').reset(); 
-            document.getElementById('entryId').value = ''; 
-            document.getElementById('formTitleKB').innerText = 'Nuevo Registro'; 
-        }
-        if (modalId === 'clavesModal') { 
-            document.getElementById('clavesForm').reset(); 
-            document.getElementById('claveId').value = ''; 
-            document.getElementById('formTitleClaves').innerText = 'Nueva Clave de Acceso'; 
-        }
+        if (modalId === 'kbModal') { document.getElementById('kbForm').reset(); document.getElementById('entryId').value = ''; }
+        if (modalId === 'clavesModal') { document.getElementById('clavesForm').reset(); document.getElementById('claveId').value = ''; }
+        if (modalId === 'directorioModal') { document.getElementById('directorioForm').reset(); document.getElementById('dirId').value = ''; }
     }
 
     function showToast(message) {
@@ -1101,18 +1236,13 @@
         const categoria = catSelect === 'nueva' ? document.getElementById('categoriaNueva').value : catSelect;
         
         const textos = [
-            titulo, categoria,
-            document.getElementById('validacion').value,
-            document.getElementById('scriptInicial').value,
-            document.getElementById('pasoApaso').value
+            titulo, categoria, document.getElementById('validacion').value, document.getElementById('scriptInicial').value, document.getElementById('pasoApaso').value
         ].join(' ').toLowerCase();
 
-        if (textos.trim().length < 5) {
-            alert('Por favor, llena el título o algún otro campo primero para poder generar etiquetas.'); return;
-        }
+        if (textos.trim().length < 5) { alert('Llena el título o algún otro campo primero para generar etiquetas.'); return; }
 
         const textoLimpio = textos.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ' ');
-        const stopWords = ['para', 'como', 'pero', 'este', 'esta', 'estos', 'estas', 'todo', 'toda', 'todos', 'todas', 'sobre', 'entre', 'hacia', 'desde', 'hasta', 'segun', 'antes', 'despues', 'luego', 'mientras', 'cuando', 'donde', 'quien', 'cual', 'que', 'con', 'por', 'del', 'los', 'las', 'una', 'unos', 'unas', 'tiene', 'tienen', 'hacer', 'paso', 'script'];
+        const stopWords = ['para','como','pero','este','esta','estos','estas','todo','toda','todos','todas','sobre','entre','hacia','desde','hasta','segun','antes','despues','luego','mientras','cuando','donde','quien','cual','que','con','por','del','los','las','una','unos','unas','tiene','tienen','hacer','paso','script'];
 
         const palabras = textoLimpio.split(/\s+/);
         const contador = {};
@@ -1121,10 +1251,8 @@
         const ordenadas = Object.keys(contador).sort((a, b) => contador[b] - contador[a]);
         const topTags = ordenadas.slice(0, 6);
         
-        if(topTags.length > 0) {
-            document.getElementById('etiquetas').value = topTags.join(', ');
-            showToast("Etiquetas autogeneradas con éxito");
-        } else { alert('No se encontró suficiente texto relevante para generar etiquetas.'); }
+        if(topTags.length > 0) { document.getElementById('etiquetas').value = topTags.join(', '); showToast("Etiquetas autogeneradas");
+        } else { alert('No se encontró suficiente texto relevante.'); }
     }
 
     document.getElementById('kbForm').addEventListener('submit', function(e) {
@@ -1135,9 +1263,8 @@
         const categoriaFinal = catSelectValue === 'nueva' ? document.getElementById('categoriaNueva').value.trim() : catSelectValue;
 
         const duplicate = entries.find(emp => emp.titulo.toLowerCase() === inputTitulo.toLowerCase() && emp.id !== id);
-        
         if (duplicate) {
-            if (!id) { if (confirm(`⚠️ El título "${duplicate.titulo}" ya existe.\n\n• Presiona "Aceptar" para cargar el registro existente.\n• Presiona "Cancelar" para elegir un nombre diferente.`)) { editEntry(duplicate.id); } } 
+            if (!id) { if (confirm(`⚠️ El título ya existe.\n\n"Aceptar" para cargar existente.`)) { editEntry(duplicate.id); } } 
             else alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".`);
             return; 
         }
@@ -1151,8 +1278,8 @@
             detalles: document.getElementById('detalles').value, otro: document.getElementById('otro').value
         };
 
-        if (id) { entries[entries.findIndex(emp => emp.id === id)] = newEntry; showToast("Actualizado correctamente"); } 
-        else { entries.push(newEntry); showToast("Guardado correctamente"); }
+        if (id) { entries[entries.findIndex(emp => emp.id === id)] = newEntry; showToast("Actualizado"); } 
+        else { entries.push(newEntry); showToast("Guardado"); }
 
         localStorage.setItem('bice_kb_data', JSON.stringify(entries)); closeModal('kbModal'); handleSearchKB(); 
     });
@@ -1188,18 +1315,12 @@
         paginated.forEach(entry => {
             const card = document.createElement('details'); card.className = 'card';
             let html = `<summary class="card-header"><div>${entry.titulo}</div><div><span class="tags">${entry.categoria}</span></div></summary><div class="card-content">`;
-            
             const fields = [
-                { key: 'validacion', label: 'Validación' },
-                { key: 'scriptInicial', label: 'Script Inicial' }, 
-                { key: 'pasoApaso', label: 'Paso a Paso' },
-                { key: 'cti', label: 'CTI' },
-                { key: 'plantilla', label: 'Plantilla' }, 
-                { key: 'scriptFinal', label: 'Script Final' },
-                { key: 'detalles', label: 'Detalles importantes' }, 
-                { key: 'otro', label: 'Otro' }
+                { key: 'validacion', label: 'Validación' }, { key: 'scriptInicial', label: 'Script Inicial' }, 
+                { key: 'pasoApaso', label: 'Paso a Paso' }, { key: 'cti', label: 'CTI' },
+                { key: 'plantilla', label: 'Plantilla' }, { key: 'scriptFinal', label: 'Script Final' },
+                { key: 'detalles', label: 'Detalles importantes' }, { key: 'otro', label: 'Otro' }
             ];
-            
             fields.forEach(f => {
                 if(entry[f.key] && entry[f.key].trim() !== '') {
                     html += `<div class="field-group"><div class="field-title">${f.label}</div><div class="field-content" id="txt-${entry.id}-${f.key}">${entry[f.key]}</div><button class="copy-btn copy-btn-absolute" onclick="copyText(event, 'txt-${entry.id}-${f.key}')" title="Copiar texto">${copySvg}</button></div>`;
@@ -1217,35 +1338,20 @@
 
     function editEntry(id) {
         const entry = entries.find(e => e.id === id);
-        document.getElementById('entryId').value = entry.id; 
-        document.getElementById('titulo').value = entry.titulo;
-        
+        document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo;
         cargarCategoriasEnSelect();
-        const catSelect = document.getElementById('categoriaSelect');
-        const inputNueva = document.getElementById('categoriaNueva');
-        let existeOpcion = Array.from(catSelect.options).some(opt => opt.value === entry.categoria);
-        
-        if (existeOpcion) {
-            catSelect.value = entry.categoria;
-            inputNueva.style.display = 'none'; inputNueva.required = false;
+        const catSelect = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva');
+        if (Array.from(catSelect.options).some(opt => opt.value === entry.categoria)) {
+            catSelect.value = entry.categoria; inputNueva.style.display = 'none'; inputNueva.required = false;
         } else {
-            catSelect.value = 'nueva';
-            inputNueva.style.display = 'block'; inputNueva.value = entry.categoria; inputNueva.required = true;
+            catSelect.value = 'nueva'; inputNueva.style.display = 'block'; inputNueva.value = entry.categoria; inputNueva.required = true;
         }
-        
-        document.getElementById('etiquetas').value = entry.etiquetas;
-        document.getElementById('validacion').value = entry.validacion;
-        document.getElementById('scriptInicial').value = entry.scriptInicial; 
-        document.getElementById('pasoApaso').value = entry.pasoApaso;
-        document.getElementById('cti').value = entry.cti;
-        document.getElementById('plantilla').value = entry.plantilla; 
-        document.getElementById('scriptFinal').value = entry.scriptFinal;
-        document.getElementById('detalles').value = entry.detalles; 
+        document.getElementById('etiquetas').value = entry.etiquetas; document.getElementById('validacion').value = entry.validacion;
+        document.getElementById('scriptInicial').value = entry.scriptInicial; document.getElementById('pasoApaso').value = entry.pasoApaso;
+        document.getElementById('cti').value = entry.cti; document.getElementById('plantilla').value = entry.plantilla; 
+        document.getElementById('scriptFinal').value = entry.scriptFinal; document.getElementById('detalles').value = entry.detalles; 
         document.getElementById('otro').value = entry.otro;
-        
-        document.getElementById('formTitleKB').innerText = 'Editar Registro'; 
-        document.getElementById('kbModal').style.display = 'flex'; 
-        document.body.style.overflow = 'hidden';
+        document.getElementById('formTitleKB').innerText = 'Editar Registro'; document.getElementById('kbModal').style.display = 'flex'; document.body.style.overflow = 'hidden';
     }
 
     function deleteEntry(id) {
@@ -1262,7 +1368,7 @@
         const duplicate = claves.find(c => c.app.toLowerCase() === inputApp.toLowerCase() && c.id !== id);
         
         if (duplicate) {
-            if (!id) { if (confirm(`⚠️ El aplicativo "${duplicate.app}" ya existe.\n\n• Presiona "Aceptar" para editarlo.\n• Presiona "Cancelar" para elegir un nombre distinto.`)) { editClave(duplicate.id); } }
+            if (!id) { if (confirm(`⚠️ El aplicativo ya existe.\n\n"Aceptar" para editar.`)) { editClave(duplicate.id); } }
             else alert(`⚠️ Ya existe otra clave guardada con el nombre "${duplicate.app}".`);
             return; 
         }
@@ -1272,7 +1378,7 @@
             app: inputApp, link: document.getElementById('claveLink').value, user: document.getElementById('claveUser').value, pass: document.getElementById('clavePass').value
         };
 
-        if (id) { claves[claves.findIndex(c => c.id === id)] = newClave; showToast("Clave actualizada correctamente"); }
+        if (id) { claves[claves.findIndex(c => c.id === id)] = newClave; showToast("Clave actualizada"); }
         else { claves.push(newClave); showToast("Clave guardada"); }
         localStorage.setItem('bice_claves_data', JSON.stringify(claves)); closeModal('clavesModal'); handleSearchClaves(); 
     });
@@ -1322,16 +1428,8 @@
         if(confirm('¿Seguro de eliminar esta clave?')) { claves = claves.filter(x => x.id !== id); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); showToast("Clave eliminada"); handleSearchClaves(); }
     }
 
-    function deleteAll(type) {
-        if(confirm(`⚠️ ADVERTENCIA ⚠️\n¿Eliminar TODOS los registros de ${type === 'kb' ? 'la Base' : 'Mis Claves'}? NO se puede deshacer.`)) {
-            if(type === 'kb') { entries = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); } 
-            else { claves = []; localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); }
-            showToast("Base limpiada");
-        }
-    }
-
     // ==========================================
-    // UTILS
+    // UTILS GLOBALES (EXPORTAR E IMPORTAR TODO EN UNO)
     // ==========================================
     function copyText(event, elementId, rawText = null) {
         const text = rawText ? rawText : document.getElementById(elementId).innerText;
@@ -1348,37 +1446,71 @@
         }
     }
 
-    function exportData(type) {
-        const data = type === 'kb' ? entries : claves;
-        if(data.length === 0) { alert('No hay datos para exportar.'); return; }
+    function exportAllData() {
+        const data = { kb: entries, claves: claves, directorio: directorio };
+        if(entries.length === 0 && claves.length === 0 && directorio.length === 0) { alert('No hay datos guardados para exportar.'); return; }
         const a = document.createElement('a');
         a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
-        a.download = type === 'kb' ? `Base_BICE_${new Date().toISOString().slice(0,10)}.json` : `Mis_Claves_BICE_${new Date().toISOString().slice(0,10)}.json`;
+        a.download = `Backup_BICE_Hub_${new Date().toISOString().slice(0,10)}.json`;
         a.click();
     }
 
-    function importData(event, type) {
+    function importAllData(event) {
         const file = event.target.files[0]; if (!file) return;
         const reader = new FileReader();
         reader.onload = function(e) {
             try {
                 const importedData = JSON.parse(e.target.result);
+                
+                // Si es un respaldo antiguo (array directo de KB o Claves)
                 if (Array.isArray(importedData)) {
-                    if(confirm(`Se encontraron ${importedData.length} registros.\n"Aceptar" para SUMAR, "Cancelar" para REEMPLAZAR.`)) {
-                        let tArr = type === 'kb' ? entries : claves; const eIds = new Set(tArr.map(ent => ent.id));
-                        importedData.forEach(item => { if(!eIds.has(item.id)) tArr.push(item); }); showToast(`Registros sumados`);
-                    } else {
-                        if(confirm('Esto borrará los datos actuales. ¿Continuar?')) {
-                            if(type === 'kb') entries = importedData; else claves = importedData; showToast("Base reemplazada");
-                        } else return;
+                    if (importedData.length > 0 && importedData[0].titulo) {
+                        if(confirm("Se detectó un respaldo antiguo de Base de Conocimiento. ¿Deseas integrarlo a tu Hub actual?")) {
+                            importedData.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); });
+                            localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); showToast("Base antigua integrada");
+                        }
+                    } else if (importedData.length > 0 && importedData[0].app) {
+                        if(confirm("Se detectó un respaldo antiguo de Mis Claves. ¿Deseas integrarlo a tu Hub actual?")) {
+                            importedData.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); });
+                            localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); showToast("Claves antiguas integradas");
+                        }
                     }
-                    if(type === 'kb') { localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); } 
-                    else { localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); }
-                } else alert('Formato incorrecto.');
+                } 
+                // Si es el nuevo respaldo Global (Objeto con kb, claves y directorio)
+                else if (importedData.kb || importedData.claves || importedData.directorio) {
+                    if(confirm(`Se encontró un Respaldo Global del Hub.\n\n• Presiona "Aceptar" para SUMAR estos datos a los que ya tienes.\n• Presiona "Cancelar" para REEMPLAZAR toda tu información actual.`)) {
+                        if(importedData.kb) importedData.kb.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); });
+                        if(importedData.claves) importedData.claves.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); });
+                        if(importedData.directorio) importedData.directorio.forEach(item => { if(!directorio.find(x=>x.id===item.id)) directorio.push(item); });
+                        showToast("Respaldo sumado con éxito");
+                    } else {
+                        if(confirm('⚠️ ESTO ELIMINARÁ TUS DATOS ACTUALES y los reemplazará por el respaldo. ¿Continuar?')) {
+                            entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || [];
+                            showToast("Respaldo reemplazado con éxito");
+                        } else { event.target.value = ''; return; }
+                    }
+                    localStorage.setItem('bice_kb_data', JSON.stringify(entries));
+                    localStorage.setItem('bice_claves_data', JSON.stringify(claves));
+                    localStorage.setItem('bice_directorio_data', JSON.stringify(directorio));
+                    handleSearchKB(); handleSearchClaves(); renderDirectorio();
+                } else {
+                    alert('Formato de archivo no reconocido.');
+                }
             } catch (error) { alert('Error leyendo el archivo JSON.'); }
             event.target.value = ''; 
         };
         reader.readAsText(file);
+    }
+
+    function deleteAllData() {
+        if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves y Directorio)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) {
+            entries = []; claves = []; directorio = [];
+            localStorage.setItem('bice_kb_data', JSON.stringify(entries));
+            localStorage.setItem('bice_claves_data', JSON.stringify(claves));
+            localStorage.setItem('bice_directorio_data', JSON.stringify(directorio));
+            handleSearchKB(); handleSearchClaves(); renderDirectorio();
+            showToast("Toda la información fue eliminada");
+        }
     }
 
     // Inicio
