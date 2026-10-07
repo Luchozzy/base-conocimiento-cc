@@ -119,7 +119,7 @@
         .clave-link:hover { background: #d0e3ff; }
         .clave-row { display: flex; margin-bottom: 10px; align-items: center; background: #f9f9f9; padding: 10px 15px; border-radius: 6px; }
         .clave-label { font-weight: bold; width: 140px; color: #555; }
-        .clave-value { flex: 1; font-family: monospace; font-size: 1.2em; letter-spacing: 1px; color: #111; word-break: break-all; }
+        .clave-value { flex: 1; font-family: monospace; font-size: 1.2em; letter-spacing: 1px; color: #111; word-break: break-word; }
         .clave-hidden { filter: blur(4px); user-select: none; }
         .toggle-visibility-btn { background: none; border: none; color: #666; cursor: pointer; font-size: 0.9em; text-decoration: underline; margin-right: 15px; }
 
@@ -146,7 +146,12 @@
         
         footer { background-color: var(--bice-blue); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; }
 
-        /* RESPONSIVO MÓVILES */
+        /* HERRAMIENTAS COMISIONES RADIO BUTTONS */
+        .radio-group { display: flex; gap: 25px; margin-bottom: 15px; background: #f4f7f6; padding: 15px; border-radius: 6px; border: 1px solid #ddd; }
+        .radio-group label { margin-top: 0; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 1.05em; color: var(--bice-blue);}
+        .radio-group input[type="radio"] { width: auto; margin: 0; transform: scale(1.2); }
+
+        /* RESPONSIVO */
         @media (max-width: 850px) {
             .container { flex-direction: column; padding: 0 15px; }
             .left-panel { min-width: 100%; max-width: 100%; position: static; margin-bottom: 10px; padding: 15px; box-sizing: border-box; max-height: none;}
@@ -171,6 +176,7 @@
             .action-btn { width: 100%; padding: 12px; }
             #toast { right: 15px; left: 15px; min-width: auto; bottom: 15px; font-size: 1em; }
             #toast.show { bottom: 20px; }
+            .radio-group { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
@@ -187,7 +193,6 @@
     <div class="left-panel">
         
         <div class="accordion-menu">
-            
             <!-- ACORDEÓN: BASE DE CONOCIMIENTO -->
             <div class="menu-section" id="section-kb">
                 <button class="nav-btn" id="nav-kb" onclick="switchView('kb')">
@@ -229,6 +234,7 @@
                     <div style="display: flex; flex-direction: column; gap: 4px;">
                         <button class="tool-btn" onclick="openTool('reconst')">💳 Reconstrucción TC</button>
                         <button class="tool-btn" onclick="openTool('bin')">💳 Validador BIN TD</button>
+                        <button class="tool-btn" onclick="openTool('comisiones')">✈️ Comisiones Internacionales</button>
                         <button class="tool-btn" onclick="openTool('conversor')">💱 Conversor Monedas</button>
                     </div>
                 </div>
@@ -308,11 +314,10 @@
                 <h3 style="color: #666; font-size: 1.5em;">👈 Selecciona una herramienta del menú izquierdo</h3>
             </div>
 
-            <!-- RECONSTRUCCIÓN DE TC -->
+            <!-- RECONSTRUCCIÓN TC -->
             <div id="tool-reconst" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid #17a2b8;">
                 <h2 style="color: #17a2b8; margin-top: 0;">💳 Reconstrucción Tarjeta de Crédito</h2>
                 <p style="color: #666; margin-bottom: 20px;">Arma la tarjeta de crédito completa pegando el formato abreviado de Platcom y seleccionando la categoría correcta.</p>
-                
                 <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 150px;">
                         <label>Formato Platcom:</label>
@@ -334,9 +339,7 @@
                         </select>
                     </div>
                 </div>
-                
                 <button class="save-btn" onclick="reconstruirTC()" style="margin-top: 10px; background: #17a2b8;">⚙️ Reconstruir Tarjeta</button>
-
                 <div id="reconstResult" style="display: none; margin-top: 25px; background: #f9f9f9; padding: 20px; border-left: 5px solid #28a745; border-radius: 6px;">
                     <div class="clave-row" style="margin-bottom: 0; background: white; border: 1px solid #ddd;">
                         <span class="clave-label" style="width: 140px;">Tarjeta armada:</span>
@@ -355,7 +358,6 @@
                 <label>Número de Tarjeta (16 dígitos):</label>
                 <input type="text" id="binInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="font-size: 1.3em; text-align: center; letter-spacing: 2px;" oninput="formatCardInput(event)">
                 <button class="save-btn" onclick="analizarTarjeta()" style="margin-top: 15px;">🔍 Analizar Tarjeta</button>
-
                 <div id="binResult" style="display: none; margin-top: 25px; background: #f9f9f9; padding: 20px; border-left: 5px solid #28a745; border-radius: 6px;">
                     <div class="clave-row" style="margin-bottom: 15px; background: white; border: 1px solid #ddd;">
                         <span class="clave-label" style="width: 130px;">Tarjeta limpia:</span>
@@ -372,6 +374,75 @@
                         <span class="clave-label" style="width: 130px;">Límite Diario:</span>
                         <span class="clave-value" id="resLimit" style="color: #28a745; font-weight: bold;"></span>
                     </div>
+                </div>
+            </div>
+
+            <!-- COMISIONES INTERNACIONALES (NUEVA) -->
+            <div id="tool-comisiones" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid #fd7e14;">
+                <h2 style="color: #fd7e14; margin-top: 0;">✈️ Comisiones Internacionales</h2>
+                <p style="color: #666; margin-bottom: 20px;">Calcula los cobros exactos por uso en el extranjero ingresando la fecha de apertura y el tipo de tarjeta.</p>
+                
+                <div class="radio-group">
+                    <label><input type="radio" name="comTipo" value="Tarjeta Crédito" checked onchange="updateSegmentos()"> Tarjeta Crédito (TC)</label>
+                    <label><input type="radio" name="comTipo" value="Tarjeta Débito" onchange="updateSegmentos()"> Tarjeta Débito (TD)</label>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 150px;">
+                        <label>Segmento de la Tarjeta:</label>
+                        <select id="comSegmento" style="padding: 10px; font-size: 1.05em; height: 46px;"></select>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 150px;">
+                        <label>Año de Apertura:</label>
+                        <select id="comYear" style="padding: 10px; font-size: 1.05em; height: 46px;">
+                            <option value="2026">2026</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2018">2018 y anteriores</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label>Mes de Apertura:</label>
+                        <select id="comMonth" style="padding: 10px; font-size: 1.05em; height: 46px;">
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button class="save-btn" onclick="calcularComisiones()" style="margin-top: 10px; background: #fd7e14;">🧮 Calcular Comisiones</button>
+
+                <div id="comisionesResult" style="display: none; margin-top: 25px; background: #fdf5ec; padding: 20px; border-left: 5px solid #fd7e14; border-radius: 6px;">
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #555; font-size: 0.9em; text-transform: uppercase;">Comisión Compra Internacional:</div>
+                        <div id="resComCompra" style="font-size: 1.15em; color: var(--bice-blue); font-weight: bold; margin-top: 4px;"></div>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-weight: bold; color: #555; font-size: 0.9em; text-transform: uppercase;">Comisión Giro ATM:</div>
+                        <div id="resComGiro" style="font-size: 1.15em; color: var(--bice-blue); font-weight: bold; margin-top: 4px;"></div>
+                    </div>
+                    
+                    <button class="copy-btn" style="width: 100%; margin-top: 10px; background: white; border: 2px solid #fd7e14; color: #fd7e14;" onclick="copiarComisiones(event)">
+                        📋 Copiar Respuesta para el Cliente
+                    </button>
                 </div>
             </div>
 
@@ -414,17 +485,14 @@
     </div>
 </div>
 
-<!-- === MODAL 1: BASE DE CONOCIMIENTO === -->
+<!-- === MODAL 1: BASE DE CONOCIMIENTO (REORDENADO) === -->
 <div class="modal-overlay" id="kbModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
         <h2 id="formTitleKB">Nuevo Registro</h2>
         <form id="kbForm">
             <input type="hidden" id="entryId">
-            
-            <label>Título:</label>
-            <input type="text" id="titulo" required>
-            
+            <label>Título:</label><input type="text" id="titulo" required>
             <label>Categoría:</label>
             <select id="categoriaSelect" required onchange="handleCategoriaChange()">
                 <option value="">Selecciona una categoría...</option>
@@ -435,7 +503,6 @@
             <label>Validación:</label><textarea id="validacion"></textarea>
             <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
             <label>Paso a Paso:</label><textarea id="pasoApaso"></textarea>
-            
             <label>CTI:</label><textarea id="cti"></textarea>
             <label>Plantilla:</label><textarea id="plantilla"></textarea>
             <label>Script Final:</label><textarea id="scriptFinal"></textarea>
@@ -549,6 +616,8 @@
                 document.getElementById('tool-bin').style.display = 'none';
                 document.getElementById('tool-conversor').style.display = 'none';
                 document.getElementById('tool-reconst').style.display = 'none';
+                document.getElementById('tool-comisiones').style.display = 'none';
+                updateSegmentos(); // Pre-cargar segmentos
             }
         }
     }
@@ -558,12 +627,160 @@
         document.getElementById('tool-bin').style.display = 'none';
         document.getElementById('tool-conversor').style.display = 'none';
         document.getElementById('tool-reconst').style.display = 'none';
+        document.getElementById('tool-comisiones').style.display = 'none';
 
         document.getElementById('tool-' + toolId).style.display = 'block';
         
         if(toolId === 'bin') document.getElementById('binInput').focus();
         if(toolId === 'conversor') document.getElementById('inputExt').focus();
         if(toolId === 'reconst') document.getElementById('platcomInput').focus();
+    }
+
+    // --- LÓGICA COMISIONES INTERNACIONALES ---
+    // Diccionario de reglas extraído directamente de Tarifario.xlsx
+    const comisionesData = {
+      "Tarjeta Débito": {
+        "CHECKCARD CLASICA": [
+          { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" },
+          { date_val: 202007, compra: "1,6% + IVA sobre valor de compra (a excepción de Tarjetas de Débito Visa Platinum, Signature e Infinite)", giro: "US$ 3 + IVA por evento" },
+          { date_val: 202006, compra: "1,6% + IVA sobre valor de compra (aplica solo para tarjetas de débito visa gold)", giro: "US$ 3 + IVA por evento" },
+          { date_val: 202005, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" },
+          { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" }
+        ],
+        "FAMILY CARD": [
+          { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" }
+        ],
+        "GO BICE": [
+          { date_val: 202302, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" }
+        ],
+        "GO UC": [
+          { date_val: 202305, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" }
+        ],
+        "CHECKCARD GOLD": [
+          { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }
+        ],
+        "CHECKCARD PLATINUM": [
+          { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }
+        ],
+        "CHECKCARD SIGNATURE": [
+          { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }
+        ]
+      },
+      "Tarjeta Crédito": {
+        "GO BICE": [
+          { date_val: 202402, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }
+        ],
+        "GOLD (ORO)": [
+          { date_val: 202007, compra: "1,6%+IVA sobre valor de compra", giro: "(US$ 2,00 + 2% del Avance) + IVA" },
+          { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra / Gold Joven (US$ 2,00 + 2% del Avance) + IVA" },
+          { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" },
+          { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" }
+        ],
+        "PLATINUM": [
+          { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" },
+          { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" },
+          { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" },
+          { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" }
+        ],
+        "INFINITE": [
+          { date_val: 202101, compra: "Sin Comisión", giro: "Sin Comisión" },
+          { date_val: 201804, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" },
+          { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" },
+          { date_val: 201801, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }
+        ],
+        "EMPRESARIAL": [
+          { date_val: 202308, compra: "1,6%+IVA sobre valor de compra (excepto Business Signature e Infinite)", giro: "1,6%+IVA sobre valor del avance (excepto Business Signature e Infinite)" },
+          { date_val: 202101, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" },
+          { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra" },
+          { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" },
+          { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" }
+        ],
+        "PLATINUM BIA": [
+          { date_val: 202302, compra: "1,6% + IVA", giro: "1,6% + IVA" }
+        ],
+        "SIGNATURE": [
+          { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" },
+          { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" },
+          { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }
+        ]
+      }
+    };
+
+    function updateSegmentos() {
+        const tipo = document.querySelector('input[name="comTipo"]:checked').value;
+        const selectSeg = document.getElementById('comSegmento');
+        selectSeg.innerHTML = '';
+        
+        if (comisionesData[tipo]) {
+            Object.keys(comisionesData[tipo]).sort().forEach(seg => {
+                let opt = document.createElement('option');
+                opt.value = seg;
+                opt.innerText = seg;
+                selectSeg.appendChild(opt);
+            });
+        }
+        document.getElementById('comisionesResult').style.display = 'none';
+    }
+
+    function calcularComisiones() {
+        const tipo = document.querySelector('input[name="comTipo"]:checked').value;
+        const segmento = document.getElementById('comSegmento').value;
+        const year = parseInt(document.getElementById('comYear').value);
+        const month = parseInt(document.getElementById('comMonth').value);
+        
+        if(!segmento) { alert("Por favor seleccione un segmento"); return; }
+        
+        // Creamos un valor numérico YYYYMM para comparar fácilmente
+        const inputDateVal = (year * 100) + month;
+        
+        const reglas = comisionesData[tipo][segmento];
+        let reglaAplicada = null;
+
+        // Las reglas ya están ordenadas de más nuevas a más antiguas.
+        // Buscamos la primera regla que sea <= a la fecha ingresada
+        for (let r of reglas) {
+            if (inputDateVal >= r.date_val) {
+                reglaAplicada = r;
+                break;
+            }
+        }
+        
+        // Si el usuario eligió una fecha ANTERIOR a nuestro primer registro, 
+        // usamos el registro más antiguo que tengamos como "base".
+        if (!reglaAplicada) {
+            reglaAplicada = reglas[reglas.length - 1]; 
+        }
+
+        document.getElementById('resComCompra').innerText = reglaAplicada.compra;
+        document.getElementById('resComGiro').innerText = reglaAplicada.giro;
+        document.getElementById('comisionesResult').style.display = 'block';
+    }
+
+    function copiarComisiones(event) {
+        const cCompra = document.getElementById('resComCompra').innerText;
+        const cGiro = document.getElementById('resComGiro').innerText;
+        const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`;
+        
+        const btn = event.currentTarget; 
+        const originalHTML = btn.innerHTML;
+
+        const showSuccess = () => {
+            btn.innerHTML = `✅ Copiado Exitosamente`;
+            btn.style.borderColor = '#28a745'; 
+            btn.style.color = '#28a745';
+            setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = '#fd7e14'; btn.style.color = '#fd7e14'; }, 2000);
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); 
+        } else {
+            useFallback(textoFInal);
+        }
+
+        function useFallback(t) {
+            const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0";
+            document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); 
+        }
     }
 
     // --- LÓGICA RECONSTRUCCIÓN TC ---
@@ -583,14 +800,8 @@
         const cleanInput = inputStr.replace(/\D/g, '');
         const category = document.getElementById('tcCategory').value;
         
-        if (cleanInput.length !== 9) {
-            alert('El código debe tener exactamente 9 números, ej: 3-0018-8361');
-            return;
-        }
-        if (!category) {
-            alert('Por favor selecciona una categoría.');
-            return;
-        }
+        if (cleanInput.length !== 9) { alert('El código debe tener exactamente 9 números, ej: 3-0018-8361'); return; }
+        if (!category) { alert('Por favor selecciona una categoría.'); return; }
 
         const table = {
             "Oro": { antiguo: "4259440", nuevo: "4259441" },
@@ -609,10 +820,7 @@
 
         if (primerDigito === '4') {
             bin = table[category].antiguo;
-            if (!bin) {
-                alert('Esta categoría no tiene un BIN Antiguo registrado en el sistema.');
-                return;
-            }
+            if (!bin) { alert('Esta categoría no tiene un BIN Antiguo registrado en el sistema.'); return; }
         } else if (['0', '1', '2', '3'].includes(primerDigito)) {
             bin = table[category].nuevo;
         } else {
@@ -620,8 +828,7 @@
             return;
         }
 
-        const tarjetaCompleta = bin + cleanInput;
-        document.getElementById('resReconst').innerText = tarjetaCompleta;
+        document.getElementById('resReconst').innerText = bin + cleanInput;
         document.getElementById('reconstResult').style.display = 'block';
     }
 
@@ -1035,6 +1242,7 @@
     handleSearchKB();
     handleSearchClaves(); 
     cargarIndicadores();
+    updateSegmentos(); // Pre-carga de segmentos herramienta
 </script>
 
 </body>
