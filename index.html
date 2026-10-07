@@ -168,6 +168,8 @@
             .action-btn { width: 100%; padding: 12px; }
             #toast { right: 15px; left: 15px; min-width: auto; bottom: 15px; font-size: 1em; }
             #toast.show { bottom: 20px; }
+            .conversor-inputs { flex-direction: column; }
+            .conversor-arrow { display: none; }
         }
     </style>
 </head>
@@ -228,7 +230,7 @@
                 <div class="menu-content" id="content-herramientas">
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <button class="tool-btn" onclick="openTool('bin')">💳 Validador de BIN</button>
-                        <button class="tool-btn" onclick="openTool('conversor')">💱 Conversor Monedas</button>
+                        <button class="tool-btn" onclick="openTool('conversor')">💱 Conversor de Monedas</button>
                     </div>
                 </div>
             </div>
@@ -337,31 +339,39 @@
                 </div>
             </div>
 
-            <!-- CONVERSOR DE MONEDA -->
-            <div id="tool-conversor" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid #28a745;">
-                <h2 style="color: #28a745; margin-top: 0;">💱 Conversor de Moneda a Pesos</h2>
-                <p style="color: #666; margin-bottom: 20px;">Calcula el equivalente en pesos chilenos (CLP) para deudas de clientes o compras en el extranjero. (Utiliza el valor oficial de hoy o ajústalo manualmente).</p>
+            <!-- CONVERSOR DE MONEDAS -->
+            <div id="tool-conversor" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 700px; margin: 0 auto; border-top: 6px solid #28a745;">
+                <h2 style="color: #28a745; margin-top: 0;">💱 Conversor de Monedas a CLP</h2>
+                <p style="color: #666; margin-bottom: 20px;">Calcula equivalencias entre pesos chilenos (CLP) y moneda extranjera en ambas direcciones. Escribe el monto en cualquiera de las dos casillas de abajo para convertir.</p>
                 
-                <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
+                <div style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: #f0f4f8; padding: 15px; border-radius: 8px;">
                     <div style="flex: 1; min-width: 150px;">
                         <label>Moneda Extranjera:</label>
-                        <select id="convSelect" onchange="changeCurrency()" style="padding: 12px; font-size: 1.1em;">
+                        <select id="convSelect" onchange="changeCurrency()" style="padding: 10px; font-size: 1.1em;">
                             <option value="USD">Dólar (USD)</option>
                             <option value="EUR">Euro (EUR)</option>
                         </select>
                     </div>
                     <div style="flex: 1; min-width: 150px;">
                         <label>Tasa de cambio ($):</label>
-                        <input type="number" id="convTasa" step="0.01" oninput="calcConversion()" style="padding: 12px; font-size: 1.1em; font-weight: bold;">
+                        <input type="number" id="convTasa" step="0.01" oninput="calcExtToCLP()" style="padding: 10px; font-size: 1.1em; font-weight: bold;">
                     </div>
                 </div>
                 
-                <label>Monto a calcular (Extranjero):</label>
-                <input type="number" id="convAmount" step="0.01" placeholder="Ej: 45.50" oninput="calcConversion()" style="font-size: 1.3em; padding: 15px;">
+                <div class="conversor-inputs" style="background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #eee; display: flex; align-items: center; gap: 15px;">
+                    
+                    <div style="flex: 1; min-width: 130px;">
+                        <label style="color: var(--bice-blue);">Monto Extranjero:</label>
+                        <input type="number" id="convExt" step="0.01" placeholder="Ej: 45.50" oninput="calcExtToCLP()" style="font-size: 1.4em; padding: 12px; border: 2px solid var(--bice-blue); background: #fff;">
+                    </div>
+                    
+                    <div class="conversor-arrow" style="font-size: 2.5em; color: #ccc; font-weight: bold; padding-top: 15px;">⇄</div>
+                    
+                    <div style="flex: 1; min-width: 130px;">
+                        <label style="color: #28a745;">Monto CLP ($):</label>
+                        <input type="number" id="convCLP" step="1" placeholder="Ej: 15000" oninput="calcCLPToExt()" style="font-size: 1.4em; padding: 12px; border: 2px solid #28a745; background: #fff;">
+                    </div>
 
-                <div style="margin-top: 25px; background: #f9f9f9; padding: 20px; border-left: 5px solid #28a745; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <span style="font-weight: bold; color: #555; font-size: 1.1em;">Total a Pagar (CLP):</span>
-                    <span id="convResult" style="font-size: 1.8em; font-weight: bold; color: #28a745;">$0</span>
                 </div>
             </div>
 
@@ -440,7 +450,6 @@
             document.getElementById('val-dolar').innerText = `USD: $${tasaDolar.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
             document.getElementById('val-euro').innerText = `EUR: $${tasaEuro.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
             
-            // Asigna la tasa inicial al conversor
             document.getElementById('convTasa').value = tasaDolar; 
         } catch (error) {
             document.getElementById('val-dolar').innerText = `USD: API Falló`;
@@ -503,25 +512,44 @@
         document.getElementById('tool-' + toolId).style.display = 'block';
         
         if(toolId === 'bin') document.getElementById('binInput').focus();
-        if(toolId === 'conversor') document.getElementById('convAmount').focus();
+        if(toolId === 'conversor') document.getElementById('convExt').focus();
     }
 
-    // --- LÓGICA CONVERSOR DE MONEDAS ---
+    // --- LÓGICA CONVERSOR DE MONEDAS (BIDIRECCIONAL) ---
     function changeCurrency() {
         const currency = document.getElementById('convSelect').value;
         document.getElementById('convTasa').value = currency === 'USD' ? tasaDolar : tasaEuro;
-        calcConversion();
+        calcExtToCLP(); // Recalcula si cambias la moneda
     }
 
-    function calcConversion() {
-        const amountStr = document.getElementById('convAmount').value;
+    // Calcula de Extranjero a CLP
+    function calcExtToCLP() {
+        const extStr = document.getElementById('convExt').value;
         const rateStr = document.getElementById('convTasa').value;
+        
+        if (!extStr || !rateStr) { 
+            document.getElementById('convCLP').value = ''; 
+            return; 
+        }
+        
+        const ext = parseFloat(extStr);
+        const rate = parseFloat(rateStr);
+        document.getElementById('convCLP').value = Math.round(ext * rate);
+    }
 
-        const amount = parseFloat(amountStr) || 0;
-        const rate = parseFloat(rateStr) || 0;
-
-        const total = Math.round(amount * rate);
-        document.getElementById('convResult').innerText = `$${total.toLocaleString('es-CL')}`;
+    // Calcula de CLP a Extranjero
+    function calcCLPToExt() {
+        const clpStr = document.getElementById('convCLP').value;
+        const rateStr = document.getElementById('convTasa').value;
+        
+        if (!clpStr || !rateStr) { 
+            document.getElementById('convExt').value = ''; 
+            return; 
+        }
+        
+        const clp = parseFloat(clpStr);
+        const rate = parseFloat(rateStr);
+        document.getElementById('convExt').value = (clp / rate).toFixed(2);
     }
 
     // --- LÓGICA VALIDADOR BIN ---
