@@ -120,6 +120,7 @@
         .data-btn:hover { filter: brightness(0.9); }
         .export-btn { background: #17a2b8; color: white; }
         .import-btn { background: #6c757d; color: white; display: block; margin: 0; }
+        .delete-all-btn { background: #dc3545; color: white; }
 
         /* Panel Indicadores Económicos */
         .indicadores-panel { margin-top: auto; padding: 15px 5px 5px 5px; text-align: center; border-top: 2px dashed var(--border-light); }
@@ -226,6 +227,10 @@
         .radio-group label { margin-top: 0; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 1.05em; color: var(--primary-color);}
         .radio-group input[type="radio"] { width: auto; margin: 0; transform: scale(1.2); }
 
+        /* ESTILOS EXTRA PARA MODAL IMPORT/EXPORT */
+        .backup-option-box { background: var(--bg-group); border: 1px solid var(--border-light); padding: 20px; border-radius: 8px; margin-top: 15px; }
+        .backup-option-box h4 { margin-top: 0; color: var(--primary-color); margin-bottom: 10px; }
+
         /* RESPONSIVO */
         @media (max-width: 850px) {
             .container { flex-direction: column; padding: 0 15px; }
@@ -317,14 +322,13 @@
             </div>
         </div>
 
-        <!-- SECCIÓN DE RESPALDO GLOBAL -->
+        <!-- SECCIÓN DE RESPALDO GLOBAL (MEJORADO) -->
         <div class="global-actions-panel">
             <div class="indicadores-title" style="margin-bottom: 2px;">💾 Gestión de Datos</div>
-            <p style="font-size: 0.75em; color: var(--text-muted); margin: 0 0 8px 0; line-height: 1.3;">Respalda todo tu Hub (Base, Claves y Directorio) en un solo archivo JSON.</p>
-            <button class="data-btn export-btn" onclick="exportAllData()">⬇️ Exportar Base Completa</button>
-            <label for="importFileGlobal" class="data-btn import-btn">⬆️ Importar Base Completa</label>
-            <input type="file" id="importFileGlobal" accept=".json" style="display: none;" onchange="importAllData(event)">
-            <button class="data-btn delete-all-btn" onclick="deleteAllData()">🗑️ Borrar Toda la Data Local</button>
+            <p style="font-size: 0.75em; color: var(--text-muted); margin: 0 0 8px 0; line-height: 1.3;">Respalda toda tu información.</p>
+            <button class="data-btn export-btn" onclick="openModal('exportModal')">⬇️ Exportar Datos</button>
+            <button class="data-btn import-btn" onclick="openModal('importModal')">⬆️ Importar Datos</button>
+            <button class="data-btn delete-all-btn" onclick="deleteAllData()">🗑️ Borrar Todo</button>
         </div>
 
         <!-- INDICADORES ECONÓMICOS -->
@@ -597,7 +601,9 @@
     </div>
 </div>
 
-<!-- === MODAL 1: BASE DE CONOCIMIENTO === -->
+<!-- === MODALES DE CREACIÓN DE DATOS === -->
+
+<!-- MODAL 1: BASE DE CONOCIMIENTO -->
 <div class="modal-overlay" id="kbModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
@@ -632,7 +638,7 @@
     </div>
 </div>
 
-<!-- === MODAL 2: MIS CLAVES === -->
+<!-- MODAL 2: MIS CLAVES -->
 <div class="modal-overlay" id="clavesModal">
     <div class="modal-content modal-content-small">
         <span class="close-modal" onclick="closeModal('clavesModal')" title="Cerrar">&times;</span>
@@ -648,16 +654,14 @@
     </div>
 </div>
 
-<!-- === MODAL 3: PROCEDIMIENTO FECHA APERTURA === -->
+<!-- MODAL 3: PROCEDIMIENTO FECHA APERTURA -->
 <div class="modal-overlay" id="procedimientoModal">
     <div class="modal-content" style="max-width: 650px;">
         <span class="close-modal" onclick="closeModal('procedimientoModal')" title="Cerrar">&times;</span>
         <h2 style="color: var(--color-warning); margin-top: 0;">📋 Procedimiento Fecha de Apertura TC</h2>
-        
         <div style="font-size: 1.05em; line-height: 1.6; color: var(--text-main);">
             <p style="color: var(--primary-color); font-weight: bold; margin-bottom: 5px;">PASO 1: Verificar cantidad de tarjetas</p>
-            <p style="margin-top: 0;">✅ Revisar si el cliente tiene una sola tarjeta de crédito activa.<br>
-            Si solo tiene una tarjeta y no posee tarjetas bloqueadas:</p>
+            <p style="margin-top: 0;">✅ Revisar si el cliente tiene una sola tarjeta de crédito activa.<br>Si solo tiene una tarjeta y no posee tarjetas bloqueadas:</p>
             <ul style="background: var(--bg-group); padding: 15px 15px 15px 35px; border-radius: 6px; border-left: 4px solid var(--primary-color);">
                 <li>Seleccionar la tarjeta.</li>
                 <li>Ingresar a <strong>Detalle</strong>.</li>
@@ -676,10 +680,7 @@
             </ol>
 
             <p style="color: var(--primary-color); font-weight: bold; margin-bottom: 5px; margin-top: 25px;">PASO 3: Buscar tarifa en el Hub</p>
-            <p style="margin-top: 0;">Una vez obtenida la fecha correcta:<br>
-            ✅ Ingresar el Año, Mes, Tipo de Tarjeta y Segmento en <strong>esta herramienta</strong>.<br>
-            El sistema mostrará automáticamente la Comisión Compra Internacional y Comisión Giro ATM listas para copiar y pegar.</p>
-
+            <p style="margin-top: 0;">Una vez obtenida la fecha correcta:<br>✅ Ingresar el Año, Mes, Tipo de Tarjeta y Segmento en <strong>esta herramienta</strong>.<br>El sistema mostrará automáticamente la Comisión Compra Internacional y Comisión Giro ATM listas para copiar y pegar.</p>
             <div style="background: rgba(255, 193, 7, 0.15); border-left: 5px solid #ffc107; padding: 12px; margin-top: 20px; border-radius: 4px; font-size: 0.95em;">
                 <strong style="color: #d39e00;">*Nota Importante:</strong> Si la tarjeta es generada posterior a <strong>Marzo 2025</strong>, se debe ocupar esa fecha para ver el tarifario. <em>(El Hub ya hace este ajuste automáticamente en el cálculo).</em>
             </div>
@@ -687,34 +688,76 @@
     </div>
 </div>
 
-<!-- === MODAL 4: DIRECTORIO RAPIDO === -->
+<!-- MODAL 4: DIRECTORIO RAPIDO -->
 <div class="modal-overlay" id="directorioModal">
     <div class="modal-content modal-content-small" style="border-top: 6px solid #8e44ad;">
         <span class="close-modal" onclick="closeModal('directorioModal')" title="Cerrar">&times;</span>
         <h2 id="formTitleDir" style="color: #8e44ad;">Nuevo Contacto / Anexo</h2>
         <form id="directorioForm">
             <input type="hidden" id="dirId">
-            <label>Nombre o Área de Apoyo:</label>
-            <input type="text" id="dirNombre" required placeholder="Ej: Mesa de Ayuda, Fraude TC...">
-            
-            <label>Anexo o Teléfono:</label>
-            <input type="text" id="dirAnexo" placeholder="Ej: 1234, 600 400 1000">
-            
-            <label>Correo Electrónico (Opcional):</label>
-            <input type="text" id="dirCorreo" placeholder="Ej: soporte@bice.cl">
-            
-            <label>Notas / Descripción breve:</label>
-            <textarea id="dirNotas" style="height: 60px;" placeholder="Ej: Solo atienden de 09:00 a 18:00 hrs"></textarea>
-            
+            <label>Nombre o Área de Apoyo:</label><input type="text" id="dirNombre" required placeholder="Ej: Mesa de Ayuda, Fraude TC...">
+            <label>Anexo o Teléfono:</label><input type="text" id="dirAnexo" placeholder="Ej: 1234, 600 400 1000">
+            <label>Correo Electrónico (Opcional):</label><input type="text" id="dirCorreo" placeholder="Ej: soporte@bice.cl">
+            <label>Notas / Descripción breve:</label><textarea id="dirNotas" style="height: 60px;" placeholder="Ej: Solo atienden de 09:00 a 18:00 hrs"></textarea>
             <button type="submit" class="save-btn" style="background:#8e44ad;">Guardar Contacto</button>
         </form>
+    </div>
+</div>
+
+<!-- === MODALES DE RESPALDO (EXPORT / IMPORT) === -->
+
+<!-- MODAL EXPORTAR -->
+<div class="modal-overlay" id="exportModal">
+    <div class="modal-content modal-content-small" style="border-top: 6px solid #17a2b8;">
+        <span class="close-modal" onclick="closeModal('exportModal')" title="Cerrar">&times;</span>
+        <h2 style="color: #17a2b8;">⬇️ Exportar Respaldo</h2>
+        <p style="color: var(--text-muted);">Elige cómo deseas guardar tu información.</p>
+        
+        <div class="backup-option-box">
+            <h4>📁 Opción 1: Archivo Descargable</h4>
+            <p style="font-size: 0.9em; color: var(--text-muted); margin-top: 0;">Descarga un archivo .json tradicional. Recomendado para uso en casa o equipos sin restricciones.</p>
+            <button class="save-btn" style="background: #17a2b8; margin-top: 10px; padding: 10px;" onclick="handleFileExport()">Descargar Archivo (.json)</button>
+        </div>
+
+        <div class="backup-option-box">
+            <h4>🔒 Opción 2: Texto Seguro (Base64)</h4>
+            <p style="font-size: 0.9em; color: var(--text-muted); margin-top: 0;">Genera un bloque de texto encriptado. Útil si el banco bloquea la descarga de archivos. Copia el texto y envíatelo por correo.</p>
+            <button class="outline-btn" style="width: 100%; border-color: #17a2b8; color: #17a2b8; margin-bottom: 0;" onclick="handleTextExport()">Generar Texto de Respaldo</button>
+            
+            <div id="exportTextContainer" style="display: none; margin-top: 15px;">
+                <textarea id="exportTextarea" readonly style="height: 100px; font-family: monospace; font-size: 0.85em; background: #e9ecef; color: #495057; cursor: text;"></textarea>
+                <button class="save-btn" style="background: #28a745; margin-top: 10px; padding: 10px;" onclick="copyBackupText()">📋 Copiar Texto Seguro</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL IMPORTAR -->
+<div class="modal-overlay" id="importModal">
+    <div class="modal-content modal-content-small" style="border-top: 6px solid #6c757d;">
+        <span class="close-modal" onclick="closeModal('importModal')" title="Cerrar">&times;</span>
+        <h2 style="color: #6c757d;">⬆️ Importar Respaldo</h2>
+        <p style="color: var(--text-muted);">Elige el método para cargar tu información al Hub.</p>
+        
+        <div class="backup-option-box">
+            <h4>📁 Opción 1: Subir Archivo (.json)</h4>
+            <label for="importFileInput" class="save-btn" style="background: #6c757d; margin-top: 10px; padding: 10px; display: block; text-align: center; cursor: pointer; color: white;">Seleccionar y Cargar Archivo</label>
+            <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+        </div>
+
+        <div class="backup-option-box">
+            <h4>🔒 Opción 2: Pegar Texto Seguro</h4>
+            <p style="font-size: 0.9em; color: var(--text-muted); margin-top: 0;">Si te enviaste un respaldo en texto (Base64), pégalo en la caja de abajo.</p>
+            <textarea id="importTextarea" style="height: 100px; font-family: monospace; font-size: 0.85em;" placeholder="Pega aquí el código encriptado..."></textarea>
+            <button class="save-btn" style="background: #002D62; margin-top: 10px; padding: 10px;" onclick="handleTextImport()">Procesar e Importar Texto</button>
+        </div>
     </div>
 </div>
 
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    Creado por Luis Muñoz | v2.3.0
+    Creado por Luis Muñoz | v2.4.0
 </footer>
 
 <script>
@@ -743,10 +786,7 @@
     let filteredEntries = [...entries];
     let filteredClaves = [...claves];
 
-    let tasaDolar = 0;
-    let tasaEuro = 0;
-    let tasaUF = 0;
-    let tasaUTM = 0;
+    let tasaDolar = 0; let tasaEuro = 0; let tasaUF = 0; let tasaUTM = 0;
 
     const copySvg = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
 
@@ -754,25 +794,17 @@
         try {
             const response = await fetch('https://mindicador.cl/api');
             const data = await response.json();
-            tasaDolar = data.dolar.valor;
-            tasaEuro = data.euro.valor;
-            tasaUF = data.uf.valor;
-            tasaUTM = data.utm.valor;
+            tasaDolar = data.dolar.valor; tasaEuro = data.euro.valor; tasaUF = data.uf.valor; tasaUTM = data.utm.valor;
             
             document.getElementById('val-dolar').innerText = `USD: $${tasaDolar.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
             document.getElementById('val-euro').innerText = `EUR: $${tasaEuro.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
             document.getElementById('val-uf').innerText = `UF: $${tasaUF.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
             document.getElementById('val-utm').innerText = `UTM: $${tasaUTM.toLocaleString('es-CL', {minimumFractionDigits: 0})}`;
             
-            // Si el conversor está en USD al cargar
-            if(document.getElementById('convSelect').value === 'USD') {
-                document.getElementById('convTasa').value = tasaDolar; 
-            }
+            if(document.getElementById('convSelect').value === 'USD') document.getElementById('convTasa').value = tasaDolar; 
         } catch (error) {
-            document.getElementById('val-dolar').innerText = `USD: Error`;
-            document.getElementById('val-euro').innerText = `EUR: Error`;
-            document.getElementById('val-uf').innerText = `UF: Error`;
-            document.getElementById('val-utm').innerText = `UTM: Error`;
+            document.getElementById('val-dolar').innerText = `USD: Error`; document.getElementById('val-euro').innerText = `EUR: Error`;
+            document.getElementById('val-uf').innerText = `UF: Error`; document.getElementById('val-utm').innerText = `UTM: Error`;
         }
     }
 
@@ -876,13 +908,10 @@
     function renderDirectorio() {
         const list = document.getElementById('dirList');
         list.innerHTML = '';
-        
         const searchTerm = document.getElementById('searchDir').value.toLowerCase();
         let filteredDir = directorio.filter(d => 
-            d.nombre.toLowerCase().includes(searchTerm) || 
-            d.anexo.toLowerCase().includes(searchTerm) ||
-            d.correo.toLowerCase().includes(searchTerm) ||
-            d.notas.toLowerCase().includes(searchTerm)
+            d.nombre.toLowerCase().includes(searchTerm) || d.anexo.toLowerCase().includes(searchTerm) ||
+            d.correo.toLowerCase().includes(searchTerm) || d.notas.toLowerCase().includes(searchTerm)
         );
 
         filteredDir.sort((a, b) => a.nombre.localeCompare(b.nombre));
@@ -929,24 +958,18 @@
 
     function editDir(id) {
         const d = directorio.find(x => x.id === id);
-        document.getElementById('dirId').value = d.id; 
-        document.getElementById('dirNombre').value = d.nombre;
-        document.getElementById('dirAnexo').value = d.anexo || ''; 
-        document.getElementById('dirCorreo').value = d.correo || '';
-        document.getElementById('dirNotas').value = d.notas || ''; 
-        document.getElementById('formTitleDir').innerText = 'Editar Contacto'; 
+        document.getElementById('dirId').value = d.id; document.getElementById('dirNombre').value = d.nombre;
+        document.getElementById('dirAnexo').value = d.anexo || ''; document.getElementById('dirCorreo').value = d.correo || '';
+        document.getElementById('dirNotas').value = d.notas || ''; document.getElementById('formTitleDir').innerText = 'Editar Contacto'; 
         openModal('directorioModal'); 
     }
 
     function deleteDir(id) {
         if(confirm('¿Seguro de eliminar este contacto?')) { 
-            directorio = directorio.filter(x => x.id !== id); 
-            localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); 
-            showToast("Contacto eliminado"); 
-            renderDirectorio(); 
+            directorio = directorio.filter(x => x.id !== id); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); 
+            showToast("Contacto eliminado"); renderDirectorio(); 
         }
     }
-
 
     // --- LÓGICA COMISIONES INTERNACIONALES ---
     const comisionesData = {
@@ -1025,8 +1048,7 @@
         if (comisionesData[tipo]) {
             Object.keys(comisionesData[tipo]).sort().forEach(seg => {
                 let opt = document.createElement('option');
-                opt.value = seg;
-                opt.innerText = seg;
+                opt.value = seg; opt.innerText = seg;
                 selectSeg.appendChild(opt);
             });
         }
@@ -1048,41 +1070,13 @@
         let reglaAplicada = null;
 
         for (let r of reglas) {
-            if (inputDateVal >= r.date_val) {
-                reglaAplicada = r;
-                break;
-            }
+            if (inputDateVal >= r.date_val) { reglaAplicada = r; break; }
         }
         if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; }
 
         document.getElementById('resComCompra').innerText = reglaAplicada.compra;
         document.getElementById('resComGiro').innerText = reglaAplicada.giro;
         document.getElementById('comisionesResult').style.display = 'block';
-    }
-
-    function copiarComisiones(event) {
-        const cCompra = document.getElementById('resComCompra').innerText;
-        const cGiro = document.getElementById('resComGiro').innerText;
-        const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`;
-        
-        const btn = event.currentTarget; 
-        const originalHTML = btn.innerHTML;
-
-        const showSuccess = () => {
-            btn.innerHTML = `✅ Copiado Exitosamente`;
-            btn.style.borderColor = 'var(--color-success)'; 
-            btn.style.color = 'var(--color-success)';
-            setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = 'var(--color-warning)'; btn.style.color = 'var(--color-warning)'; }, 2000);
-        };
-
-        if (navigator.clipboard && window.isSecureContext) {
-            navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); 
-        } else { useFallback(textoFInal); }
-
-        function useFallback(t) {
-            const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0";
-            document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); 
-        }
     }
 
     // --- LÓGICA RECONSTRUCCIÓN TC ---
@@ -1102,14 +1096,10 @@
         if (!category) { alert('Por favor selecciona una categoría.'); return; }
 
         const table = {
-            "Oro": { antiguo: "4259440", nuevo: "4259441" },
-            "Platinum": { antiguo: "4512480", nuevo: "4512486" },
-            "Infinite": { antiguo: "4093200", nuevo: "4093205" },
-            "Infinite II": { antiguo: "4245250", nuevo: "4245255" },
-            "Empresarial_4259": { antiguo: "4259470", nuevo: "4259474" },
-            "Platinum BIA": { antiguo: "4633070", nuevo: "4633076" },
-            "Empresarial_4633": { antiguo: "4633050", nuevo: "4633054" },
-            "Signature": { antiguo: "", nuevo: "4234710" },
+            "Oro": { antiguo: "4259440", nuevo: "4259441" }, "Platinum": { antiguo: "4512480", nuevo: "4512486" },
+            "Infinite": { antiguo: "4093200", nuevo: "4093205" }, "Infinite II": { antiguo: "4245250", nuevo: "4245255" },
+            "Empresarial_4259": { antiguo: "4259470", nuevo: "4259474" }, "Platinum BIA": { antiguo: "4633070", nuevo: "4633076" },
+            "Empresarial_4633": { antiguo: "4633050", nuevo: "4633054" }, "Signature": { antiguo: "", nuevo: "4234710" },
             "Limitless": { antiguo: "4093200", nuevo: "4093205" }
         };
 
@@ -1133,7 +1123,6 @@
     function changeCurrency() {
         const currency = document.getElementById('convSelect').value;
         let tasa = 0;
-        
         if (currency === 'USD') tasa = tasaDolar;
         else if (currency === 'EUR') tasa = tasaEuro;
         else if (currency === 'UF') tasa = tasaUF;
@@ -1210,6 +1199,12 @@
             document.getElementById('directorioForm').reset();
             document.getElementById('dirId').value = '';
         }
+        if (modalId === 'exportModal') {
+            document.getElementById('exportTextContainer').style.display = 'none';
+        }
+        if (modalId === 'importModal') {
+            document.getElementById('importTextarea').value = '';
+        }
         document.getElementById(modalId).style.display = 'flex'; 
         document.body.style.overflow = 'hidden'; 
     }
@@ -1227,7 +1222,7 @@
     }
 
     // ==========================================
-    // MÓDULO 1: BASE DE CONOCIMIENTO
+    // BASE DE CONOCIMIENTO (LOGICA GENERAL)
     // ==========================================
     function cargarCategoriasEnSelect() {
         const select = document.getElementById('categoriaSelect');
@@ -1311,7 +1306,6 @@
         localStorage.setItem('bice_kb_data', JSON.stringify(entries)); closeModal('kbModal'); handleSearchKB(); 
     });
 
-    // Lógica para toggle Favoritos
     function toggleFavKB(event, id) {
         event.preventDefault(); event.stopPropagation();
         const idx = entries.findIndex(e => e.id === id);
@@ -1324,9 +1318,7 @@
 
     function sortData(dataArray, sortValue, nameField) {
         return dataArray.sort((a, b) => {
-            // Siempre priorizamos los favoritos primero
-            const favA = a.favorito ? 1 : 0;
-            const favB = b.favorito ? 1 : 0;
+            const favA = a.favorito ? 1 : 0; const favB = b.favorito ? 1 : 0;
             if (favA !== favB) return favB - favA;
 
             if (sortValue === 'name_asc') return a[nameField].localeCompare(b[nameField]);
@@ -1495,7 +1487,7 @@
     }
 
     // ==========================================
-    // UTILS GLOBALES (EXPORTAR E IMPORTAR TODO EN UNO)
+    // UTILS GLOBALES Y EXPORT/IMPORT UNIFICADO
     // ==========================================
     function copyText(event, elementId, rawText = null) {
         const text = rawText ? rawText : document.getElementById(elementId).innerText;
@@ -1512,58 +1504,107 @@
         }
     }
 
-    function exportAllData() {
+    // Exportar Archivo
+    function handleFileExport() {
         const data = { kb: entries, claves: claves, directorio: directorio };
         if(entries.length === 0 && claves.length === 0 && directorio.length === 0) { alert('No hay datos guardados para exportar.'); return; }
         const a = document.createElement('a');
         a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
         a.download = `Backup_BICE_Hub_${new Date().toISOString().slice(0,10)}.json`;
         a.click();
+        closeModal('exportModal');
     }
 
-    function importAllData(event) {
+    // Exportar Texto (Base64)
+    function handleTextExport() {
+        const data = { kb: entries, claves: claves, directorio: directorio };
+        if(entries.length === 0 && claves.length === 0 && directorio.length === 0) { alert('No hay datos para exportar.'); return; }
+        
+        // Convertimos a JSON, codificamos para evitar problemas con acentos y luego a Base64
+        const stringData = JSON.stringify(data);
+        const encodedData = btoa(encodeURIComponent(stringData));
+        
+        document.getElementById('exportTextarea').value = encodedData;
+        document.getElementById('exportTextContainer').style.display = 'block';
+    }
+
+    // Copiar el texto de respaldo
+    function copyBackupText() {
+        const text = document.getElementById('exportTextarea').value;
+        if(navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Texto copiado al portapapeles");
+                closeModal('exportModal');
+            });
+        }
+    }
+
+    // Motor Central de Importación
+    function processImportedData(importedData) {
+        // Manejo de respaldos legacy (arrays simples)
+        if (Array.isArray(importedData)) {
+            if (importedData.length > 0 && importedData[0].titulo) {
+                if(confirm("Se detectó un respaldo antiguo de Base de Conocimiento. ¿Deseas integrarlo a tu Hub actual?")) {
+                    importedData.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); });
+                    localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); showToast("Base antigua integrada");
+                }
+            } else if (importedData.length > 0 && importedData[0].app) {
+                if(confirm("Se detectó un respaldo antiguo de Mis Claves. ¿Deseas integrarlo a tu Hub actual?")) {
+                    importedData.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); });
+                    localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); showToast("Claves antiguas integradas");
+                }
+            }
+        } 
+        // Manejo de respaldos unificados (v2.0 en adelante)
+        else if (importedData.kb || importedData.claves || importedData.directorio) {
+            if(confirm(`Se encontró un Respaldo Global del Hub.\n\n• Presiona "Aceptar" para SUMAR estos datos a los que ya tienes.\n• Presiona "Cancelar" para REEMPLAZAR toda tu información actual.`)) {
+                if(importedData.kb) importedData.kb.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); });
+                if(importedData.claves) importedData.claves.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); });
+                if(importedData.directorio) importedData.directorio.forEach(item => { if(!directorio.find(x=>x.id===item.id)) directorio.push(item); });
+                showToast("Respaldo sumado con éxito");
+            } else {
+                if(confirm('⚠️ ESTO ELIMINARÁ TUS DATOS ACTUALES y los reemplazará por el respaldo. ¿Continuar?')) {
+                    entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || [];
+                    showToast("Respaldo reemplazado con éxito");
+                } else { return; }
+            }
+            localStorage.setItem('bice_kb_data', JSON.stringify(entries));
+            localStorage.setItem('bice_claves_data', JSON.stringify(claves));
+            localStorage.setItem('bice_directorio_data', JSON.stringify(directorio));
+            handleSearchKB(); handleSearchClaves(); renderDirectorio();
+        } else {
+            alert('Formato de archivo no reconocido o corrupto.');
+        }
+        closeModal('importModal');
+    }
+
+    // Importar desde Archivo
+    function handleFileImport(event) {
         const file = event.target.files[0]; if (!file) return;
         const reader = new FileReader();
         reader.onload = function(e) {
             try {
                 const importedData = JSON.parse(e.target.result);
-                
-                if (Array.isArray(importedData)) {
-                    if (importedData.length > 0 && importedData[0].titulo) {
-                        if(confirm("Se detectó un respaldo antiguo de Base de Conocimiento. ¿Deseas integrarlo a tu Hub actual?")) {
-                            importedData.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); });
-                            localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); showToast("Base antigua integrada");
-                        }
-                    } else if (importedData.length > 0 && importedData[0].app) {
-                        if(confirm("Se detectó un respaldo antiguo de Mis Claves. ¿Deseas integrarlo a tu Hub actual?")) {
-                            importedData.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); });
-                            localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); showToast("Claves antiguas integradas");
-                        }
-                    }
-                } 
-                else if (importedData.kb || importedData.claves || importedData.directorio) {
-                    if(confirm(`Se encontró un Respaldo Global del Hub.\n\n• Presiona "Aceptar" para SUMAR estos datos a los que ya tienes.\n• Presiona "Cancelar" para REEMPLAZAR toda tu información actual.`)) {
-                        if(importedData.kb) importedData.kb.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); });
-                        if(importedData.claves) importedData.claves.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); });
-                        if(importedData.directorio) importedData.directorio.forEach(item => { if(!directorio.find(x=>x.id===item.id)) directorio.push(item); });
-                        showToast("Respaldo sumado con éxito");
-                    } else {
-                        if(confirm('⚠️ ESTO ELIMINARÁ TUS DATOS ACTUALES y los reemplazará por el respaldo. ¿Continuar?')) {
-                            entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || [];
-                            showToast("Respaldo reemplazado con éxito");
-                        } else { event.target.value = ''; return; }
-                    }
-                    localStorage.setItem('bice_kb_data', JSON.stringify(entries));
-                    localStorage.setItem('bice_claves_data', JSON.stringify(claves));
-                    localStorage.setItem('bice_directorio_data', JSON.stringify(directorio));
-                    handleSearchKB(); handleSearchClaves(); renderDirectorio();
-                } else {
-                    alert('Formato de archivo no reconocido.');
-                }
+                processImportedData(importedData);
             } catch (error) { alert('Error leyendo el archivo JSON.'); }
             event.target.value = ''; 
         };
         reader.readAsText(file);
+    }
+
+    // Importar desde Texto (Base64)
+    function handleTextImport() {
+        const text = document.getElementById('importTextarea').value.trim();
+        if(!text) { alert('Por favor, pega el código de respaldo.'); return; }
+        
+        try {
+            // Decodificamos el Base64 y luego el URI component
+            const jsonString = decodeURIComponent(atob(text));
+            const importedData = JSON.parse(jsonString);
+            processImportedData(importedData);
+        } catch (error) {
+            alert('Código inválido o corrupto. Verifica que hayas copiado el texto completo sin agregar espacios.');
+        }
     }
 
     function deleteAllData() {
