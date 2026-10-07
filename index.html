@@ -344,14 +344,11 @@
             <div id="tool-pendientes" class="tool-panel" style="border-top: 6px solid var(--color-success); max-width: 800px;">
                 <h2 style="color: var(--color-success); margin-top: 0;">✅ Mis Pendientes (Listas Blancas y Casos)</h2>
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Escribe tareas únicas o <strong>pega una lista completa</strong> (como una columna de Excel). El sistema etiquetará y separará todo automáticamente.</p>
-                
                 <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: stretch;">
                     <textarea id="nuevaTareaInput" placeholder="Ej: Caso 084125125, MS-17941124, o pega una lista completa..." style="flex: 1; font-size: 1.1em; margin: 0; padding: 10px; border-radius: 6px; border: 1px solid var(--border); resize: vertical; min-height: 46px; font-family: inherit; line-height: 1.4;" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); agregarTarea(); }"></textarea>
                     <button class="save-btn" style="margin-top: 0; width: auto; padding: 10px 20px; background: var(--color-success); display: flex; align-items: center; justify-content: center;" onclick="agregarTarea()">Agregar</button>
                 </div>
-
                 <div id="listaPendientes" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; max-height: 450px; overflow-y: auto; padding-right: 5px;"></div>
-
                 <div style="display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
                     <button class="outline-btn" style="margin: 0; border-color: var(--color-info); color: var(--color-info);" onclick="limpiarTareasCompletadas()">🧹 Limpiar Resueltas</button>
                     <button class="outline-btn" style="margin: 0; border-color: var(--color-danger); color: var(--color-danger);" onclick="borrarTodasTareas()">🗑️ Borrar Todo</button>
@@ -365,47 +362,21 @@
                     <button class="main-btn" style="background: var(--color-indigo); width: auto; margin: 0;" onclick="openModal('plantillasModal')">➕ Nueva Plantilla</button>
                 </div>
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Selecciona una plantilla. Rellena las cajitas con los datos del cliente y el correo se armará solo, listo para copiar y pegar.</p>
-                
                 <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center;">
-                    <select id="plantillaSelect" style="flex: 1; font-size: 1.1em; height: 46px; cursor: pointer; border-color: var(--color-indigo);" onchange="seleccionarPlantilla()">
-                    </select>
+                    <select id="plantillaSelect" style="flex: 1; font-size: 1.1em; height: 46px; cursor: pointer; border-color: var(--color-indigo);" onchange="seleccionarPlantilla()"></select>
                     <button id="btnEditPlantilla" class="action-btn edit-btn" style="display:none; padding: 10px;" onclick="editarPlantillaActual()">✏️ Editar</button>
                     <button id="btnDelPlantilla" class="action-btn delete-btn" style="display:none; padding: 10px;" onclick="eliminarPlantillaActual()">🗑️ Eliminar</button>
                 </div>
-
                 <div id="plantillaWorkspace" style="display: none;">
                     <div style="background: var(--bg-group); padding: 15px; border-radius: 8px; border: 1px solid var(--border-light); margin-bottom: 20px;">
                         <h4 style="margin: 0 0 15px 0; color: var(--color-indigo);">✍️ Ingresa los datos:</h4>
                         <div id="plantillaVars" style="display: flex; flex-wrap: wrap; gap: 15px;"></div>
                     </div>
-
                     <h4 style="margin: 0 0 10px 0; color: var(--primary-color);">📄 Resultado (Listo para copiar):</h4>
-                    
-                    <div id="rowPara" class="plantilla-preview-box">
-                        <div class="plantilla-preview-label">Para:</div>
-                        <div class="plantilla-preview-text" id="prevPara"></div>
-                        <button class="copy-btn" onclick="copyText(event, 'prevPara')">${copySvg}</button>
-                    </div>
-                    
-                    <div id="rowCc" class="plantilla-preview-box">
-                        <div class="plantilla-preview-label">CC:</div>
-                        <div class="plantilla-preview-text" id="prevCc"></div>
-                        <button class="copy-btn" onclick="copyText(event, 'prevCc')">${copySvg}</button>
-                    </div>
-
-                    <div id="rowAsunto" class="plantilla-preview-box">
-                        <div class="plantilla-preview-label">Asunto:</div>
-                        <div class="plantilla-preview-text" id="prevAsunto" style="font-weight: bold;"></div>
-                        <button class="copy-btn" onclick="copyText(event, 'prevAsunto')">${copySvg}</button>
-                    </div>
-
-                    <div id="rowMensaje" class="plantilla-preview-box" style="align-items: stretch; flex-direction: column;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 10px;">
-                            <div class="plantilla-preview-label">Mensaje:</div>
-                            <button class="copy-btn" style="border-color: var(--color-indigo); color: var(--color-indigo);" onclick="copyText(event, 'prevMensaje')">📋 Copiar Mensaje</button>
-                        </div>
-                        <div class="plantilla-preview-text" id="prevMensaje" style="background: var(--bg-body); padding: 15px; border-radius: 6px; width: 100%; box-sizing: border-box; border: 1px solid var(--border-light);"></div>
-                    </div>
+                    <div id="rowPara" class="plantilla-preview-box"><div class="plantilla-preview-label">Para:</div><div class="plantilla-preview-text" id="prevPara"></div><button class="copy-btn" onclick="copyText(event, 'prevPara')">${copySvg}</button></div>
+                    <div id="rowCc" class="plantilla-preview-box"><div class="plantilla-preview-label">CC:</div><div class="plantilla-preview-text" id="prevCc"></div><button class="copy-btn" onclick="copyText(event, 'prevCc')">${copySvg}</button></div>
+                    <div id="rowAsunto" class="plantilla-preview-box"><div class="plantilla-preview-label">Asunto:</div><div class="plantilla-preview-text" id="prevAsunto" style="font-weight: bold;"></div><button class="copy-btn" onclick="copyText(event, 'prevAsunto')">${copySvg}</button></div>
+                    <div id="rowMensaje" class="plantilla-preview-box" style="align-items: stretch; flex-direction: column;"><div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 10px;"><div class="plantilla-preview-label">Mensaje:</div><button class="copy-btn" style="border-color: var(--color-indigo); color: var(--color-indigo);" onclick="copyText(event, 'prevMensaje')">📋 Copiar Mensaje</button></div><div class="plantilla-preview-text" id="prevMensaje" style="background: var(--bg-body); padding: 15px; border-radius: 6px; width: 100%; box-sizing: border-box; border: 1px solid var(--border-light);"></div></div>
                 </div>
             </div>
 
@@ -467,6 +438,7 @@
                 <label>Número de Tarjeta (16 dígitos):</label>
                 <input type="text" id="binInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="font-size: 1.3em; text-align: center; letter-spacing: 2px;" oninput="formatCardInput(event)">
                 <button class="save-btn" onclick="analizarTarjeta()" style="margin-top: 15px; background: var(--primary-color);">🔍 Analizar Tarjeta</button>
+                
                 <div id="binResult" class="tool-result" style="flex-direction: column; gap: 15px;">
                     <div style="background: var(--bg-card); border-radius: 6px; padding: 15px; border: 1px solid var(--border-light);">
                         <div class="clave-row" style="margin-bottom: 10px;">
@@ -485,7 +457,7 @@
                             <span class="clave-value" id="resLimit" style="color: var(--color-success); font-weight: bold;"></span>
                         </div>
                     </div>
-                    
+
                     <details id="tdTarifarioDetails" style="display:none; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 6px;">
                         <summary style="padding: 12px 15px; font-weight: bold; cursor: pointer; color: var(--primary-color); list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; outline: none;">
                             <span style="display: flex; align-items: center; gap: 5px;"><svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Costos de Administración</span>
@@ -594,7 +566,6 @@
             <div id="tool-simulador" class="tool-panel" style="border-top: 6px solid var(--color-teal);">
                 <h2 style="color: var(--color-teal); margin-top: 0;">📈 Simulador Rápido de Cuotas</h2>
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Calcula el valor referencial de la cuota mensual para compras o avances nacionales en Tarjeta de Crédito BICE (2 a 48 cuotas).</p>
-                
                 <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 150px;">
                         <label>Monto a Simular ($):</label>
@@ -605,7 +576,6 @@
                         <input type="number" id="simCuotas" placeholder="Ej: 12" min="2" max="48" style="font-size: 1.2em;">
                     </div>
                 </div>
-
                 <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 150px;">
                         <label>Tipo de Operación:</label>
@@ -619,16 +589,13 @@
                         <input type="number" id="simTasa" value="3.45" step="0.01" style="font-size: 1.1em; color: var(--color-teal); font-weight: bold;" title="Tasa máxima referencial del tarifario.">
                     </div>
                 </div>
-
                 <div style="margin-bottom: 20px; background: var(--bg-group); padding: 12px 15px; border-radius: 6px; border: 1px solid var(--border);">
                     <label style="margin: 0; display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--primary-color);">
                         <input type="checkbox" id="simSinInteres" onchange="toggleTasaSimulador()" style="width: 20px; height: 20px; margin: 0; cursor: pointer;">
                         <strong>Operación Sin Interés (Ej: 3 Cuotas Precio Contado)</strong>
                     </label>
                 </div>
-
                 <button class="save-btn" onclick="calcularSimulador()" style="margin-top: 5px; background: var(--color-teal);">🧮 Simular Cuota</button>
-
                 <div id="simuladorResult" class="tool-result" style="border-left-color: var(--color-teal);">
                     <div id="resSimText" style="white-space: pre-wrap; font-size: 1.05em; line-height: 1.6; color: var(--text-main); font-family: monospace;"></div>
                     <button class="copy-btn" style="width: 100%; margin-top: 15px; border: 2px solid var(--color-teal); color: var(--color-teal); font-weight: bold;" onclick="copyText(event, 'resSimText')">
@@ -885,7 +852,7 @@
     }
 
     let currentTarifarioText = ""; 
-    let currentTarifarioTDText = ""; // Variable para copiar texto de TD
+    let currentTarifarioTDText = "";
     let currentPlantillaObj = null;
 
     const itemsPerPage = 10; 
@@ -985,8 +952,11 @@
         if (id) { plantillas[plantillas.findIndex(p => p.id === id)] = newP; showToast("Plantilla actualizada"); } 
         else { plantillas.push(newP); showToast("Plantilla guardada"); }
         
-        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); closeModal('plantillasModal'); renderPlantillasDropdown();
-        document.getElementById('plantillaSelect').value = newP.id; seleccionarPlantilla();
+        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
+        closeModal('plantillasModal');
+        renderPlantillasDropdown();
+        document.getElementById('plantillaSelect').value = newP.id;
+        seleccionarPlantilla();
     });
 
     function renderPlantillasDropdown() {
@@ -1193,7 +1163,6 @@
             document.getElementById('resCat').style.color = 'var(--primary-color)'; document.getElementById('resLimit').innerText = binData[bin].limit;
             resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-success)'; 
 
-            // Tarifario TD
             const tarifarioTD = {
                 "Family Card / Go BICE": { mensual: "Go BICE: Sin Costo\nFamily Card: UF 1 + IVA (Anual)", dcto: "• Family Card: Exenta hasta los 24 años. Comienza a cobrar a partir de los 25 años del titular o si el Patrocinador cierra su Cuenta Corriente/CheckCard." },
                 "Check Card Clásica": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." },
@@ -1220,116 +1189,75 @@
         }
     }
 
-    // --- MODALES Y TOAST ---
-    function openModal(modalId) { 
-        if (modalId === 'kbModal') { cargarCategoriasEnSelect(); document.getElementById('categoriaNueva').style.display = 'none'; document.getElementById('categoriaNueva').required = false; }
-        if (modalId === 'directorioModal') { document.getElementById('formTitleDir').innerText = 'Nuevo Contacto / Anexo'; document.getElementById('directorioForm').reset(); document.getElementById('dirId').value = ''; }
-        if (modalId === 'plantillasModal') { document.getElementById('formTitlePlantilla').innerText = 'Nueva Plantilla de Correo/CRM'; document.getElementById('plantillaForm').reset(); document.getElementById('plantillaId').value = ''; }
-        if (modalId === 'exportModal') { document.getElementById('exportTextContainer').style.display = 'none'; }
-        if (modalId === 'importModal') { document.getElementById('importTextarea').value = ''; }
-        document.getElementById(modalId).style.display = 'flex'; document.body.style.overflow = 'hidden'; 
+    // --- DIRECTORIO RÁPIDO ---
+    document.getElementById('directorioForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = document.getElementById('dirId').value; const nombre = document.getElementById('dirNombre').value.trim();
+        const newDir = { id: id ? id : 'DIR_' + Date.now().toString(), nombre: nombre, anexo: document.getElementById('dirAnexo').value.trim(), correo: document.getElementById('dirCorreo').value.trim(), notas: document.getElementById('dirNotas').value.trim() };
+        if (id) { directorio[directorio.findIndex(d => d.id === id)] = newDir; showToast("Contacto actualizado"); } else { directorio.push(newDir); showToast("Contacto guardado"); }
+        localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); closeModal('directorioModal'); renderDirectorio();
+    });
+
+    function renderDirectorio() {
+        const list = document.getElementById('dirList'); list.innerHTML = '';
+        const searchTerm = document.getElementById('searchDir').value.toLowerCase();
+        let filteredDir = directorio.filter(d => d.nombre.toLowerCase().includes(searchTerm) || d.anexo.toLowerCase().includes(searchTerm) || d.correo.toLowerCase().includes(searchTerm) || d.notas.toLowerCase().includes(searchTerm) );
+        filteredDir.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        if(filteredDir.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px; grid-column: 1 / -1;">No hay contactos o anexos guardados.</p>'; return; }
+        filteredDir.forEach(d => {
+            const card = document.createElement('div'); card.style.cssText = "background: var(--bg-card); border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px var(--shadow); border-left: 4px solid var(--color-purple); display: flex; flex-direction: column;";
+            let html = `<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap:10px;"><h3 style="margin: 0; color: var(--primary-color); font-size: 1.1em; line-height:1.2;">${d.nombre}</h3><div style="display:flex; gap:5px; flex-shrink:0;"><button class="action-btn edit-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="editDir('${d.id}')">✏️</button><button class="action-btn delete-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="deleteDir('${d.id}')">🗑️</button></div></div>`;
+            if (d.anexo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">📞 Anexo:</span><span class="clave-value" id="dir-tel-${d.id}" style="font-size:1.1em;">${d.anexo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-tel-${d.id}')">${copySvg}</button></div>`; }
+            if (d.correo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">✉️ Correo:</span><span class="clave-value" id="dir-mail-${d.id}" style="font-size:0.9em;">${d.correo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-mail-${d.id}')">${copySvg}</button></div>`; }
+            if (d.notas) { html += `<div style="background: var(--bg-group); padding: 10px; border-radius: 4px; font-size: 0.85em; color: var(--text-muted); margin-top: auto; white-space: pre-wrap; border: 1px solid var(--border-light);">${d.notas}</div>`; }
+            card.innerHTML = html; list.appendChild(card);
+        });
     }
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none'; document.body.style.overflow = 'auto'; 
-        if (modalId === 'kbModal') { document.getElementById('kbForm').reset(); document.getElementById('entryId').value = ''; }
-        if (modalId === 'clavesModal') { document.getElementById('clavesForm').reset(); document.getElementById('claveId').value = ''; }
-        if (modalId === 'directorioModal') { document.getElementById('directorioForm').reset(); document.getElementById('dirId').value = ''; }
-        if (modalId === 'plantillasModal') { document.getElementById('plantillaForm').reset(); document.getElementById('plantillaId').value = ''; }
+
+    function editDir(id) { const d = directorio.find(x => x.id === id); document.getElementById('dirId').value = d.id; document.getElementById('dirNombre').value = d.nombre; document.getElementById('dirAnexo').value = d.anexo || ''; document.getElementById('dirCorreo').value = d.correo || ''; document.getElementById('dirNotas').value = d.notas || ''; document.getElementById('formTitleDir').innerText = 'Editar Contacto'; openModal('directorioModal'); }
+    function deleteDir(id) { if(confirm('¿Seguro de eliminar este contacto?')) { directorio = directorio.filter(x => x.id !== id); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); showToast("Contacto eliminado"); renderDirectorio(); } }
+
+
+    // --- LÓGICA COMISIONES INTERNACIONALES ---
+    const comisionesData = {
+      "Tarjeta Débito": {
+        "CHECKCARD CLASICA": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 202007, compra: "1,6% + IVA sobre valor de compra (a excepción de Tarjetas de Débito Visa Platinum, Signature e Infinite)", giro: "US$ 3 + IVA por evento" }, { date_val: 202006, compra: "1,6% + IVA sobre valor de compra (aplica solo para tarjetas de débito visa gold)", giro: "US$ 3 + IVA por evento" }, { date_val: 202005, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ],
+        "FAMILY CARD": [ { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "GO BICE": [ { date_val: 202302, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "GO UC": [ { date_val: 202305, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "CHECKCARD GOLD": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" } ], "CHECKCARD PLATINUM": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "CHECKCARD SIGNATURE": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ]
+      },
+      "Tarjeta Crédito": {
+        "GO BICE": [ { date_val: 202402, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ],
+        "GOLD (ORO)": [ { date_val: 202007, compra: "1,6%+IVA sobre valor de compra", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra / Gold Joven (US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
+        "PLATINUM": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
+        "INFINITE": [ { date_val: 202101, compra: "Sin Comisión", giro: "Sin Comisión" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ],
+        "EMPRESARIAL": [ { date_val: 202308, compra: "1,6%+IVA sobre valor de compra (excepto Business Signature e Infinite)", giro: "1,6%+IVA sobre valor del avance (excepto Business Signature e Infinite)" }, { date_val: 202101, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ],
+        "PLATINUM BIA": [ { date_val: 202302, compra: "1,6% + IVA", giro: "1,6% + IVA" } ],
+        "SIGNATURE": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ]
+      }
+    };
+    function updateSegmentos() { const tipo = document.querySelector('input[name="comTipo"]:checked').value; const selectSeg = document.getElementById('comSegmento'); selectSeg.innerHTML = ''; if (comisionesData[tipo]) { Object.keys(comisionesData[tipo]).sort().forEach(seg => { let opt = document.createElement('option'); opt.value = seg; opt.innerText = seg; selectSeg.appendChild(opt); }); } document.getElementById('comisionesResult').style.display = 'none'; }
+    function calcularComisiones() {
+        const tipo = document.querySelector('input[name="comTipo"]:checked').value; const segmento = document.getElementById('comSegmento').value; const year = parseInt(document.getElementById('comYear').value); const month = parseInt(document.getElementById('comMonth').value);
+        if(!segmento) { alert("Por favor seleccione un segmento"); return; }
+        let inputDateVal = (year * 100) + month; if (inputDateVal > 202503) { inputDateVal = 202503; }
+        const reglas = comisionesData[tipo][segmento]; let reglaAplicada = null;
+        for (let r of reglas) { if (inputDateVal >= r.date_val) { reglaAplicada = r; break; } } if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; }
+        document.getElementById('resComCompra').innerText = reglaAplicada.compra; document.getElementById('resComGiro').innerText = reglaAplicada.giro; document.getElementById('comisionesResult').style.display = 'block';
     }
-    function showToast(message) { const toast = document.getElementById("toast"); toast.innerText = "✅ " + message; toast.className = "show"; setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000); }
-
-    // ==========================================
-    // BASE DE CONOCIMIENTO (LOGICA GENERAL)
-    // ==========================================
-    function cargarCategoriasEnSelect() { const select = document.getElementById('categoriaSelect'); select.innerHTML = '<option value="">Selecciona una categoría...</option>'; const categoriasUnicas = [...new Set(entries.map(e => e.categoria))].filter(Boolean).sort(); categoriasUnicas.forEach(cat => { const opt = document.createElement('option'); opt.value = cat; opt.innerText = cat; select.appendChild(opt); }); const optNueva = document.createElement('option'); optNueva.value = "nueva"; optNueva.innerText = "➕ Crear Nueva Categoría..."; optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--primary-color)"; select.appendChild(optNueva); }
-    function handleCategoriaChange() { const select = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva'); if (select.value === 'nueva') { inputNueva.style.display = 'block'; inputNueva.required = true; inputNueva.focus(); } else { inputNueva.style.display = 'none'; inputNueva.required = false; } }
-    function generarEtiquetas() { const titulo = document.getElementById('titulo').value; const catSelect = document.getElementById('categoriaSelect').value; const categoria = catSelect === 'nueva' ? document.getElementById('categoriaNueva').value : catSelect; const textos = [ titulo, categoria, document.getElementById('validacion').value, document.getElementById('scriptInicial').value, document.getElementById('pasoApaso').value ].join(' ').toLowerCase(); if (textos.trim().length < 5) { alert('Llena el título o algún otro campo primero para generar etiquetas.'); return; } const textoLimpio = textos.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ' '); const stopWords = ['para','como','pero','este','esta','estos','estas','todo','toda','todos','todas','sobre','entre','hacia','desde','hasta','segun','antes','despues','luego','mientras','cuando','donde','quien','cual','que','con','por','del','los','las','una','unos','unas','tiene','tienen','hacer','paso','script']; const palabras = textoLimpio.split(/\s+/); const contador = {}; palabras.forEach(p => { if (p.length > 3 && !stopWords.includes(p)) contador[p] = (contador[p] || 0) + 1; }); const ordenadas = Object.keys(contador).sort((a, b) => contador[b] - contador[a]); const topTags = ordenadas.slice(0, 6); if(topTags.length > 0) { document.getElementById('etiquetas').value = topTags.join(', '); showToast("Etiquetas autogeneradas"); } else { alert('No se encontró suficiente texto relevante.'); } }
-    document.getElementById('kbForm').addEventListener('submit', function(e) { e.preventDefault(); const id = document.getElementById('entryId').value; const inputTitulo = document.getElementById('titulo').value.trim(); const catSelectValue = document.getElementById('categoriaSelect').value; const categoriaFinal = catSelectValue === 'nueva' ? document.getElementById('categoriaNueva').value.trim() : catSelectValue; const duplicate = entries.find(emp => emp.titulo.toLowerCase() === inputTitulo.toLowerCase() && emp.id !== id); if (duplicate) { if (!id) { if (confirm(`⚠️ El título ya existe.\n\n"Aceptar" para cargar existente.`)) { editEntry(duplicate.id); } } else alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".`); return; } const isFavorito = id ? (entries.find(emp => emp.id === id).favorito || false) : false; const newEntry = { id: id ? id : 'KB_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), titulo: inputTitulo, categoria: categoriaFinal, etiquetas: document.getElementById('etiquetas').value, validacion: document.getElementById('validacion').value, scriptInicial: document.getElementById('scriptInicial').value, pasoApaso: document.getElementById('pasoApaso').value, cti: document.getElementById('cti').value, plantilla: document.getElementById('plantilla').value, scriptFinal: document.getElementById('scriptFinal').value, detalles: document.getElementById('detalles').value, otro: document.getElementById('otro').value, favorito: isFavorito }; if (id) { entries[entries.findIndex(emp => emp.id === id)] = newEntry; showToast("Actualizado"); } else { entries.push(newEntry); showToast("Guardado"); } localStorage.setItem('bice_kb_data', JSON.stringify(entries)); closeModal('kbModal'); handleSearchKB(); });
-    function toggleFavKB(event, id) { event.preventDefault(); event.stopPropagation(); const idx = entries.findIndex(e => e.id === id); if(idx > -1) { entries[idx].favorito = !entries[idx].favorito; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); } }
-    function sortData(dataArray, sortValue, nameField) { return dataArray.sort((a, b) => { const favA = a.favorito ? 1 : 0; const favB = b.favorito ? 1 : 0; if (favA !== favB) return favB - favA; if (sortValue === 'name_asc') return a[nameField].localeCompare(b[nameField]); if (sortValue === 'name_desc') return b[nameField].localeCompare(a[nameField]); const tA = a.timestamp || parseInt(a.id.split('_')[1]||0), tB = b.timestamp || parseInt(b.id.split('_')[1]||0); return sortValue === 'date_asc' ? tA - tB : tB - tA; }); }
-    function handleSearchKB() { const searchTerm = document.getElementById('searchInput').value.toLowerCase(); const sortValue = document.getElementById('sortSelectKB').value; filteredEntries = entries.filter(e => e.titulo.toLowerCase().includes(searchTerm) || e.categoria.toLowerCase().includes(searchTerm) || e.etiquetas.toLowerCase().includes(searchTerm) || e.detalles.toLowerCase().includes(searchTerm)); filteredEntries = sortData(filteredEntries, sortValue, 'titulo'); currentKbPage = 1; renderEntries(); }
-    function changePageKB(direction) { currentKbPage += direction; renderEntries(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-    function renderEntries() { const list = document.getElementById('entriesList'); list.innerHTML = ''; const totalPages = Math.ceil(filteredEntries.length / itemsPerPage) || 1; if(currentKbPage < 1) currentKbPage = 1; if(currentKbPage > totalPages) currentKbPage = totalPages; const paginated = filteredEntries.slice((currentKbPage - 1) * itemsPerPage, currentKbPage * itemsPerPage); paginated.forEach(entry => { const card = document.createElement('details'); card.className = 'card'; const starColor = entry.favorito ? 'var(--color-star)' : 'var(--border)'; const starFill = entry.favorito ? 'var(--color-star)' : 'none'; const starHtml = `<button class="star-btn" onclick="toggleFavKB(event, '${entry.id}')" title="Marcar como favorito" style="color: ${starColor};"><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="${starFill}" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>`; let html = `<summary class="card-header"><div style="display:flex; align-items:center; gap:8px;">${starHtml}<div>${entry.titulo}</div></div><div><span class="tags">${entry.categoria}</span></div></summary><div class="card-content">`; const fields = [ { key: 'validacion', label: 'Validación' }, { key: 'scriptInicial', label: 'Script Inicial' }, { key: 'pasoApaso', label: 'Paso a Paso' }, { key: 'cti', label: 'CTI' }, { key: 'plantilla', label: 'Plantilla' }, { key: 'scriptFinal', label: 'Script Final' }, { key: 'detalles', label: 'Detalles importantes' }, { key: 'otro', label: 'Otro' } ]; fields.forEach(f => { if(entry[f.key] && entry[f.key].trim() !== '') { html += `<div class="field-group"><div class="field-title">${f.label}</div><div class="field-content" id="txt-${entry.id}-${f.key}">${entry[f.key]}</div><button class="copy-btn copy-btn-absolute" onclick="copyText(event, 'txt-${entry.id}-${f.key}')" title="Copiar texto">${copySvg}</button></div>`; } }); html += `<div class="last-modified">(Última modificación: ${entry.fecha || 'N/A'})</div><div class="card-actions"><button class="action-btn edit-btn" onclick="editEntry('${entry.id}')">✏️ Editar</button><button class="action-btn delete-btn" onclick="deleteEntry('${entry.id}')">🗑️ Eliminar</button></div></div>`; card.innerHTML = html; list.appendChild(card); }); document.getElementById('pageInfoKB').innerText = `Página ${currentKbPage} de ${totalPages}`; document.getElementById('totalInfoKB').innerText = `Total: ${filteredEntries.length} registros`; document.getElementById('prevBtnKB').disabled = currentKbPage === 1; document.getElementById('nextBtnKB').disabled = currentKbPage === totalPages || totalPages === 0; }
-    function editEntry(id) { const entry = entries.find(e => e.id === id); document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo; cargarCategoriasEnSelect(); const catSelect = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva'); if (Array.from(catSelect.options).some(opt => opt.value === entry.categoria)) { catSelect.value = entry.categoria; inputNueva.style.display = 'none'; inputNueva.required = false; } else { catSelect.value = 'nueva'; inputNueva.style.display = 'block'; inputNueva.value = entry.categoria; inputNueva.required = true; } document.getElementById('etiquetas').value = entry.etiquetas; document.getElementById('validacion').value = entry.validacion; document.getElementById('scriptInicial').value = entry.scriptInicial; document.getElementById('pasoApaso').value = entry.pasoApaso; document.getElementById('cti').value = entry.cti; document.getElementById('plantilla').value = entry.plantilla; document.getElementById('scriptFinal').value = entry.scriptFinal; document.getElementById('detalles').value = entry.detalles; document.getElementById('otro').value = entry.otro; document.getElementById('formTitleKB').innerText = 'Editar Registro'; document.getElementById('kbModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
-    function deleteEntry(id) { if(confirm('¿Estás seguro de eliminar este registro?')) { entries = entries.filter(e => e.id !== id); localStorage.setItem('bice_kb_data', JSON.stringify(entries)); showToast("Registro eliminado"); handleSearchKB(); } }
-
-    // ==========================================
-    // MÓDULO 2: MIS CLAVES
-    // ==========================================
-    function toggleFavClave(event, id) { event.preventDefault(); event.stopPropagation(); const idx = claves.findIndex(e => e.id === id); if(idx > -1) { claves[idx].favorito = !claves[idx].favorito; localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); } }
-    document.getElementById('clavesForm').addEventListener('submit', function(e) { e.preventDefault(); const id = document.getElementById('claveId').value; const inputApp = document.getElementById('claveApp').value.trim(); const duplicate = claves.find(c => c.app.toLowerCase() === inputApp.toLowerCase() && c.id !== id); if (duplicate) { if (!id) { if (confirm(`⚠️ El aplicativo ya existe.\n\n"Aceptar" para editar.`)) { editClave(duplicate.id); } } else alert(`⚠️ Ya existe otra clave guardada con el nombre "${duplicate.app}".`); return; } const isFavorito = id ? (claves.find(c => c.id === id).favorito || false) : false; const newClave = { id: id ? id : 'CLV_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), app: inputApp, link: document.getElementById('claveLink').value, user: document.getElementById('claveUser').value, pass: document.getElementById('clavePass').value, favorito: isFavorito }; if (id) { claves[claves.findIndex(c => c.id === id)] = newClave; showToast("Clave actualizada"); } else { claves.push(newClave); showToast("Clave guardada"); } localStorage.setItem('bice_claves_data', JSON.stringify(claves)); closeModal('clavesModal'); handleSearchClaves(); });
-    function handleSearchClaves() { const searchTerm = document.getElementById('searchClaves').value.toLowerCase(); filteredClaves = sortData(claves.filter(c => c.app.toLowerCase().includes(searchTerm) || c.user.toLowerCase().includes(searchTerm)), document.getElementById('sortSelectClaves').value, 'app'); currentClavesPage = 1; renderClaves(); }
-    function changePageClaves(direction) { currentClavesPage += direction; renderClaves(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
-    function renderClaves() { const list = document.getElementById('clavesList'); list.innerHTML = ''; const totalPages = Math.ceil(filteredClaves.length / itemsPerPage) || 1; if(currentClavesPage < 1) currentClavesPage = 1; if(currentClavesPage > totalPages) currentClavesPage = totalPages; if(filteredClaves.length === 0) list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px;">No tienes claves guardadas aún.</p>'; else { filteredClaves.slice((currentClavesPage - 1) * itemsPerPage, currentClavesPage * itemsPerPage).forEach(c => { const card = document.createElement('details'); card.className = 'clave-card'; const starColor = c.favorito ? 'var(--color-star)' : 'var(--border)'; const starFill = c.favorito ? 'var(--color-star)' : 'none'; const starHtml = `<button class="star-btn" onclick="toggleFavClave(event, '${c.id}')" title="Marcar como favorito" style="color: ${starColor};"><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="${starFill}" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>`; let linkHtml = c.link ? `<a href="${c.link}" target="_blank" class="clave-link" onclick="event.stopPropagation()">🔗 Abrir Link</a>` : ''; card.innerHTML = `<summary class="clave-title"><div style="display:flex; align-items:center; gap:8px;">${starHtml}<span>🔐 ${c.app}</span></div>${linkHtml}</summary><div class="clave-content-wrapper"><div class="clave-row"><span class="clave-label">Usuario:</span><span class="clave-value" id="usr-${c.id}">${c.user}</span><button class="copy-btn" onclick="copyText(event, 'usr-${c.id}')" title="Copiar Usuario">${copySvg}</button></div><div class="clave-row"><span class="clave-label">Clave:</span><span class="clave-value clave-hidden" id="pass-${c.id}" data-pass="${c.pass}">••••••••</span><button class="toggle-visibility-btn" onclick="togglePass('${c.id}')" id="toggle-${c.id}">Mostrar</button><button class="copy-btn" onclick="copyText(event, null, '${c.pass}')" title="Copiar Clave">${copySvg}</button></div><div class="last-modified">(Última modificación: ${c.fecha || 'N/A'})</div><div class="card-actions"><button class="action-btn edit-btn" onclick="editClave('${c.id}')">✏️ Editar</button><button class="action-btn delete-btn" onclick="deleteClave('${c.id}')">🗑️ Eliminar</button></div></div>`; list.appendChild(card); }); } document.getElementById('pageInfoClaves').innerText = `Página ${currentClavesPage} de ${totalPages}`; document.getElementById('totalInfoClaves').innerText = `Total: ${filteredClaves.length} registros`; document.getElementById('prevBtnClaves').disabled = currentClavesPage === 1; document.getElementById('nextBtnClaves').disabled = currentClavesPage === totalPages || totalPages === 0; }
-    function togglePass(id) { const span = document.getElementById('pass-' + id), btn = document.getElementById('toggle-' + id); if (span.classList.contains('clave-hidden')) { span.innerText = span.getAttribute('data-pass'); span.classList.remove('clave-hidden'); btn.innerText = "Ocultar"; } else { span.innerText = "••••••••"; span.classList.add('clave-hidden'); btn.innerText = "Mostrar"; } }
-    function editClave(id) { const c = claves.find(x => x.id === id); document.getElementById('claveId').value = c.id; document.getElementById('claveApp').value = c.app; document.getElementById('claveLink').value = c.link || ''; document.getElementById('claveUser').value = c.user; document.getElementById('clavePass').value = c.pass; document.getElementById('formTitleClaves').innerText = 'Editar Clave'; openModal('clavesModal'); }
-    function deleteClave(id) { if(confirm('¿Seguro de eliminar esta clave?')) { claves = claves.filter(x => x.id !== id); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); showToast("Clave eliminada"); handleSearchClaves(); } }
-
-    // ==========================================
-    // UTILS GLOBALES Y EXPORT/IMPORT UNIFICADO
-    // ==========================================
-    function copyText(event, elementId, rawText = null) {
-        const text = rawText ? rawText : document.getElementById(elementId).innerText; const btn = event.currentTarget; const originalHTML = btn.innerHTML;
-        const showSuccess = () => { btn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--color-success)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); };
-        if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(text).then(showSuccess).catch(err => useFallback(text)); } else { useFallback(text); }
+    function copiarComisiones(event) {
+        const cCompra = document.getElementById('resComCompra').innerText; const cGiro = document.getElementById('resComGiro').innerText; const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`;
+        const btn = event.currentTarget; const originalHTML = btn.innerHTML; const showSuccess = () => { btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); };
+        if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); } else { useFallback(textoFInal); }
         function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); }
     }
 
-    function handleFileExport() {
-        const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes, plantillas: plantillas };
-        if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0 && plantillas.length === 0) { alert('No hay datos guardados para exportar.'); return; }
-        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })); a.download = `Backup_BICE_Hub_${new Date().toISOString().slice(0,10)}.json`; a.click(); closeModal('exportModal');
+    // --- CONVERSOR Y RESTO DE UTILS ---
+    function changeCurrency() {
+        const currency = document.getElementById('convSelect').value; let tasa = 0;
+        if (currency === 'USD') tasa = tasaDolar; else if (currency === 'EUR') tasa = tasaEuro; else if (currency === 'UF') tasa = tasaUF; else if (currency === 'UTM') tasa = tasaUTM;
+        document.getElementById('convTasa').value = tasa; document.getElementById('labelExtranjera').innerText = `Monto en ${currency}:`; calcToCLP(); 
     }
-
-    function handleTextExport() {
-        const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes, plantillas: plantillas };
-        if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0 && plantillas.length === 0) { alert('No hay datos para exportar.'); return; }
-        const stringData = JSON.stringify(data); const encodedData = btoa(encodeURIComponent(stringData));
-        document.getElementById('exportTextarea').value = encodedData; document.getElementById('exportTextContainer').style.display = 'block';
-    }
-
-    function copyBackupText() {
-        const text = document.getElementById('exportTextarea').value;
-        if(navigator.clipboard) { navigator.clipboard.writeText(text).then(() => { showToast("Texto copiado al portapapeles"); closeModal('exportModal'); }); }
-    }
-
-    function processImportedData(importedData) {
-        if (Array.isArray(importedData)) {
-            if (importedData.length > 0 && importedData[0].titulo) {
-                if(confirm("Se detectó un respaldo antiguo de Base de Conocimiento. ¿Deseas integrarlo a tu Hub actual?")) { importedData.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); }); localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); showToast("Base antigua integrada"); }
-            } else if (importedData.length > 0 && importedData[0].app) {
-                if(confirm("Se detectó un respaldo antiguo de Mis Claves. ¿Deseas integrarlo a tu Hub actual?")) { importedData.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); }); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); showToast("Claves antiguas integradas"); }
-            }
-        } 
-        else if (importedData.kb || importedData.claves || importedData.directorio || importedData.pendientes || importedData.plantillas) {
-            if(confirm(`Se encontró un Respaldo Global del Hub.\n\n• Presiona "Aceptar" para SUMAR estos datos a los que ya tienes.\n• Presiona "Cancelar" para REEMPLAZAR toda tu información actual.`)) {
-                if(importedData.kb) importedData.kb.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); });
-                if(importedData.claves) importedData.claves.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); });
-                if(importedData.directorio) importedData.directorio.forEach(item => { if(!directorio.find(x=>x.id===item.id)) directorio.push(item); });
-                if(importedData.pendientes) importedData.pendientes.forEach(item => { if(!pendientes.find(x=>x.id===item.id)) pendientes.push(item); });
-                if(importedData.plantillas) importedData.plantillas.forEach(item => { if(!plantillas.find(x=>x.id===item.id)) plantillas.push(item); });
-                showToast("Respaldo sumado con éxito");
-            } else {
-                if(confirm('⚠️ ESTO ELIMINARÁ TUS DATOS ACTUALES y los reemplazará por el respaldo. ¿Continuar?')) { 
-                    entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || []; pendientes = importedData.pendientes || []; plantillas = importedData.plantillas || [];
-                    showToast("Respaldo reemplazado con éxito"); 
-                } else { return; }
-            }
-            localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown();
-        } else { alert('Formato de archivo no reconocido o corrupto.'); }
-        closeModal('importModal');
-    }
-
-    function handleFileImport(event) {
-        const file = event.target.files[0]; if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) { try { const importedData = JSON.parse(e.target.result); processImportedData(importedData); } catch (error) { alert('Error leyendo el archivo JSON.'); } event.target.value = ''; }; reader.readAsText(file);
-    }
-
-    function handleTextImport() {
-        const text = document.getElementById('importTextarea').value.trim(); if(!text) { alert('Por favor, pega el código de respaldo.'); return; }
-        try { const jsonString = decodeURIComponent(atob(text)); const importedData = JSON.parse(jsonString); processImportedData(importedData); } catch (error) { alert('Código inválido o corrupto. Verifica que hayas copiado el texto completo sin agregar espacios.'); }
-    }
+    function calcToCLP() { const extVal = parseFloat(document.getElementById('inputExt').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; const clpVal = Math.round(extVal * rate); document.getElementById('inputCLP').value = extVal > 0 ? clpVal : ''; }
+    function calcToExt() { const clpVal = parseFloat(document.getElementById('inputCLP').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; if (rate > 0) { const extVal = (clpVal / rate).toFixed(2); document.getElementById('inputExt').value = clpVal > 0 ? extVal : ''; } }
 
     function deleteAllData() {
         if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves, Directorio, Tareas y Plantillas)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) {
@@ -1337,7 +1265,6 @@
         }
     }
 
-    // Inicio
     handleSearchKB(); handleSearchClaves(); cargarIndicadores();
 </script>
 
