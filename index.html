@@ -22,55 +22,56 @@
         /* Estructura Principal a 2 Columnas */
         .container { max-width: 1300px; margin: 0 auto; display: flex; gap: 30px; align-items: flex-start; flex: 1; width: 100%; box-sizing: border-box; padding: 0 20px; }
         
-        /* === PANEL IZQUIERDO === */
+        /* === PANEL IZQUIERDO (AHORA MÁS COMPACTO Y DISCRETO) === */
         .left-panel { 
-            flex: 1; min-width: 250px; max-width: 300px; position: sticky; top: 20px; 
-            background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            flex: 1; min-width: 220px; max-width: 260px; position: sticky; top: 20px; 
+            background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             display: flex; flex-direction: column; max-height: calc(100vh - 100px); overflow-y: auto;
         }
         
         /* Acordeón Menú Izquierdo */
-        .accordion-menu { display: flex; flex-direction: column; gap: 15px; border-bottom: 2px solid var(--border); padding-bottom: 20px; }
+        .accordion-menu { display: flex; flex-direction: column; gap: 8px; border-bottom: 2px solid var(--border); padding-bottom: 15px; }
         .menu-section { display: flex; flex-direction: column; }
         
         .nav-btn { 
             display: flex; justify-content: space-between; align-items: center; 
             background: transparent; color: #555; border: 1px solid transparent; 
-            padding: 12px 15px; border-radius: 8px; cursor: pointer; 
-            font-size: 1.05em; font-weight: bold; transition: all 0.2s; 
+            padding: 10px 12px; border-radius: 6px; cursor: pointer; 
+            font-size: 0.95em; font-weight: bold; transition: all 0.2s; 
             width: 100%; box-sizing: border-box; text-align: left;
         }
         .nav-btn:hover { background: #f0f0f0; }
-        .nav-btn.active { background: #e6f0fa; color: var(--bice-blue); border-left: 5px solid var(--bice-blue); border-radius: 0 8px 8px 0; }
+        .nav-btn.active { background: #e6f0fa; color: var(--bice-blue); border-left: 4px solid var(--bice-blue); border-radius: 0 6px 6px 0; }
         .nav-arrow { font-size: 0.8em; color: inherit; transition: transform 0.2s; }
 
         /* Contenido expandible del menú izquierdo */
-        .menu-content { padding-top: 15px; display: none; animation: fadeIn 0.3s; }
+        .menu-content { padding-top: 10px; display: none; animation: fadeIn 0.3s; }
+        
         .tool-btn { 
             display: block; width: 100%; text-align: left; background: #fff; border: 1px solid #eee; 
-            padding: 12px; margin-bottom: 8px; border-radius: 6px; color: #444; font-size: 0.95em; 
+            padding: 10px; margin-bottom: 6px; border-radius: 6px; color: #444; font-size: 0.9em; 
             cursor: pointer; transition: background 0.2s; font-weight: bold;
         }
         .tool-btn:hover { background: #f8f9fa; color: var(--bice-blue); border-color: var(--bice-light); }
         
-        .main-btn { background: var(--bice-blue); color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-size: 1.1em; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; transition: background 0.2s; }
+        .main-btn { background: var(--bice-blue); color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 0.95em; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; transition: background 0.2s; }
         .main-btn:hover { background: var(--bice-light); }
         .main-btn-claves { background: #28a745; }
         .main-btn-claves:hover { background: #218838; }
         
-        /* Botones de Datos */
-        .data-actions { display: flex; flex-direction: column; gap: 12px; border-top: 1px solid var(--border); padding-top: 20px; }
-        .data-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; font-size: 0.95em; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; transition: filter 0.2s; box-sizing: border-box; }
+        /* Botones de Datos (Exportar, Importar, Eliminar) */
+        .data-actions { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 15px; }
+        .data-btn { width: 100%; padding: 8px 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.85em; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; transition: filter 0.2s; box-sizing: border-box; }
         .data-btn:hover { filter: brightness(0.9); }
         .export-btn { background: #17a2b8; color: white; }
         .import-btn { background: #6c757d; color: white; display: block; }
-        .delete-all-btn { background: #dc3545; color: white; margin-top: 10px; }
+        .delete-all-btn { background: #dc3545; color: white; margin-top: 5px; }
 
-        /* Panel Indicadores Económicos (Abajo a la izq) */
-        .indicadores-panel { margin-top: auto; padding: 20px 15px 10px 15px; text-align: center; border-top: 2px dashed #eee; }
-        .indicadores-title { font-size: 0.85em; font-weight: bold; color: var(--bice-blue); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        .indicadores-box { display: flex; justify-content: space-around; font-size: 1em; color: #333; font-weight: bold; }
-        .indicadores-val { background: #f0f4f8; padding: 8px 12px; border-radius: 6px; border: 1px solid #dce4ec; color: var(--bice-blue); }
+        /* Panel Indicadores Económicos */
+        .indicadores-panel { margin-top: auto; padding: 15px 10px 5px 10px; text-align: center; border-top: 2px dashed #eee; }
+        .indicadores-title { font-size: 0.8em; font-weight: bold; color: var(--bice-blue); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .indicadores-box { display: flex; justify-content: space-around; font-size: 0.9em; color: #333; font-weight: bold; gap: 5px;}
+        .indicadores-val { background: #f0f4f8; padding: 6px 8px; border-radius: 4px; border: 1px solid #dce4ec; color: var(--bice-blue); width: 100%;}
         
         /* PANEL DERECHO */
         .view-section { flex: 3; display: flex; flex-direction: column; gap: 15px; width: 100%; }
@@ -143,7 +144,9 @@
         
         footer { background-color: var(--bice-blue); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; }
 
-        /* RESPONSIVO MÓVILES */
+        /* =========================================
+           DISEÑO RESPONSIVO (MÓVILES Y TABLETS)
+           ========================================= */
         @media (max-width: 850px) {
             .container { flex-direction: column; padding: 0 15px; }
             .left-panel { min-width: 100%; max-width: 100%; position: static; margin-bottom: 10px; padding: 15px; box-sizing: border-box; max-height: none;}
@@ -168,8 +171,6 @@
             .action-btn { width: 100%; padding: 12px; }
             #toast { right: 15px; left: 15px; min-width: auto; bottom: 15px; font-size: 1em; }
             #toast.show { bottom: 20px; }
-            .conversor-inputs { flex-direction: column; }
-            .conversor-arrow { display: none; }
         }
     </style>
 </head>
@@ -228,9 +229,9 @@
                 </button>
                 
                 <div class="menu-content" id="content-herramientas">
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
                         <button class="tool-btn" onclick="openTool('bin')">💳 Validador de BIN</button>
-                        <button class="tool-btn" onclick="openTool('conversor')">💱 Conversor de Monedas</button>
+                        <button class="tool-btn" onclick="openTool('conversor')">💱 Conversor Monedas</button>
                     </div>
                 </div>
             </div>
@@ -241,8 +242,8 @@
         <div class="indicadores-panel">
             <div class="indicadores-title">💰 Valor del Día</div>
             <div class="indicadores-box">
-                <div class="indicadores-val" id="val-dolar">USD: Cargando...</div>
-                <div class="indicadores-val" id="val-euro">EUR: Cargando...</div>
+                <div class="indicadores-val" id="val-dolar">USD: ...</div>
+                <div class="indicadores-val" id="val-euro">EUR: ...</div>
             </div>
             <div style="font-size: 0.7em; color: #aaa; margin-top: 8px;">Fuente: mindicador.cl</div>
         </div>
@@ -339,37 +340,44 @@
                 </div>
             </div>
 
-            <!-- CONVERSOR DE MONEDAS -->
-            <div id="tool-conversor" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 700px; margin: 0 auto; border-top: 6px solid #28a745;">
-                <h2 style="color: #28a745; margin-top: 0;">💱 Conversor de Monedas a CLP</h2>
-                <p style="color: #666; margin-bottom: 20px;">Calcula equivalencias entre pesos chilenos (CLP) y moneda extranjera en ambas direcciones. Escribe el monto en cualquiera de las dos casillas de abajo para convertir.</p>
+            <!-- CONVERSOR DE MONEDA -->
+            <div id="tool-conversor" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid #28a745;">
+                <h2 style="color: #28a745; margin-top: 0;">💱 Conversor de Moneda a Pesos</h2>
+                <p style="color: #666; margin-bottom: 20px;">Calcula el equivalente entre pesos chilenos (CLP) y moneda extranjera. Puedes ajustar la tasa si necesitas usar una del banco.</p>
                 
-                <div style="display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap; background: #f0f4f8; padding: 15px; border-radius: 8px;">
-                    <div style="flex: 1; min-width: 150px;">
-                        <label>Moneda Extranjera:</label>
-                        <select id="convSelect" onchange="changeCurrency()" style="padding: 10px; font-size: 1.1em;">
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; background: #f4f7f6; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
+                    <div style="flex: 1; min-width: 130px;">
+                        <label style="margin-top: 0;">Moneda:</label>
+                        <select id="convSelect" onchange="changeCurrency()" style="padding: 10px; font-size: 1.05em; margin-top: 5px;">
                             <option value="USD">Dólar (USD)</option>
                             <option value="EUR">Euro (EUR)</option>
                         </select>
                     </div>
-                    <div style="flex: 1; min-width: 150px;">
-                        <label>Tasa de cambio ($):</label>
-                        <input type="number" id="convTasa" step="0.01" oninput="calcExtToCLP()" style="padding: 10px; font-size: 1.1em; font-weight: bold;">
+                    <div style="flex: 1; min-width: 130px;">
+                        <label style="margin-top: 0;">Tasa de cambio ($):</label>
+                        <input type="number" id="convTasa" step="0.01" oninput="calcToCLP()" style="padding: 10px; font-size: 1.05em; font-weight: bold; margin-top: 5px; color: var(--bice-blue);">
                     </div>
                 </div>
                 
-                <div class="conversor-inputs" style="background: #f9f9f9; padding: 20px; border-radius: 8px; border: 1px solid #eee; display: flex; align-items: center; gap: 15px;">
+                <!-- Cajas Bidireccionales -->
+                <div style="display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap;">
                     
-                    <div style="flex: 1; min-width: 130px;">
-                        <label style="color: var(--bice-blue);">Monto Extranjero:</label>
-                        <input type="number" id="convExt" step="0.01" placeholder="Ej: 45.50" oninput="calcExtToCLP()" style="font-size: 1.4em; padding: 12px; border: 2px solid var(--bice-blue); background: #fff;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <label id="labelExtranjera" style="color: var(--bice-blue);">Monto en USD:</label>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 15px; top: 16px; font-size: 1.2em; color: #555;">$</span>
+                            <input type="number" id="inputExt" step="0.01" placeholder="0.00" oninput="calcToCLP()" style="font-size: 1.3em; padding: 15px 15px 15px 35px;">
+                        </div>
                     </div>
                     
-                    <div class="conversor-arrow" style="font-size: 2.5em; color: #ccc; font-weight: bold; padding-top: 15px;">⇄</div>
-                    
-                    <div style="flex: 1; min-width: 130px;">
-                        <label style="color: #28a745;">Monto CLP ($):</label>
-                        <input type="number" id="convCLP" step="1" placeholder="Ej: 15000" oninput="calcCLPToExt()" style="font-size: 1.4em; padding: 12px; border: 2px solid #28a745; background: #fff;">
+                    <div style="font-size: 2em; color: #ccc; margin-top: 25px;">⇌</div>
+
+                    <div style="flex: 1; min-width: 200px;">
+                        <label style="color: #28a745;">Monto en CLP:</label>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 15px; top: 16px; font-size: 1.2em; color: #555;">$</span>
+                            <input type="number" id="inputCLP" placeholder="0" oninput="calcToExt()" style="font-size: 1.3em; padding: 15px 15px 15px 35px;">
+                        </div>
                     </div>
 
                 </div>
@@ -449,12 +457,10 @@
             
             document.getElementById('val-dolar').innerText = `USD: $${tasaDolar.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
             document.getElementById('val-euro').innerText = `EUR: $${tasaEuro.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
-            
             document.getElementById('convTasa').value = tasaDolar; 
         } catch (error) {
-            document.getElementById('val-dolar').innerText = `USD: API Falló`;
-            document.getElementById('val-euro').innerText = `EUR: API Falló`;
-            console.error("Error cargando la API de indicadores.");
+            document.getElementById('val-dolar').innerText = `USD: Error`;
+            document.getElementById('val-euro').innerText = `EUR: Error`;
         }
     }
 
@@ -512,44 +518,31 @@
         document.getElementById('tool-' + toolId).style.display = 'block';
         
         if(toolId === 'bin') document.getElementById('binInput').focus();
-        if(toolId === 'conversor') document.getElementById('convExt').focus();
+        if(toolId === 'conversor') document.getElementById('inputExt').focus();
     }
 
-    // --- LÓGICA CONVERSOR DE MONEDAS (BIDIRECCIONAL) ---
+    // --- LÓGICA CONVERSOR DE MONEDAS ---
     function changeCurrency() {
         const currency = document.getElementById('convSelect').value;
         document.getElementById('convTasa').value = currency === 'USD' ? tasaDolar : tasaEuro;
-        calcExtToCLP(); // Recalcula si cambias la moneda
+        document.getElementById('labelExtranjera').innerText = `Monto en ${currency}:`;
+        calcToCLP(); // Recalcula si había algún valor puesto
     }
 
-    // Calcula de Extranjero a CLP
-    function calcExtToCLP() {
-        const extStr = document.getElementById('convExt').value;
-        const rateStr = document.getElementById('convTasa').value;
-        
-        if (!extStr || !rateStr) { 
-            document.getElementById('convCLP').value = ''; 
-            return; 
-        }
-        
-        const ext = parseFloat(extStr);
-        const rate = parseFloat(rateStr);
-        document.getElementById('convCLP').value = Math.round(ext * rate);
+    function calcToCLP() {
+        const extVal = parseFloat(document.getElementById('inputExt').value) || 0;
+        const rate = parseFloat(document.getElementById('convTasa').value) || 0;
+        const clpVal = Math.round(extVal * rate);
+        document.getElementById('inputCLP').value = extVal > 0 ? clpVal : '';
     }
 
-    // Calcula de CLP a Extranjero
-    function calcCLPToExt() {
-        const clpStr = document.getElementById('convCLP').value;
-        const rateStr = document.getElementById('convTasa').value;
-        
-        if (!clpStr || !rateStr) { 
-            document.getElementById('convExt').value = ''; 
-            return; 
+    function calcToExt() {
+        const clpVal = parseFloat(document.getElementById('inputCLP').value) || 0;
+        const rate = parseFloat(document.getElementById('convTasa').value) || 0;
+        if (rate > 0) {
+            const extVal = (clpVal / rate).toFixed(2);
+            document.getElementById('inputExt').value = clpVal > 0 ? extVal : '';
         }
-        
-        const clp = parseFloat(clpStr);
-        const rate = parseFloat(rateStr);
-        document.getElementById('convExt').value = (clp / rate).toFixed(2);
     }
 
     // --- LÓGICA VALIDADOR BIN ---
@@ -562,9 +555,7 @@
         const input = document.getElementById('binInput').value;
         const cleanCard = input.replace(/-/g, '').replace(/\s/g, '');
         
-        if (cleanCard.length < 6) {
-            alert('Por favor ingresa al menos los primeros 6 dígitos (BIN) de la tarjeta.'); return;
-        }
+        if (cleanCard.length < 6) { alert('Ingresa al menos los primeros 6 dígitos (BIN).'); return; }
 
         const bin = cleanCard.substring(0, 6);
         const resultDiv = document.getElementById('binResult');
@@ -583,43 +574,27 @@
             document.getElementById('resCat').innerText = binData[bin].category;
             document.getElementById('resCat').style.color = 'var(--bice-blue)';
             document.getElementById('resLimit').innerText = binData[bin].limit;
-            resultDiv.style.display = 'block';
-            resultDiv.style.borderLeftColor = '#28a745'; 
+            resultDiv.style.display = 'block'; resultDiv.style.borderLeftColor = '#28a745'; 
         } else {
             document.getElementById('resCard').innerText = cleanCard;
             document.getElementById('resCat').innerText = `BIN No Reconocido (${bin})`;
             document.getElementById('resCat').style.color = '#dc3545'; 
             document.getElementById('resLimit').innerText = 'No disponible';
-            resultDiv.style.display = 'block';
-            resultDiv.style.borderLeftColor = '#dc3545'; 
+            resultDiv.style.display = 'block'; resultDiv.style.borderLeftColor = '#dc3545'; 
         }
     }
 
     // --- MODALES Y TOAST ---
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'flex';
-        document.body.style.overflow = 'hidden'; 
-    }
+    function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; document.body.style.overflow = 'hidden'; }
 
     function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-        document.body.style.overflow = 'auto'; 
-        if (modalId === 'kbModal') {
-            document.getElementById('kbForm').reset();
-            document.getElementById('entryId').value = ''; 
-            document.getElementById('formTitleKB').innerText = 'Nuevo Registro';
-        }
-        if (modalId === 'clavesModal') {
-            document.getElementById('clavesForm').reset();
-            document.getElementById('claveId').value = ''; 
-            document.getElementById('formTitleClaves').innerText = 'Nueva Clave de Acceso';
-        }
+        document.getElementById(modalId).style.display = 'none'; document.body.style.overflow = 'auto'; 
+        if (modalId === 'kbModal') { document.getElementById('kbForm').reset(); document.getElementById('entryId').value = ''; document.getElementById('formTitleKB').innerText = 'Nuevo Registro'; }
+        if (modalId === 'clavesModal') { document.getElementById('clavesForm').reset(); document.getElementById('claveId').value = ''; document.getElementById('formTitleClaves').innerText = 'Nueva Clave de Acceso'; }
     }
 
     function showToast(message) {
-        const toast = document.getElementById("toast");
-        toast.innerText = "✅ " + message;
-        toast.className = "show";
+        const toast = document.getElementById("toast"); toast.innerText = "✅ " + message; toast.className = "show";
         setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
     }
 
@@ -633,30 +608,24 @@
         const duplicate = entries.find(emp => emp.titulo.toLowerCase() === inputTitulo.toLowerCase() && emp.id !== id);
         
         if (duplicate) {
-            if (!id) {
-                if (confirm(`⚠️ El título "${duplicate.titulo}" ya existe.\n\n• Presiona "Aceptar" para cargar el registro existente.\n• Presiona "Cancelar" para elegir un nombre diferente.`)) { editEntry(duplicate.id); }
-            } else alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".`);
+            if (!id) { if (confirm(`⚠️ El título "${duplicate.titulo}" ya existe.\n\n• Presiona "Aceptar" para cargar el registro existente.\n• Presiona "Cancelar" para elegir un nombre diferente.`)) { editEntry(duplicate.id); } } 
+            else alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".`);
             return; 
         }
 
         const newEntry = {
-            id: id ? id : 'KB_' + Date.now().toString(),
-            fecha: getFormattedDate(), timestamp: Date.now(), 
-            titulo: inputTitulo, categoria: document.getElementById('categoria').value,
-            etiquetas: document.getElementById('etiquetas').value, scriptInicial: document.getElementById('scriptInicial').value,
-            pasoApaso: document.getElementById('pasoApaso').value, validacion: document.getElementById('validacion').value,
-            cti: document.getElementById('cti').value, plantilla: document.getElementById('plantilla').value,
-            scriptFinal: document.getElementById('scriptFinal').value, detalles: document.getElementById('detalles').value,
-            otro: document.getElementById('otro').value
+            id: id ? id : 'KB_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), 
+            titulo: inputTitulo, categoria: document.getElementById('categoria').value, etiquetas: document.getElementById('etiquetas').value,
+            scriptInicial: document.getElementById('scriptInicial').value, pasoApaso: document.getElementById('pasoApaso').value,
+            validacion: document.getElementById('validacion').value, cti: document.getElementById('cti').value,
+            plantilla: document.getElementById('plantilla').value, scriptFinal: document.getElementById('scriptFinal').value,
+            detalles: document.getElementById('detalles').value, otro: document.getElementById('otro').value
         };
 
-        if (id) {
-            entries[entries.findIndex(emp => emp.id === id)] = newEntry;
-            showToast("Actualizado correctamente");
-        } else { entries.push(newEntry); showToast("Guardado correctamente"); }
+        if (id) { entries[entries.findIndex(emp => emp.id === id)] = newEntry; showToast("Actualizado correctamente"); } 
+        else { entries.push(newEntry); showToast("Guardado correctamente"); }
 
-        localStorage.setItem('bice_kb_data', JSON.stringify(entries));
-        closeModal('kbModal'); handleSearchKB(); 
+        localStorage.setItem('bice_kb_data', JSON.stringify(entries)); closeModal('kbModal'); handleSearchKB(); 
     });
 
     function sortData(dataArray, sortValue, nameField) {
