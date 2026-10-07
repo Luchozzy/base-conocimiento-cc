@@ -47,12 +47,14 @@
         /* Contenido expandible del menú izquierdo */
         .menu-content { padding-top: 10px; display: none; animation: fadeIn 0.3s; }
         
+        /* Botones de Herramientas */
         .tool-btn { 
             display: block; width: 100%; text-align: left; background: #fff; border: 1px solid #eee; 
             padding: 10px; margin-bottom: 6px; border-radius: 6px; color: #444; font-size: 0.9em; 
-            cursor: pointer; transition: background 0.2s; font-weight: bold;
+            cursor: pointer; transition: all 0.2s; font-weight: bold; box-sizing: border-box;
         }
         .tool-btn:hover { background: #f8f9fa; color: var(--bice-blue); border-color: var(--bice-light); }
+        .tool-btn.active { background: #e6f0fa; color: var(--bice-blue); border-color: #eee; border-left: 4px solid var(--bice-blue); border-radius: 0 6px 6px 0; }
         
         .main-btn { background: var(--bice-blue); color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 0.95em; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; transition: background 0.2s; }
         .main-btn:hover { background: var(--bice-light); }
@@ -93,6 +95,8 @@
         .save-btn:hover { background: #218838; }
         .generate-btn { background: var(--bice-blue); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s; margin-top: 5px; white-space: nowrap; }
         .generate-btn:hover { background: var(--bice-light); }
+        .outline-btn { background: transparent; color: #fd7e14; border: 1px solid #fd7e14; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-bottom: 15px; transition: all 0.2s; }
+        .outline-btn:hover { background: #fff5eb; }
         
         /* Buscador y Ordenamiento */
         .search-container { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 15px; display: flex; gap: 15px; align-items: center; }
@@ -232,10 +236,10 @@
                 </button>
                 <div class="menu-content" id="content-herramientas">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <button class="tool-btn" onclick="openTool('reconst')">💳 Reconstrucción TC</button>
-                        <button class="tool-btn" onclick="openTool('bin')">💳 Validador BIN TD</button>
-                        <button class="tool-btn" onclick="openTool('comisiones')">✈️ Comisiones Internacionales</button>
-                        <button class="tool-btn" onclick="openTool('conversor')">💱 Conversor Monedas</button>
+                        <button id="btn-tool-reconst" class="tool-btn" onclick="openTool('reconst')">💳 Reconstrucción TC</button>
+                        <button id="btn-tool-bin" class="tool-btn" onclick="openTool('bin')">💳 Validador BIN TD</button>
+                        <button id="btn-tool-comisiones" class="tool-btn" onclick="openTool('comisiones')">✈️ Comisiones Internacionales</button>
+                        <button id="btn-tool-conversor" class="tool-btn" onclick="openTool('conversor')">💱 Conversor Monedas</button>
                     </div>
                 </div>
             </div>
@@ -311,7 +315,7 @@
         <!-- VISTA 3: HERRAMIENTAS -->
         <div id="view-herramientas" class="view-container">
             <div id="tools-welcome" style="text-align: center; padding-top: 5vh;">
-                <h3 style="color: #666; font-size: 1.5em;">👈 Selecciona una herramienta del menú izquierdo</h3>
+                <h3 style="color: #666; font-size: 1.5em;">👈 Selecciona una herramienta del submenú izquierdo</h3>
             </div>
 
             <!-- RECONSTRUCCIÓN TC -->
@@ -358,6 +362,7 @@
                 <label>Número de Tarjeta (16 dígitos):</label>
                 <input type="text" id="binInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="font-size: 1.3em; text-align: center; letter-spacing: 2px;" oninput="formatCardInput(event)">
                 <button class="save-btn" onclick="analizarTarjeta()" style="margin-top: 15px;">🔍 Analizar Tarjeta</button>
+
                 <div id="binResult" style="display: none; margin-top: 25px; background: #f9f9f9; padding: 20px; border-left: 5px solid #28a745; border-radius: 6px;">
                     <div class="clave-row" style="margin-bottom: 15px; background: white; border: 1px solid #ddd;">
                         <span class="clave-label" style="width: 130px;">Tarjeta limpia:</span>
@@ -377,9 +382,13 @@
                 </div>
             </div>
 
-            <!-- COMISIONES INTERNACIONALES (NUEVA) -->
+            <!-- COMISIONES INTERNACIONALES -->
             <div id="tool-comisiones" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid #fd7e14;">
-                <h2 style="color: #fd7e14; margin-top: 0;">✈️ Comisiones Internacionales</h2>
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <h2 style="color: #fd7e14; margin-top: 0;">✈️ Comisiones Internacionales</h2>
+                </div>
+                
+                <button class="outline-btn" onclick="openModal('procedimientoModal')">ℹ️ Ver Procedimiento Fecha Apertura</button>
                 <p style="color: #666; margin-bottom: 20px;">Calcula los cobros exactos por uso en el extranjero ingresando la fecha de apertura y el tipo de tarjeta.</p>
                 
                 <div class="radio-group">
@@ -440,7 +449,7 @@
                         <div id="resComGiro" style="font-size: 1.15em; color: var(--bice-blue); font-weight: bold; margin-top: 4px;"></div>
                     </div>
                     
-                    <button class="copy-btn" style="width: 100%; margin-top: 10px; background: white; border: 2px solid #fd7e14; color: #fd7e14;" onclick="copiarComisiones(event)">
+                    <button class="copy-btn" style="width: 100%; margin-top: 10px; background: white; border: 2px solid #fd7e14; color: #fd7e14; font-weight: bold;" onclick="copiarComisiones(event)">
                         📋 Copiar Respuesta para el Cliente
                     </button>
                 </div>
@@ -485,7 +494,7 @@
     </div>
 </div>
 
-<!-- === MODAL 1: BASE DE CONOCIMIENTO (REORDENADO) === -->
+<!-- === MODAL 1: BASE DE CONOCIMIENTO === -->
 <div class="modal-overlay" id="kbModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
@@ -514,7 +523,6 @@
                 <input type="text" id="etiquetas" placeholder="Ej: fraude, bloqueo, tc" style="flex: 1;">
                 <button type="button" class="generate-btn" onclick="generarEtiquetas()">✨ Generar</button>
             </div>
-
             <button type="submit" class="save-btn">Guardar Información</button>
         </form>
     </div>
@@ -533,6 +541,45 @@
             <label>Clave:</label><input type="password" id="clavePass" required>
             <button type="submit" class="save-btn" style="background:#28a745;">Guardar Clave</button>
         </form>
+    </div>
+</div>
+
+<!-- === MODAL 3: PROCEDIMIENTO FECHA APERTURA === -->
+<div class="modal-overlay" id="procedimientoModal">
+    <div class="modal-content" style="max-width: 650px;">
+        <span class="close-modal" onclick="closeModal('procedimientoModal')" title="Cerrar">&times;</span>
+        <h2 style="color: #fd7e14; margin-top: 0;">📋 Procedimiento Fecha de Apertura TC</h2>
+        
+        <div style="font-size: 1.05em; line-height: 1.6; color: #444;">
+            <p style="color: var(--bice-blue); font-weight: bold; margin-bottom: 5px;">PASO 1: Verificar cantidad de tarjetas</p>
+            <p style="margin-top: 0;">✅ Revisar si el cliente tiene una sola tarjeta de crédito activa.<br>
+            Si solo tiene una tarjeta y no posee tarjetas bloqueadas:</p>
+            <ul style="background: #f9f9f9; padding: 15px 15px 15px 35px; border-radius: 6px; border-left: 4px solid var(--bice-blue);">
+                <li>Seleccionar la tarjeta.</li>
+                <li>Ingresar a <strong>Detalle</strong>.</li>
+                <li>Revisar <strong>Fecha de Creación</strong>.</li>
+                <li>Esa será la fecha a utilizar para buscar las comisiones.</li>
+            </ul>
+
+            <p style="color: var(--bice-blue); font-weight: bold; margin-bottom: 5px; margin-top: 25px;">PASO 2: Si existen tarjetas bloqueadas</p>
+            <p style="margin-top: 0;">⚠️ La comisión depende de la fecha de apertura original de la categoría de tarjeta. Por lo tanto:</p>
+            <ol style="background: #f9f9f9; padding: 15px 15px 15px 35px; border-radius: 6px; border-left: 4px solid #fd7e14;">
+                <li>Revisar las tarjetas bloqueadas.</li>
+                <li>Buscar la misma categoría de tarjeta que posee actualmente.</li>
+                <li>Revisar las tarjetas bloqueadas desde abajo hacia arriba.</li>
+                <li>Identificar la <strong>primera tarjeta emitida</strong> de esa categoría.</li>
+                <li>Utilizar la fecha de creación de esa tarjeta para consultar el tarifario.</li>
+            </ol>
+
+            <p style="color: var(--bice-blue); font-weight: bold; margin-bottom: 5px; margin-top: 25px;">PASO 3: Buscar tarifa en el Hub</p>
+            <p style="margin-top: 0;">Una vez obtenida la fecha correcta:<br>
+            ✅ Ingresar el Año, Mes, Tipo de Tarjeta y Segmento en <strong>esta herramienta</strong>.<br>
+            El sistema mostrará automáticamente la Comisión Compra Internacional y Comisión Giro ATM listas para copiar y pegar.</p>
+
+            <div style="background: #fff3cd; border-left: 5px solid #ffc107; padding: 12px; margin-top: 20px; border-radius: 4px; font-size: 0.95em;">
+                <strong>*Nota Importante:</strong> Si la tarjeta es generada posterior a <strong>Marzo 2025</strong>, se debe ocupar esa fecha para ver el tarifario. <em>(El Hub ya hace este ajuste automáticamente en el cálculo).</em>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -584,6 +631,7 @@
         const navBtn = document.getElementById('nav-' + viewName);
         const isActive = navBtn.classList.contains('active');
 
+        // Reset main nav
         document.getElementById('nav-kb').classList.remove('active');
         document.getElementById('nav-claves').classList.remove('active');
         document.getElementById('nav-herramientas').classList.remove('active');
@@ -596,10 +644,14 @@
         document.getElementById('content-claves').style.display = 'none';
         document.getElementById('content-herramientas').style.display = 'none';
 
+        // Reset right views
         document.getElementById('view-kb').classList.remove('active');
         document.getElementById('view-claves').classList.remove('active');
         document.getElementById('view-herramientas').classList.remove('active');
         document.getElementById('view-welcome').classList.remove('active');
+
+        // Reset tool sub-buttons when changing main sections
+        document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
 
         if (isActive) {
             document.getElementById('view-welcome').classList.add('active');
@@ -617,18 +669,24 @@
                 document.getElementById('tool-conversor').style.display = 'none';
                 document.getElementById('tool-reconst').style.display = 'none';
                 document.getElementById('tool-comisiones').style.display = 'none';
-                updateSegmentos(); // Pre-cargar segmentos
+                updateSegmentos(); 
             }
         }
     }
 
     function openTool(toolId) {
+        // Pintar solo el botón activo en el sub-menú
+        document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-tool-' + toolId).classList.add('active');
+
+        // Ocultar todas las herramientas
         document.getElementById('tools-welcome').style.display = 'none';
         document.getElementById('tool-bin').style.display = 'none';
         document.getElementById('tool-conversor').style.display = 'none';
         document.getElementById('tool-reconst').style.display = 'none';
         document.getElementById('tool-comisiones').style.display = 'none';
 
+        // Mostrar la seleccionada
         document.getElementById('tool-' + toolId).style.display = 'block';
         
         if(toolId === 'bin') document.getElementById('binInput').focus();
@@ -637,7 +695,6 @@
     }
 
     // --- LÓGICA COMISIONES INTERNACIONALES ---
-    // Diccionario de reglas extraído directamente de Tarifario.xlsx
     const comisionesData = {
       "Tarjeta Débito": {
         "CHECKCARD CLASICA": [
@@ -730,26 +787,25 @@
         
         if(!segmento) { alert("Por favor seleccione un segmento"); return; }
         
-        // Creamos un valor numérico YYYYMM para comparar fácilmente
-        const inputDateVal = (year * 100) + month;
+        // Creamos valor numérico YYYYMM
+        let inputDateVal = (year * 100) + month;
         
+        // CLAMP: Tope máximo en Marzo 2025 (202503)
+        if (inputDateVal > 202503) {
+            inputDateVal = 202503;
+        }
+
         const reglas = comisionesData[tipo][segmento];
         let reglaAplicada = null;
 
-        // Las reglas ya están ordenadas de más nuevas a más antiguas.
-        // Buscamos la primera regla que sea <= a la fecha ingresada
+        // Búsqueda de la regla
         for (let r of reglas) {
             if (inputDateVal >= r.date_val) {
                 reglaAplicada = r;
                 break;
             }
         }
-        
-        // Si el usuario eligió una fecha ANTERIOR a nuestro primer registro, 
-        // usamos el registro más antiguo que tengamos como "base".
-        if (!reglaAplicada) {
-            reglaAplicada = reglas[reglas.length - 1]; 
-        }
+        if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; }
 
         document.getElementById('resComCompra').innerText = reglaAplicada.compra;
         document.getElementById('resComGiro').innerText = reglaAplicada.giro;
@@ -773,9 +829,7 @@
 
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); 
-        } else {
-            useFallback(textoFInal);
-        }
+        } else { useFallback(textoFInal); }
 
         function useFallback(t) {
             const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0";
@@ -786,12 +840,8 @@
     // --- LÓGICA RECONSTRUCCIÓN TC ---
     function formatPlatcomInput(e) {
         let val = e.target.value.replace(/\D/g, ''); 
-        if (val.length > 1) {
-            val = val.substring(0, 1) + '-' + val.substring(1);
-        }
-        if (val.length > 6) {
-            val = val.substring(0, 6) + '-' + val.substring(6);
-        }
+        if (val.length > 1) val = val.substring(0, 1) + '-' + val.substring(1);
+        if (val.length > 6) val = val.substring(0, 6) + '-' + val.substring(6);
         e.target.value = val;
     }
 
@@ -800,7 +850,7 @@
         const cleanInput = inputStr.replace(/\D/g, '');
         const category = document.getElementById('tcCategory').value;
         
-        if (cleanInput.length !== 9) { alert('El código debe tener exactamente 9 números, ej: 3-0018-8361'); return; }
+        if (cleanInput.length !== 9) { alert('El código debe tener 9 números, ej: 3-0018-8361'); return; }
         if (!category) { alert('Por favor selecciona una categoría.'); return; }
 
         const table = {
@@ -820,12 +870,11 @@
 
         if (primerDigito === '4') {
             bin = table[category].antiguo;
-            if (!bin) { alert('Esta categoría no tiene un BIN Antiguo registrado en el sistema.'); return; }
+            if (!bin) { alert('Esta categoría no tiene un BIN Antiguo registrado.'); return; }
         } else if (['0', '1', '2', '3'].includes(primerDigito)) {
             bin = table[category].nuevo;
         } else {
-            alert('El código Platcom debe comenzar con 4 (Antiguo) o 0, 1, 2, 3 (Nuevo). El primer dígito ingresado fue: ' + primerDigito);
-            return;
+            alert('El código Platcom debe comenzar con 4 (Antiguo) o 0, 1, 2, 3 (Nuevo).'); return;
         }
 
         document.getElementById('resReconst').innerText = bin + cleanInput;
@@ -1242,7 +1291,6 @@
     handleSearchKB();
     handleSearchClaves(); 
     cargarIndicadores();
-    updateSegmentos(); // Pre-carga de segmentos herramienta
 </script>
 
 </body>
