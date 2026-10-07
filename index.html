@@ -406,11 +406,11 @@
             <!-- MIS PENDIENTES (TO-DO LIST) -->
             <div id="tool-pendientes" class="tool-panel" style="border-top: 6px solid var(--color-success); max-width: 800px;">
                 <h2 style="color: var(--color-success); margin-top: 0;">✅ Mis Pendientes (Listas Blancas y Casos)</h2>
-                <p style="color: var(--text-muted); margin-bottom: 20px;">Anota códigos de mensajería, listas blancas o tareas pendientes para hacerlas más tarde. Márcalas cuando termines para mantener tu pizarra limpia.</p>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Escribe tareas únicas o <strong>pega una lista completa</strong> (como una columna de Excel). El sistema etiquetará y separará todo automáticamente.</p>
                 
-                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                    <input type="text" id="nuevaTareaInput" placeholder="Ej: Caso Salesforce 123456, Lista blanca RUT..." style="flex: 1; font-size: 1.1em; margin: 0;" onkeypress="if(event.key === 'Enter') agregarTarea()">
-                    <button class="save-btn" style="margin-top: 0; width: auto; padding: 10px 20px; background: var(--color-success);" onclick="agregarTarea()">Agregar Tarea</button>
+                <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: stretch;">
+                    <textarea id="nuevaTareaInput" placeholder="Ej: Caso 084125125, MS-17941124, o pega una lista completa..." style="flex: 1; font-size: 1.1em; margin: 0; padding: 10px; border-radius: 6px; border: 1px solid var(--border); resize: vertical; min-height: 46px; font-family: inherit; line-height: 1.4;" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); agregarTarea(); }"></textarea>
+                    <button class="save-btn" style="margin-top: 0; width: auto; padding: 10px 20px; background: var(--color-success); display: flex; align-items: center; justify-content: center;" onclick="agregarTarea()">Agregar</button>
                 </div>
 
                 <div id="listaPendientes" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; max-height: 450px; overflow-y: auto; padding-right: 5px;">
@@ -546,7 +546,6 @@
             <div id="tool-plazos" class="tool-panel" style="border-top: 6px solid var(--color-pink);">
                 <h2 style="color: var(--color-pink); margin-top: 0;">📅 Calculadora de Plazos (SLA)</h2>
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Calcula la fecha exacta de respuesta saltando automáticamente los fines de semana y feriados de Chile.</p>
-                
                 <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 150px;">
                         <label>Fecha Inicial (Día 0):</label>
@@ -557,7 +556,6 @@
                         <input type="number" id="plazoDias" placeholder="Ej: 15" min="1" style="font-size: 1.1em;">
                     </div>
                 </div>
-
                 <div style="margin-bottom: 20px;">
                     <label>Tipo de Plazo:</label>
                     <select id="plazoTipo" style="font-size: 1.1em;">
@@ -565,9 +563,7 @@
                         <option value="corridos">Días Corridos (Suma todos los días)</option>
                     </select>
                 </div>
-                
                 <button class="save-btn" onclick="calcularPlazo()" style="margin-top: 10px; background: var(--color-pink);">📅 Calcular Fecha</button>
-
                 <div id="plazoResult" class="tool-result" style="border-left-color: var(--color-pink);">
                     <div class="clave-row" style="margin-bottom: 0; background: var(--bg-card);">
                         <span class="clave-label" style="width: auto; margin-right: 15px;">Fecha de Respuesta:</span>
@@ -771,7 +767,7 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    Creado por Luis Muñoz | v2.6.0
+    Creado por Luis Muñoz | v2.6.1
 </footer>
 
 <script>
@@ -886,7 +882,7 @@
         if(toolId === 'pendientes') { renderPendientes(); document.getElementById('nuevaTareaInput').focus(); }
     }
 
-    // --- LÓGICA MIS PENDIENTES (TO-DO LIST) ---
+    // --- LÓGICA MIS PENDIENTES CON IMPORTACIÓN INTELIGENTE ---
     function renderPendientes() {
         const list = document.getElementById('listaPendientes');
         list.innerHTML = '';
@@ -902,87 +898,96 @@
 
         sorted.forEach(t => {
             const div = document.createElement('div');
-            div.style.cssText = `display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px var(--shadow); border-left: 4px solid ${t.done ? 'var(--border)' : 'var(--color-success)'}; transition: all 0.2s; opacity: ${t.done ? '0.6' : '1'};`;
+            div.style.cssText = `display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px var(--shadow); border-left: 4px solid ${t.done ? 'var(--border)' : 'var(--color-success)'}; transition: all 0.2s; opacity: ${t.done ? '0.6' : '1'}; gap: 10px;`;
             
             const leftDiv = document.createElement('div');
-            leftDiv.style.cssText = "display: flex; align-items: center; gap: 12px; flex: 1; cursor: pointer;";
+            leftDiv.style.cssText = "display: flex; align-items: center; gap: 12px; flex: 1; cursor: pointer; min-width: 0;";
             leftDiv.onclick = () => toggleTarea(t.id);
             
             const check = document.createElement('input');
-            check.type = "checkbox";
-            check.checked = t.done;
-            check.style.cssText = "width: 18px; height: 18px; margin: 0; cursor: pointer;";
-            check.onclick = (e) => e.stopPropagation();
-            check.onchange = () => toggleTarea(t.id);
+            check.type = "checkbox"; check.checked = t.done;
+            check.style.cssText = "width: 18px; height: 18px; margin: 0; cursor: pointer; flex-shrink: 0;";
+            check.onclick = (e) => e.stopPropagation(); check.onchange = () => toggleTarea(t.id);
 
             const textSpan = document.createElement('span');
-            textSpan.innerText = t.text;
-            textSpan.style.cssText = `font-size: 1.1em; color: var(--text-main); transition: all 0.2s; ${t.done ? 'text-decoration: line-through; color: var(--text-muted);' : ''} word-break: break-word;`;
+            textSpan.style.cssText = `font-size: 1.05em; color: var(--text-main); transition: all 0.2s; word-break: break-word; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;`;
+            if (t.done) { textSpan.style.textDecoration = 'line-through'; textSpan.style.color = 'var(--text-muted)'; }
+
+            if (t.tipo) {
+                const badge = document.createElement('span');
+                badge.innerText = t.tipo;
+                badge.style.cssText = `background: ${t.done ? 'var(--border)' : t.badgeColor}; color: ${t.done ? 'var(--text-muted)' : 'white'}; padding: 3px 8px; border-radius: 12px; font-size: 0.75em; font-weight: bold;`;
+                textSpan.appendChild(badge);
+            }
+            
+            const nodeText = document.createTextNode(t.text);
+            textSpan.appendChild(nodeText);
 
             leftDiv.appendChild(check);
             leftDiv.appendChild(textSpan);
 
+            const actionDiv = document.createElement('div');
+            actionDiv.style.cssText = "display: flex; gap: 5px; flex-shrink: 0;";
+
+            const copyBtn = document.createElement('button');
+            copyBtn.className = "copy-btn";
+            copyBtn.style.cssText = "padding: 4px 6px; font-size: 0.9em; margin: 0; display: flex; align-items: center; justify-content: center;";
+            copyBtn.innerHTML = copySvg; copyBtn.title = "Copiar al portapapeles";
+            copyBtn.onclick = (e) => { e.stopPropagation(); copyText(e, null, t.text); };
+
             const delBtn = document.createElement('button');
             delBtn.className = "action-btn delete-btn";
-            delBtn.style.cssText = "padding: 5px 8px; font-size: 0.9em; margin: 0; flex-shrink: 0; background: transparent; color: var(--color-danger); border: 1px solid var(--color-danger); width: auto;";
-            delBtn.innerHTML = "🗑️";
-            delBtn.title = "Eliminar tarea";
+            delBtn.style.cssText = "padding: 4px 8px; font-size: 0.9em; margin: 0; background: transparent; color: var(--color-danger); border: 1px solid var(--color-danger); width: auto;";
+            delBtn.innerHTML = "🗑️"; delBtn.title = "Eliminar tarea";
             delBtn.onclick = (e) => { e.stopPropagation(); eliminarTarea(t.id); };
 
-            div.appendChild(leftDiv);
-            div.appendChild(delBtn);
+            actionDiv.appendChild(copyBtn); actionDiv.appendChild(delBtn);
+            div.appendChild(leftDiv); div.appendChild(actionDiv);
             list.appendChild(div);
         });
     }
 
     function agregarTarea() {
         const input = document.getElementById('nuevaTareaInput');
-        const text = input.value.trim();
-        if(!text) return;
-        pendientes.push({
-            id: 'TSK_' + Date.now(),
-            text: text,
-            done: false,
-            timestamp: Date.now()
+        const rawText = input.value.trim();
+        if(!rawText) return;
+
+        const tokens = rawText.split(/\s+/);
+        const allAreCodes = tokens.every(t => /^\d+$/.test(t) || t.toUpperCase().startsWith("MS-"));
+
+        let lines = [];
+        if (allAreCodes && tokens.length > 1) { lines = tokens; } 
+        else { lines = rawText.split(/\n+/); }
+
+        let added = 0;
+        lines.forEach((line, index) => {
+            let text = line.trim();
+            if(!text) return;
+
+            let tipo = ""; let badgeColor = "";
+            if (text.toUpperCase().startsWith("MS-")) {
+                tipo = "💬 Mensajería"; badgeColor = "var(--color-info)";
+            } else if (/^\d+$/.test(text)) {
+                tipo = "☁️ Salesforce"; badgeColor = "var(--primary-color)";
+            }
+
+            pendientes.push({
+                id: 'TSK_' + Date.now() + '_' + index,
+                text: text, tipo: tipo, badgeColor: badgeColor, done: false, timestamp: Date.now()
+            });
+            added++;
         });
-        localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes));
-        input.value = '';
-        renderPendientes();
-    }
 
-    function toggleTarea(id) {
-        const idx = pendientes.findIndex(t => t.id === id);
-        if(idx > -1) {
-            pendientes[idx].done = !pendientes[idx].done;
+        if (added > 0) {
             localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes));
-            renderPendientes();
+            input.value = ''; renderPendientes();
         }
     }
 
-    function eliminarTarea(id) {
-        pendientes = pendientes.filter(t => t.id !== id);
-        localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes));
-        renderPendientes();
-    }
-
-    function limpiarTareasCompletadas() {
-        const cantidadOriginal = pendientes.length;
-        pendientes = pendientes.filter(t => !t.done);
-        if (pendientes.length !== cantidadOriginal) {
-            localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes));
-            renderPendientes();
-            showToast("Tareas resueltas eliminadas");
-        }
-    }
-
-    function borrarTodasTareas() {
-        if(pendientes.length === 0) return;
-        if(confirm("¿Estás seguro de borrar toda tu lista de tareas pendientes?")) {
-            pendientes = [];
-            localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes));
-            renderPendientes();
-        }
-    }
+    function toggleTarea(id) { const idx = pendientes.findIndex(t => t.id === id); if(idx > -1) { pendientes[idx].done = !pendientes[idx].done; localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); renderPendientes(); } }
+    function eliminarTarea(id) { pendientes = pendientes.filter(t => t.id !== id); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); renderPendientes(); }
+    function limpiarTareasCompletadas() { const cantidadOriginal = pendientes.length; pendientes = pendientes.filter(t => !t.done); if (pendientes.length !== cantidadOriginal) { localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); renderPendientes(); showToast("Tareas resueltas eliminadas"); } }
+    function borrarTodasTareas() { if(pendientes.length === 0) return; if(confirm("¿Estás seguro de borrar toda tu lista de tareas pendientes?")) { pendientes = []; localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); renderPendientes(); } }
 
     // --- LÓGICA CALCULADORA DE PLAZOS (SLA) ---
     const feriadosChile = [
@@ -1179,7 +1184,7 @@
     function showToast(message) { const toast = document.getElementById("toast"); toast.innerText = "✅ " + message; toast.className = "show"; setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000); }
 
     // ==========================================
-    // BASE DE CONOCIMIENTO
+    // BASE DE CONOCIMIENTO (LOGICA GENERAL)
     // ==========================================
     function cargarCategoriasEnSelect() {
         const select = document.getElementById('categoriaSelect'); select.innerHTML = '<option value="">Selecciona una categoría...</option>';
