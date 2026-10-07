@@ -122,10 +122,10 @@
         .import-btn { background: #6c757d; color: white; display: block; margin: 0; }
 
         /* Panel Indicadores Económicos */
-        .indicadores-panel { margin-top: auto; padding: 15px 10px 5px 10px; text-align: center; border-top: 2px dashed var(--border-light); }
+        .indicadores-panel { margin-top: auto; padding: 15px 5px 5px 5px; text-align: center; border-top: 2px dashed var(--border-light); }
         .indicadores-title { font-size: 0.8em; font-weight: bold; color: var(--primary-color); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .indicadores-box { display: flex; justify-content: space-around; font-size: 0.9em; font-weight: bold; gap: 5px;}
-        .indicadores-val { background: var(--bg-group); padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary-color); width: 100%;}
+        .indicadores-box { display: grid; grid-template-columns: 1fr 1fr; font-size: 0.8em; font-weight: bold; gap: 6px;}
+        .indicadores-val { background: var(--bg-group); padding: 6px 4px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary-color); text-align: center; white-space: nowrap;}
         
         /* PANEL DERECHO */
         .view-section { flex: 3; display: flex; flex-direction: column; gap: 15px; width: 100%; }
@@ -333,6 +333,8 @@
             <div class="indicadores-box">
                 <div class="indicadores-val" id="val-dolar">USD: ...</div>
                 <div class="indicadores-val" id="val-euro">EUR: ...</div>
+                <div class="indicadores-val" id="val-uf">UF: ...</div>
+                <div class="indicadores-val" id="val-utm">UTM: ...</div>
             </div>
             <div style="font-size: 0.7em; color: var(--text-muted); margin-top: 8px;">Fuente: mindicador.cl</div>
         </div>
@@ -546,6 +548,8 @@
                         <select id="convSelect" onchange="changeCurrency()" style="padding: 10px; font-size: 1.05em; margin-top: 5px;">
                             <option value="USD">Dólar (USD)</option>
                             <option value="EUR">Euro (EUR)</option>
+                            <option value="UF">U. de Fomento (UF)</option>
+                            <option value="UTM">U. Tributaria (UTM)</option>
                         </select>
                     </div>
                     <div style="flex: 1; min-width: 130px;">
@@ -710,7 +714,7 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    Creado por Luis Muñoz | v2.2.0
+    Creado por Luis Muñoz | v2.3.0
 </footer>
 
 <script>
@@ -741,6 +745,8 @@
 
     let tasaDolar = 0;
     let tasaEuro = 0;
+    let tasaUF = 0;
+    let tasaUTM = 0;
 
     const copySvg = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
 
@@ -750,13 +756,23 @@
             const data = await response.json();
             tasaDolar = data.dolar.valor;
             tasaEuro = data.euro.valor;
+            tasaUF = data.uf.valor;
+            tasaUTM = data.utm.valor;
             
             document.getElementById('val-dolar').innerText = `USD: $${tasaDolar.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
             document.getElementById('val-euro').innerText = `EUR: $${tasaEuro.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
-            document.getElementById('convTasa').value = tasaDolar; 
+            document.getElementById('val-uf').innerText = `UF: $${tasaUF.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
+            document.getElementById('val-utm').innerText = `UTM: $${tasaUTM.toLocaleString('es-CL', {minimumFractionDigits: 0})}`;
+            
+            // Si el conversor está en USD al cargar
+            if(document.getElementById('convSelect').value === 'USD') {
+                document.getElementById('convTasa').value = tasaDolar; 
+            }
         } catch (error) {
             document.getElementById('val-dolar').innerText = `USD: Error`;
             document.getElementById('val-euro').innerText = `EUR: Error`;
+            document.getElementById('val-uf').innerText = `UF: Error`;
+            document.getElementById('val-utm').innerText = `UTM: Error`;
         }
     }
 
@@ -930,6 +946,7 @@
             renderDirectorio(); 
         }
     }
+
 
     // --- LÓGICA COMISIONES INTERNACIONALES ---
     const comisionesData = {
@@ -1115,7 +1132,14 @@
     // --- LÓGICA CONVERSOR DE MONEDAS ---
     function changeCurrency() {
         const currency = document.getElementById('convSelect').value;
-        document.getElementById('convTasa').value = currency === 'USD' ? tasaDolar : tasaEuro;
+        let tasa = 0;
+        
+        if (currency === 'USD') tasa = tasaDolar;
+        else if (currency === 'EUR') tasa = tasaEuro;
+        else if (currency === 'UF') tasa = tasaUF;
+        else if (currency === 'UTM') tasa = tasaUTM;
+
+        document.getElementById('convTasa').value = tasa;
         document.getElementById('labelExtranjera').innerText = `Monto en ${currency}:`;
         calcToCLP(); 
     }
