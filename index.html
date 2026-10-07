@@ -22,7 +22,7 @@
         /* Estructura Principal a 2 Columnas */
         .container { max-width: 1300px; margin: 0 auto; display: flex; gap: 30px; align-items: flex-start; flex: 1; width: 100%; box-sizing: border-box; padding: 0 20px; }
         
-        /* === PANEL IZQUIERDO (AHORA MÁS COMPACTO Y DISCRETO) === */
+        /* === PANEL IZQUIERDO === */
         .left-panel { 
             flex: 1; min-width: 220px; max-width: 260px; position: sticky; top: 20px; 
             background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -59,7 +59,7 @@
         .main-btn-claves { background: #28a745; }
         .main-btn-claves:hover { background: #218838; }
         
-        /* Botones de Datos (Exportar, Importar, Eliminar) */
+        /* Botones de Datos */
         .data-actions { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 15px; }
         .data-btn { width: 100%; padding: 8px 10px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.85em; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; transition: filter 0.2s; box-sizing: border-box; }
         .data-btn:hover { filter: brightness(0.9); }
@@ -91,6 +91,8 @@
         textarea { height: 80px; resize: vertical; }
         .save-btn { background: #28a745; color: white; border: none; padding: 15px; margin-top: 25px; border-radius: 6px; cursor: pointer; width: 100%; font-size: 1.1em; font-weight: bold; transition: background 0.2s; }
         .save-btn:hover { background: #218838; }
+        .generate-btn { background: var(--bice-blue); color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s; margin-top: 5px; white-space: nowrap; }
+        .generate-btn:hover { background: var(--bice-light); }
         
         /* Buscador y Ordenamiento */
         .search-container { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 15px; display: flex; gap: 15px; align-items: center; }
@@ -144,9 +146,7 @@
         
         footer { background-color: var(--bice-blue); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; }
 
-        /* =========================================
-           DISEÑO RESPONSIVO (MÓVILES Y TABLETS)
-           ========================================= */
+        /* RESPONSIVO */
         @media (max-width: 850px) {
             .container { flex-direction: column; padding: 0 15px; }
             .left-panel { min-width: 100%; max-width: 100%; position: static; margin-bottom: 10px; padding: 15px; box-sizing: border-box; max-height: none;}
@@ -187,13 +187,11 @@
     <div class="left-panel">
         
         <div class="accordion-menu">
-            
             <!-- ACORDEÓN: BASE DE CONOCIMIENTO -->
             <div class="menu-section" id="section-kb">
                 <button class="nav-btn" id="nav-kb" onclick="switchView('kb')">
                     📚 Base de Conocimiento <span class="nav-arrow" id="arrow-kb">▶</span>
                 </button>
-                
                 <div class="menu-content" id="content-kb">
                     <button class="main-btn" onclick="openModal('kbModal')">➕ Crear Registro</button>
                     <div class="data-actions">
@@ -210,7 +208,6 @@
                 <button class="nav-btn" id="nav-claves" onclick="switchView('claves')">
                     🔑 Mis Claves <span class="nav-arrow" id="arrow-claves">▶</span>
                 </button>
-                
                 <div class="menu-content" id="content-claves">
                     <button class="main-btn main-btn-claves" onclick="openModal('clavesModal')">➕ Nueva Clave</button>
                     <div class="data-actions">
@@ -227,7 +224,6 @@
                 <button class="nav-btn" id="nav-herramientas" onclick="switchView('herramientas')">
                     🧮 Herramientas <span class="nav-arrow" id="arrow-herramientas">▶</span>
                 </button>
-                
                 <div class="menu-content" id="content-herramientas">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
                         <button class="tool-btn" onclick="openTool('bin')">💳 Validador de BIN</button>
@@ -235,7 +231,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- INDICADORES ECONÓMICOS -->
@@ -247,7 +242,6 @@
             </div>
             <div style="font-size: 0.7em; color: #aaa; margin-top: 8px;">Fuente: mindicador.cl</div>
         </div>
-
     </div>
 
     <!-- === PANEL DERECHO === -->
@@ -306,7 +300,6 @@
 
         <!-- VISTA 3: HERRAMIENTAS -->
         <div id="view-herramientas" class="view-container">
-            
             <div id="tools-welcome" style="text-align: center; padding-top: 5vh;">
                 <h3 style="color: #666; font-size: 1.5em;">👈 Selecciona una herramienta del menú izquierdo</h3>
             </div>
@@ -315,10 +308,8 @@
             <div id="tool-bin" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid var(--bice-blue);">
                 <h2 style="color: var(--bice-blue); margin-top: 0;">💳 Validador de BIN - Tarjetas de Débito</h2>
                 <p style="color: #666; margin-bottom: 20px;">Pega o escribe los 16 dígitos de la tarjeta que aparecen en Platcom para conocer su categoría y el límite de compras diario asignado.</p>
-                
                 <label>Número de Tarjeta (16 dígitos):</label>
                 <input type="text" id="binInput" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" style="font-size: 1.3em; text-align: center; letter-spacing: 2px;" oninput="formatCardInput(event)">
-                
                 <button class="save-btn" onclick="analizarTarjeta()" style="margin-top: 15px;">🔍 Analizar Tarjeta</button>
 
                 <div id="binResult" style="display: none; margin-top: 25px; background: #f9f9f9; padding: 20px; border-left: 5px solid #28a745; border-radius: 6px;">
@@ -344,7 +335,6 @@
             <div id="tool-conversor" style="display: none; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-width: 600px; margin: 0 auto; border-top: 6px solid #28a745;">
                 <h2 style="color: #28a745; margin-top: 0;">💱 Conversor de Moneda a Pesos</h2>
                 <p style="color: #666; margin-bottom: 20px;">Calcula el equivalente entre pesos chilenos (CLP) y moneda extranjera. Puedes ajustar la tasa si necesitas usar una del banco.</p>
-                
                 <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; background: #f4f7f6; padding: 15px; border-radius: 8px; border: 1px solid #ddd;">
                     <div style="flex: 1; min-width: 130px;">
                         <label style="margin-top: 0;">Moneda:</label>
@@ -358,10 +348,7 @@
                         <input type="number" id="convTasa" step="0.01" oninput="calcToCLP()" style="padding: 10px; font-size: 1.05em; font-weight: bold; margin-top: 5px; color: var(--bice-blue);">
                     </div>
                 </div>
-                
-                <!-- Cajas Bidireccionales -->
                 <div style="display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap;">
-                    
                     <div style="flex: 1; min-width: 200px;">
                         <label id="labelExtranjera" style="color: var(--bice-blue);">Monto en USD:</label>
                         <div style="position: relative;">
@@ -369,9 +356,7 @@
                             <input type="number" id="inputExt" step="0.01" placeholder="0.00" oninput="calcToCLP()" style="font-size: 1.3em; padding: 15px 15px 15px 35px;">
                         </div>
                     </div>
-                    
                     <div style="font-size: 2em; color: #ccc; margin-top: 25px;">⇌</div>
-
                     <div style="flex: 1; min-width: 200px;">
                         <label style="color: #28a745;">Monto en CLP:</label>
                         <div style="position: relative;">
@@ -379,16 +364,13 @@
                             <input type="number" id="inputCLP" placeholder="0" oninput="calcToExt()" style="font-size: 1.3em; padding: 15px 15px 15px 35px;">
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
-
     </div>
 </div>
 
-<!-- === MODALES === -->
+<!-- === MODAL 1: BASE DE CONOCIMIENTO === -->
 <div class="modal-overlay" id="kbModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
@@ -396,8 +378,23 @@
         <form id="kbForm">
             <input type="hidden" id="entryId">
             <label>Título:</label><input type="text" id="titulo" required>
-            <label>Categoría:</label><input type="text" id="categoria" required>
-            <label>Etiquetas (separadas por coma):</label><input type="text" id="etiquetas" placeholder="Ej: fraude, bloqueo, tc">
+            
+            <!-- NUEVO: SELECTOR DE CATEGORÍAS -->
+            <label>Categoría:</label>
+            <select id="categoriaSelect" required onchange="handleCategoriaChange()">
+                <option value="">Selecciona una categoría...</option>
+                <!-- Las opciones se generan solas con JS -->
+                <option value="nueva" style="font-weight:bold; color:var(--bice-blue);">➕ Crear Nueva Categoría...</option>
+            </select>
+            <input type="text" id="categoriaNueva" placeholder="Escribe el nombre de la nueva categoría" style="display: none; margin-top: 5px; border-color: var(--bice-blue);">
+            
+            <!-- NUEVO: GENERADOR DE ETIQUETAS -->
+            <label>Etiquetas (separadas por coma):</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="etiquetas" placeholder="Ej: fraude, bloqueo, tc" style="flex: 1;">
+                <button type="button" class="generate-btn" onclick="generarEtiquetas()">✨ Generar</button>
+            </div>
+
             <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
             <label>Paso a Paso:</label><textarea id="pasoApaso"></textarea>
             <label>Validación:</label><textarea id="validacion"></textarea>
@@ -411,6 +408,7 @@
     </div>
 </div>
 
+<!-- === MODAL 2: MIS CLAVES === -->
 <div class="modal-overlay" id="clavesModal">
     <div class="modal-content modal-content-small">
         <span class="close-modal" onclick="closeModal('clavesModal')" title="Cerrar">&times;</span>
@@ -474,7 +472,6 @@
         const navBtn = document.getElementById('nav-' + viewName);
         const isActive = navBtn.classList.contains('active');
 
-        // Reset
         document.getElementById('nav-kb').classList.remove('active');
         document.getElementById('nav-claves').classList.remove('active');
         document.getElementById('nav-herramientas').classList.remove('active');
@@ -526,7 +523,7 @@
         const currency = document.getElementById('convSelect').value;
         document.getElementById('convTasa').value = currency === 'USD' ? tasaDolar : tasaEuro;
         document.getElementById('labelExtranjera').innerText = `Monto en ${currency}:`;
-        calcToCLP(); // Recalcula si había algún valor puesto
+        calcToCLP(); 
     }
 
     function calcToCLP() {
@@ -554,7 +551,6 @@
     function analizarTarjeta() {
         const input = document.getElementById('binInput').value;
         const cleanCard = input.replace(/-/g, '').replace(/\s/g, '');
-        
         if (cleanCard.length < 6) { alert('Ingresa al menos los primeros 6 dígitos (BIN).'); return; }
 
         const bin = cleanCard.substring(0, 6);
@@ -585,12 +581,28 @@
     }
 
     // --- MODALES Y TOAST ---
-    function openModal(modalId) { document.getElementById(modalId).style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+    function openModal(modalId) { 
+        if (modalId === 'kbModal') {
+            cargarCategoriasEnSelect();
+            document.getElementById('categoriaNueva').style.display = 'none';
+            document.getElementById('categoriaNueva').required = false;
+        }
+        document.getElementById(modalId).style.display = 'flex'; 
+        document.body.style.overflow = 'hidden'; 
+    }
 
     function closeModal(modalId) {
         document.getElementById(modalId).style.display = 'none'; document.body.style.overflow = 'auto'; 
-        if (modalId === 'kbModal') { document.getElementById('kbForm').reset(); document.getElementById('entryId').value = ''; document.getElementById('formTitleKB').innerText = 'Nuevo Registro'; }
-        if (modalId === 'clavesModal') { document.getElementById('clavesForm').reset(); document.getElementById('claveId').value = ''; document.getElementById('formTitleClaves').innerText = 'Nueva Clave de Acceso'; }
+        if (modalId === 'kbModal') { 
+            document.getElementById('kbForm').reset(); 
+            document.getElementById('entryId').value = ''; 
+            document.getElementById('formTitleKB').innerText = 'Nuevo Registro'; 
+        }
+        if (modalId === 'clavesModal') { 
+            document.getElementById('clavesForm').reset(); 
+            document.getElementById('claveId').value = ''; 
+            document.getElementById('formTitleClaves').innerText = 'Nueva Clave de Acceso'; 
+        }
     }
 
     function showToast(message) {
@@ -599,12 +611,104 @@
     }
 
     // ==========================================
-    // MÓDULO 1: BASE DE CONOCIMIENTO
+    // MÓDULO 1: BASE DE CONOCIMIENTO (CON NUEVAS MEJORAS)
     // ==========================================
+    
+    // 1. Lógica para cargar y mostrar categorías en el select
+    function cargarCategoriasEnSelect() {
+        const select = document.getElementById('categoriaSelect');
+        // Limpiamos las opciones actuales (dejando solo la primera y la última por defecto)
+        select.innerHTML = '<option value="">Selecciona una categoría...</option>';
+        
+        // Extraemos categorías únicas de los registros actuales
+        const categoriasUnicas = [...new Set(entries.map(e => e.categoria))].filter(Boolean).sort();
+        
+        categoriasUnicas.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat;
+            opt.innerText = cat;
+            select.appendChild(opt);
+        });
+
+        // Agregamos la opción de crear nueva al final
+        const optNueva = document.createElement('option');
+        optNueva.value = "nueva";
+        optNueva.innerText = "➕ Crear Nueva Categoría...";
+        optNueva.style.fontWeight = "bold";
+        optNueva.style.color = "var(--bice-blue)";
+        select.appendChild(optNueva);
+    }
+
+    // Muestra u oculta la caja de texto según lo que se elija en el select
+    function handleCategoriaChange() {
+        const select = document.getElementById('categoriaSelect');
+        const inputNueva = document.getElementById('categoriaNueva');
+        if (select.value === 'nueva') {
+            inputNueva.style.display = 'block';
+            inputNueva.required = true;
+            inputNueva.focus();
+        } else {
+            inputNueva.style.display = 'none';
+            inputNueva.required = false;
+        }
+    }
+
+    // 2. Lógica para Auto-Generar Etiquetas (Inteligencia de Texto)
+    function generarEtiquetas() {
+        const titulo = document.getElementById('titulo').value;
+        const catSelect = document.getElementById('categoriaSelect').value;
+        const categoria = catSelect === 'nueva' ? document.getElementById('categoriaNueva').value : catSelect;
+        
+        const textos = [
+            titulo, categoria,
+            document.getElementById('scriptInicial').value,
+            document.getElementById('pasoApaso').value,
+            document.getElementById('validacion').value
+        ].join(' ').toLowerCase();
+
+        if (textos.trim().length < 5) {
+            alert('Por favor, llena el título o algún otro campo primero para poder generar etiquetas.');
+            return;
+        }
+
+        // Limpiar acentos y puntuación
+        const textoLimpio = textos.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ' ');
+
+        // Palabras comunes a ignorar en español
+        const stopWords = ['para', 'como', 'pero', 'este', 'esta', 'estos', 'estas', 'todo', 'toda', 'todos', 'todas', 'sobre', 'entre', 'hacia', 'desde', 'hasta', 'segun', 'antes', 'despues', 'luego', 'mientras', 'cuando', 'donde', 'quien', 'cual', 'que', 'con', 'por', 'del', 'los', 'las', 'una', 'unos', 'unas', 'para', 'como', 'tiene', 'tienen', 'hacer', 'paso', 'script'];
+
+        const palabras = textoLimpio.split(/\s+/);
+        const contador = {};
+        
+        palabras.forEach(p => {
+            if (p.length > 3 && !stopWords.includes(p)) {
+                contador[p] = (contador[p] || 0) + 1;
+            }
+        });
+
+        // Ordenar por las palabras que más se repiten
+        const ordenadas = Object.keys(contador).sort((a, b) => contador[b] - contador[a]);
+        
+        // Tomar máximo las mejores 6 palabras
+        const topTags = ordenadas.slice(0, 6);
+        
+        if(topTags.length > 0) {
+            document.getElementById('etiquetas').value = topTags.join(', ');
+            showToast("Etiquetas autogeneradas con éxito");
+        } else {
+            alert('No se encontró suficiente texto relevante para generar etiquetas.');
+        }
+    }
+
     document.getElementById('kbForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const id = document.getElementById('entryId').value;
         const inputTitulo = document.getElementById('titulo').value.trim();
+        
+        // Obtener la categoría real (del select o de la caja nueva)
+        const catSelectValue = document.getElementById('categoriaSelect').value;
+        const categoriaFinal = catSelectValue === 'nueva' ? document.getElementById('categoriaNueva').value.trim() : catSelectValue;
+
         const duplicate = entries.find(emp => emp.titulo.toLowerCase() === inputTitulo.toLowerCase() && emp.id !== id);
         
         if (duplicate) {
@@ -615,11 +719,13 @@
 
         const newEntry = {
             id: id ? id : 'KB_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), 
-            titulo: inputTitulo, categoria: document.getElementById('categoria').value, etiquetas: document.getElementById('etiquetas').value,
-            scriptInicial: document.getElementById('scriptInicial').value, pasoApaso: document.getElementById('pasoApaso').value,
-            validacion: document.getElementById('validacion').value, cti: document.getElementById('cti').value,
-            plantilla: document.getElementById('plantilla').value, scriptFinal: document.getElementById('scriptFinal').value,
-            detalles: document.getElementById('detalles').value, otro: document.getElementById('otro').value
+            titulo: inputTitulo, 
+            categoria: categoriaFinal, // Guardamos la categoría unificada
+            etiquetas: document.getElementById('etiquetas').value, scriptInicial: document.getElementById('scriptInicial').value,
+            pasoApaso: document.getElementById('pasoApaso').value, validacion: document.getElementById('validacion').value,
+            cti: document.getElementById('cti').value, plantilla: document.getElementById('plantilla').value,
+            scriptFinal: document.getElementById('scriptFinal').value, detalles: document.getElementById('detalles').value,
+            otro: document.getElementById('otro').value
         };
 
         if (id) { entries[entries.findIndex(emp => emp.id === id)] = newEntry; showToast("Actualizado correctamente"); } 
@@ -682,13 +788,40 @@
 
     function editEntry(id) {
         const entry = entries.find(e => e.id === id);
-        document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo;
-        document.getElementById('categoria').value = entry.categoria; document.getElementById('etiquetas').value = entry.etiquetas;
+        document.getElementById('entryId').value = entry.id; 
+        document.getElementById('titulo').value = entry.titulo;
+        
+        // Manejar el selector de categoría al editar
+        cargarCategoriasEnSelect();
+        const catSelect = document.getElementById('categoriaSelect');
+        const inputNueva = document.getElementById('categoriaNueva');
+        
+        // Verificar si la categoría del registro existe en el desplegable
+        let existeOpcion = Array.from(catSelect.options).some(opt => opt.value === entry.categoria);
+        
+        if (existeOpcion) {
+            catSelect.value = entry.categoria;
+            inputNueva.style.display = 'none';
+            inputNueva.required = false;
+        } else {
+            // Si por alguna razón no está (datos antiguos), forzamos a mostrarla como nueva
+            catSelect.value = 'nueva';
+            inputNueva.style.display = 'block';
+            inputNueva.value = entry.categoria;
+            inputNueva.required = true;
+        }
+        
+        document.getElementById('etiquetas').value = entry.etiquetas;
         document.getElementById('scriptInicial').value = entry.scriptInicial; document.getElementById('pasoApaso').value = entry.pasoApaso;
         document.getElementById('validacion').value = entry.validacion; document.getElementById('cti').value = entry.cti;
         document.getElementById('plantilla').value = entry.plantilla; document.getElementById('scriptFinal').value = entry.scriptFinal;
         document.getElementById('detalles').value = entry.detalles; document.getElementById('otro').value = entry.otro;
-        document.getElementById('formTitleKB').innerText = 'Editar Registro'; openModal('kbModal'); 
+        
+        document.getElementById('formTitleKB').innerText = 'Editar Registro'; 
+        
+        // Mostramos el modal sin resetear porque acabamos de cargar los datos
+        document.getElementById('kbModal').style.display = 'flex'; 
+        document.body.style.overflow = 'hidden';
     }
 
     function deleteEntry(id) {
