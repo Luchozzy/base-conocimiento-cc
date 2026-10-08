@@ -71,7 +71,7 @@
 
         .indicadores-panel { margin-top: auto; padding: 15px 5px 5px 5px; text-align: center; border-top: 2px dashed var(--border-light); }
         .indicadores-title { font-size: 0.8em; font-weight: bold; color: var(--primary-color); margin-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; }
-        .indicadores-fecha { font-size: 0.75em; color: var(--text-muted); margin-bottom: 8px; font-weight: normal; }
+        .indicadores-fecha { font-size: 0.8em; color: var(--text-muted); margin-bottom: 10px; font-weight: bold; }
         .indicadores-box { display: grid; grid-template-columns: 1fr 1fr; font-size: 0.8em; font-weight: bold; gap: 6px;}
         .indicadores-val { background: var(--bg-group); padding: 6px 4px; border-radius: 4px; border: 1px solid var(--border); color: var(--primary-color); text-align: center; white-space: nowrap;}
         
@@ -81,7 +81,7 @@
         .view-container.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .tool-panel { display: none; background: var(--bg-panel); padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); max-width: 750px; margin: 0 auto; transition: background-color 0.3s; }
+        .tool-panel { display: none; background: var(--bg-panel); padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); max-width: 800px; margin: 0 auto; transition: background-color 0.3s; }
         .tool-result { display: none; margin-top: 25px; background: var(--bg-group); padding: 20px; border-left: 5px solid; border-radius: 6px; }
 
         /* MODALES */
@@ -117,7 +117,7 @@
         .star-btn { background: none; border: none; cursor: pointer; padding: 0 10px 0 0; display: flex; align-items: center; transition: transform 0.2s; margin-top: -2px; }
         .star-btn:hover { transform: scale(1.2); }
         
-        .tags { font-size: 0.85em; background: var(--tag-bg); padding: 4px 10px; border-radius: 12px; margin-left: 10px; color: var(--text-main); font-weight: normal; display: inline-block; margin-bottom: 4px;}
+        .tags { font-size: 0.85em; background: var(--tag-bg); padding: 4px 10px; border-radius: 12px; margin-right: 6px; color: var(--text-main); font-weight: normal; display: inline-block; margin-bottom: 4px;}
         .card-content, .clave-content-wrapper { padding: 0 20px 20px 20px; border-top: 1px solid var(--border-light); margin-top: 5px; padding-top: 15px; }
         .field-group { margin-bottom: 15px; background: var(--bg-group); padding: 15px; border-left: 4px solid var(--primary-color); border-radius: 6px; position: relative; }
         .field-title { font-weight: bold; font-size: 1.05em; color: var(--primary-color); margin-bottom: 8px; }
@@ -177,11 +177,6 @@
         .plantilla-preview-label { font-weight: bold; color: var(--color-indigo); width: 80px; flex-shrink: 0; }
         .plantilla-preview-text { flex: 1; white-space: pre-wrap; font-family: monospace; font-size: 1.1em; word-break: break-word; color: var(--text-main); }
         
-        /* CATEGORIAS CHECKBOXES */
-        .categorias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; background: var(--bg-group); padding: 15px; border-radius: 6px; border: 1px solid var(--border); margin-top: 5px; max-height: 150px; overflow-y: auto;}
-        .cat-label { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: normal; font-size: 0.9em; cursor: pointer; color: var(--text-main); }
-        .cat-label input { width: auto; margin: 0; }
-
         /* PENDIENTES STATS FILTERS */
         .stat-chip { padding: 8px 12px; border-radius: 20px; font-size: 0.9em; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; user-select: none; }
         .stat-chip:hover { filter: brightness(0.9); }
@@ -222,7 +217,7 @@
 
 <header>
     <div style="display: flex; align-items: center; gap: 15px;">
-        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Banco_BICE-300dpi.jpg/960px-Logo_Banco_BICE-300dpi.jpg" alt="Logo Banco BICE" class="logo" id="biceLogo" onclick="handleLogoClick()">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Banco_BICE-300dpi.jpg/960px-Logo_Banco_BICE-300dpi.jpg" alt="Logo Banco BICE" class="logo" id="biceLogo" onclick="handleLogoClick()" title="BICE Hub">
         <h1>BICE Hub Ejecutivo</h1>
     </div>
     <div class="theme-switch-wrapper">
@@ -373,12 +368,22 @@
                 </div>
                 <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 200px;">
-                        <label>Cabecera Inicial (Ej: Excel fila 1):</label>
-                        <input type="text" id="lbInicio" placeholder="Ej: 08-10-2026 23:00 - 081234" style="font-size: 1em;">
+                        <label>Inicio - Fecha/Hora (Opcional):</label>
+                        <input type="text" id="lbInicioFecha" placeholder="Ej: 08-10-2026 23:00" style="font-size: 1em;">
                     </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label>Inicio - N° Caso (Opcional):</label>
+                        <input type="text" id="lbInicioCaso" placeholder="Ej: 081234" style="font-size: 1em;">
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 200px;">
-                        <label>Cabecera Final (Ej: Excel última fila):</label>
-                        <input type="text" id="lbFin" placeholder="Ej: 09-10-2026 06:00 - 0893345" style="font-size: 1em;">
+                        <label>Fin - Fecha/Hora (Opcional):</label>
+                        <input type="text" id="lbFinFecha" placeholder="Ej: 09-10-2026 06:00" style="font-size: 1em;">
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label>Fin - N° Caso (Opcional):</label>
+                        <input type="text" id="lbFinCaso" placeholder="Ej: 0893345" style="font-size: 1em;">
                     </div>
                 </div>
                 
@@ -406,7 +411,7 @@
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Escribe tareas o <strong>pega una lista completa</strong> (como una columna de Excel). El sistema etiquetará, detectará duplicados y separará todo automáticamente.</p>
                 
                 <div id="pendientesStats" style="display: flex; gap: 10px; margin-bottom: 15px; background: var(--bg-group); padding: 12px; border-radius: 6px; border: 1px solid var(--border-light); justify-content: center; flex-wrap: wrap;">
-                    <!-- Los chips se generan dinámicamente -->
+                    <!-- Se generan en JS -->
                 </div>
                 
                 <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: stretch;">
@@ -756,9 +761,9 @@
             <input type="hidden" id="entryId">
             <label>Título:</label><input type="text" id="titulo" required>
             
-            <label>Categorías (puedes marcar varias):</label>
-            <div id="categoriasCheckboxContainer" class="categorias-grid"></div>
-            <input type="text" id="categoriaNueva" placeholder="Escribe el nombre de la nueva categoría y presiona Enter..." style="margin-top: 8px; border-color: var(--primary-color);" onkeydown="agregarCategoriaManual(event)">
+            <label>Categorías:</label>
+            <div id="categoriasContainer"></div>
+            <button type="button" class="outline-btn" style="margin-top: 10px; font-size: 0.85em; padding: 6px 10px;" onclick="addCatRow()">➕ Agregar categoría</button>
             
             <label>Validación requerida:</label>
             <select id="validacionSelect" onchange="handleValidacionChange()">
@@ -920,8 +925,8 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    <span>Creado por Luis Muñoz | v2.9.5</span>
-    <a href="mailto:tu-correo@bice.cl?subject=Sugerencia%20para%20BICE%20Hub" style="color: white; text-decoration: none; font-size: 1.2em; opacity: 0.8; transition: opacity 0.2s;" title="Enviar sugerencia o comentario" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">✉️</a>
+    <span>Creado por Luis Muñoz | v2.9.6</span>
+    <a href="mailto:luis.munoz@bice.cl?subject=Sugerencia%20para%20BICE%20Hub" style="color: white; text-decoration: none; font-size: 1.2em; opacity: 0.8; transition: opacity 0.2s;" title="Enviar sugerencia o comentario" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">✉️</a>
 </footer>
 
 <script>
@@ -957,6 +962,17 @@
 
     function getFormattedDate() { const options = { day: '2-digit', month: '2-digit', year: 'numeric' }; return new Date().toLocaleDateString('es-CL', options).replace(/\//g, '-'); }
 
+    // Carga de Fecha instantánea
+    try {
+        const today = new Date(); const y = today.getFullYear(); const m = String(today.getMonth() + 1).padStart(2, '0'); const d = String(today.getDate()).padStart(2, '0');
+        const pf = document.getElementById('plazoFecha'); if(pf) pf.value = `${y}-${m}-${d}`;
+        const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; 
+        let fechaStr = today.toLocaleDateString('es-CL', opcionesFecha);
+        fechaStr = fechaStr.charAt(0).toUpperCase() + fechaStr.slice(1);
+        const fechaEl = document.getElementById('fecha-hoy');
+        if (fechaEl) fechaEl.innerText = fechaStr;
+    } catch(e) {}
+
     // --- EASTER EGG (LOGO) ---
     let logoClicks = 0; let logoTimeout;
     function handleLogoClick() {
@@ -973,7 +989,9 @@
     // --- REPARTIDOR DE LISTAS BLANCAS ---
     function generarListasBlancas() {
         const rawEjecutivos = document.getElementById('lbEjecutivos').value; const rawCasos = document.getElementById('lbCasos').value;
-        const inicio = document.getElementById('lbInicio').value.trim(); const fin = document.getElementById('lbFin').value.trim();
+        const iniFecha = document.getElementById('lbInicioFecha').value.trim(); const iniCaso = document.getElementById('lbInicioCaso').value.trim();
+        const finFecha = document.getElementById('lbFinFecha').value.trim(); const finCaso = document.getElementById('lbFinCaso').value.trim();
+        
         const ejecutivos = rawEjecutivos.split('\n').map(e => e.trim()).filter(e => e !== '');
         const casos = rawCasos.split('\n').map(c => c.trim()).filter(c => c !== '');
         
@@ -991,9 +1009,9 @@
             asig.casos = casosSobrantes.splice(0, tomar);
         });
         
-        let output = `Listas blancas ${new Date().toLocaleDateString('es-CL')}\n`;
-        if(inicio) output += `${inicio}\n`;
-        if(fin) output += `${fin}\n`;
+        let output = `Listas blancas ${new Date().toLocaleDateString('es-CL')}\n\n`;
+        if(iniFecha || iniCaso) output += `${iniFecha} - ${iniCaso}\n`.replace(/^- |- $/g, '').trim() + `\n`;
+        if(finFecha || finCaso) output += `${finFecha} - ${finCaso}\n`.replace(/^- |- $/g, '').trim() + `\n`;
         output += `\n`;
         
         asignaciones.forEach(asig => {
@@ -1006,7 +1024,6 @@
         document.getElementById('lbOutput').value = output; document.getElementById('lbResultArea').style.display = 'block'; showToast("Casos divididos con éxito");
     }
 
-
     function toggleTheme(e) { if (e.checked) { document.documentElement.setAttribute('data-theme', 'dark'); localStorage.setItem('bice_theme', 'dark'); } else { document.documentElement.setAttribute('data-theme', 'light'); localStorage.setItem('bice_theme', 'light'); } }
 
     // --- MODALES Y NAVEGACIÓN ---
@@ -1014,9 +1031,9 @@
         if (isNew) {
             if (modalId === 'kbModal') { 
                 document.getElementById('kbForm').reset(); document.getElementById('entryId').value = ''; 
-                cargarCategoriasEnSelect(); document.getElementById('categoriaNueva').style.display = 'none'; 
-                document.getElementById('categoriaNueva').required = false; document.getElementById('formTitleKB').innerText = 'Nuevo Registro';
+                document.getElementById('categoriasContainer').innerHTML = ''; addCatRow();
                 document.getElementById('validacionOtra').style.display = 'none';
+                document.getElementById('formTitleKB').innerText = 'Nuevo Registro';
                 cargarRelacionadosKB(); 
             }
             if (modalId === 'clavesModal') { document.getElementById('clavesForm').reset(); document.getElementById('claveId').value = ''; document.getElementById('formTitleClaves').innerText = 'Nueva Clave de Acceso'; }
@@ -1072,30 +1089,50 @@
     function deleteAllData() { if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves, Directorio, Tareas y Plantillas)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) { entries = []; claves = []; directorio = []; pendientes = []; plantillas = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown(); showToast("Toda la información fue eliminada"); } }
 
     // --- LÓGICA BASE DE CONOCIMIENTO (KB) ---
-    function cargarCategoriasEnSelect() {
-        const container = document.getElementById('categoriasCheckboxContainer'); container.innerHTML = '';
+    function getCategoriasUnicas() {
         const allCats = entries.flatMap(e => Array.isArray(e.categoria) ? e.categoria : [e.categoria]).filter(Boolean);
-        const categoriasUnicas = [...new Set(allCats)].sort();
-        categoriasUnicas.forEach(cat => { 
-            const lbl = document.createElement('label'); lbl.className = "cat-label";
-            const chk = document.createElement('input'); chk.type = "checkbox"; chk.value = cat; chk.className = "kb-cat-checkbox";
-            lbl.appendChild(chk); lbl.appendChild(document.createTextNode(cat));
-            container.appendChild(lbl);
-        });
+        return [...new Set(allCats)].sort();
     }
-    
-    function agregarCategoriaManual(event) {
-        if(event.key === 'Enter') {
-            event.preventDefault(); const val = event.target.value.trim(); if(!val) return;
-            const container = document.getElementById('categoriasCheckboxContainer');
-            const exists = Array.from(container.querySelectorAll('input')).some(chk => chk.value.toLowerCase() === val.toLowerCase());
-            if(!exists) {
-                const lbl = document.createElement('label'); lbl.className = "cat-label";
-                const chk = document.createElement('input'); chk.type = "checkbox"; chk.value = val; chk.className = "kb-cat-checkbox"; chk.checked = true;
-                lbl.appendChild(chk); lbl.appendChild(document.createTextNode(val)); container.appendChild(lbl);
-            }
-            event.target.value = '';
+
+    function addCatRow(selectedValue = '') {
+        const container = document.getElementById('categoriasContainer');
+        const row = document.createElement('div');
+        row.style.cssText = "display: flex; gap: 10px; margin-bottom: 8px; align-items: center;";
+        
+        const select = document.createElement('select'); select.className = "cat-select"; select.style.flex = "1";
+        select.innerHTML = '<option value="">Selecciona una categoría...</option>';
+        const cats = getCategoriasUnicas();
+        cats.forEach(c => { const opt = document.createElement('option'); opt.value = c; opt.innerText = c; select.appendChild(opt); });
+        
+        const optNueva = document.createElement('option'); optNueva.value = "nueva"; optNueva.innerText = "➕ Crear Nueva Categoría..."; optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--primary-color)";
+        select.appendChild(optNueva);
+
+        const input = document.createElement('input'); input.type = "text"; input.className = "cat-new-input"; input.placeholder = "Escribe la nueva categoría..."; input.style.cssText = "flex: 1; display: none; border-color: var(--primary-color);";
+
+        if (selectedValue) {
+            if (cats.includes(selectedValue)) { select.value = selectedValue; } 
+            else { select.value = 'nueva'; input.style.display = 'block'; input.value = selectedValue; input.required = true; }
         }
+
+        select.onchange = function() {
+            if (this.value === 'nueva') { input.style.display = 'block'; input.required = true; input.focus(); } 
+            else { input.style.display = 'none'; input.required = false; }
+        };
+
+        const delBtn = document.createElement('button'); delBtn.type = "button"; delBtn.className = "action-btn delete-btn"; delBtn.style.cssText = "width: auto; padding: 8px 12px; margin: 0;"; delBtn.innerHTML = "➖"; delBtn.title = "Quitar categoría";
+        delBtn.onclick = function() { if (container.children.length > 1) { row.remove(); } else { select.value = ''; input.style.display = 'none'; input.value = ''; } };
+
+        row.appendChild(select); row.appendChild(input); row.appendChild(delBtn); container.appendChild(row);
+    }
+
+    function getCategoriasFromForm() {
+        const rows = document.getElementById('categoriasContainer').children; let result = [];
+        for(let i=0; i<rows.length; i++) {
+            const select = rows[i].querySelector('.cat-select'); const input = rows[i].querySelector('.cat-new-input');
+            let val = select.value === 'nueva' ? input.value.trim() : select.value.trim();
+            if (val && !result.includes(val)) result.push(val);
+        }
+        if (result.length === 0) result = ["Sin Categoría"]; return result;
     }
 
     function handleValidacionChange() {
@@ -1111,7 +1148,7 @@
     
     function generarEtiquetas() {
         const titulo = document.getElementById('titulo').value; 
-        const cats = Array.from(document.querySelectorAll('.kb-cat-checkbox:checked')).map(c => c.value).join(' ');
+        const cats = getCategoriasFromForm().join(' ');
         const textos = [ titulo, cats, document.getElementById('validacionOtra').value, document.getElementById('scriptInicial').value, document.getElementById('pasoApaso').value ].join(' ').toLowerCase();
         if (textos.trim().length < 5) { alert('Llena el título o algún otro campo primero para generar etiquetas.'); return; }
         const textoLimpio = textos.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ' ');
@@ -1125,9 +1162,7 @@
     document.getElementById('kbForm').addEventListener('submit', function(e) {
         e.preventDefault(); const id = document.getElementById('entryId').value; const inputTitulo = document.getElementById('titulo').value.trim(); 
         
-        let categoriasFinales = Array.from(document.querySelectorAll('.kb-cat-checkbox:checked')).map(c => c.value);
-        const catManual = document.getElementById('categoriaNueva').value.trim(); if(catManual) categoriasFinales.push(catManual);
-        if(categoriasFinales.length === 0) categoriasFinales = ["Sin Categoría"];
+        let categoriasFinales = getCategoriasFromForm();
 
         let valFinal = document.getElementById('validacionSelect').value;
         if(valFinal === 'otra') valFinal = document.getElementById('validacionOtra').value.trim();
@@ -1198,15 +1233,17 @@
     }
 
     function editEntry(id) { 
-        const entry = entries.find(e => e.id === id); document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo; cargarCategoriasEnSelect(); 
-        const catArray = Array.isArray(entry.categoria) ? entry.categoria : [entry.categoria]; document.querySelectorAll('.kb-cat-checkbox').forEach(chk => { if(catArray.includes(chk.value)) chk.checked = true; else chk.checked = false; });
-        document.getElementById('categoriaNueva').style.display = 'none'; document.getElementById('categoriaNueva').required = false; document.getElementById('categoriaNueva').value = '';
+        const entry = entries.find(e => e.id === id); document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo; 
+        
+        document.getElementById('categoriasContainer').innerHTML = '';
+        const catArray = Array.isArray(entry.categoria) ? entry.categoria : [entry.categoria];
+        if(catArray.length === 0 || (catArray.length===1 && !catArray[0])) { addCatRow(); } else { catArray.forEach(c => addCatRow(c)); }
         
         const validacionSelect = document.getElementById('validacionSelect'); const validacionOtra = document.getElementById('validacionOtra');
         if (Array.from(validacionSelect.options).some(opt => opt.value === entry.validacion)) { validacionSelect.value = entry.validacion; validacionOtra.style.display = 'none'; } else { validacionSelect.value = 'otra'; validacionOtra.style.display = 'block'; validacionOtra.value = entry.validacion || ''; }
         
         let cCat='', cTipo='', cItem=''; if(entry.cti) { const ctiParts = entry.cti.split(' > '); cCat = ctiParts[0] || ''; cTipo = ctiParts[1] || ''; cItem = ctiParts[2] || ''; }
-        document.getElementById('ctiCat').value = cCat; document.getElementById('ctiTipo').value = cTipo; document.getElementById('ctiItem').value = cItem;
+        document.getElementById('ctiCat').value = cCat.trim(); document.getElementById('ctiTipo').value = cTipo.trim(); document.getElementById('ctiItem').value = cItem.trim();
 
         document.getElementById('etiquetas').value = entry.etiquetas || ''; document.getElementById('scriptInicial').value = entry.scriptInicial || ''; document.getElementById('pasoApaso').value = entry.pasoApaso || ''; document.getElementById('plantilla').value = entry.plantilla || ''; document.getElementById('scriptFinal').value = entry.scriptFinal || ''; document.getElementById('detalles').value = entry.detalles || ''; 
         
@@ -1216,10 +1253,8 @@
 
     function cloneEntry(id) {
         if(confirm("¿Deseas duplicar este registro?")) {
-            editEntry(id);
-            document.getElementById('entryId').value = ''; 
-            document.getElementById('titulo').value = "[Copia] - " + document.getElementById('titulo').value;
-            document.getElementById('formTitleKB').innerText = 'Clonar Registro';
+            editEntry(id); document.getElementById('entryId').value = ''; 
+            document.getElementById('titulo').value = "[Copia] - " + document.getElementById('titulo').value; document.getElementById('formTitleKB').innerText = 'Clonar Registro';
         }
     }
 
@@ -1267,26 +1302,11 @@
     // --- LÓGICA GENERADOR DE PLANTILLAS ---
     document.getElementById('plantillaForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const id = document.getElementById('plantillaId').value;
-        const titulo = document.getElementById('plantillaTitulo').value.trim();
-        const para = document.getElementById('plantillaPara').value.trim();
-        const cc = document.getElementById('plantillaCc').value.trim();
-        const asunto = document.getElementById('plantillaAsunto').value.trim();
-        const mensaje = document.getElementById('plantillaMensaje').value.trim();
-
-        const duplicate = plantillas.find(p => p.titulo.toLowerCase() === titulo.toLowerCase() && p.id !== id);
-        if (duplicate) { alert(`⚠️ Ya existe una plantilla con el nombre "${duplicate.titulo}".`); return; }
-
+        const id = document.getElementById('plantillaId').value; const titulo = document.getElementById('plantillaTitulo').value.trim(); const para = document.getElementById('plantillaPara').value.trim(); const cc = document.getElementById('plantillaCc').value.trim(); const asunto = document.getElementById('plantillaAsunto').value.trim(); const mensaje = document.getElementById('plantillaMensaje').value.trim();
+        const duplicate = plantillas.find(p => p.titulo.toLowerCase() === titulo.toLowerCase() && p.id !== id); if (duplicate) { alert(`⚠️ Ya existe una plantilla con el nombre "${duplicate.titulo}".`); return; }
         const newP = { id: id ? id : 'TPL_' + Date.now().toString(), titulo, para, cc, asunto, mensaje };
-
-        if (id) { plantillas[plantillas.findIndex(p => p.id === id)] = newP; showToast("Plantilla actualizada"); } 
-        else { plantillas.push(newP); showToast("Plantilla guardada"); }
-        
-        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
-        closeModal('plantillasModal');
-        renderPlantillasDropdown();
-        document.getElementById('plantillaSelect').value = newP.id;
-        seleccionarPlantilla();
+        if (id) { plantillas[plantillas.findIndex(p => p.id === id)] = newP; showToast("Plantilla actualizada"); }  else { plantillas.push(newP); showToast("Plantilla guardada"); }
+        localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); closeModal('plantillasModal'); renderPlantillasDropdown(); document.getElementById('plantillaSelect').value = newP.id; seleccionarPlantilla();
     });
 
     function renderPlantillasDropdown() {
@@ -1299,19 +1319,11 @@
     function seleccionarPlantilla() {
         const id = document.getElementById('plantillaSelect').value; const container = document.getElementById('plantillaWorkspace');
         if(!id) { container.style.display = 'none'; document.getElementById('btnEditPlantilla').style.display = 'none'; document.getElementById('btnDelPlantilla').style.display = 'none'; return; }
-        
-        currentPlantillaObj = plantillas.find(p => p.id === id);
-        document.getElementById('btnEditPlantilla').style.display = 'block'; document.getElementById('btnDelPlantilla').style.display = 'block';
-        
+        currentPlantillaObj = plantillas.find(p => p.id === id); document.getElementById('btnEditPlantilla').style.display = 'block'; document.getElementById('btnDelPlantilla').style.display = 'block';
         const regex = /\[([^\]]+)\]/g; const allText = `${currentPlantillaObj.para || ''} ${currentPlantillaObj.cc || ''} ${currentPlantillaObj.asunto || ''} ${currentPlantillaObj.mensaje || ''}`;
-        let vars = []; let match;
-        while ((match = regex.exec(allText)) !== null) { if(!vars.includes(match[1])) vars.push(match[1]); }
-        
+        let vars = []; let match; while ((match = regex.exec(allText)) !== null) { if(!vars.includes(match[1])) vars.push(match[1]); }
         const varsContainer = document.getElementById('plantillaVars'); varsContainer.innerHTML = '';
-        if(vars.length > 0) {
-            vars.forEach(v => { varsContainer.innerHTML += `<div style="flex: 1; min-width: 200px;"><label style="margin-top: 0; color: var(--text-muted); font-size: 0.9em;">${v}:</label><input type="text" class="plantilla-var-input" data-var="${v}" oninput="updatePlantillaPreview()" placeholder="Ingresa ${v}..." style="border-color: var(--color-indigo);"></div>`; });
-        } else { varsContainer.innerHTML = '<p style="color:var(--text-muted); width: 100%; font-style: italic; margin: 0;">Esta plantilla no requiere variables adicionales. Está lista para copiar.</p>'; }
-        
+        if(vars.length > 0) { vars.forEach(v => { varsContainer.innerHTML += `<div style="flex: 1; min-width: 200px;"><label style="margin-top: 0; color: var(--text-muted); font-size: 0.9em;">${v}:</label><input type="text" class="plantilla-var-input" data-var="${v}" oninput="updatePlantillaPreview()" placeholder="Ingresa ${v}..." style="border-color: var(--color-indigo);"></div>`; }); } else { varsContainer.innerHTML = '<p style="color:var(--text-muted); width: 100%; font-style: italic; margin: 0;">Esta plantilla no requiere variables adicionales. Está lista para copiar.</p>'; }
         container.style.display = 'block'; updatePlantillaPreview();
     }
 
@@ -1333,22 +1345,15 @@
         document.getElementById('formTitlePlantilla').innerText = 'Editar Plantilla'; document.getElementById('plantillasModal').style.display = 'flex'; document.body.style.overflow = 'hidden';
     }
 
-    function eliminarPlantillaActual() {
-        if(!currentPlantillaObj) return;
-        if(confirm(`¿Seguro que deseas eliminar la plantilla "${currentPlantillaObj.titulo}"?`)) { plantillas = plantillas.filter(p => p.id !== currentPlantillaObj.id); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); showToast("Plantilla eliminada"); renderPlantillasDropdown(); }
-    }
+    function eliminarPlantillaActual() { if(!currentPlantillaObj) return; if(confirm(`¿Seguro que deseas eliminar la plantilla "${currentPlantillaObj.titulo}"?`)) { plantillas = plantillas.filter(p => p.id !== currentPlantillaObj.id); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); showToast("Plantilla eliminada"); renderPlantillasDropdown(); } }
 
     // --- LÓGICA MIS PENDIENTES ---
-    function togglePendientesFilter(tipo) {
-        currentPendientesFilter = tipo;
-        renderPendientes();
-    }
+    function togglePendientesFilter(tipo) { currentPendientesFilter = tipo; renderPendientes(); }
 
     function renderPendientes() {
         const list = document.getElementById('listaPendientes'); list.innerHTML = '';
         const statsDiv = document.getElementById('pendientesStats');
         
-        // Auto-clasificar si hay nuevos sin tipo
         pendientes.forEach(t => {
             if (!t.tipo) {
                 if (t.text.toUpperCase().startsWith("MS-")) { t.tipo = "💬 Mensajería"; t.badgeColor = "var(--color-info)"; }
@@ -1358,9 +1363,7 @@
         });
 
         const activeTasks = pendientes.filter(t => !t.done);
-        const countSF = activeTasks.filter(t => t.tipo === "☁️ Salesforce").length;
-        const countMS = activeTasks.filter(t => t.tipo === "💬 Mensajería").length;
-        const countOtros = activeTasks.filter(t => t.tipo === "📌 Otros").length;
+        const countSF = activeTasks.filter(t => t.tipo === "☁️ Salesforce").length; const countMS = activeTasks.filter(t => t.tipo === "💬 Mensajería").length; const countOtros = activeTasks.filter(t => t.tipo === "📌 Otros").length;
         
         if (statsDiv) {
             statsDiv.innerHTML = `
@@ -1376,10 +1379,7 @@
         if (currentPendientesFilter === 'ms') aMostrar = aMostrar.filter(t => t.tipo === "💬 Mensajería");
         if (currentPendientesFilter === 'otros') aMostrar = aMostrar.filter(t => t.tipo === "📌 Otros");
 
-        if (aMostrar.length === 0) { 
-            list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px; font-style: italic;">No tienes tareas pendientes en esta vista.</p>'; 
-            return; 
-        } 
+        if (aMostrar.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px; font-style: italic;">No tienes tareas pendientes en esta vista.</p>'; return; } 
         
         const sorted = aMostrar.sort((a, b) => { if(a.done === b.done) return b.timestamp - a.timestamp; return a.done ? 1 : -1; }); 
         
@@ -1413,21 +1413,12 @@
             else { tipo = "📌 Otros"; badgeColor = "var(--color-purple)"; }
             
             const isDuplicate = pendientes.some(p => p.text.toLowerCase() === text.toLowerCase() && !p.done);
-            if (!isDuplicate) {
-                pendientes.push({ id: 'TSK_' + Date.now() + '_' + index, text: text, tipo: tipo, badgeColor: badgeColor, done: false, timestamp: Date.now() }); 
-                added++; 
-            } else {
-                duplicados++;
-            }
+            if (!isDuplicate) { pendientes.push({ id: 'TSK_' + Date.now() + '_' + index, text: text, tipo: tipo, badgeColor: badgeColor, done: false, timestamp: Date.now() }); added++; } else { duplicados++; }
         });
         
-        if (added > 0) { 
-            localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); input.value = ''; renderPendientes(); 
-            if (duplicados > 0) { showToast(`✅ Agregados: ${added} | ⚠️ Omitidos: ${duplicados} (ya existían)`); } 
-            else { showToast(`✅ ${added} agregados con éxito`); }
-        } else if (duplicados > 0) {
-            alert('⚠️ Todas las tareas ingresadas ya están en tu lista activa.');
-        }
+        if (added > 0) { localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); input.value = ''; renderPendientes(); 
+            if (duplicados > 0) { showToast(`✅ Agregados: ${added} | ⚠️ Omitidos: ${duplicados} (ya existían)`); } else { showToast(`✅ ${added} agregados con éxito`); }
+        } else if (duplicados > 0) { alert('⚠️ Todas las tareas ingresadas ya están en tu lista activa.'); }
     }
 
     function toggleTarea(id) { const idx = pendientes.findIndex(t => t.id === id); if(idx > -1) { pendientes[idx].done = !pendientes[idx].done; localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); renderPendientes(); } }
@@ -1575,6 +1566,34 @@
         }
     }
 
+    // --- DIRECTORIO RÁPIDO ---
+    document.getElementById('directorioForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = document.getElementById('dirId').value; const nombre = document.getElementById('dirNombre').value.trim();
+        const newDir = { id: id ? id : 'DIR_' + Date.now().toString(), nombre: nombre, anexo: document.getElementById('dirAnexo').value.trim(), correo: document.getElementById('dirCorreo').value.trim(), notas: document.getElementById('dirNotas').value.trim() };
+        if (id) { directorio[directorio.findIndex(d => d.id === id)] = newDir; showToast("Contacto actualizado"); } else { directorio.push(newDir); showToast("Contacto guardado"); }
+        localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); closeModal('directorioModal'); renderDirectorio();
+    });
+
+    function renderDirectorio() {
+        const list = document.getElementById('dirList'); list.innerHTML = '';
+        const searchTerm = document.getElementById('searchDir').value.toLowerCase();
+        let filteredDir = directorio.filter(d => d.nombre.toLowerCase().includes(searchTerm) || d.anexo.toLowerCase().includes(searchTerm) || d.correo.toLowerCase().includes(searchTerm) || d.notas.toLowerCase().includes(searchTerm) );
+        filteredDir.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        if(filteredDir.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px; grid-column: 1 / -1;">No hay contactos o anexos guardados.</p>'; return; }
+        filteredDir.forEach(d => {
+            const card = document.createElement('div'); card.style.cssText = "background: var(--bg-card); border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px var(--shadow); border-left: 4px solid var(--color-purple); display: flex; flex-direction: column;";
+            let html = `<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap:10px;"><h3 style="margin: 0; color: var(--primary-color); font-size: 1.1em; line-height:1.2;">${d.nombre}</h3><div style="display:flex; gap:5px; flex-shrink:0;"><button class="action-btn edit-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="editDir('${d.id}')">✏️</button><button class="action-btn delete-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="deleteDir('${d.id}')">🗑️</button></div></div>`;
+            if (d.anexo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">📞 Anexo:</span><span class="clave-value" id="dir-tel-${d.id}" style="font-size:1.1em;">${d.anexo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-tel-${d.id}')">📋 Copiar</button></div>`; }
+            if (d.correo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">✉️ Correo:</span><span class="clave-value" id="dir-mail-${d.id}" style="font-size:0.9em;">${d.correo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-mail-${d.id}')">📋 Copiar</button></div>`; }
+            if (d.notas) { html += `<div style="background: var(--bg-group); padding: 10px; border-radius: 4px; font-size: 0.85em; color: var(--text-muted); margin-top: auto; white-space: pre-wrap; border: 1px solid var(--border-light);">${d.notas}</div>`; }
+            card.innerHTML = html; list.appendChild(card);
+        });
+    }
+
+    function editDir(id) { const d = directorio.find(x => x.id === id); document.getElementById('dirId').value = d.id; document.getElementById('dirNombre').value = d.nombre; document.getElementById('dirAnexo').value = d.anexo || ''; document.getElementById('dirCorreo').value = d.correo || ''; document.getElementById('dirNotas').value = d.notas || ''; document.getElementById('formTitleDir').innerText = 'Editar Contacto'; document.getElementById('directorioModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+    function deleteDir(id) { if(confirm('¿Seguro de eliminar este contacto?')) { directorio = directorio.filter(x => x.id !== id); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); showToast("Contacto eliminado"); renderDirectorio(); } }
+
     // --- COMISIONES INTERNACIONALES ---
     const comisionesData = {
       "Tarjeta Débito": {
@@ -1599,12 +1618,6 @@
         const reglas = comisionesData[tipo][segmento]; let reglaAplicada = null;
         for (let r of reglas) { if (inputDateVal >= r.date_val) { reglaAplicada = r; break; } } if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; }
         document.getElementById('resComCompra').innerText = reglaAplicada.compra; document.getElementById('resComGiro').innerText = reglaAplicada.giro; document.getElementById('comisionesResult').style.display = 'block';
-    }
-    function copiarComisiones(event) {
-        const cCompra = document.getElementById('resComCompra').innerText; const cGiro = document.getElementById('resComGiro').innerText; const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`;
-        const btn = event.currentTarget; const originalHTML = btn.innerHTML; const showSuccess = () => { btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); };
-        if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); } else { useFallback(textoFInal); }
-        function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); }
     }
 
     // --- CONVERSOR DE MONEDAS ---
