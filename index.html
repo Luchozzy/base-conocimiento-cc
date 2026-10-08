@@ -177,6 +177,11 @@
         .plantilla-preview-label { font-weight: bold; color: var(--color-indigo); width: 80px; flex-shrink: 0; }
         .plantilla-preview-text { flex: 1; white-space: pre-wrap; font-family: monospace; font-size: 1.1em; word-break: break-word; color: var(--text-main); }
         
+        /* CATEGORIAS CHECKBOXES */
+        .categorias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; background: var(--bg-group); padding: 15px; border-radius: 6px; border: 1px solid var(--border); margin-top: 5px; max-height: 150px; overflow-y: auto;}
+        .cat-label { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: normal; font-size: 0.9em; cursor: pointer; color: var(--text-main); }
+        .cat-label input { width: auto; margin: 0; }
+
         /* PENDIENTES STATS FILTERS */
         .stat-chip { padding: 8px 12px; border-radius: 20px; font-size: 0.9em; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; user-select: none; }
         .stat-chip:hover { filter: brightness(0.9); }
@@ -362,31 +367,31 @@
                 <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 250px;">
                         <label>Ejecutivos (Uno por línea):</label>
-                        <textarea id="lbEjecutivos" placeholder="Luis&#10;Ximena&#10;Gema&#10;Alejandra" style="height: 120px; font-family: inherit; font-size: 1.05em;"></textarea>
+                        <textarea id="lbEjecutivos" placeholder="Luis&#10;Ximena&#10;Gema&#10;Alejandra" style="height: 120px; font-family: inherit; font-size: 1.05em;" required></textarea>
                     </div>
                     <div style="flex: 2; min-width: 250px;">
                         <label>Casos a repartir (Uno por línea):</label>
-                        <textarea id="lbCasos" placeholder="081234&#10;081251&#10;081516..." style="height: 120px; font-family: inherit; font-size: 1.05em;"></textarea>
+                        <textarea id="lbCasos" placeholder="081234&#10;081251&#10;081516..." style="height: 120px; font-family: inherit; font-size: 1.05em;" required></textarea>
                     </div>
                 </div>
                 <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 200px;">
-                        <label>Inicio - Fecha/Hora:</label>
-                        <input type="text" id="lbInicioFecha" placeholder="Ej: 08-10-2026 23:00" style="font-size: 1em;">
+                        <label>Inicio - Fecha y Hora:</label>
+                        <input type="text" id="lbInicioFecha" placeholder="Ej: 08-10-2026 23:00" style="font-size: 1em;" required>
                     </div>
                     <div style="flex: 1; min-width: 150px;">
                         <label>Inicio - N° Caso:</label>
-                        <input type="text" id="lbInicioCaso" placeholder="Ej: 081234" style="font-size: 1em;">
+                        <input type="text" id="lbInicioCaso" placeholder="Ej: 081234" style="font-size: 1em;" required>
                     </div>
                 </div>
                 <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 200px;">
-                        <label>Fin - Fecha/Hora:</label>
-                        <input type="text" id="lbFinFecha" placeholder="Ej: 09-10-2026 06:00" style="font-size: 1em;">
+                        <label>Fin - Fecha y Hora:</label>
+                        <input type="text" id="lbFinFecha" placeholder="Ej: 09-10-2026 06:00" style="font-size: 1em;" required>
                     </div>
                     <div style="flex: 1; min-width: 150px;">
                         <label>Fin - N° Caso:</label>
-                        <input type="text" id="lbFinCaso" placeholder="Ej: 0893345" style="font-size: 1em;">
+                        <input type="text" id="lbFinCaso" placeholder="Ej: 0893345" style="font-size: 1em;" required>
                     </div>
                 </div>
                 
@@ -930,8 +935,8 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    <span>Creado por Luis Muñoz | v2.9.9</span>
-    <a href="mailto:luis.munoz@bice.cl?subject=Sugerencia%20para%20BICE%20Hub" style="color: white; text-decoration: none; font-size: 1.2em; opacity: 0.8; transition: opacity 0.2s; margin-left: 10px;" title="Enviar sugerencia o comentario" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">✉️</a>
+    <span>Creado por Luis Muñoz | v3.0.0</span>
+    <a href="mailto:tu-correo@bice.cl?subject=Sugerencia%20para%20BICE%20Hub" style="color: white; text-decoration: none; font-size: 1.2em; opacity: 0.8; transition: opacity 0.2s; margin-left: 10px;" title="Enviar sugerencia o comentario" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">✉️</a>
 </footer>
 
 <script>
@@ -1028,7 +1033,7 @@
             asig.casos.forEach(c => output += `${c}<br>`);
             output += `<br>`;
         });
-        output += `✅ Total de casos (${total})`;
+        output += `Total de casos (${total}) ✅`;
         
         document.getElementById('lbOutput').innerHTML = output; 
         document.getElementById('lbResultArea').style.display = 'block'; 
@@ -1222,19 +1227,21 @@
             const valA = a[nameField] || ''; const valB = b[nameField] || '';
             if (sortValue === 'name_asc') return valA.localeCompare(valB); 
             if (sortValue === 'name_desc') return valB.localeCompare(valA); 
-            const tA = a.timestamp || parseInt(a.id.split('_')[1]||0), tB = b.timestamp || parseInt(b.id.split('_')[1]||0); 
+            const tA = a.timestamp || parseInt((a.id || '').split('_')[1]||0), tB = b.timestamp || parseInt((b.id || '').split('_')[1]||0); 
             return sortValue === 'date_asc' ? tA - tB : tB - tA; 
         }); 
     }
 
     function handleSearchKB() {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase(); const sortValue = document.getElementById('sortSelectKB').value;
-        filteredEntries = entries.filter(e => {
-            const catString = Array.isArray(e.categoria) ? e.categoria.join(' ') : (e.categoria || '');
-            const tit = e.titulo || ''; const etiq = e.etiquetas || ''; const det = e.detalles || '';
-            return tit.toLowerCase().includes(searchTerm) || catString.toLowerCase().includes(searchTerm) || etiq.toLowerCase().includes(searchTerm) || det.toLowerCase().includes(searchTerm);
-        });
-        filteredEntries = sortData(filteredEntries, sortValue, 'titulo'); currentKbPage = 1; renderEntries();
+        try {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase(); const sortValue = document.getElementById('sortSelectKB').value;
+            filteredEntries = entries.filter(e => {
+                const catString = Array.isArray(e.categoria) ? e.categoria.join(' ') : (e.categoria || '');
+                const tit = e.titulo || ''; const etiq = e.etiquetas || ''; const det = e.detalles || '';
+                return tit.toLowerCase().includes(searchTerm) || catString.toLowerCase().includes(searchTerm) || etiq.toLowerCase().includes(searchTerm) || det.toLowerCase().includes(searchTerm);
+            });
+            filteredEntries = sortData(filteredEntries, sortValue, 'titulo'); currentKbPage = 1; renderEntries();
+        } catch(e) { console.error("Error searching KB", e); }
     }
 
     function changePageKB(direction) { currentKbPage += direction; renderEntries(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
@@ -1304,7 +1311,14 @@
         localStorage.setItem('bice_claves_data', JSON.stringify(claves)); closeModal('clavesModal'); handleSearchClaves(); 
     });
 
-    function handleSearchClaves() { const searchTerm = document.getElementById('searchClaves').value.toLowerCase(); filteredClaves = sortData(claves.filter(c => (c.app||'').toLowerCase().includes(searchTerm) || (c.user||'').toLowerCase().includes(searchTerm)), document.getElementById('sortSelectClaves').value, 'app'); currentClavesPage = 1; renderClaves(); }
+    function handleSearchClaves() { 
+        try {
+            const searchTerm = document.getElementById('searchClaves').value.toLowerCase(); 
+            filteredClaves = sortData(claves.filter(c => (c.app||'').toLowerCase().includes(searchTerm) || (c.user||'').toLowerCase().includes(searchTerm)), document.getElementById('sortSelectClaves').value, 'app'); 
+            currentClavesPage = 1; renderClaves(); 
+        } catch(e) { console.error("Error searching Claves", e); }
+    }
+    
     function changePageClaves(direction) { currentClavesPage += direction; renderClaves(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
     
     function renderClaves() {
@@ -1474,7 +1488,7 @@
     function analizarTarjeta() { const input = document.getElementById('binInput').value; const cleanCard = input.replace(/-/g, '').replace(/\s/g, ''); if (cleanCard.length < 6) { alert('Ingresa al menos los primeros 6 dígitos (BIN).'); return; } const bin = cleanCard.substring(0, 6); const resultDiv = document.getElementById('binResult'); const binData = { "409674": { category: "Family Card / Go BICE", limit: "$500.000" }, "425943": { category: "Check Card Clásica", limit: "$500.000" }, "450638": { category: "Check Card Gold / Banca Joven", limit: "$500.000" }, "421767": { category: "Check Card Platinum", limit: "$1.250.000" }, "475778": { category: "Check Card Signature", limit: "$1.500.000" }, "463306": { category: "Check Card Infinite", limit: "$1.500.000" } }; if (binData[bin]) { document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = binData[bin].category; document.getElementById('resCat').style.color = 'var(--primary-color)'; document.getElementById('resLimit').innerText = binData[bin].limit; resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-success)'; const tarifarioTD = { "Family Card / Go BICE": { mensual: "Go BICE: Sin Costo\nFamily Card: UF 1 + IVA (Anual)", dcto: "• Family Card: Exenta hasta los 24 años. Comienza a cobrar a partir de los 25 años del titular o si el Patrocinador cierra su Cuenta Corriente/CheckCard." }, "Check Card Clásica": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }, "Check Card Gold / Banca Joven": { mensual: "UF 0,15 + IVA", dcto: "• 100% Exenta a menores de 26 años sin condiciones.<br>• 100% Exenta a menores de 30 años si: mantiene vigente TC y Línea de Crédito, recibe abonos mensuales ≥ $500.000 y tiene al menos 1 cargo automático (PAC/PAT o FFMM/DAP)." }, "Check Card Platinum": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }, "Check Card Signature": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }, "Check Card Infinite": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." } }; const detailsBoxTD = document.getElementById('tdTarifarioDetails'); const contentHTMLTD = document.getElementById('tdTarifarioContent'); if (tarifarioTD[binData[bin].category]) { const info = tarifarioTD[binData[bin].category]; contentHTMLTD.innerHTML = `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;"><tr><td style="padding: 4px 0; font-weight: bold; width: 50%;">Administración:</td><td style="padding: 4px 0;">${info.mensual.replace(/\n/g, '<br>')}</td></tr></table><div style="background: rgba(0, 45, 98, 0.05); padding: 10px; border-radius: 4px; border-left: 3px solid var(--primary-color);"><strong style="display:block; margin-bottom: 5px;">🎁 Reglas de Gratuidad:</strong>${info.dcto}</div>`; let cleanDcto = info.dcto.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, ""); currentTarifarioTDText = `COSTOS DE ADMINISTRACIÓN TD ${binData[bin].category.toUpperCase()}\n---------------------------------------\nAdministración:\t\t${info.mensual.replace(/\n/g, ' / ')}\n\nEXCEPCIONES:\n${cleanDcto}`; detailsBoxTD.style.display = 'block'; detailsBoxTD.open = false; } else { detailsBoxTD.style.display = 'none'; } } else { document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = `BIN No Reconocido (${bin})`; document.getElementById('resCat').style.color = 'var(--color-danger)'; document.getElementById('resLimit').innerText = 'No disponible'; resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-danger)'; document.getElementById('tdTarifarioDetails').style.display = 'none'; } }
 
     // --- COMISIONES INTERNACIONALES ---
-    const comisionesData = { "Tarjeta Débito": { "CHECKCARD CLASICA": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 202007, compra: "1,6% + IVA sobre valor de compra (a excepción de Tarjetas de Débito Visa Platinum, Signature e Infinite)", giro: "US$ 3 + IVA por evento" }, { date_val: 202006, compra: "1,6% + IVA sobre valor de compra (aplica solo para tarjetas de débito visa gold)", giro: "US$ 3 + IVA por evento" }, { date_val: 202005, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "FAMILY CARD": [ { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "GO BICE": [ { date_val: 202302, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "GO UC": [ { date_val: 202305, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "CHECKCARD GOLD": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" } ], "CHECKCARD PLATINUM": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "CHECKCARD SIGNATURE": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ] }, "Tarjeta Crédito": { "GO BICE": [ { date_val: 202402, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ], "GOLD (ORO)": [ { date_val: 202007, compra: "1,6%+IVA sobre valor de compra", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra / Gold Joven (US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "PLATINUM": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "INFINITE": [ { date_val: 202101, compra: "Sin Comisión", giro: "Sin Comisión" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }, { date_val: 201803, purchase: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "EMPRESARIAL": [ { date_val: 202308, compra: "1,6%+IVA sobre valor de compra (excepto Business Signature e Infinite)", giro: "1,6%+IVA sobre valor del avance (excepto Business Signature e Infinite)" }, { date_val: 202101, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "PLATINUM BIA": [ { date_val: 202302, compra: "1,6% + IVA", giro: "1,6% + IVA" } ], "SIGNATURE": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ] } };
+    const comisionesData = { "Tarjeta Débito": { "CHECKCARD CLASICA": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 202007, compra: "1,6% + IVA sobre valor de compra (a excepción de Tarjetas de Débito Visa Platinum, Signature e Infinite)", giro: "US$ 3 + IVA por evento" }, { date_val: 202006, compra: "1,6% + IVA sobre valor de compra (aplica solo para tarjetas de débito visa gold)", giro: "US$ 3 + IVA por evento" }, { date_val: 202005, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "FAMILY CARD": [ { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "GO BICE": [ { date_val: 202302, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "GO UC": [ { date_val: 202305, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "CHECKCARD GOLD": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" } ], "CHECKCARD PLATINUM": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "CHECKCARD SIGNATURE": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ] }, "Tarjeta Crédito": { "GO BICE": [ { date_val: 202402, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ], "GOLD (ORO)": [ { date_val: 202007, compra: "1,6%+IVA sobre valor de compra", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra / Gold Joven (US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "PLATINUM": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "INFINITE": [ { date_val: 202101, compra: "Sin Comisión", giro: "Sin Comisión" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "EMPRESARIAL": [ { date_val: 202308, compra: "1,6%+IVA sobre valor de compra (excepto Business Signature e Infinite)", giro: "1,6%+IVA sobre valor del avance (excepto Business Signature e Infinite)" }, { date_val: 202101, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "PLATINUM BIA": [ { date_val: 202302, compra: "1,6% + IVA", giro: "1,6% + IVA" } ], "SIGNATURE": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ] } };
     function updateSegmentos() { const tipo = document.querySelector('input[name="comTipo"]:checked').value; const selectSeg = document.getElementById('comSegmento'); selectSeg.innerHTML = ''; if (comisionesData[tipo]) { Object.keys(comisionesData[tipo]).sort().forEach(seg => { let opt = document.createElement('option'); opt.value = seg; opt.innerText = seg; selectSeg.appendChild(opt); }); } document.getElementById('comisionesResult').style.display = 'none'; }
     function calcularComisiones() { const tipo = document.querySelector('input[name="comTipo"]:checked').value; const segmento = document.getElementById('comSegmento').value; const year = parseInt(document.getElementById('comYear').value); const month = parseInt(document.getElementById('comMonth').value); if(!segmento) { alert("Por favor seleccione un segmento"); return; } let inputDateVal = (year * 100) + month; if (inputDateVal > 202503) { inputDateVal = 202503; } const reglas = comisionesData[tipo][segmento]; let reglaAplicada = null; for (let r of reglas) { if (inputDateVal >= r.date_val) { reglaAplicada = r; break; } } if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; } document.getElementById('resComCompra').innerText = reglaAplicada.compra || reglaAplicada.purchase; document.getElementById('resComGiro').innerText = reglaAplicada.giro; document.getElementById('comisionesResult').style.display = 'block'; }
     function copiarComisiones(event) { const cCompra = document.getElementById('resComCompra').innerText; const cGiro = document.getElementById('resComGiro').innerText; const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`; const btn = event.currentTarget; const originalHTML = btn.innerHTML; const showSuccess = () => { btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); }; if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); } else { useFallback(textoFInal); } function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); } }
