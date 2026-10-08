@@ -1538,6 +1538,33 @@
     const feriadosChile = ["2024-01-01", "2024-03-29", "2024-03-30", "2024-05-01", "2024-05-21", "2024-06-20", "2024-06-29", "2024-07-16", "2024-08-15", "2024-09-18", "2024-09-19", "2024-09-20", "2024-10-12", "2024-10-31", "2024-11-01", "2024-12-08", "2024-12-25", "2025-01-01", "2025-04-18", "2025-04-19", "2025-05-01", "2025-05-21", "2025-06-20", "2025-06-29", "2025-07-16", "2025-08-15", "2025-09-18", "2025-09-19", "2025-10-12", "2025-10-31", "2025-11-01", "2025-12-08", "2025-12-25", "2026-01-01", "2026-04-03", "2026-04-04", "2026-05-01", "2026-05-21", "2026-06-21", "2026-06-29", "2026-07-16", "2026-08-15", "2026-09-18", "2026-09-19", "2026-10-12", "2026-10-31", "2026-11-01", "2026-12-08", "2026-12-25", "2027-01-01", "2027-03-26", "2027-03-27", "2027-05-01", "2027-05-21", "2027-06-21", "2027-06-28", "2027-07-16", "2027-08-15", "2027-09-17", "2027-09-18", "2027-09-19", "2027-10-11", "2027-10-31", "2027-11-01", "2027-12-08", "2027-12-25"];
     function calcularPlazo() { const startDateInput = document.getElementById('plazoFecha').value; const diasInput = parseInt(document.getElementById('plazoDias').value); const tipoPlazo = document.getElementById('plazoTipo').value; if (!startDateInput || isNaN(diasInput) || diasInput <= 0) { alert('Ingresa una fecha y cantidad de días válidos.'); return; } let date = new Date(startDateInput + 'T12:00:00'); let daysAdded = 0; while (daysAdded < diasInput) { date.setDate(date.getDate() + 1); if (tipoPlazo === 'habiles') { const dayOfWeek = date.getDay(); if (dayOfWeek === 0 || dayOfWeek === 6) { continue; } const y = date.getFullYear(); const m = String(date.getMonth() + 1).padStart(2, '0'); const d = String(date.getDate()).padStart(2, '0'); if (feriadosChile.includes(`${y}-${m}-${d}`)) { continue; } } daysAdded++; } const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; let fechaFormateada = date.toLocaleDateString('es-CL', opciones); fechaFormateada = fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1); document.getElementById('resPlazo').innerText = fechaFormateada; document.getElementById('plazoResult').style.display = 'block'; }
 
+    // --- CONVERSOR DE MONEDAS ---
+    function changeCurrency() {
+        const currency = document.getElementById('convSelect').value; 
+        let tasa = 0; let simbolo = '$';
+        
+        if (currency === 'USD') { tasa = tasaDolar; simbolo = '$'; } 
+        else if (currency === 'EUR') { tasa = tasaEuro; simbolo = '€'; } 
+        else if (currency === 'UF') { tasa = tasaUF; simbolo = 'UF'; } 
+        else if (currency === 'UTM') { tasa = tasaUTM; simbolo = 'UTM'; }
+        
+        // Si no hay conexión o falla la API de valores, dejamos la caja vacía para no romper el cálculo
+        document.getElementById('convTasa').value = tasa > 0 ? tasa : ''; 
+        document.getElementById('labelExtranjera').innerText = `Monto en ${currency}:`; 
+        
+        // Actualizamos el símbolo visual y el espaciado para que calcen las letras "UF" o "UTM"
+        const spanSimb = document.getElementById('simboloExtranjera');
+        const inputExt = document.getElementById('inputExt');
+        if(spanSimb && inputExt) {
+            spanSimb.innerText = simbolo;
+            inputExt.style.paddingLeft = (simbolo.length > 1) ? '55px' : '35px';
+        }
+        calcToCLP(); 
+    }
+    
+    function calcToCLP() { const extVal = parseFloat(document.getElementById('inputExt').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; const clpVal = Math.round(extVal * rate); document.getElementById('inputCLP').value = extVal > 0 ? clpVal : ''; }
+    function calcToExt() { const clpVal = parseFloat(document.getElementById('inputCLP').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; if (rate > 0) { const extVal = (clpVal / rate).toFixed(2); document.getElementById('inputExt').value = extVal > 0 ? extVal : ''; } }
+    
     // --- SIMULADOR RÁPIDO DE CUOTAS ---
     function toggleTasaSimulador() { const sinInteres = document.getElementById('simSinInteres').checked; const inputTasa = document.getElementById('simTasa'); if (sinInteres) { inputTasa.value = 0; inputTasa.disabled = true; } else { inputTasa.value = 3.45; inputTasa.disabled = false; } }
     function calcularSimulador() { const monto = parseFloat(document.getElementById('simMonto').value); const cuotas = parseInt(document.getElementById('simCuotas').value); const tipoOp = document.getElementById('simTipo').value; const tasaManual = parseFloat(document.getElementById('simTasa').value) || 0; const sinInteres = document.getElementById('simSinInteres').checked; if (isNaN(monto) || monto <= 0) { alert('Ingresa un monto válido a simular.'); return; } if (isNaN(cuotas) || cuotas < 2 || cuotas > 48) { alert('El número de cuotas permitido es entre 2 y 48.'); return; } let tasaMensual = sinInteres ? 0 : (tasaManual / 100); let valorCuotaMensual = 0; let costoTotal = 0; let aplicaImpuesto = true; if (tasaMensual === 0) { valorCuotaMensual = monto / cuotas; costoTotal = monto; if (cuotas === 3) aplicaImpuesto = false; } else { valorCuotaMensual = monto * (tasaMensual * Math.pow(1 + tasaMensual, cuotas)) / (Math.pow(1 + tasaMensual, cuotas) - 1); costoTotal = valorCuotaMensual * cuotas; } let impuesto = 0; if (aplicaImpuesto) { let tasaImp = Math.min(0.008, 0.00066 * cuotas); impuesto = monto * tasaImp; } let cuotaStr = Math.round(valorCuotaMensual).toLocaleString('es-CL'); let costoTotalStr = Math.round(costoTotal).toLocaleString('es-CL'); let impuestoStr = Math.round(impuesto).toLocaleString('es-CL'); let textoSalida = `SIMULACIÓN TARJETA DE CRÉDITO BICE\n----------------------------------\nOperación:\t${tipoOp}\nMonto:\t\t$ ${monto.toLocaleString('es-CL')}\nCuotas:\t\t${cuotas}\nTasa Mensual:\t${tasaManual}%\n\nVALOR CUOTA:\t$ ${cuotaStr} (Referencial)\nCOSTO TOTAL:\t$ ${costoTotalStr}\n\n`; if (!aplicaImpuesto && sinInteres && cuotas === 3) { textoSalida += `* Operación de 3 Cuotas Precio Contado Exenta de Impuesto al Crédito.\n`; } else { textoSalida += `* Valores NO incluyen Impuesto al Crédito. Éste se cobrará por única vez en el próximo estado de cuenta (Aprox. $ ${impuestoStr}).\n`; } document.getElementById('resSimText').innerText = textoSalida; document.getElementById('simuladorResult').style.display = 'block'; }
