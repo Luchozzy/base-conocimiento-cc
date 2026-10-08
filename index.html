@@ -35,7 +35,7 @@
 
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-body); color: var(--text-main); margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; transition: background-color 0.3s, color 0.3s; }
         header { background-color: var(--bg-panel); padding: 15px 40px; box-shadow: 0 2px 5px var(--shadow); display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; transition: background-color 0.3s; }
-        .logo { height: 40px; border-radius: 4px; padding: 2px; background: white; transition: filter 0.3s; }
+        .logo { height: 40px; border-radius: 4px; padding: 2px; background: white; transition: filter 0.3s; cursor: pointer; }
         [data-theme="dark"] .logo { filter: brightness(0.9); }
         header h1 { color: var(--primary-color); margin: 0; font-size: 1.5em; }
 
@@ -81,7 +81,7 @@
         .view-container.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .tool-panel { display: none; background: var(--bg-panel); padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); max-width: 650px; margin: 0 auto; transition: background-color 0.3s; }
+        .tool-panel { display: none; background: var(--bg-panel); padding: 25px; border-radius: 8px; box-shadow: 0 2px 10px var(--shadow); max-width: 750px; margin: 0 auto; transition: background-color 0.3s; }
         .tool-result { display: none; margin-top: 25px; background: var(--bg-group); padding: 20px; border-left: 5px solid; border-radius: 6px; }
 
         /* MODALES */
@@ -117,7 +117,7 @@
         .star-btn { background: none; border: none; cursor: pointer; padding: 0 10px 0 0; display: flex; align-items: center; transition: transform 0.2s; margin-top: -2px; }
         .star-btn:hover { transform: scale(1.2); }
         
-        .tags { font-size: 0.85em; background: var(--tag-bg); padding: 4px 10px; border-radius: 12px; margin-left: 10px; color: var(--text-main); font-weight: normal; }
+        .tags { font-size: 0.85em; background: var(--tag-bg); padding: 4px 10px; border-radius: 12px; margin-left: 10px; color: var(--text-main); font-weight: normal; display: inline-block; margin-bottom: 4px;}
         .card-content, .clave-content-wrapper { padding: 0 20px 20px 20px; border-top: 1px solid var(--border-light); margin-top: 5px; padding-top: 15px; }
         .field-group { margin-bottom: 15px; background: var(--bg-group); padding: 15px; border-left: 4px solid var(--primary-color); border-radius: 6px; position: relative; }
         .field-title { font-weight: bold; font-size: 1.05em; color: var(--primary-color); margin-bottom: 8px; }
@@ -132,13 +132,14 @@
         .clave-hidden { filter: blur(4px); user-select: none; }
         .toggle-visibility-btn { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.9em; text-decoration: underline; margin-right: 15px; }
 
-        .copy-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .copy-btn { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; font-size: 0.9em;}
         .copy-btn:hover { background: var(--bg-hover); color: var(--primary-color); border-color: var(--primary-color); }
         .copy-btn-absolute { position: absolute; top: 15px; right: 15px; }
         
         .card-actions { display: flex; gap: 10px; margin-top: 15px; border-top: 1px solid var(--border-light); padding-top: 15px; }
         .action-btn { padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95em; font-weight: bold; flex: 1; text-align: center;}
         .edit-btn { background: #ffc107; color: #000; }
+        .clone-btn { background: #17a2b8; color: white; }
         .delete-btn { background: #dc3545; color: white; }
 
         .pagination-container { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 30px; padding-bottom: 30px; }
@@ -151,7 +152,7 @@
         #toast { visibility: hidden; min-width: 250px; background-color: var(--color-success); color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 2000; right: 30px; bottom: 30px; font-size: 1.1em; font-weight: bold; box-shadow: 0 4px 15px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.3s, bottom 0.3s; }
         #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
         
-        footer { background-color: var(--btn-primary); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; transition: background-color 0.3s; }
+        footer { background-color: var(--btn-primary); color: white; text-align: center; padding: 15px; margin-top: auto; font-size: 0.9em; transition: background-color 0.3s; display: flex; justify-content: center; align-items: center; gap: 10px;}
 
         /* THEME SWITCH */
         .theme-switch-wrapper { display: flex; align-items: center; }
@@ -176,6 +177,16 @@
         .plantilla-preview-label { font-weight: bold; color: var(--color-indigo); width: 80px; flex-shrink: 0; }
         .plantilla-preview-text { flex: 1; white-space: pre-wrap; font-family: monospace; font-size: 1.1em; word-break: break-word; color: var(--text-main); }
         
+        /* CATEGORIAS CHECKBOXES */
+        .categorias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; background: var(--bg-group); padding: 15px; border-radius: 6px; border: 1px solid var(--border); margin-top: 5px; max-height: 150px; overflow-y: auto;}
+        .cat-label { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: normal; font-size: 0.9em; cursor: pointer; color: var(--text-main); }
+        .cat-label input { width: auto; margin: 0; }
+
+        /* PENDIENTES STATS FILTERS */
+        .stat-chip { padding: 8px 12px; border-radius: 20px; font-size: 0.9em; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; user-select: none; }
+        .stat-chip:hover { filter: brightness(0.9); }
+        .stat-chip.active-filter { border-color: var(--text-main); box-shadow: 0 0 5px rgba(0,0,0,0.2); }
+
         /* RESPONSIVO */
         @media (max-width: 850px) {
             .container { flex-direction: column; padding: 0 15px; }
@@ -211,7 +222,7 @@
 
 <header>
     <div style="display: flex; align-items: center; gap: 15px;">
-        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Banco_BICE-300dpi.jpg/960px-Logo_Banco_BICE-300dpi.jpg" alt="Logo Banco BICE" class="logo">
+        <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Logo_Banco_BICE-300dpi.jpg/960px-Logo_Banco_BICE-300dpi.jpg" alt="Logo Banco BICE" class="logo" id="biceLogo" onclick="handleLogoClick()">
         <h1>BICE Hub Ejecutivo</h1>
     </div>
     <div class="theme-switch-wrapper">
@@ -248,12 +259,22 @@
                         <button id="btn-tool-bin" class="tool-btn" onclick="openTool('bin')">💳 Validador BIN TD</button>
                         <button id="btn-tool-comisiones" class="tool-btn" onclick="openTool('comisiones')">✈️ Comisiones Int.</button>
                         <button id="btn-tool-plazos" class="tool-btn" onclick="openTool('plazos')">📅 Calculadora SLA</button>
+                        <button id="btn-tool-cuadratura" class="tool-btn" onclick="openTool('cuadratura')">⚖️ Asistente Cuadratura</button>
                         <button id="btn-tool-simulador" class="tool-btn" onclick="openTool('simulador')">📈 Simulador Cuotas</button>
                         <button id="btn-tool-conversor" class="tool-btn" onclick="openTool('conversor')">💱 Conversor Monedas</button>
                         <button id="btn-tool-directorio" class="tool-btn" onclick="openTool('directorio')">📞 Directorio Rápido</button>
                     </div>
                 </div>
             </div>
+
+            <!-- EASTER EGG MENU: LISTAS BLANCAS NOCTURNAS -->
+            <div class="menu-section" id="section-listasBlancas" style="display: none;">
+                <button class="nav-btn" id="nav-listasBlancas" onclick="switchView('listasBlancas')" style="color: var(--color-purple);">🌙 Listas Blancas <span class="nav-arrow" id="arrow-listasBlancas">▶</span></button>
+                <div class="menu-content" id="content-listasBlancas">
+                    <button class="tool-btn" id="btn-tool-listas" onclick="openTool('listas')">⚙️ Repartidor LB</button>
+                </div>
+            </div>
+
         </div>
 
         <div class="global-actions-panel">
@@ -331,6 +352,48 @@
             </div>
         </div>
 
+        <!-- VISTA EASTER EGG (LB) -->
+        <div id="view-listasBlancas" class="view-container">
+            <div id="listas-welcome" style="text-align: center; padding-top: 5vh;">
+                <h3 style="color: var(--color-purple); font-size: 1.5em;">👈 Selecciona la herramienta del submenú izquierdo</h3>
+            </div>
+            <div id="tool-listas" class="tool-panel" style="border-top: 6px solid var(--color-purple); max-width: 800px;">
+                <h2 style="color: var(--color-purple); margin-top: 0;">🌙 Repartidor de Listas Blancas</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Divide los casos equitativamente entre los ejecutivos del turno. Los sobrantes se asignarán de forma aleatoria.</p>
+                
+                <div style="display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 250px;">
+                        <label>Ejecutivos (Uno por línea):</label>
+                        <textarea id="lbEjecutivos" placeholder="Luis&#10;Ximena&#10;Gema&#10;Alejandra" style="height: 120px; font-family: inherit; font-size: 1.05em;"></textarea>
+                    </div>
+                    <div style="flex: 2; min-width: 250px;">
+                        <label>Casos a repartir (Uno por línea):</label>
+                        <textarea id="lbCasos" placeholder="081234&#10;081251&#10;081516..." style="height: 120px; font-family: inherit; font-size: 1.05em;"></textarea>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <label>Cabecera Inicial (Ej: Excel fila 1):</label>
+                        <input type="text" id="lbInicio" placeholder="Ej: 08-10-2026 23:00 - 081234" style="font-size: 1em;">
+                    </div>
+                    <div style="flex: 1; min-width: 200px;">
+                        <label>Cabecera Final (Ej: Excel última fila):</label>
+                        <input type="text" id="lbFin" placeholder="Ej: 09-10-2026 06:00 - 0893345" style="font-size: 1em;">
+                    </div>
+                </div>
+                
+                <button class="save-btn" style="margin-top: 0; background: var(--color-purple);" onclick="generarListasBlancas()">🎲 Dividir y Asignar</button>
+                
+                <div id="lbResultArea" style="display: none; margin-top: 20px;">
+                    <h4 style="margin: 0 0 10px 0; color: var(--primary-color);">📄 Resultado (Listo para copiar y enviar):</h4>
+                    <textarea id="lbOutput" readonly style="height: 300px; font-family: monospace; font-size: 0.95em; background: var(--bg-group); color: var(--text-main); margin-bottom: 10px; border-color: var(--border-light);"></textarea>
+                    <button class="copy-btn" style="width: 100%; border: 2px solid var(--color-purple); color: var(--color-purple); font-weight: bold; padding: 10px; font-size: 1.05em;" onclick="copyText(event, null, document.getElementById('lbOutput').value)">
+                        📋 Copiar Asignación
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- VISTA HERRAMIENTAS -->
         <div id="view-herramientas" class="view-container">
             <div id="tools-welcome" style="text-align: center; padding-top: 5vh;">
@@ -340,9 +403,14 @@
             <!-- MIS PENDIENTES -->
             <div id="tool-pendientes" class="tool-panel" style="border-top: 6px solid var(--color-success); max-width: 800px;">
                 <h2 style="color: var(--color-success); margin-top: 0;">✅ Mis Pendientes (Listas Blancas y Casos)</h2>
-                <p style="color: var(--text-muted); margin-bottom: 20px;">Escribe tareas únicas o <strong>pega una lista completa</strong> (como una columna de Excel). El sistema etiquetará y separará todo automáticamente.</p>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Escribe tareas o <strong>pega una lista completa</strong> (como una columna de Excel). El sistema etiquetará, detectará duplicados y separará todo automáticamente.</p>
+                
+                <div id="pendientesStats" style="display: flex; gap: 10px; margin-bottom: 15px; background: var(--bg-group); padding: 12px; border-radius: 6px; border: 1px solid var(--border-light); justify-content: center; flex-wrap: wrap;">
+                    <!-- Los chips se generan dinámicamente -->
+                </div>
+                
                 <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: stretch;">
-                    <textarea id="nuevaTareaInput" placeholder="Ej: Caso 084125125, MS-17941124, o pega una lista completa..." style="flex: 1; font-size: 1.1em; margin: 0; padding: 10px; border-radius: 6px; border: 1px solid var(--border); resize: vertical; min-height: 46px; font-family: inherit; line-height: 1.4;" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); agregarTarea(); }"></textarea>
+                    <textarea id="nuevaTareaInput" placeholder="Ej: Caso 084125125, MS-17941124, o mandar correo a mi jefatura..." style="flex: 1; font-size: 1.1em; margin: 0; padding: 10px; border-radius: 6px; border: 1px solid var(--border); resize: vertical; min-height: 46px; font-family: inherit; line-height: 1.4;" onkeydown="if(event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); agregarTarea(); }"></textarea>
                     <button class="save-btn" style="margin-top: 0; width: auto; padding: 10px 20px; background: var(--color-success); display: flex; align-items: center; justify-content: center;" onclick="agregarTarea()">Agregar</button>
                 </div>
                 <div id="listaPendientes" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; max-height: 450px; overflow-y: auto; padding-right: 5px;"></div>
@@ -572,6 +640,18 @@
                 </div>
             </div>
 
+            <!-- ASISTENTE CUADRATURA -->
+            <div id="tool-cuadratura" class="tool-panel" style="border-top: 6px solid var(--text-muted);">
+                <h2 style="color: var(--text-main); margin-top: 0;">⚖️ Asistente de Cuadratura</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Herramienta para el cálculo y cuadratura de saldos de Tarjetas de Crédito.</p>
+                <div style="background: var(--bg-group); border: 2px dashed var(--border-light); border-radius: 8px; padding: 40px 20px; text-align: center;">
+                    <div style="font-size: 3em; margin-bottom: 10px;">🚧</div>
+                    <h3 style="color: var(--text-muted); margin-top: 0;">Módulo en Construcción</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9em;">Próximamente incluirá calculadoras para:<br><br>
+                    • Deuda Facturada Nacional<br>• Deuda Facturada Internacional<br>• Deuda No Facturada Nacional<br>• Deuda No Facturada Internacional</p>
+                </div>
+            </div>
+
             <!-- SIMULADOR RÁPIDO DE CUOTAS -->
             <div id="tool-simulador" class="tool-panel" style="border-top: 6px solid var(--color-teal);">
                 <h2 style="color: var(--color-teal); margin-top: 0;">📈 Simulador Rápido de Cuotas</h2>
@@ -668,7 +748,6 @@
 </div>
 
 <!-- === MODALES DE CREACIÓN Y EDICIÓN === -->
-
 <div class="modal-overlay" id="kbModal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('kbModal')" title="Cerrar">&times;</span>
@@ -676,16 +755,47 @@
         <form id="kbForm">
             <input type="hidden" id="entryId">
             <label>Título:</label><input type="text" id="titulo" required>
-            <label>Categoría:</label><select id="categoriaSelect" required onchange="handleCategoriaChange()"></select>
-            <input type="text" id="categoriaNueva" placeholder="Escribe el nombre de la nueva categoría" style="display: none; margin-top: 5px; border-color: var(--primary-color);">
-            <label>Validación:</label><textarea id="validacion"></textarea>
+            
+            <label>Categorías (puedes marcar varias):</label>
+            <div id="categoriasCheckboxContainer" class="categorias-grid"></div>
+            <input type="text" id="categoriaNueva" placeholder="Escribe el nombre de la nueva categoría y presiona Enter..." style="margin-top: 8px; border-color: var(--primary-color);" onkeydown="agregarCategoriaManual(event)">
+            
+            <label>Validación requerida:</label>
+            <select id="validacionSelect" onchange="handleValidacionChange()">
+                <option value="">Ninguna o No aplica...</option>
+                <optgroup label="Estándar">
+                    <option value="OTP NO CRITICA">OTP NO CRITICA</option>
+                    <option value="REDBANC (SOLO FRONT)">REDBANC (SOLO FRONT)</option>
+                    <option value="ID Positiva (SOLO FRONT)">ID Positiva (SOLO FRONT)</option>
+                </optgroup>
+                <optgroup label="Críticas (Doble Factor)">
+                    <option value="BICE ID + OTP CRITICA">BICE ID + OTP CRITICA</option>
+                    <option value="REDBANC + OTP CRITICA">REDBANC + OTP CRITICA</option>
+                    <option value="BICE PASS + OTP CRITICA">BICE PASS + OTP CRITICA</option>
+                </optgroup>
+                <option value="otra">Otra (Especificar)...</option>
+            </select>
+            <input type="text" id="validacionOtra" placeholder="Especificar otra validación..." style="display: none; margin-top: 5px;">
+
             <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
-            <label>Paso a Paso:</label><textarea id="pasoApaso"></textarea>
-            <label>CTI:</label><textarea id="cti"></textarea>
+            <label>Paso a Paso:</label><textarea id="pasoApaso" style="height: 120px;"></textarea>
+            
+            <label>Ruta CTI:</label>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="text" id="ctiCat" placeholder="Categoría" style="flex:1; min-width: 120px;">
+                <span style="color: var(--text-muted); align-self: center; font-weight: bold;">&gt;</span>
+                <input type="text" id="ctiTipo" placeholder="Tipo" style="flex:1; min-width: 120px;">
+                <span style="color: var(--text-muted); align-self: center; font-weight: bold;">&gt;</span>
+                <input type="text" id="ctiItem" placeholder="Ítem" style="flex:1; min-width: 120px;">
+            </div>
+
             <label>Plantilla:</label><textarea id="plantilla"></textarea>
             <label>Script Final:</label><textarea id="scriptFinal"></textarea>
             <label>Detalles importantes:</label><textarea id="detalles"></textarea>
-            <label>Otro:</label><textarea id="otro"></textarea>
+            
+            <label>Procedimiento Relacionado (Si falla o el cliente necesita otra cosa):</label>
+            <select id="procedimientoSelect"></select>
+
             <label>Etiquetas (separadas por coma):</label>
             <div style="display: flex; gap: 10px;">
                 <input type="text" id="etiquetas" placeholder="Ej: fraude, bloqueo, tc" style="flex: 1;">
@@ -775,15 +885,12 @@
     <div class="modal-content modal-content-small" style="border-top: 6px solid var(--color-info);">
         <span class="close-modal" onclick="closeModal('exportModal')" title="Cerrar">&times;</span>
         <h2 style="color: var(--color-info);">⬇️ Exportar Respaldo</h2>
-        <p style="color: var(--text-muted);">Elige cómo deseas guardar tu información.</p>
         <div class="backup-option-box">
             <h4>📁 Opción 1: Archivo Descargable</h4>
-            <p style="font-size: 0.9em; color: var(--text-muted); margin-top: 0;">Descarga un archivo .json tradicional.</p>
             <button class="save-btn" style="background: var(--color-info); margin-top: 10px; padding: 10px;" onclick="handleFileExport()">Descargar Archivo (.json)</button>
         </div>
         <div class="backup-option-box">
             <h4>🔒 Opción 2: Texto Seguro (Base64)</h4>
-            <p style="font-size: 0.9em; color: var(--text-muted); margin-top: 0;">Genera un bloque de texto encriptado para copiar y enviar.</p>
             <button class="outline-btn" style="width: 100%; border-color: var(--color-info); color: var(--color-info); margin-bottom: 0;" onclick="handleTextExport()">Generar Texto de Respaldo</button>
             <div id="exportTextContainer" style="display: none; margin-top: 15px;">
                 <textarea id="exportTextarea" readonly style="height: 100px; font-family: monospace; font-size: 0.85em; background: var(--bg-group); color: var(--text-main); cursor: text;"></textarea>
@@ -797,7 +904,6 @@
     <div class="modal-content modal-content-small" style="border-top: 6px solid var(--text-muted);">
         <span class="close-modal" onclick="closeModal('importModal')" title="Cerrar">&times;</span>
         <h2 style="color: var(--text-muted);">⬆️ Importar Respaldo</h2>
-        <p style="color: var(--text-muted);">Elige el método para cargar tu información al Hub.</p>
         <div class="backup-option-box">
             <h4>📁 Opción 1: Subir Archivo (.json)</h4>
             <label for="importFileInput" class="save-btn" style="background: var(--text-muted); margin-top: 10px; padding: 10px; display: block; text-align: center; cursor: pointer; color: white;">Seleccionar Archivo</label>
@@ -805,7 +911,6 @@
         </div>
         <div class="backup-option-box">
             <h4>🔒 Opción 2: Pegar Texto Seguro</h4>
-            <p style="font-size: 0.9em; color: var(--text-muted); margin-top: 0;">Si te enviaste un respaldo en texto (Base64), pégalo abajo.</p>
             <textarea id="importTextarea" style="height: 100px; font-family: monospace; font-size: 0.85em;" placeholder="Pega aquí el código encriptado..."></textarea>
             <button class="save-btn" style="background: var(--primary-color); margin-top: 10px; padding: 10px;" onclick="handleTextImport()">Procesar e Importar</button>
         </div>
@@ -815,7 +920,8 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    Creado por Luis Muñoz | v2.9.3
+    <span>Creado por Luis Muñoz | v2.9.5</span>
+    <a href="mailto:tu-correo@bice.cl?subject=Sugerencia%20para%20BICE%20Hub" style="color: white; text-decoration: none; font-size: 1.2em; opacity: 0.8; transition: opacity 0.2s;" title="Enviar sugerencia o comentario" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">✉️</a>
 </footer>
 
 <script>
@@ -831,43 +937,77 @@
         localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas));
     }
 
-    let currentTarifarioText = ""; 
-    let currentTarifarioTDText = "";
-    let currentPlantillaObj = null;
-
-    const itemsPerPage = 10; 
-    let currentKbPage = 1; 
-    let currentClavesPage = 1;
-    let filteredEntries = [...entries]; 
-    let filteredClaves = [...claves];
+    let currentTarifarioText = ""; let currentTarifarioTDText = ""; let currentPlantillaObj = null;
+    const itemsPerPage = 10; let currentKbPage = 1; let currentClavesPage = 1; let filteredEntries = [...entries]; let filteredClaves = [...claves];
+    let currentPendientesFilter = 'all'; 
 
     let tasaDolar = 0; let tasaEuro = 0; let tasaUF = 0; let tasaUTM = 0;
+    const copySvg = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
 
     async function cargarIndicadores() {
         try {
-            const response = await fetch('https://mindicador.cl/api');
-            const data = await response.json();
+            const response = await fetch('https://mindicador.cl/api'); const data = await response.json();
             tasaDolar = data.dolar.valor; tasaEuro = data.euro.valor; tasaUF = data.uf.valor; tasaUTM = data.utm.valor;
-            document.getElementById('val-dolar').innerText = `USD: $${tasaDolar.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
-            document.getElementById('val-euro').innerText = `EUR: $${tasaEuro.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
-            document.getElementById('val-uf').innerText = `UF: $${tasaUF.toLocaleString('es-CL', {minimumFractionDigits: 2})}`;
-            document.getElementById('val-utm').innerText = `UTM: $${tasaUTM.toLocaleString('es-CL', {minimumFractionDigits: 0})}`;
+            document.getElementById('val-dolar').innerText = `USD: $${tasaDolar.toLocaleString('es-CL', {minimumFractionDigits: 2})}`; document.getElementById('val-euro').innerText = `EUR: $${tasaEuro.toLocaleString('es-CL', {minimumFractionDigits: 2})}`; document.getElementById('val-uf').innerText = `UF: $${tasaUF.toLocaleString('es-CL', {minimumFractionDigits: 2})}`; document.getElementById('val-utm').innerText = `UTM: $${tasaUTM.toLocaleString('es-CL', {minimumFractionDigits: 0})}`;
             if(document.getElementById('convSelect').value === 'USD') document.getElementById('convTasa').value = tasaDolar; 
         } catch (error) {
-            document.getElementById('val-dolar').innerText = `USD: Error`; document.getElementById('val-euro').innerText = `EUR: Error`;
-            document.getElementById('val-uf').innerText = `UF: Error`; document.getElementById('val-utm').innerText = `UTM: Error`;
+            document.getElementById('val-dolar').innerText = `USD: Error`; document.getElementById('val-euro').innerText = `EUR: Error`; document.getElementById('val-uf').innerText = `UF: Error`; document.getElementById('val-utm').innerText = `UTM: Error`;
         }
     }
 
-    function getFormattedDate() {
-        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-        return new Date().toLocaleDateString('es-CL', options).replace(/\//g, '-');
+    function getFormattedDate() { const options = { day: '2-digit', month: '2-digit', year: 'numeric' }; return new Date().toLocaleDateString('es-CL', options).replace(/\//g, '-'); }
+
+    // --- EASTER EGG (LOGO) ---
+    let logoClicks = 0; let logoTimeout;
+    function handleLogoClick() {
+        logoClicks++;
+        clearTimeout(logoTimeout);
+        logoTimeout = setTimeout(() => { logoClicks = 0; }, 600);
+        if(logoClicks >= 3) {
+            document.getElementById('section-listasBlancas').style.display = 'flex';
+            showToast("🤫 Menú Secreto Desbloqueado");
+            logoClicks = 0;
+        }
     }
 
-    function toggleTheme(e) {
-        if (e.checked) { document.documentElement.setAttribute('data-theme', 'dark'); localStorage.setItem('bice_theme', 'dark'); } 
-        else { document.documentElement.setAttribute('data-theme', 'light'); localStorage.setItem('bice_theme', 'light'); }
+    // --- REPARTIDOR DE LISTAS BLANCAS ---
+    function generarListasBlancas() {
+        const rawEjecutivos = document.getElementById('lbEjecutivos').value; const rawCasos = document.getElementById('lbCasos').value;
+        const inicio = document.getElementById('lbInicio').value.trim(); const fin = document.getElementById('lbFin').value.trim();
+        const ejecutivos = rawEjecutivos.split('\n').map(e => e.trim()).filter(e => e !== '');
+        const casos = rawCasos.split('\n').map(c => c.trim()).filter(c => c !== '');
+        
+        if(ejecutivos.length === 0 || casos.length === 0) { alert('Debes ingresar al menos un ejecutivo y un caso.'); return; }
+        
+        const total = casos.length; const countExecs = ejecutivos.length;
+        const basePerExec = Math.floor(total / countExecs); let remainder = total % countExecs;
+        
+        let asignaciones = ejecutivos.map(ej => ({ nombre: ej, casos: [] }));
+        let casosSobrantes = [...casos];
+        
+        asignaciones.forEach(asig => {
+            const tomar = basePerExec + (remainder > 0 ? 1 : 0);
+            if (remainder > 0) remainder--;
+            asig.casos = casosSobrantes.splice(0, tomar);
+        });
+        
+        let output = `Listas blancas ${new Date().toLocaleDateString('es-CL')}\n`;
+        if(inicio) output += `${inicio}\n`;
+        if(fin) output += `${fin}\n`;
+        output += `\n`;
+        
+        asignaciones.forEach(asig => {
+            output += `${asig.nombre} (${asig.casos.length})\n`;
+            asig.casos.forEach(c => output += `${c}\n`);
+            output += `\n`;
+        });
+        output += `Total de casos (${total})`;
+        
+        document.getElementById('lbOutput').value = output; document.getElementById('lbResultArea').style.display = 'block'; showToast("Casos divididos con éxito");
     }
+
+
+    function toggleTheme(e) { if (e.checked) { document.documentElement.setAttribute('data-theme', 'dark'); localStorage.setItem('bice_theme', 'dark'); } else { document.documentElement.setAttribute('data-theme', 'light'); localStorage.setItem('bice_theme', 'light'); } }
 
     // --- MODALES Y NAVEGACIÓN ---
     function openModal(modalId, isNew = false) { 
@@ -875,7 +1015,9 @@
             if (modalId === 'kbModal') { 
                 document.getElementById('kbForm').reset(); document.getElementById('entryId').value = ''; 
                 cargarCategoriasEnSelect(); document.getElementById('categoriaNueva').style.display = 'none'; 
-                document.getElementById('categoriaNueva').required = false; document.getElementById('formTitleKB').innerText = 'Nuevo Registro'; 
+                document.getElementById('categoriaNueva').required = false; document.getElementById('formTitleKB').innerText = 'Nuevo Registro';
+                document.getElementById('validacionOtra').style.display = 'none';
+                cargarRelacionadosKB(); 
             }
             if (modalId === 'clavesModal') { document.getElementById('clavesForm').reset(); document.getElementById('claveId').value = ''; document.getElementById('formTitleClaves').innerText = 'Nueva Clave de Acceso'; }
             if (modalId === 'directorioModal') { document.getElementById('directorioForm').reset(); document.getElementById('dirId').value = ''; document.getElementById('formTitleDir').innerText = 'Nuevo Contacto / Anexo'; }
@@ -886,46 +1028,30 @@
         document.getElementById(modalId).style.display = 'flex'; document.body.style.overflow = 'hidden'; 
     }
 
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none'; document.body.style.overflow = 'auto'; 
-    }
-
-    function showToast(message) { 
-        const toast = document.getElementById("toast"); toast.innerText = "✅ " + message; toast.className = "show"; 
-        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000); 
-    }
+    function closeModal(modalId) { document.getElementById(modalId).style.display = 'none'; document.body.style.overflow = 'auto'; }
+    function showToast(message) { const toast = document.getElementById("toast"); toast.innerText = "✅ " + message; toast.className = "show"; setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000); }
 
     function switchView(viewName) {
         const navBtn = document.getElementById('nav-' + viewName); const isActive = navBtn.classList.contains('active');
-        document.getElementById('nav-kb').classList.remove('active'); document.getElementById('nav-claves').classList.remove('active'); document.getElementById('nav-herramientas').classList.remove('active');
-        document.getElementById('arrow-kb').innerText = '▶'; document.getElementById('arrow-claves').innerText = '▶'; document.getElementById('arrow-herramientas').innerText = '▶';
-        document.getElementById('content-kb').style.display = 'none'; document.getElementById('content-claves').style.display = 'none'; document.getElementById('content-herramientas').style.display = 'none';
-        document.getElementById('view-kb').classList.remove('active'); document.getElementById('view-claves').classList.remove('active'); document.getElementById('view-herramientas').classList.remove('active'); document.getElementById('view-welcome').classList.remove('active');
-        document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); document.querySelectorAll('.nav-arrow').forEach(a => a.innerText = '▶'); document.querySelectorAll('.menu-content').forEach(c => c.style.display = 'none'); document.querySelectorAll('.view-container').forEach(v => v.classList.remove('active')); document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
         if (isActive) { document.getElementById('view-welcome').classList.add('active'); } 
         else {
-            navBtn.classList.add('active'); document.getElementById('arrow-' + viewName).innerText = '▼'; document.getElementById('content-' + viewName).style.display = 'block'; document.getElementById('view-' + viewName).classList.add('active');
-            if(viewName === 'kb') handleSearchKB(); 
-            if(viewName === 'claves') handleSearchClaves();
-            if(viewName === 'herramientas') { 
-                document.getElementById('tools-welcome').style.display = 'block'; 
-                const toolIds = ['pendientes', 'plantillas', 'plazos', 'bin', 'conversor', 'reconst', 'comisiones', 'simulador', 'directorio']; 
-                toolIds.forEach(id => document.getElementById(`tool-${id}`).style.display = 'none'); 
-                updateSegmentos(); 
-            }
+            if(navBtn) { navBtn.classList.add('active'); document.getElementById('arrow-' + viewName).innerText = '▼'; document.getElementById('content-' + viewName).style.display = 'block'; }
+            document.getElementById('view-' + viewName).classList.add('active');
+            if(viewName === 'kb') handleSearchKB(); if(viewName === 'claves') handleSearchClaves();
+            if(viewName === 'herramientas') { document.getElementById('tools-welcome').style.display = 'block'; const toolIds = ['pendientes', 'plantillas', 'plazos', 'bin', 'conversor', 'reconst', 'comisiones', 'simulador', 'directorio', 'cuadratura']; toolIds.forEach(id => { const el = document.getElementById(`tool-${id}`); if(el) el.style.display = 'none';}); updateSegmentos(); }
+            if(viewName === 'listasBlancas') { document.getElementById('listas-welcome').style.display = 'block'; document.getElementById('tool-listas').style.display = 'none'; }
         }
     }
 
     function openTool(toolId) {
-        document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active')); document.getElementById('btn-tool-' + toolId).classList.add('active'); document.getElementById('tools-welcome').style.display = 'none';
-        const toolIds = ['pendientes', 'plantillas', 'plazos', 'bin', 'conversor', 'reconst', 'comisiones', 'simulador', 'directorio']; toolIds.forEach(id => document.getElementById(`tool-${id}`).style.display = 'none'); document.getElementById('tool-' + toolId).style.display = 'block';
-        if(toolId === 'bin') document.getElementById('binInput').focus(); 
-        if(toolId === 'conversor') document.getElementById('inputExt').focus(); 
-        if(toolId === 'reconst') document.getElementById('platcomInput').focus(); 
-        if(toolId === 'directorio') renderDirectorio(); 
-        if(toolId === 'simulador') document.getElementById('simMonto').focus(); 
-        if(toolId === 'pendientes') { renderPendientes(); document.getElementById('nuevaTareaInput').focus(); } 
-        if(toolId === 'plantillas') { renderPlantillasDropdown(); }
+        document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active')); document.getElementById('btn-tool-' + toolId).classList.add('active'); 
+        if(document.getElementById('tools-welcome')) document.getElementById('tools-welcome').style.display = 'none';
+        if(document.getElementById('listas-welcome')) document.getElementById('listas-welcome').style.display = 'none';
+        const toolIds = ['pendientes', 'plantillas', 'plazos', 'bin', 'conversor', 'reconst', 'comisiones', 'simulador', 'directorio', 'cuadratura', 'listas']; 
+        toolIds.forEach(id => { const el = document.getElementById(`tool-${id}`); if(el) el.style.display = 'none';}); document.getElementById('tool-' + toolId).style.display = 'block';
+        
+        if(toolId === 'bin') document.getElementById('binInput').focus(); if(toolId === 'conversor') document.getElementById('inputExt').focus(); if(toolId === 'reconst') document.getElementById('platcomInput').focus(); if(toolId === 'directorio') renderDirectorio(); if(toolId === 'simulador') document.getElementById('simMonto').focus(); if(toolId === 'pendientes') { renderPendientes(); document.getElementById('nuevaTareaInput').focus(); } if(toolId === 'plantillas') { renderPlantillasDropdown(); }
     }
 
     function copyText(event, elementId, rawText = null) {
@@ -936,107 +1062,91 @@
     }
 
     // --- FUNCIONES COMPARTIR E IMPORTAR ---
-    function handleShareExport() {
-        const sharedData = { kb: entries, directorio: directorio, plantillas: plantillas };
-        if(entries.length === 0 && directorio.length === 0 && plantillas.length === 0) { alert('No hay datos para compartir.'); return; }
-        const stringData = JSON.stringify(sharedData); const encodedData = btoa(encodeURIComponent(stringData));
-        const modalHtml = `<div class="modal-overlay" id="shareModal" style="display: flex;"><div class="modal-content modal-content-small" style="border-top: 6px solid #6610f2;"><span class="close-modal" onclick="document.getElementById('shareModal').remove(); document.body.style.overflow='auto';" title="Cerrar">&times;</span><h2 style="color: #6610f2;">🤝 Compartir Datos del Hub</h2><p style="color: var(--text-muted); font-size: 0.95em;">Este paquete incluye <strong>solo</strong> tu Base de Conocimiento, Directorio y Plantillas (Excluye Claves y Tareas Pendientes por seguridad).</p><textarea readonly style="height: 120px; font-family: monospace; font-size: 0.85em; background: var(--bg-group); color: var(--text-main); margin-top: 10px;">${encodedData}</textarea><button class="save-btn" style="background: #6610f2; margin-top: 15px;" onclick="navigator.clipboard.writeText(this.previousElementSibling.value); showToast('Paquete copiado'); document.getElementById('shareModal').remove(); document.body.style.overflow='auto';">📋 Copiar Código Compartible</button></div></div>`;
-        document.body.insertAdjacentHTML('beforeend', modalHtml); document.body.style.overflow = 'hidden';
-    }
-
-    function handleFileExport() {
-        const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes, plantillas: plantillas };
-        if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0 && plantillas.length === 0) { alert('No hay datos guardados para exportar.'); return; }
-        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })); a.download = `Backup_BICE_Hub_${new Date().toISOString().slice(0,10)}.json`; a.click(); closeModal('exportModal');
-    }
-
-    function handleTextExport() {
-        const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes, plantillas: plantillas };
-        if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0 && plantillas.length === 0) { alert('No hay datos para exportar.'); return; }
-        const stringData = JSON.stringify(data); const encodedData = btoa(encodeURIComponent(stringData));
-        document.getElementById('exportTextarea').value = encodedData; document.getElementById('exportTextContainer').style.display = 'block';
-    }
-
-    function copyBackupText() {
-        const text = document.getElementById('exportTextarea').value;
-        if(navigator.clipboard) { navigator.clipboard.writeText(text).then(() => { showToast("Texto copiado al portapapeles"); closeModal('exportModal'); }); }
-    }
-
-    function processImportedData(importedData) {
-        if (Array.isArray(importedData)) {
-            if (importedData.length > 0 && importedData[0].titulo) {
-                if(confirm("Se detectó un respaldo antiguo de Base de Conocimiento. ¿Deseas integrarlo a tu Hub actual?")) { importedData.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); }); localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); showToast("Base antigua integrada"); }
-            } else if (importedData.length > 0 && importedData[0].app) {
-                if(confirm("Se detectó un respaldo antiguo de Mis Claves. ¿Deseas integrarlo a tu Hub actual?")) { importedData.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); }); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); showToast("Claves antiguas integradas"); }
-            }
-        } 
-        else if (importedData.kb || importedData.claves || importedData.directorio || importedData.pendientes || importedData.plantillas) {
-            if(confirm(`Se encontró un Respaldo Global del Hub.\n\n• Presiona "Aceptar" para SUMAR estos datos a los que ya tienes.\n• Presiona "Cancelar" para REEMPLAZAR toda tu información actual.`)) {
-                if(importedData.kb) importedData.kb.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); });
-                if(importedData.claves) importedData.claves.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); });
-                if(importedData.directorio) importedData.directorio.forEach(item => { if(!directorio.find(x=>x.id===item.id)) directorio.push(item); });
-                if(importedData.pendientes) importedData.pendientes.forEach(item => { if(!pendientes.find(x=>x.id===item.id)) pendientes.push(item); });
-                if(importedData.plantillas) importedData.plantillas.forEach(item => { if(!plantillas.find(x=>x.id===item.id)) plantillas.push(item); });
-                showToast("Respaldo sumado con éxito");
-            } else {
-                if(confirm('⚠️ ESTO ELIMINARÁ TUS DATOS ACTUALES y los reemplazará por el respaldo. ¿Continuar?')) { 
-                    entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || []; pendientes = importedData.pendientes || []; plantillas = importedData.plantillas || [];
-                    showToast("Respaldo reemplazado con éxito"); 
-                } else { return; }
-            }
-            localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown();
-        } else { alert('Formato de archivo no reconocido o corrupto.'); }
-        closeModal('importModal');
-    }
-
-    function handleFileImport(event) {
-        const file = event.target.files[0]; if (!file) return; const reader = new FileReader();
-        reader.onload = function(e) { try { const importedData = JSON.parse(e.target.result); processImportedData(importedData); } catch (error) { alert('Error leyendo el archivo JSON.'); } event.target.value = ''; }; reader.readAsText(file);
-    }
-
-    function handleTextImport() {
-        const text = document.getElementById('importTextarea').value.trim(); if(!text) { alert('Por favor, pega el código de respaldo.'); return; }
-        try { const jsonString = decodeURIComponent(atob(text)); const importedData = JSON.parse(jsonString); processImportedData(importedData); } catch (error) { alert('Código inválido o corrupto. Verifica que hayas copiado el texto completo sin agregar espacios.'); }
-    }
-
-    function deleteAllData() {
-        if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves, Directorio, Tareas y Plantillas)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) {
-            entries = []; claves = []; directorio = []; pendientes = []; plantillas = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown(); showToast("Toda la información fue eliminada");
-        }
-    }
+    function handleShareExport() { const sharedData = { kb: entries, directorio: directorio, plantillas: plantillas }; if(entries.length === 0 && directorio.length === 0 && plantillas.length === 0) { alert('No hay datos para compartir.'); return; } const stringData = JSON.stringify(sharedData); const encodedData = btoa(encodeURIComponent(stringData)); const modalHtml = `<div class="modal-overlay" id="shareModal" style="display: flex;"><div class="modal-content modal-content-small" style="border-top: 6px solid #6610f2;"><span class="close-modal" onclick="document.getElementById('shareModal').remove(); document.body.style.overflow='auto';" title="Cerrar">&times;</span><h2 style="color: #6610f2;">🤝 Compartir Datos del Hub</h2><p style="color: var(--text-muted); font-size: 0.95em;">Este paquete incluye <strong>solo</strong> tu Base de Conocimiento, Directorio y Plantillas (Excluye Claves y Tareas Pendientes por seguridad).</p><textarea readonly style="height: 120px; font-family: monospace; font-size: 0.85em; background: var(--bg-group); color: var(--text-main); margin-top: 10px;">${encodedData}</textarea><button class="save-btn" style="background: #6610f2; margin-top: 15px;" onclick="navigator.clipboard.writeText(this.previousElementSibling.value); showToast('Paquete copiado'); document.getElementById('shareModal').remove(); document.body.style.overflow='auto';">📋 Copiar Código Compartible</button></div></div>`; document.body.insertAdjacentHTML('beforeend', modalHtml); document.body.style.overflow = 'hidden'; }
+    function handleFileExport() { const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes, plantillas: plantillas }; if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0 && plantillas.length === 0) { alert('No hay datos guardados para exportar.'); return; } const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" })); a.download = `Backup_BICE_Hub_${new Date().toISOString().slice(0,10)}.json`; a.click(); closeModal('exportModal'); }
+    function handleTextExport() { const data = { kb: entries, claves: claves, directorio: directorio, pendientes: pendientes, plantillas: plantillas }; if(entries.length === 0 && claves.length === 0 && directorio.length === 0 && pendientes.length === 0 && plantillas.length === 0) { alert('No hay datos para exportar.'); return; } const stringData = JSON.stringify(data); const encodedData = btoa(encodeURIComponent(stringData)); document.getElementById('exportTextarea').value = encodedData; document.getElementById('exportTextContainer').style.display = 'block'; }
+    function copyBackupText() { const text = document.getElementById('exportTextarea').value; if(navigator.clipboard) { navigator.clipboard.writeText(text).then(() => { showToast("Texto copiado al portapapeles"); closeModal('exportModal'); }); } }
+    function processImportedData(importedData) { if (Array.isArray(importedData)) { if (importedData.length > 0 && importedData[0].titulo) { if(confirm("Se detectó un respaldo antiguo de Base de Conocimiento. ¿Deseas integrarlo a tu Hub actual?")) { importedData.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); }); localStorage.setItem('bice_kb_data', JSON.stringify(entries)); handleSearchKB(); showToast("Base antigua integrada"); } } else if (importedData.length > 0 && importedData[0].app) { if(confirm("Se detectó un respaldo antiguo de Mis Claves. ¿Deseas integrarlo a tu Hub actual?")) { importedData.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); }); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); showToast("Claves antiguas integradas"); } } } else if (importedData.kb || importedData.claves || importedData.directorio || importedData.pendientes || importedData.plantillas) { if(confirm(`Se encontró un Respaldo Global del Hub.\n\n• Presiona "Aceptar" para SUMAR estos datos a los que ya tienes.\n• Presiona "Cancelar" para REEMPLAZAR toda tu información actual.`)) { if(importedData.kb) importedData.kb.forEach(item => { if(!entries.find(x=>x.id===item.id)) entries.push(item); }); if(importedData.claves) importedData.claves.forEach(item => { if(!claves.find(x=>x.id===item.id)) claves.push(item); }); if(importedData.directorio) importedData.directorio.forEach(item => { if(!directorio.find(x=>x.id===item.id)) directorio.push(item); }); if(importedData.pendientes) importedData.pendientes.forEach(item => { if(!pendientes.find(x=>x.id===item.id)) pendientes.push(item); }); if(importedData.plantillas) importedData.plantillas.forEach(item => { if(!plantillas.find(x=>x.id===item.id)) plantillas.push(item); }); showToast("Respaldo sumado con éxito"); } else { if(confirm('⚠️ ESTO ELIMINARÁ TUS DATOS ACTUALES y los reemplazará por el respaldo. ¿Continuar?')) { entries = importedData.kb || []; claves = importedData.claves || []; directorio = importedData.directorio || []; pendientes = importedData.pendientes || []; plantillas = importedData.plantillas || []; showToast("Respaldo reemplazado con éxito"); } else { return; } } localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown(); } else { alert('Formato de archivo no reconocido o corrupto.'); } closeModal('importModal'); }
+    function handleFileImport(event) { const file = event.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = function(e) { try { const importedData = JSON.parse(e.target.result); processImportedData(importedData); } catch (error) { alert('Error leyendo el archivo JSON.'); } event.target.value = ''; }; reader.readAsText(file); }
+    function handleTextImport() { const text = document.getElementById('importTextarea').value.trim(); if(!text) { alert('Por favor, pega el código de respaldo.'); return; } try { const jsonString = decodeURIComponent(atob(text)); const importedData = JSON.parse(jsonString); processImportedData(importedData); } catch (error) { alert('Código inválido o corrupto. Verifica que hayas copiado el texto completo sin agregar espacios.'); } }
+    function deleteAllData() { if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves, Directorio, Tareas y Plantillas)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) { entries = []; claves = []; directorio = []; pendientes = []; plantillas = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown(); showToast("Toda la información fue eliminada"); } }
 
     // --- LÓGICA BASE DE CONOCIMIENTO (KB) ---
     function cargarCategoriasEnSelect() {
-        const select = document.getElementById('categoriaSelect'); select.innerHTML = '<option value="">Selecciona una categoría...</option>';
-        const categoriasUnicas = [...new Set(entries.map(e => e.categoria))].filter(Boolean).sort();
-        categoriasUnicas.forEach(cat => { const opt = document.createElement('option'); opt.value = cat; opt.innerText = cat; select.appendChild(opt); });
-        const optNueva = document.createElement('option'); optNueva.value = "nueva"; optNueva.innerText = "➕ Crear Nueva Categoría..."; optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--primary-color)"; select.appendChild(optNueva);
+        const container = document.getElementById('categoriasCheckboxContainer'); container.innerHTML = '';
+        const allCats = entries.flatMap(e => Array.isArray(e.categoria) ? e.categoria : [e.categoria]).filter(Boolean);
+        const categoriasUnicas = [...new Set(allCats)].sort();
+        categoriasUnicas.forEach(cat => { 
+            const lbl = document.createElement('label'); lbl.className = "cat-label";
+            const chk = document.createElement('input'); chk.type = "checkbox"; chk.value = cat; chk.className = "kb-cat-checkbox";
+            lbl.appendChild(chk); lbl.appendChild(document.createTextNode(cat));
+            container.appendChild(lbl);
+        });
     }
     
-    function handleCategoriaChange() {
-        const select = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva');
-        if (select.value === 'nueva') { inputNueva.style.display = 'block'; inputNueva.required = true; inputNueva.focus(); } 
-        else { inputNueva.style.display = 'none'; inputNueva.required = false; }
+    function agregarCategoriaManual(event) {
+        if(event.key === 'Enter') {
+            event.preventDefault(); const val = event.target.value.trim(); if(!val) return;
+            const container = document.getElementById('categoriasCheckboxContainer');
+            const exists = Array.from(container.querySelectorAll('input')).some(chk => chk.value.toLowerCase() === val.toLowerCase());
+            if(!exists) {
+                const lbl = document.createElement('label'); lbl.className = "cat-label";
+                const chk = document.createElement('input'); chk.type = "checkbox"; chk.value = val; chk.className = "kb-cat-checkbox"; chk.checked = true;
+                lbl.appendChild(chk); lbl.appendChild(document.createTextNode(val)); container.appendChild(lbl);
+            }
+            event.target.value = '';
+        }
+    }
+
+    function handleValidacionChange() {
+        const select = document.getElementById('validacionSelect'); const inputOtra = document.getElementById('validacionOtra');
+        if (select.value === 'otra') { inputOtra.style.display = 'block'; inputOtra.focus(); } else { inputOtra.style.display = 'none'; }
+    }
+
+    function cargarRelacionadosKB() {
+        const select = document.getElementById('procedimientoSelect'); select.innerHTML = '<option value="">Ninguno / No aplica</option>';
+        const sorted = [...entries].sort((a,b) => a.titulo.localeCompare(b.titulo));
+        sorted.forEach(e => { if(e.id !== document.getElementById('entryId').value) { select.innerHTML += `<option value="${e.id}">${e.titulo}</option>`; } });
     }
     
     function generarEtiquetas() {
-        const titulo = document.getElementById('titulo').value; const catSelect = document.getElementById('categoriaSelect').value; const categoria = catSelect === 'nueva' ? document.getElementById('categoriaNueva').value : catSelect;
-        const textos = [ titulo, categoria, document.getElementById('validacion').value, document.getElementById('scriptInicial').value, document.getElementById('pasoApaso').value ].join(' ').toLowerCase();
+        const titulo = document.getElementById('titulo').value; 
+        const cats = Array.from(document.querySelectorAll('.kb-cat-checkbox:checked')).map(c => c.value).join(' ');
+        const textos = [ titulo, cats, document.getElementById('validacionOtra').value, document.getElementById('scriptInicial').value, document.getElementById('pasoApaso').value ].join(' ').toLowerCase();
         if (textos.trim().length < 5) { alert('Llena el título o algún otro campo primero para generar etiquetas.'); return; }
         const textoLimpio = textos.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ' ');
-        const stopWords = ['para','como','pero','este','esta','estos','estas','todo','toda','todos','todas','sobre','entre','hacia','desde','hasta','segun','antes','despues','luego','mientras','cuando','donde','quien','cual','que','con','por','del','los','las','una','unos','unas','tiene','tienen','hacer','paso','script'];
+        const stopWords = ['xxxxx', 'cliente', 'favor', 'banco', 'bice', 'ejecutivo', 'llamar', 'tarjeta', 'credito', 'debito', 'para','como','pero','este','esta','estos','estas','todo','toda','todos','todas','sobre','entre','hacia','desde','hasta','segun','antes','despues','luego','mientras','cuando','donde','quien','cual','que','con','por','del','los','las','una','unos','unas','tiene','tienen','hacer','paso','script'];
         const palabras = textoLimpio.split(/\s+/); const contador = {};
         palabras.forEach(p => { if (p.length > 3 && !stopWords.includes(p)) contador[p] = (contador[p] || 0) + 1; });
-        const ordenadas = Object.keys(contador).sort((a, b) => contador[b] - contador[a]); const topTags = ordenadas.slice(0, 6);
+        const ordenadas = Object.keys(contador).sort((a, b) => contador[b] - contador[a]); const topTags = ordenadas.slice(0, 15);
         if(topTags.length > 0) { document.getElementById('etiquetas').value = topTags.join(', '); showToast("Etiquetas autogeneradas"); } else { alert('No se encontró suficiente texto relevante.'); }
     }
 
     document.getElementById('kbForm').addEventListener('submit', function(e) {
-        e.preventDefault(); const id = document.getElementById('entryId').value; const inputTitulo = document.getElementById('titulo').value.trim(); const catSelectValue = document.getElementById('categoriaSelect').value; const categoriaFinal = catSelectValue === 'nueva' ? document.getElementById('categoriaNueva').value.trim() : catSelectValue;
+        e.preventDefault(); const id = document.getElementById('entryId').value; const inputTitulo = document.getElementById('titulo').value.trim(); 
+        
+        let categoriasFinales = Array.from(document.querySelectorAll('.kb-cat-checkbox:checked')).map(c => c.value);
+        const catManual = document.getElementById('categoriaNueva').value.trim(); if(catManual) categoriasFinales.push(catManual);
+        if(categoriasFinales.length === 0) categoriasFinales = ["Sin Categoría"];
+
+        let valFinal = document.getElementById('validacionSelect').value;
+        if(valFinal === 'otra') valFinal = document.getElementById('validacionOtra').value.trim();
+
+        let ctiCat = document.getElementById('ctiCat').value.trim(); let ctiTipo = document.getElementById('ctiTipo').value.trim(); let ctiItem = document.getElementById('ctiItem').value.trim();
+        let ctiFinal = [ctiCat, ctiTipo, ctiItem].filter(Boolean).join(' > ');
+
         const duplicate = entries.find(emp => emp.titulo.toLowerCase() === inputTitulo.toLowerCase() && emp.id !== id);
         if (duplicate) { if (!id) { if (confirm(`⚠️ El título ya existe.\n\n"Aceptar" para cargar existente.`)) { editEntry(duplicate.id); } } else alert(`⚠️ Ya existe otro registro llamado "${duplicate.titulo}".`); return; }
+        
         const isFavorito = id ? (entries.find(emp => emp.id === id).favorito || false) : false;
-        const newEntry = { id: id ? id : 'KB_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), titulo: inputTitulo, categoria: categoriaFinal, etiquetas: document.getElementById('etiquetas').value, validacion: document.getElementById('validacion').value, scriptInicial: document.getElementById('scriptInicial').value, pasoApaso: document.getElementById('pasoApaso').value, cti: document.getElementById('cti').value, plantilla: document.getElementById('plantilla').value, scriptFinal: document.getElementById('scriptFinal').value, detalles: document.getElementById('detalles').value, otro: document.getElementById('otro').value, favorito: isFavorito };
+        const newEntry = { 
+            id: id ? id : 'KB_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), 
+            titulo: inputTitulo, categoria: categoriasFinales, etiquetas: document.getElementById('etiquetas').value, 
+            validacion: valFinal, scriptInicial: document.getElementById('scriptInicial').value, pasoApaso: document.getElementById('pasoApaso').value, 
+            cti: ctiFinal, plantilla: document.getElementById('plantilla').value, scriptFinal: document.getElementById('scriptFinal').value, 
+            detalles: document.getElementById('detalles').value, relacionado: document.getElementById('procedimientoSelect').value, favorito: isFavorito 
+        };
+        
         if (id) { entries[entries.findIndex(emp => emp.id === id)] = newEntry; showToast("Actualizado"); } else { entries.push(newEntry); showToast("Guardado"); }
         localStorage.setItem('bice_kb_data', JSON.stringify(entries)); closeModal('kbModal'); handleSearchKB();
     });
@@ -1055,7 +1165,10 @@
 
     function handleSearchKB() {
         const searchTerm = document.getElementById('searchInput').value.toLowerCase(); const sortValue = document.getElementById('sortSelectKB').value;
-        filteredEntries = entries.filter(e => e.titulo.toLowerCase().includes(searchTerm) || e.categoria.toLowerCase().includes(searchTerm) || e.etiquetas.toLowerCase().includes(searchTerm) || e.detalles.toLowerCase().includes(searchTerm));
+        filteredEntries = entries.filter(e => {
+            const catString = Array.isArray(e.categoria) ? e.categoria.join(' ') : (e.categoria || '');
+            return e.titulo.toLowerCase().includes(searchTerm) || catString.toLowerCase().includes(searchTerm) || (e.etiquetas||'').toLowerCase().includes(searchTerm) || (e.detalles||'').toLowerCase().includes(searchTerm);
+        });
         filteredEntries = sortData(filteredEntries, sortValue, 'titulo'); currentKbPage = 1; renderEntries();
     }
 
@@ -1069,10 +1182,15 @@
             const card = document.createElement('details'); card.className = 'card';
             const starColor = entry.favorito ? 'var(--color-star)' : 'var(--border)'; const starFill = entry.favorito ? 'var(--color-star)' : 'none';
             const starHtml = `<button class="star-btn" onclick="toggleFavKB(event, '${entry.id}')" title="Marcar como favorito" style="color: ${starColor};"><svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="${starFill}" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></button>`;
-            let html = `<summary class="card-header"><div style="display:flex; align-items:center; gap:8px;">${starHtml}<div>${entry.titulo}</div></div><div><span class="tags">${entry.categoria}</span></div></summary><div class="card-content">`;
-            const fields = [ { key: 'validacion', label: 'Validación' }, { key: 'scriptInicial', label: 'Script Inicial' }, { key: 'pasoApaso', label: 'Paso a Paso' }, { key: 'cti', label: 'CTI' }, { key: 'plantilla', label: 'Plantilla' }, { key: 'scriptFinal', label: 'Script Final' }, { key: 'detalles', label: 'Detalles importantes' }, { key: 'otro', label: 'Otro' } ];
+            let catTags = ''; const catArray = Array.isArray(entry.categoria) ? entry.categoria : [entry.categoria];
+            catArray.forEach(c => { if(c) catTags += `<span class="tags">${c}</span>`; });
+            let html = `<summary class="card-header"><div style="display:flex; align-items:center; gap:8px;">${starHtml}<div>${entry.titulo}</div></div><div style="text-align:right;">${catTags}</div></summary><div class="card-content">`;
+            const fields = [ { key: 'validacion', label: 'Validación' }, { key: 'scriptInicial', label: 'Script Inicial' }, { key: 'pasoApaso', label: 'Paso a Paso' }, { key: 'cti', label: 'Ruta CTI' }, { key: 'plantilla', label: 'Plantilla' }, { key: 'scriptFinal', label: 'Script Final' }, { key: 'detalles', label: 'Detalles importantes' }, { key: 'otro', label: 'Otro' } ];
             fields.forEach(f => { if(entry[f.key] && entry[f.key].trim() !== '') { html += `<div class="field-group"><div class="field-title">${f.label}</div><div class="field-content" id="txt-${entry.id}-${f.key}">${entry[f.key]}</div><button class="copy-btn copy-btn-absolute" onclick="copyText(event, 'txt-${entry.id}-${f.key}')" title="Copiar texto">📋 Copiar</button></div>`; } });
-            html += `<div class="last-modified">(Última modificación: ${entry.fecha || 'N/A'})</div><div class="card-actions"><button class="action-btn edit-btn" onclick="editEntry('${entry.id}')">✏️ Editar</button><button class="action-btn delete-btn" onclick="deleteEntry('${entry.id}')">🗑️ Eliminar</button></div></div>`; 
+            
+            if(entry.relacionado) { const relObj = entries.find(x => x.id === entry.relacionado); if(relObj) { html += `<button class="outline-btn" style="width:100%; margin-top:10px; border-color:var(--color-indigo); color:var(--color-indigo);" onclick="document.getElementById('searchInput').value='${relObj.titulo}'; handleSearchKB();">🔗 Ir a procedimiento alternativo: ${relObj.titulo}</button>`; } }
+            
+            html += `<div class="last-modified">(Última modificación: ${entry.fecha || 'N/A'})</div><div class="card-actions"><button class="action-btn edit-btn" onclick="editEntry('${entry.id}')">✏️ Editar</button><button class="action-btn clone-btn" onclick="cloneEntry('${entry.id}')">📑 Clonar</button><button class="action-btn delete-btn" onclick="deleteEntry('${entry.id}')">🗑️ Eliminar</button></div></div>`; 
             card.innerHTML = html; list.appendChild(card);
         });
         document.getElementById('pageInfoKB').innerText = `Página ${currentKbPage} de ${totalPages}`; document.getElementById('totalInfoKB').innerText = `Total: ${filteredEntries.length} registros`;
@@ -1080,10 +1198,29 @@
     }
 
     function editEntry(id) { 
-        const entry = entries.find(e => e.id === id); document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo; cargarCategoriasEnSelect(); const catSelect = document.getElementById('categoriaSelect'); const inputNueva = document.getElementById('categoriaNueva'); 
-        if (Array.from(catSelect.options).some(opt => opt.value === entry.categoria)) { catSelect.value = entry.categoria; inputNueva.style.display = 'none'; inputNueva.required = false; } else { catSelect.value = 'nueva'; inputNueva.style.display = 'block'; inputNueva.value = entry.categoria; inputNueva.required = true; } 
-        document.getElementById('etiquetas').value = entry.etiquetas; document.getElementById('validacion').value = entry.validacion; document.getElementById('scriptInicial').value = entry.scriptInicial; document.getElementById('pasoApaso').value = entry.pasoApaso; document.getElementById('cti').value = entry.cti; document.getElementById('plantilla').value = entry.plantilla; document.getElementById('scriptFinal').value = entry.scriptFinal; document.getElementById('detalles').value = entry.detalles; document.getElementById('otro').value = entry.otro; document.getElementById('formTitleKB').innerText = 'Editar Registro'; 
-        document.getElementById('kbModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; 
+        const entry = entries.find(e => e.id === id); document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo; cargarCategoriasEnSelect(); 
+        const catArray = Array.isArray(entry.categoria) ? entry.categoria : [entry.categoria]; document.querySelectorAll('.kb-cat-checkbox').forEach(chk => { if(catArray.includes(chk.value)) chk.checked = true; else chk.checked = false; });
+        document.getElementById('categoriaNueva').style.display = 'none'; document.getElementById('categoriaNueva').required = false; document.getElementById('categoriaNueva').value = '';
+        
+        const validacionSelect = document.getElementById('validacionSelect'); const validacionOtra = document.getElementById('validacionOtra');
+        if (Array.from(validacionSelect.options).some(opt => opt.value === entry.validacion)) { validacionSelect.value = entry.validacion; validacionOtra.style.display = 'none'; } else { validacionSelect.value = 'otra'; validacionOtra.style.display = 'block'; validacionOtra.value = entry.validacion || ''; }
+        
+        let cCat='', cTipo='', cItem=''; if(entry.cti) { const ctiParts = entry.cti.split(' > '); cCat = ctiParts[0] || ''; cTipo = ctiParts[1] || ''; cItem = ctiParts[2] || ''; }
+        document.getElementById('ctiCat').value = cCat; document.getElementById('ctiTipo').value = cTipo; document.getElementById('ctiItem').value = cItem;
+
+        document.getElementById('etiquetas').value = entry.etiquetas || ''; document.getElementById('scriptInicial').value = entry.scriptInicial || ''; document.getElementById('pasoApaso').value = entry.pasoApaso || ''; document.getElementById('plantilla').value = entry.plantilla || ''; document.getElementById('scriptFinal').value = entry.scriptFinal || ''; document.getElementById('detalles').value = entry.detalles || ''; 
+        
+        cargarRelacionadosKB(); document.getElementById('procedimientoSelect').value = entry.relacionado || '';
+        document.getElementById('formTitleKB').innerText = 'Editar Registro'; document.getElementById('kbModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; 
+    }
+
+    function cloneEntry(id) {
+        if(confirm("¿Deseas duplicar este registro?")) {
+            editEntry(id);
+            document.getElementById('entryId').value = ''; 
+            document.getElementById('titulo').value = "[Copia] - " + document.getElementById('titulo').value;
+            document.getElementById('formTitleKB').innerText = 'Clonar Registro';
+        }
     }
 
     function deleteEntry(id) { if(confirm('¿Estás seguro de eliminar este registro?')) { entries = entries.filter(e => e.id !== id); localStorage.setItem('bice_kb_data', JSON.stringify(entries)); showToast("Registro eliminado"); handleSearchKB(); } }
@@ -1202,10 +1339,50 @@
     }
 
     // --- LÓGICA MIS PENDIENTES ---
+    function togglePendientesFilter(tipo) {
+        currentPendientesFilter = tipo;
+        renderPendientes();
+    }
+
     function renderPendientes() {
         const list = document.getElementById('listaPendientes'); list.innerHTML = '';
-        if (pendientes.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px; font-style: italic;">No tienes tareas pendientes. ¡Estás al día! 🎉</p>'; return; }
-        const sorted = [...pendientes].sort((a, b) => { if(a.done === b.done) return b.timestamp - a.timestamp; return a.done ? 1 : -1; });
+        const statsDiv = document.getElementById('pendientesStats');
+        
+        // Auto-clasificar si hay nuevos sin tipo
+        pendientes.forEach(t => {
+            if (!t.tipo) {
+                if (t.text.toUpperCase().startsWith("MS-")) { t.tipo = "💬 Mensajería"; t.badgeColor = "var(--color-info)"; }
+                else if (/^\d+$/.test(t.text)) { t.tipo = "☁️ Salesforce"; t.badgeColor = "var(--primary-color)"; }
+                else { t.tipo = "📌 Otros"; t.badgeColor = "var(--color-purple)"; }
+            }
+        });
+
+        const activeTasks = pendientes.filter(t => !t.done);
+        const countSF = activeTasks.filter(t => t.tipo === "☁️ Salesforce").length;
+        const countMS = activeTasks.filter(t => t.tipo === "💬 Mensajería").length;
+        const countOtros = activeTasks.filter(t => t.tipo === "📌 Otros").length;
+        
+        if (statsDiv) {
+            statsDiv.innerHTML = `
+                <div class="stat-chip ${currentPendientesFilter==='all'?'active-filter':''}" onclick="togglePendientesFilter('all')" style="color:var(--text-main); font-weight:bold;">Todos (${activeTasks.length})</div>
+                <div class="stat-chip ${currentPendientesFilter==='sf'?'active-filter':''}" onclick="togglePendientesFilter('sf')" style="color:var(--primary-color);">☁️ Salesforce (${countSF})</div>
+                <div class="stat-chip ${currentPendientesFilter==='ms'?'active-filter':''}" onclick="togglePendientesFilter('ms')" style="color:var(--color-info);">💬 Mensajería (${countMS})</div>
+                <div class="stat-chip ${currentPendientesFilter==='otros'?'active-filter':''}" onclick="togglePendientesFilter('otros')" style="color:var(--color-purple);">📌 Otros (${countOtros})</div>
+            `;
+        }
+
+        let aMostrar = [...pendientes];
+        if (currentPendientesFilter === 'sf') aMostrar = aMostrar.filter(t => t.tipo === "☁️ Salesforce");
+        if (currentPendientesFilter === 'ms') aMostrar = aMostrar.filter(t => t.tipo === "💬 Mensajería");
+        if (currentPendientesFilter === 'otros') aMostrar = aMostrar.filter(t => t.tipo === "📌 Otros");
+
+        if (aMostrar.length === 0) { 
+            list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:20px; font-style: italic;">No tienes tareas pendientes en esta vista.</p>'; 
+            return; 
+        } 
+        
+        const sorted = aMostrar.sort((a, b) => { if(a.done === b.done) return b.timestamp - a.timestamp; return a.done ? 1 : -1; }); 
+        
         sorted.forEach(t => {
             const div = document.createElement('div'); div.style.cssText = `display: flex; align-items: center; justify-content: space-between; background: var(--bg-card); padding: 12px 15px; border-radius: 6px; box-shadow: 0 1px 3px var(--shadow); border-left: 4px solid ${t.done ? 'var(--border)' : 'var(--color-success)'}; transition: all 0.2s; opacity: ${t.done ? '0.6' : '1'}; gap: 10px;`;
             const leftDiv = document.createElement('div'); leftDiv.style.cssText = "display: flex; align-items: center; gap: 12px; flex: 1; cursor: pointer; min-width: 0;"; leftDiv.onclick = () => toggleTarea(t.id);
@@ -1216,7 +1393,7 @@
             const nodeText = document.createTextNode(t.text); textSpan.appendChild(nodeText);
             leftDiv.appendChild(check); leftDiv.appendChild(textSpan);
             const actionDiv = document.createElement('div'); actionDiv.style.cssText = "display: flex; gap: 5px; flex-shrink: 0;";
-            const copyBtn = document.createElement('button'); copyBtn.className = "copy-btn"; copyBtn.style.cssText = "padding: 4px 6px; font-size: 0.9em; margin: 0; display: flex; align-items: center; justify-content: center;"; copyBtn.innerHTML = "📋"; copyBtn.title = "Copiar al portapapeles"; copyBtn.onclick = (e) => { e.stopPropagation(); copyText(e, null, t.text); };
+            const copyBtn = document.createElement('button'); copyBtn.className = "copy-btn"; copyBtn.style.cssText = "padding: 4px 6px; font-size: 0.9em; margin: 0; display: flex; align-items: center; justify-content: center;"; copyBtn.innerHTML = copySvg; copyBtn.title = "Copiar al portapapeles"; copyBtn.onclick = (e) => { e.stopPropagation(); copyText(e, null, t.text); };
             const delBtn = document.createElement('button'); delBtn.className = "action-btn delete-btn"; delBtn.style.cssText = "padding: 4px 8px; font-size: 0.9em; margin: 0; background: transparent; color: var(--color-danger); border: 1px solid var(--color-danger); width: auto;"; delBtn.innerHTML = "🗑️"; delBtn.title = "Eliminar tarea"; delBtn.onclick = (e) => { e.stopPropagation(); eliminarTarea(t.id); };
             actionDiv.appendChild(copyBtn); actionDiv.appendChild(delBtn); div.appendChild(leftDiv); div.appendChild(actionDiv); list.appendChild(div);
         });
@@ -1226,13 +1403,31 @@
         const input = document.getElementById('nuevaTareaInput'); const rawText = input.value.trim(); if(!rawText) return;
         const tokens = rawText.split(/\s+/); const allAreCodes = tokens.every(t => /^\d+$/.test(t) || t.toUpperCase().startsWith("MS-"));
         let lines = []; if (allAreCodes && tokens.length > 1) { lines = tokens; } else { lines = rawText.split(/\n+/); }
-        let added = 0;
+        let added = 0; let duplicados = 0;
+        
         lines.forEach((line, index) => {
-            let text = line.trim(); if(!text) return; let tipo = ""; let badgeColor = "";
-            if (text.toUpperCase().startsWith("MS-")) { tipo = "💬 Mensajería"; badgeColor = "var(--color-info)"; } else if (/^\d+$/.test(text)) { tipo = "☁️ Salesforce"; badgeColor = "var(--primary-color)"; }
-            pendientes.push({ id: 'TSK_' + Date.now() + '_' + index, text: text, tipo: tipo, badgeColor: badgeColor, done: false, timestamp: Date.now() }); added++;
+            let text = line.trim(); if(!text) return;
+            let tipo = ""; let badgeColor = "";
+            if (text.toUpperCase().startsWith("MS-")) { tipo = "💬 Mensajería"; badgeColor = "var(--color-info)"; } 
+            else if (/^\d+$/.test(text)) { tipo = "☁️ Salesforce"; badgeColor = "var(--primary-color)"; }
+            else { tipo = "📌 Otros"; badgeColor = "var(--color-purple)"; }
+            
+            const isDuplicate = pendientes.some(p => p.text.toLowerCase() === text.toLowerCase() && !p.done);
+            if (!isDuplicate) {
+                pendientes.push({ id: 'TSK_' + Date.now() + '_' + index, text: text, tipo: tipo, badgeColor: badgeColor, done: false, timestamp: Date.now() }); 
+                added++; 
+            } else {
+                duplicados++;
+            }
         });
-        if (added > 0) { localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); input.value = ''; renderPendientes(); }
+        
+        if (added > 0) { 
+            localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); input.value = ''; renderPendientes(); 
+            if (duplicados > 0) { showToast(`✅ Agregados: ${added} | ⚠️ Omitidos: ${duplicados} (ya existían)`); } 
+            else { showToast(`✅ ${added} agregados con éxito`); }
+        } else if (duplicados > 0) {
+            alert('⚠️ Todas las tareas ingresadas ya están en tu lista activa.');
+        }
     }
 
     function toggleTarea(id) { const idx = pendientes.findIndex(t => t.id === id); if(idx > -1) { pendientes[idx].done = !pendientes[idx].done; localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); renderPendientes(); } }
@@ -1380,34 +1575,6 @@
         }
     }
 
-    // --- DIRECTORIO RÁPIDO ---
-    document.getElementById('directorioForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const id = document.getElementById('dirId').value; const nombre = document.getElementById('dirNombre').value.trim();
-        const newDir = { id: id ? id : 'DIR_' + Date.now().toString(), nombre: nombre, anexo: document.getElementById('dirAnexo').value.trim(), correo: document.getElementById('dirCorreo').value.trim(), notas: document.getElementById('dirNotas').value.trim() };
-        if (id) { directorio[directorio.findIndex(d => d.id === id)] = newDir; showToast("Contacto actualizado"); } else { directorio.push(newDir); showToast("Contacto guardado"); }
-        localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); closeModal('directorioModal'); renderDirectorio();
-    });
-
-    function renderDirectorio() {
-        const list = document.getElementById('dirList'); list.innerHTML = '';
-        const searchTerm = document.getElementById('searchDir').value.toLowerCase();
-        let filteredDir = directorio.filter(d => d.nombre.toLowerCase().includes(searchTerm) || d.anexo.toLowerCase().includes(searchTerm) || d.correo.toLowerCase().includes(searchTerm) || d.notas.toLowerCase().includes(searchTerm) );
-        filteredDir.sort((a, b) => a.nombre.localeCompare(b.nombre));
-        if(filteredDir.length === 0) { list.innerHTML = '<p style="text-align:center; color:var(--text-muted); margin-top:30px; grid-column: 1 / -1;">No hay contactos o anexos guardados.</p>'; return; }
-        filteredDir.forEach(d => {
-            const card = document.createElement('div'); card.style.cssText = "background: var(--bg-card); border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px var(--shadow); border-left: 4px solid var(--color-purple); display: flex; flex-direction: column;";
-            let html = `<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap:10px;"><h3 style="margin: 0; color: var(--primary-color); font-size: 1.1em; line-height:1.2;">${d.nombre}</h3><div style="display:flex; gap:5px; flex-shrink:0;"><button class="action-btn edit-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="editDir('${d.id}')">✏️</button><button class="action-btn delete-btn" style="padding: 4px 8px; font-size: 0.8em; margin:0;" onclick="deleteDir('${d.id}')">🗑️</button></div></div>`;
-            if (d.anexo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">📞 Anexo:</span><span class="clave-value" id="dir-tel-${d.id}" style="font-size:1.1em;">${d.anexo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-tel-${d.id}')">📋 Copiar</button></div>`; }
-            if (d.correo) { html += `<div class="clave-row" style="padding: 6px 10px; margin-bottom: 6px;"><span class="clave-label" style="width: auto; margin-right: 10px; font-size: 0.85em;">✉️ Correo:</span><span class="clave-value" id="dir-mail-${d.id}" style="font-size:0.9em;">${d.correo}</span><button class="copy-btn" style="padding: 4px 6px;" onclick="copyText(event, 'dir-mail-${d.id}')">📋 Copiar</button></div>`; }
-            if (d.notas) { html += `<div style="background: var(--bg-group); padding: 10px; border-radius: 4px; font-size: 0.85em; color: var(--text-muted); margin-top: auto; white-space: pre-wrap; border: 1px solid var(--border-light);">${d.notas}</div>`; }
-            card.innerHTML = html; list.appendChild(card);
-        });
-    }
-
-    function editDir(id) { const d = directorio.find(x => x.id === id); document.getElementById('dirId').value = d.id; document.getElementById('dirNombre').value = d.nombre; document.getElementById('dirAnexo').value = d.anexo || ''; document.getElementById('dirCorreo').value = d.correo || ''; document.getElementById('dirNotas').value = d.notas || ''; document.getElementById('formTitleDir').innerText = 'Editar Contacto'; document.getElementById('directorioModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
-    function deleteDir(id) { if(confirm('¿Seguro de eliminar este contacto?')) { directorio = directorio.filter(x => x.id !== id); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); showToast("Contacto eliminado"); renderDirectorio(); } }
-
     // --- COMISIONES INTERNACIONALES ---
     const comisionesData = {
       "Tarjeta Débito": {
@@ -1440,23 +1607,15 @@
         function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); }
     }
 
-    // --- INICIALIZADOR AL CARGAR ---
-    document.addEventListener("DOMContentLoaded", function() {
-        if (localStorage.getItem('bice_theme') === 'dark') { const check = document.getElementById('themeCheckbox'); if (check) check.checked = true; }
-        
-        const today = new Date(); const y = today.getFullYear(); const m = String(today.getMonth() + 1).padStart(2, '0'); const d = String(today.getDate()).padStart(2, '0');
-        document.getElementById('plazoFecha').value = `${y}-${m}-${d}`;
-        
-        const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; 
-        let fechaStr = today.toLocaleDateString('es-CL', opcionesFecha);
-        fechaStr = fechaStr.charAt(0).toUpperCase() + fechaStr.slice(1);
-        const fechaEl = document.getElementById('fecha-hoy');
-        if (fechaEl) fechaEl.innerText = fechaStr;
+    // --- CONVERSOR DE MONEDAS ---
+    function changeCurrency() {
+        const currency = document.getElementById('convSelect').value; let tasa = 0;
+        if (currency === 'USD') tasa = tasaDolar; else if (currency === 'EUR') tasa = tasaEuro; else if (currency === 'UF') tasa = tasaUF; else if (currency === 'UTM') tasa = tasaUTM;
+        document.getElementById('convTasa').value = tasa; document.getElementById('labelExtranjera').innerText = `Monto en ${currency}:`; calcToCLP(); 
+    }
+    function calcToCLP() { const extVal = parseFloat(document.getElementById('inputExt').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; const clpVal = Math.round(extVal * rate); document.getElementById('inputCLP').value = extVal > 0 ? clpVal : ''; }
+    function calcToExt() { const clpVal = parseFloat(document.getElementById('inputCLP').value) || 0; const rate = parseFloat(document.getElementById('convTasa').value) || 0; if (rate > 0) { const extVal = (clpVal / rate).toFixed(2); document.getElementById('inputExt').value = extVal > 0 ? extVal : ''; } }
 
-        handleSearchKB(); 
-        handleSearchClaves(); 
-        cargarIndicadores();
-    });
 </script>
 
 </body>
