@@ -707,7 +707,7 @@
                 </div>
             </div>
 
-            <!-- CONVERSOR DE MONEDA -->
+<!-- CONVERSOR DE MONEDA -->
             <div id="tool-conversor" class="tool-panel" style="border-top: 6px solid var(--color-success);">
                 <h2 style="color: var(--color-success); margin-top: 0;">💱 Conversor de Moneda a Pesos</h2>
                 <p style="color: var(--text-muted); margin-bottom: 20px;">Calcula el equivalente entre pesos chilenos (CLP) y moneda extranjera. Puedes ajustar la tasa si necesitas usar una del banco.</p>
@@ -721,14 +721,14 @@
                     </div>
                     <div style="flex: 1; min-width: 130px;">
                         <label style="margin-top: 0;">Tasa de cambio ($):</label>
-                        <input type="number" id="convTasa" step="0.01" oninput="calcToCLP()" style="padding: 10px; font-size: 1.05em; font-weight: bold; margin-top: 5px; color: var(--primary-color);">
+                        <input type="number" id="convTasa" step="0.01" placeholder="Ingresar tasa manual" oninput="calcToCLP()" style="padding: 10px; font-size: 1.05em; font-weight: bold; margin-top: 5px; color: var(--primary-color);">
                     </div>
                 </div>
                 <div style="display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 200px;">
                         <label id="labelExtranjera" style="color: var(--primary-color);">Monto en USD:</label>
                         <div style="position: relative;">
-                            <span style="position: absolute; left: 15px; top: 16px; font-size: 1.2em; color: var(--text-muted);">$</span>
+                            <span id="simboloExtranjera" style="position: absolute; left: 15px; top: 16px; font-size: 1.2em; color: var(--text-muted); font-weight: bold;">$</span>
                             <input type="number" id="inputExt" step="0.01" placeholder="0.00" oninput="calcToCLP()" style="font-size: 1.3em; padding: 15px 15px 15px 35px;">
                         </div>
                     </div>
@@ -736,7 +736,7 @@
                     <div style="flex: 1; min-width: 200px;">
                         <label style="color: var(--color-success);">Monto en CLP:</label>
                         <div style="position: relative;">
-                            <span style="position: absolute; left: 15px; top: 16px; font-size: 1.2em; color: var(--text-muted);">$</span>
+                            <span style="position: absolute; left: 15px; top: 16px; font-size: 1.2em; color: var(--text-muted); font-weight: bold;">$</span>
                             <input type="number" id="inputCLP" placeholder="0" oninput="calcToExt()" style="font-size: 1.3em; padding: 15px 15px 15px 35px;">
                         </div>
                     </div>
