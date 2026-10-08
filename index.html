@@ -177,11 +177,6 @@
         .plantilla-preview-label { font-weight: bold; color: var(--color-indigo); width: 80px; flex-shrink: 0; }
         .plantilla-preview-text { flex: 1; white-space: pre-wrap; font-family: monospace; font-size: 1.1em; word-break: break-word; color: var(--text-main); }
         
-        /* CATEGORIAS CHECKBOXES */
-        .categorias-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; background: var(--bg-group); padding: 15px; border-radius: 6px; border: 1px solid var(--border); margin-top: 5px; max-height: 150px; overflow-y: auto;}
-        .cat-label { display: flex; align-items: center; gap: 6px; margin: 0; font-weight: normal; font-size: 0.9em; cursor: pointer; color: var(--text-main); }
-        .cat-label input { width: auto; margin: 0; }
-
         /* PENDIENTES STATS FILTERS */
         .stat-chip { padding: 8px 12px; border-radius: 20px; font-size: 0.9em; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; user-select: none; }
         .stat-chip:hover { filter: brightness(0.9); }
@@ -769,9 +764,9 @@
             <input type="hidden" id="entryId">
             <label>Título:</label><input type="text" id="titulo" required>
             
-            <label>Categorías (puedes marcar varias):</label>
-            <div id="categoriasCheckboxContainer" class="categorias-grid"></div>
-            <input type="text" id="categoriaNueva" placeholder="Escribe el nombre de la nueva categoría y presiona Enter..." style="margin-top: 8px; border-color: var(--primary-color);" onkeydown="agregarCategoriaManual(event)">
+            <label>Categorías:</label>
+            <div id="categoriasContainer"></div>
+            <button type="button" class="outline-btn" style="margin-top: 10px; font-size: 0.85em; padding: 6px 10px;" onclick="addCatRow()">➕ Agregar categoría</button>
             
             <label>Validación requerida:</label>
             <select id="validacionSelect" onchange="handleValidacionChange()">
@@ -935,7 +930,7 @@
 <div id="toast">✅ ¡Acción realizada con éxito!</div>
 
 <footer>
-    <span>Creado por Luis Muñoz | v2.9.7</span>
+    <span>Creado por Luis Muñoz | v2.9.9</span>
     <a href="mailto:luis.munoz@bice.cl?subject=Sugerencia%20para%20BICE%20Hub" style="color: white; text-decoration: none; font-size: 1.2em; opacity: 0.8; transition: opacity 0.2s; margin-left: 10px;" title="Enviar sugerencia o comentario" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">✉️</a>
 </footer>
 
@@ -975,6 +970,17 @@
     }
 
     function getFormattedDate() { const options = { day: '2-digit', month: '2-digit', year: 'numeric' }; return new Date().toLocaleDateString('es-CL', options).replace(/\//g, '-'); }
+
+    // --- CARGA INDEPENDIENTE DE FECHA ---
+    try {
+        const today = new Date(); const y = today.getFullYear(); const m = String(today.getMonth() + 1).padStart(2, '0'); const d = String(today.getDate()).padStart(2, '0');
+        const pf = document.getElementById('plazoFecha'); if(pf) pf.value = `${y}-${m}-${d}`;
+        const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; 
+        let fechaStr = today.toLocaleDateString('es-CL', opcionesFecha);
+        fechaStr = fechaStr.charAt(0).toUpperCase() + fechaStr.slice(1);
+        const fechaEl = document.getElementById('fecha-hoy');
+        if (fechaEl) fechaEl.innerText = fechaStr;
+    } catch(e) { console.error("Error setting date", e); }
 
     // --- EASTER EGG (LOGO) ---
     let logoClicks = 0; let logoTimeout;
@@ -1053,9 +1059,10 @@
         if (isNew) {
             if (modalId === 'kbModal') { 
                 document.getElementById('kbForm').reset(); document.getElementById('entryId').value = ''; 
-                document.getElementById('categoriasCheckboxContainer').innerHTML = ''; 
-                document.getElementById('categoriaNueva').style.display = 'none'; document.getElementById('validacionOtra').style.display = 'none';
-                document.getElementById('formTitleKB').innerText = 'Nuevo Registro'; cargarCategoriasEnSelect(); cargarRelacionadosKB(); 
+                document.getElementById('categoriasContainer').innerHTML = ''; addCatRow();
+                document.getElementById('validacionOtra').style.display = 'none';
+                document.getElementById('formTitleKB').innerText = 'Nuevo Registro';
+                cargarRelacionadosKB(); 
             }
             if (modalId === 'clavesModal') { document.getElementById('clavesForm').reset(); document.getElementById('claveId').value = ''; document.getElementById('formTitleClaves').innerText = 'Nueva Clave de Acceso'; }
             if (modalId === 'directorioModal') { document.getElementById('directorioForm').reset(); document.getElementById('dirId').value = ''; document.getElementById('formTitleDir').innerText = 'Nuevo Contacto / Anexo'; }
@@ -1110,30 +1117,50 @@
     function deleteAllData() { if(confirm(`⚠️ ADVERTENCIA CRÍTICA ⚠️\n¿Estás seguro de ELIMINAR TODA LA INFORMACIÓN de tu BICE Hub (Base, Claves, Directorio, Tareas y Plantillas)?\n\nEsta acción NO se puede deshacer a menos que tengas un archivo de respaldo.`)) { entries = []; claves = []; directorio = []; pendientes = []; plantillas = []; localStorage.setItem('bice_kb_data', JSON.stringify(entries)); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); localStorage.setItem('bice_directorio_data', JSON.stringify(directorio)); localStorage.setItem('bice_pendientes_data', JSON.stringify(pendientes)); localStorage.setItem('bice_plantillas_data', JSON.stringify(plantillas)); handleSearchKB(); handleSearchClaves(); renderDirectorio(); renderPendientes(); renderPlantillasDropdown(); showToast("Toda la información fue eliminada"); } }
 
     // --- LÓGICA BASE DE CONOCIMIENTO (KB) ---
-    function cargarCategoriasEnSelect() {
-        const container = document.getElementById('categoriasCheckboxContainer'); container.innerHTML = '';
+    function getCategoriasUnicas() {
         const allCats = entries.flatMap(e => Array.isArray(e.categoria) ? e.categoria : [e.categoria]).filter(Boolean);
-        const categoriasUnicas = [...new Set(allCats)].sort();
-        categoriasUnicas.forEach(cat => { 
-            const lbl = document.createElement('label'); lbl.className = "cat-label";
-            const chk = document.createElement('input'); chk.type = "checkbox"; chk.value = cat; chk.className = "kb-cat-checkbox";
-            lbl.appendChild(chk); lbl.appendChild(document.createTextNode(cat));
-            container.appendChild(lbl);
-        });
+        return [...new Set(allCats)].sort();
     }
-    
-    function agregarCategoriaManual(event) {
-        if(event.key === 'Enter') {
-            event.preventDefault(); const val = event.target.value.trim(); if(!val) return;
-            const container = document.getElementById('categoriasCheckboxContainer');
-            const exists = Array.from(container.querySelectorAll('input')).some(chk => chk.value.toLowerCase() === val.toLowerCase());
-            if(!exists) {
-                const lbl = document.createElement('label'); lbl.className = "cat-label";
-                const chk = document.createElement('input'); chk.type = "checkbox"; chk.value = val; chk.className = "kb-cat-checkbox"; chk.checked = true;
-                lbl.appendChild(chk); lbl.appendChild(document.createTextNode(val)); container.appendChild(lbl);
-            }
-            event.target.value = '';
+
+    function addCatRow(selectedValue = '') {
+        const container = document.getElementById('categoriasContainer');
+        const row = document.createElement('div');
+        row.style.cssText = "display: flex; gap: 10px; margin-bottom: 8px; align-items: center;";
+        
+        const select = document.createElement('select'); select.className = "cat-select"; select.style.flex = "1";
+        select.innerHTML = '<option value="">Selecciona una categoría...</option>';
+        const cats = getCategoriasUnicas();
+        cats.forEach(c => { const opt = document.createElement('option'); opt.value = c; opt.innerText = c; select.appendChild(opt); });
+        
+        const optNueva = document.createElement('option'); optNueva.value = "nueva"; optNueva.innerText = "➕ Crear Nueva Categoría..."; optNueva.style.fontWeight = "bold"; optNueva.style.color = "var(--primary-color)";
+        select.appendChild(optNueva);
+
+        const input = document.createElement('input'); input.type = "text"; input.className = "cat-new-input"; input.placeholder = "Escribe la nueva categoría..."; input.style.cssText = "flex: 1; display: none; border-color: var(--primary-color); margin-top: 0;";
+
+        if (selectedValue) {
+            if (cats.includes(selectedValue)) { select.value = selectedValue; } 
+            else { select.value = 'nueva'; input.style.display = 'block'; input.value = selectedValue; input.required = true; }
         }
+
+        select.onchange = function() {
+            if (this.value === 'nueva') { input.style.display = 'block'; input.required = true; input.focus(); } 
+            else { input.style.display = 'none'; input.required = false; }
+        };
+
+        const delBtn = document.createElement('button'); delBtn.type = "button"; delBtn.className = "action-btn delete-btn"; delBtn.style.cssText = "width: auto; padding: 8px 12px; margin: 0;"; delBtn.innerHTML = "➖"; delBtn.title = "Quitar categoría";
+        delBtn.onclick = function() { if (container.children.length > 1) { row.remove(); } else { select.value = ''; input.style.display = 'none'; input.value = ''; } };
+
+        row.appendChild(select); row.appendChild(input); row.appendChild(delBtn); container.appendChild(row);
+    }
+
+    function getCategoriasFromForm() {
+        const rows = document.getElementById('categoriasContainer').children; let result = [];
+        for(let i=0; i<rows.length; i++) {
+            const select = rows[i].querySelector('.cat-select'); const input = rows[i].querySelector('.cat-new-input');
+            let val = select.value === 'nueva' ? input.value.trim() : select.value.trim();
+            if (val && !result.includes(val)) result.push(val);
+        }
+        if (result.length === 0) result = ["Sin Categoría"]; return result;
     }
 
     function handleValidacionChange() {
@@ -1149,7 +1176,7 @@
     
     function generarEtiquetas() {
         const titulo = document.getElementById('titulo').value; 
-        const cats = Array.from(document.querySelectorAll('.kb-cat-checkbox:checked')).map(c => c.value).join(' ');
+        const cats = getCategoriasFromForm().join(' ');
         const textos = [ titulo, cats, document.getElementById('validacionOtra').value, document.getElementById('scriptInicial').value, document.getElementById('pasoApaso').value ].join(' ').toLowerCase();
         if (textos.trim().length < 5) { alert('Llena el título o algún otro campo primero para generar etiquetas.'); return; }
         const textoLimpio = textos.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/gi, ' ');
@@ -1163,8 +1190,7 @@
     document.getElementById('kbForm').addEventListener('submit', function(e) {
         e.preventDefault(); const id = document.getElementById('entryId').value; const inputTitulo = document.getElementById('titulo').value.trim(); 
         
-        let categoriasFinales = Array.from(document.querySelectorAll('.kb-cat-checkbox:checked')).map(c => c.value);
-        if(categoriasFinales.length === 0) categoriasFinales = ["Sin Categoría"];
+        let categoriasFinales = getCategoriasFromForm();
 
         let valFinal = document.getElementById('validacionSelect').value;
         if(valFinal === 'otra') valFinal = document.getElementById('validacionOtra').value.trim();
@@ -1239,10 +1265,10 @@
     function editEntry(id) { 
         const entry = entries.find(e => e.id === id); document.getElementById('entryId').value = entry.id; document.getElementById('titulo').value = entry.titulo || ''; 
         
-        cargarCategoriasEnSelect();
+        document.getElementById('categoriasContainer').innerHTML = '';
         const catArray = Array.isArray(entry.categoria) ? entry.categoria : [entry.categoria];
-        document.querySelectorAll('.kb-cat-checkbox').forEach(chk => { if(catArray.includes(chk.value)) chk.checked = true; else chk.checked = false; });
-        document.getElementById('categoriaNueva').style.display = 'none'; document.getElementById('categoriaNueva').value = '';
+        if(catArray.length === 0 || (catArray.length===1 && (!catArray[0] || catArray[0]==="Sin Categoría"))) { addCatRow(); } 
+        else { catArray.forEach(c => addCatRow(c)); }
         
         const validacionSelect = document.getElementById('validacionSelect'); const validacionOtra = document.getElementById('validacionOtra');
         if (Array.from(validacionSelect.options).some(opt => opt.value === entry.validacion)) { validacionSelect.value = entry.validacion; validacionOtra.style.display = 'none'; } else { validacionSelect.value = 'otra'; validacionOtra.style.display = 'block'; validacionOtra.value = entry.validacion || ''; }
@@ -1447,24 +1473,11 @@
     function formatCardInput(e) { let val = e.target.value.replace(/\D/g, ''); e.target.value = val.replace(/(\d{4})(?=\d)/g, '$1-'); }
     function analizarTarjeta() { const input = document.getElementById('binInput').value; const cleanCard = input.replace(/-/g, '').replace(/\s/g, ''); if (cleanCard.length < 6) { alert('Ingresa al menos los primeros 6 dígitos (BIN).'); return; } const bin = cleanCard.substring(0, 6); const resultDiv = document.getElementById('binResult'); const binData = { "409674": { category: "Family Card / Go BICE", limit: "$500.000" }, "425943": { category: "Check Card Clásica", limit: "$500.000" }, "450638": { category: "Check Card Gold / Banca Joven", limit: "$500.000" }, "421767": { category: "Check Card Platinum", limit: "$1.250.000" }, "475778": { category: "Check Card Signature", limit: "$1.500.000" }, "463306": { category: "Check Card Infinite", limit: "$1.500.000" } }; if (binData[bin]) { document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = binData[bin].category; document.getElementById('resCat').style.color = 'var(--primary-color)'; document.getElementById('resLimit').innerText = binData[bin].limit; resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-success)'; const tarifarioTD = { "Family Card / Go BICE": { mensual: "Go BICE: Sin Costo\nFamily Card: UF 1 + IVA (Anual)", dcto: "• Family Card: Exenta hasta los 24 años. Comienza a cobrar a partir de los 25 años del titular o si el Patrocinador cierra su Cuenta Corriente/CheckCard." }, "Check Card Clásica": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }, "Check Card Gold / Banca Joven": { mensual: "UF 0,15 + IVA", dcto: "• 100% Exenta a menores de 26 años sin condiciones.<br>• 100% Exenta a menores de 30 años si: mantiene vigente TC y Línea de Crédito, recibe abonos mensuales ≥ $500.000 y tiene al menos 1 cargo automático (PAC/PAT o FFMM/DAP)." }, "Check Card Platinum": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }, "Check Card Signature": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." }, "Check Card Infinite": { mensual: "UF 0,15 + IVA", dcto: "• Aplica tarifa estándar para Visa Checkcard." } }; const detailsBoxTD = document.getElementById('tdTarifarioDetails'); const contentHTMLTD = document.getElementById('tdTarifarioContent'); if (tarifarioTD[binData[bin].category]) { const info = tarifarioTD[binData[bin].category]; contentHTMLTD.innerHTML = `<table style="width: 100%; border-collapse: collapse; margin-bottom: 10px;"><tr><td style="padding: 4px 0; font-weight: bold; width: 50%;">Administración:</td><td style="padding: 4px 0;">${info.mensual.replace(/\n/g, '<br>')}</td></tr></table><div style="background: rgba(0, 45, 98, 0.05); padding: 10px; border-radius: 4px; border-left: 3px solid var(--primary-color);"><strong style="display:block; margin-bottom: 5px;">🎁 Reglas de Gratuidad:</strong>${info.dcto}</div>`; let cleanDcto = info.dcto.replace(/<br>/g, '\n').replace(/<\/?[^>]+(>|$)/g, ""); currentTarifarioTDText = `COSTOS DE ADMINISTRACIÓN TD ${binData[bin].category.toUpperCase()}\n---------------------------------------\nAdministración:\t\t${info.mensual.replace(/\n/g, ' / ')}\n\nEXCEPCIONES:\n${cleanDcto}`; detailsBoxTD.style.display = 'block'; detailsBoxTD.open = false; } else { detailsBoxTD.style.display = 'none'; } } else { document.getElementById('resCard').innerText = cleanCard; document.getElementById('resCat').innerText = `BIN No Reconocido (${bin})`; document.getElementById('resCat').style.color = 'var(--color-danger)'; document.getElementById('resLimit').innerText = 'No disponible'; resultDiv.style.display = 'flex'; resultDiv.style.borderLeftColor = 'var(--color-danger)'; document.getElementById('tdTarifarioDetails').style.display = 'none'; } }
 
-    // --- INICIALIZACIÓN ---
-    document.addEventListener("DOMContentLoaded", function() {
-        if (localStorage.getItem('bice_theme') === 'dark') { const check = document.getElementById('themeCheckbox'); if (check) check.checked = true; }
-        
-        const today = new Date(); const y = today.getFullYear(); const m = String(today.getMonth() + 1).padStart(2, '0'); const d = String(today.getDate()).padStart(2, '0');
-        const pf = document.getElementById('plazoFecha'); if(pf) pf.value = `${y}-${m}-${d}`;
-        
-        const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; 
-        let fechaStr = today.toLocaleDateString('es-CL', opcionesFecha);
-        fechaStr = fechaStr.charAt(0).toUpperCase() + fechaStr.slice(1);
-        const fechaEl = document.getElementById('fecha-hoy');
-        if (fechaEl) fechaEl.innerText = fechaStr;
-
-        handleSearchKB(); 
-        handleSearchClaves(); 
-        cargarIndicadores();
-    });
-
+    // --- COMISIONES INTERNACIONALES ---
+    const comisionesData = { "Tarjeta Débito": { "CHECKCARD CLASICA": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 202007, compra: "1,6% + IVA sobre valor de compra (a excepción de Tarjetas de Débito Visa Platinum, Signature e Infinite)", giro: "US$ 3 + IVA por evento" }, { date_val: 202006, compra: "1,6% + IVA sobre valor de compra (aplica solo para tarjetas de débito visa gold)", giro: "US$ 3 + IVA por evento" }, { date_val: 202005, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "FAMILY CARD": [ { date_val: 201801, compra: "SIN COMISIÓN", giro: "US$ 3 + IVA por evento" } ], "GO BICE": [ { date_val: 202302, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "GO UC": [ { date_val: 202305, compra: "Sin Comisión", giro: "USD 3,95 + IVA por cada giro" } ], "CHECKCARD GOLD": [ { date_val: 202101, compra: "1,6% + IVA sobre valor de compra", giro: "US$ 3 + IVA por evento" } ], "CHECKCARD PLATINUM": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "CHECKCARD SIGNATURE": [ { date_val: 202101, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ] }, "Tarjeta Crédito": { "GO BICE": [ { date_val: 202402, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ], "GOLD (ORO)": [ { date_val: 202007, compra: "1,6%+IVA sobre valor de compra", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra / Gold Joven (US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "PLATINUM": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "INFINITE": [ { date_val: 202101, compra: "Sin Comisión", giro: "Sin Comisión" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" }, { date_val: 201803, purchase: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201801, compra: "SIN COMISIÓN", giro: "SIN COMISIÓN" } ], "EMPRESARIAL": [ { date_val: 202308, compra: "1,6%+IVA sobre valor de compra (excepto Business Signature e Infinite)", giro: "1,6%+IVA sobre valor del avance (excepto Business Signature e Infinite)" }, { date_val: 202101, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 202006, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor de compra" }, { date_val: 202005, compra: "1,6%+IVA sobre valor de compra", giro: "1,6%+IVA sobre valor del avance" }, { date_val: 201801, compra: "1,6% + IVA sobre el valor de compra", giro: "1,6% + IVA sobre el valor de avance" } ], "PLATINUM BIA": [ { date_val: 202302, compra: "1,6% + IVA", giro: "1,6% + IVA" } ], "SIGNATURE": [ { date_val: 202101, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201804, compra: "SIN COMISIÓN", giro: "(US$ 2,00 + 2% del Avance) + IVA" }, { date_val: 201803, compra: "Sin Comisión", giro: "(US$ 2,00 + 2% del Avance) + IVA" } ] } };
+    function updateSegmentos() { const tipo = document.querySelector('input[name="comTipo"]:checked').value; const selectSeg = document.getElementById('comSegmento'); selectSeg.innerHTML = ''; if (comisionesData[tipo]) { Object.keys(comisionesData[tipo]).sort().forEach(seg => { let opt = document.createElement('option'); opt.value = seg; opt.innerText = seg; selectSeg.appendChild(opt); }); } document.getElementById('comisionesResult').style.display = 'none'; }
+    function calcularComisiones() { const tipo = document.querySelector('input[name="comTipo"]:checked').value; const segmento = document.getElementById('comSegmento').value; const year = parseInt(document.getElementById('comYear').value); const month = parseInt(document.getElementById('comMonth').value); if(!segmento) { alert("Por favor seleccione un segmento"); return; } let inputDateVal = (year * 100) + month; if (inputDateVal > 202503) { inputDateVal = 202503; } const reglas = comisionesData[tipo][segmento]; let reglaAplicada = null; for (let r of reglas) { if (inputDateVal >= r.date_val) { reglaAplicada = r; break; } } if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; } document.getElementById('resComCompra').innerText = reglaAplicada.compra || reglaAplicada.purchase; document.getElementById('resComGiro').innerText = reglaAplicada.giro; document.getElementById('comisionesResult').style.display = 'block'; }
+    function copiarComisiones(event) { const cCompra = document.getElementById('resComCompra').innerText; const cGiro = document.getElementById('resComGiro').innerText; const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`; const btn = event.currentTarget; const originalHTML = btn.innerHTML; const showSuccess = () => { btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); }; if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); } else { useFallback(textoFInal); } function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); } }
 </script>
 
 </body>
