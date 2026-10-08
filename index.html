@@ -959,28 +959,41 @@
     let tasaDolar = 0; let tasaEuro = 0; let tasaUF = 0; let tasaUTM = 0;
     const copySvg = `<svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
 
-async function cargarIndicadores() {
+// --- 1. CARGA DE FECHA (Local y garantizada) ---
+    function cargarFechaActual() {
         try {
-            // Intentamos la conexión directa primero
-            let response = await fetch('https://mindicador.cl/api').catch(() => null);
-            let data;
+            const today = new Date();
+            const y = today.getFullYear();
+            const m = String(today.getMonth() + 1).padStart(2, '0');
+            const d = String(today.getDate()).padStart(2, '0');
             
-            // Si la conexión directa es bloqueada por CORS o por el Firewall del banco, usamos un Proxy de respaldo
-            if (!response || !response.ok) {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 segundos máximo de espera
-                
-                response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://mindicador.cl/api'), { signal: controller.signal });
-                clearTimeout(timeoutId);
-                
-                if (!response.ok) throw new Error("Bloqueo total de red");
-                const proxyData = await response.json();
-                data = JSON.parse(proxyData.contents);
-            } else {
-                data = await response.json();
-            }
+            const pf = document.getElementById('plazoFecha'); 
+            if(pf) pf.value = `${y}-${m}-${d}`;
+            
+            const opcionesFecha = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }; 
+            let fechaStr = today.toLocaleDateString('es-CL', opcionesFecha);
+            fechaStr = fechaStr.charAt(0).toUpperCase() + fechaStr.slice(1);
+            
+            const fechaEl = document.getElementById('fecha-hoy');
+            if (fechaEl) fechaEl.innerText = fechaStr;
+        } catch(e) {
+            console.error("Error al cargar fecha:", e);
+        }
+    }
 
-            // Si logramos obtener la data, la mostramos
+    // --- 2. CARGA DE INDICADORES (Con límite de tiempo anti-bloqueo) ---
+    async function cargarIndicadores() {
+        // Cortafuegos: Si la red del banco bloquea la petición, cortamos la espera a los 4 segundos
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+        try {
+            const response = await fetch('https://mindicador.cl/api', { signal: controller.signal });
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) throw new Error("Bloqueo de red corporativa");
+            const data = await response.json();
+            
             if (data && data.dolar && data.uf) {
                 tasaDolar = data.dolar.valor || 0; 
                 tasaEuro = data.euro.valor || 0; 
@@ -993,18 +1006,36 @@ async function cargarIndicadores() {
                 document.getElementById('val-utm').innerText = `UTM: $${tasaUTM.toLocaleString('es-CL', {minimumFractionDigits: 0})}`;
                 
                 if(document.getElementById('convSelect').value === 'USD') document.getElementById('convTasa').value = tasaDolar; 
-            } else {
-                throw new Error("Datos vacíos");
             }
         } catch (error) {
-            console.warn("Indicadores bloqueados por la red de la empresa:", error);
-            // Si el banco bloquea toda salida, evitamos que se quede pegado en "..."
-            document.getElementById('val-dolar').innerText = `USD: 🔒 Offline`; 
-            document.getElementById('val-euro').innerText = `EUR: 🔒 Offline`; 
-            document.getElementById('val-uf').innerText = `UF: 🔒 Offline`; 
-            document.getElementById('val-utm').innerText = `UTM: 🔒 Offline`;
+            clearTimeout(timeoutId);
+            console.warn("Indicadores bloqueados:", error);
+            // Mostrar estado real si el firewall bloquea la salida
+            document.getElementById('val-dolar').innerText = `USD: 🔒 Bloqueado`; 
+            document.getElementById('val-euro').innerText = `EUR: 🔒 Bloqueado`; 
+            document.getElementById('val-uf').innerText = `UF: 🔒 Bloqueado`; 
+            document.getElementById('val-utm').innerText = `UTM: 🔒 Bloqueado`;
         }
     }
+
+    // --- 3. INICIALIZADOR ORDENADO ---
+    document.addEventListener("DOMContentLoaded", function() {
+        // 1. Tema visual
+        if (localStorage.getItem('bice_theme') === 'dark') { 
+            const check = document.getElementById('themeCheckbox'); 
+            if (check) check.checked = true; 
+        }
+        
+        // 2. Cargamos la fecha de inmediato (no depende de internet)
+        cargarFechaActual();
+        
+        // 3. Cargamos la información de tus módulos
+        handleSearchKB(); 
+        handleSearchClaves(); 
+        
+        // 4. Por último, intentamos buscar el dólar
+        cargarIndicadores();
+    });
 
     function getFormattedDate() { const options = { day: '2-digit', month: '2-digit', year: 'numeric' }; return new Date().toLocaleDateString('es-CL', options).replace(/\//g, '-'); }
 
