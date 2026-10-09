@@ -13,6 +13,10 @@
     </script>
 
     <style>
+        /* Forzar visualmente mayúsculas en los títulos especificados */
+        #titulo, #claveApp, #plantillaTitulo {
+        text-transform: uppercase;
+        }
         /* VARIABLES GLOBALES */
         :root { 
             --primary-color: #002D62; --primary-light: #004d99; --btn-primary: #002D62; --btn-primary-text: #ffffff;
@@ -219,6 +223,64 @@
             .plantilla-preview-box { flex-direction: column; }
             .plantilla-preview-label { width: auto; margin-bottom: 5px; }
         }
+        /* Botón X para limpiar búsquedas */
+        .search-container { position: relative; }
+        .search-container input[type="text"] { padding-right: 35px; }
+        .clear-search-btn {
+    position: absolute;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 1.1em;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s;
+}
+    .clear-search-btn:hover { color: var(--color-danger); }
+    /* Estilo para las imágenes en el Paso a Paso */
+.field-content img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-block;
+    margin: 5px;
+    border: 1px solid var(--border);
+}
+.field-content img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Visor de pantalla completa (Lightbox) */
+#imageModalViewer {
+    display: none;
+    position: fixed;
+    z-index: 3000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+    animation: fadeInModal 0.2s ease;
+}
+#imageModalViewer img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
     </style>
 </head>
 <body>
@@ -258,16 +320,20 @@
                     <div style="display: flex; flex-direction: column; gap: 4px;">
                         <button id="btn-tool-pendientes" class="tool-btn" onclick="openTool('pendientes')">✅ Mis Pendientes</button>
                         <button id="btn-tool-plantillas" class="tool-btn" onclick="openTool('plantillas')">📝 Generador Plantillas</button>
-                        <button id="btn-tool-reconst" class="tool-btn" onclick="openTool('reconst')">💳 Reconstrucción TC</button>
-                        <button id="btn-tool-bin" class="tool-btn" onclick="openTool('bin')">💳 Validador BIN TD</button>
+                        <button id="btn-tool-reconst" class="tool-btn" onclick="openTool('reconst')" style="display: none;">💳 Reconstrucción TC</button>
+                        <button id="btn-tool-bin" class="tool-btn" onclick="openTool('bin')" style="display: none;">💳 Validador BIN TD</button>
                         <button id="btn-tool-comisiones" class="tool-btn" onclick="openTool('comisiones')">✈️ Comisiones Int.</button>
                         <button id="btn-tool-plazos" class="tool-btn" onclick="openTool('plazos')">📅 Calculadora SLA</button>
                         <button id="btn-tool-cuadratura" class="tool-btn" onclick="openTool('cuadratura')">⚖️ Asistente Cuadratura</button>
                         <button id="btn-tool-simulador" class="tool-btn" onclick="openTool('simulador')">📈 Simulador Cuotas</button>
                         <button id="btn-tool-conversor" class="tool-btn" onclick="openTool('conversor')">💱 Conversor Monedas</button>
-                        <button id="btn-tool-directorio" class="tool-btn" onclick="openTool('directorio')">📞 Directorio Rápido</button>
+                        <button id="btn-tool-directorio" class="tool-btn" onclick="openTool('directorio')" style="display: none;">📞 Directorio Rápido</button>
                     </div>
                 </div>
+            </div>
+            <div class="menu-section" id="section-acerca">
+                <button class="nav-btn" id="nav-acerca" onclick="switchView('acerca')">ℹ️ Acerca de <span class="nav-arrow" id="arrow-acerca">▶</span></button>
+                <div class="menu-content" id="content-acerca"></div>
             </div>
 
             <!-- EASTER EGG MENU: LISTAS BLANCAS NOCTURNAS -->
@@ -281,12 +347,13 @@
         </div>
 
         <div class="global-actions-panel">
-            <div class="indicadores-title" style="margin-bottom: 2px;">💾 Gestión de Datos</div>
-            <p style="font-size: 0.75em; color: var(--text-muted); margin: 0 0 8px 0; line-height: 1.3;">Respalda toda tu información.</p>
-            <button class="data-btn export-btn" onclick="openModal('exportModal', true)">⬇️ Exportar Datos</button>
-            <button class="data-btn share-btn" onclick="handleShareExport()">🤝 Compartir Datos</button>
-            <button class="data-btn import-btn" onclick="openModal('importModal', true)">⬆️ Importar Datos</button>
-            <button class="data-btn delete-all-btn" onclick="deleteAllData()">🗑️ Borrar Todo</button>
+            <div class="indicadores-title" style="margin-bottom: 6px; text-align: center;">💾 Gestión de Datos</div>
+            <div style="display: flex; gap: 5px;">
+                <button class="data-btn export-btn" onclick="openModal('exportModal', true)" title="Exportar Datos" style="flex: 1; padding: 8px 0; font-size: 1.1em;">⬇️</button>
+                <button class="data-btn share-btn" onclick="handleShareExport()" title="Compartir Datos" style="flex: 1; padding: 8px 0; font-size: 1.1em;">🤝</button>
+                <button class="data-btn import-btn" onclick="openModal('importModal', true)" title="Importar Datos" style="flex: 1; padding: 8px 0; font-size: 1.1em;">⬆️</button>
+                <button class="data-btn delete-all-btn" onclick="deleteAllData()" title="Borrar Todo" style="flex: 1; padding: 8px 0; font-size: 1.1em;">🗑️</button>
+            </div>
         </div>
 
         <div class="indicadores-panel">
@@ -403,6 +470,39 @@
                     <button class="copy-btn" style="width: 100%; border: 2px solid var(--color-purple); color: var(--color-purple); font-weight: bold; padding: 10px; font-size: 1.05em;" onclick="copiarLB(event)">
                         📋 Copiar Asignación Formateada
                     </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- VISTA ACERCA DE -->
+        <div id="view-acerca" class="view-container">
+            <div class="tool-panel" style="display: block; border-top: 6px solid var(--primary-color); max-width: 800px; margin: 0 auto;">
+                <h2 style="color: var(--primary-color); margin-top: 0;">ℹ️ Acerca de BICE Hub Ejecutivo</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Información del sistema, historial de cambios y canales de comunicación.</p>
+                
+                <div style="background: var(--bg-group); padding: 20px; border-radius: 8px; border: 1px solid var(--border-light); margin-bottom: 20px;">
+                    <h3 style="margin-top: 0; color: var(--primary-color);">📌 Versión Actual: v3.0.0</h3>
+                    <p style="margin-bottom: 5px;"><strong>Creado por:</strong> Luis Felipe Muñoz Robles</p>
+                    <p style="margin-bottom: 15px;"><strong>Tecnología:</strong> HTML, CSS, JavaScript (Vanilla) con persistencia local.</p>
+                    
+                    <h4 style="color: var(--primary-color); margin-bottom: 8px;">🔄 Historial de Cambios recientes:</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: var(--text-main); line-height: 1.6; font-size: 0.95em;">
+                        <li>Estandarización de la base estable (v3.0.0).</li>
+                        <li>Incorporación de botones "X" interactivos en los buscadores.</li>
+                        <li>Soporte para copiar y pegar imágenes directamente en el Paso a Paso con visor ampliado.</li>
+                        <li>Transformación automática a Mayúsculas en títulos principales.</li>
+                        <li>Optimización del panel de Gestión de Datos en formato compacto.</li>
+                    </ul>
+                </div>
+
+                <div style="background: var(--bg-group); padding: 20px; border-radius: 8px; border: 1px solid var(--border-light);">
+                    <h3 style="margin-top: 0; color: var(--primary-color);">✉️ Sugerencias y Reporte de Errores</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 15px; font-size: 0.95em;">
+                        Como utilizamos <strong>Outlook Web</strong> corporativo, al hacer clic en el botón de abajo se abrirá automáticamente una pestaña en tu navegador lista para redactar el mensaje:
+                    </p>
+                    <a href="https://outlook.office.com/mail/deeplink/compose?to=tu-correo@bice.cl&subject=Sugerencia%20o%20Error%20-%20BICE%20Hub" target="_blank" class="save-btn" style="background: var(--primary-color); text-decoration: none; display: block; text-align: center; box-sizing: border-box; margin-top: 0;">
+                        📧 Enviar Mensaje por Outlook Web
+                    </a>
                 </div>
             </div>
         </div>
@@ -793,7 +893,8 @@
             <input type="text" id="validacionOtra" placeholder="Especificar otra validación..." style="display: none; margin-top: 5px;">
 
             <label>Script inicial:</label><textarea id="scriptInicial"></textarea>
-            <label>Paso a Paso:</label><textarea id="pasoApaso" style="height: 120px;"></textarea>
+            <label>Paso a Paso (Puedes pegar imágenes con Ctrl+V):</label>
+<div id="pasoApaso" contenteditable="true" style="width: 100%; min-height: 140px; padding: 10px; background: var(--bg-input, var(--bg-panel)); color: var(--text-main); border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 1em; overflow-y: auto; outline: none; margin-top: 5px;"></div>
             
             <label>Ruta CTI:</label>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -936,7 +1037,6 @@
 
 <footer>
     <span>Creado por Luis Muñoz | v3.0.0</span>
-    <a href="mailto:tu-correo@bice.cl?subject=Sugerencia%20para%20BICE%20Hub" style="color: white; text-decoration: none; font-size: 1.2em; opacity: 0.8; transition: opacity 0.2s; margin-left: 10px;" title="Enviar sugerencia o comentario" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">✉️</a>
 </footer>
 
 <script>
@@ -1293,7 +1393,7 @@
     }
 
     document.getElementById('kbForm').addEventListener('submit', function(e) {
-        e.preventDefault(); const id = document.getElementById('entryId').value; const inputTitulo = document.getElementById('titulo').value.trim(); 
+        e.preventDefault(); const id = document.getElementById('entryId').value; const inputTitulo = document.getElementById('titulo').value.trim().toUpperCase(); 
         
         let categoriasFinales = getCategoriasFromForm();
 
@@ -1310,7 +1410,7 @@
         const newEntry = { 
             id: id ? id : 'KB_' + Date.now().toString(), fecha: getFormattedDate(), timestamp: Date.now(), 
             titulo: inputTitulo, categoria: categoriasFinales, etiquetas: document.getElementById('etiquetas').value, 
-            validacion: valFinal, scriptInicial: document.getElementById('scriptInicial').value, pasoApaso: document.getElementById('pasoApaso').value, 
+            validacion: valFinal, scriptInicial: document.getElementById('scriptInicial').value, pasoApaso: document.getElementById('pasoApaso').innerHTML, 
             cti: ctiFinal, plantilla: document.getElementById('plantilla').value, scriptFinal: document.getElementById('scriptFinal').value, 
             detalles: document.getElementById('detalles').value, relacionado: document.getElementById('procedimientoSelect').value, favorito: isFavorito 
         };
@@ -1383,7 +1483,7 @@
         let cCat='', cTipo='', cItem=''; if(entry.cti) { const ctiParts = entry.cti.split(' > '); cCat = ctiParts[0] || ''; cTipo = ctiParts[1] || ''; cItem = ctiParts[2] || ''; }
         document.getElementById('ctiCat').value = cCat.trim(); document.getElementById('ctiTipo').value = cTipo.trim(); document.getElementById('ctiItem').value = cItem.trim();
 
-        document.getElementById('etiquetas').value = entry.etiquetas || ''; document.getElementById('scriptInicial').value = entry.scriptInicial || ''; document.getElementById('pasoApaso').value = entry.pasoApaso || ''; document.getElementById('plantilla').value = entry.plantilla || ''; document.getElementById('scriptFinal').value = entry.scriptFinal || ''; document.getElementById('detalles').value = entry.detalles || ''; 
+        document.getElementById('etiquetas').value = entry.etiquetas || ''; document.getElementById('scriptInicial').value = entry.scriptInicial || ''; document.getElementById('pasoApaso').innerHTML = entry.pasoApaso || ''; document.getElementById('plantilla').value = entry.plantilla || ''; document.getElementById('scriptFinal').value = entry.scriptFinal || ''; document.getElementById('detalles').value = entry.detalles || ''; 
         
         cargarRelacionadosKB(); document.getElementById('procedimientoSelect').value = entry.relacionado || '';
         document.getElementById('formTitleKB').innerText = 'Editar Registro'; document.getElementById('kbModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; 
@@ -1402,7 +1502,7 @@
     function toggleFavClave(event, id) { event.preventDefault(); event.stopPropagation(); const idx = claves.findIndex(e => e.id === id); if(idx > -1) { claves[idx].favorito = !claves[idx].favorito; localStorage.setItem('bice_claves_data', JSON.stringify(claves)); handleSearchClaves(); } }
     
     document.getElementById('clavesForm').addEventListener('submit', function(e) {
-        e.preventDefault(); const id = document.getElementById('claveId').value; const inputApp = document.getElementById('claveApp').value.trim();
+        e.preventDefault(); const id = document.getElementById('claveId').value; const inputApp = document.getElementById('claveApp').value.trim().toUpperCase();
         const duplicate = claves.find(c => (c.app||'').toLowerCase() === inputApp.toLowerCase() && c.id !== id);
         if (duplicate) { if (!id) { if (confirm(`⚠️ El aplicativo ya existe.\n\n"Aceptar" para editar.`)) { editClave(duplicate.id); } } else alert(`⚠️ Ya existe otra clave guardada con el nombre "${duplicate.app}".`); return; }
         const isFavorito = id ? (claves.find(c => c.id === id).favorito || false) : false;
@@ -1444,10 +1544,91 @@
     
     function deleteClave(id) { if(confirm('¿Seguro de eliminar esta clave?')) { claves = claves.filter(x => x.id !== id); localStorage.setItem('bice_claves_data', JSON.stringify(claves)); showToast("Clave eliminada"); handleSearchClaves(); } }
 
+    // --- LÓGICA DIRECTORIO RÁPIDO ---
+    document.getElementById('directorioForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const id = document.getElementById('dirId').value;
+        const nombre = document.getElementById('dirNombre').value.trim();
+        const anexo = document.getElementById('dirAnexo').value.trim();
+        const correo = document.getElementById('dirCorreo').value.trim();
+        const notas = document.getElementById('dirNotas').value.trim();
+
+        const nuevoContacto = { id: id ? id : 'DIR_' + Date.now().toString(), nombre, anexo, correo, notas };
+
+        if (id) {
+            directorio[directorio.findIndex(d => d.id === id)] = nuevoContacto;
+            showToast("Contacto actualizado");
+        } else {
+            directorio.push(nuevoContacto);
+            showToast("Contacto guardado");
+        }
+
+        localStorage.setItem('bice_directorio_data', JSON.stringify(directorio));
+        closeModal('directorioModal');
+        renderDirectorio();
+    });
+
+    function renderDirectorio() {
+        const list = document.getElementById('dirList');
+        if (!list) return;
+        list.innerHTML = '';
+        const searchTerm = document.getElementById('searchDir').value.toLowerCase();
+        const filtered = directorio.filter(d => 
+            (d.nombre || '').toLowerCase().includes(searchTerm) || 
+            (d.anexo || '').toLowerCase().includes(searchTerm) || 
+            (d.area || '').toLowerCase().includes(searchTerm)
+        );
+
+        if (filtered.length === 0) {
+            list.innerHTML = '<p style="text-align:center; color:var(--text-muted); grid-column: 1 / -1; font-style: italic;">No hay contactos guardados en el directorio.</p>';
+            return;
+        }
+
+        filtered.forEach(d => {
+            const card = document.createElement('div');
+            card.style.cssText = "background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 8px; padding: 15px; box-shadow: 0 2px 5px var(--shadow); display: flex; flex-direction: column; justify-content: space-between;";
+            
+            let html = `<div>
+                <div style="font-weight: bold; color: var(--primary-color); font-size: 1.1em; margin-bottom: 8px;">📞 ${d.nombre}</div>`;
+            if (d.anexo) html += `<div style="font-size: 1em; margin-bottom: 4px; color: var(--text-main);"><strong>Anexo/Fono:</strong> <span style="font-family: monospace; font-weight: bold; color: var(--color-success);">${d.anexo}</span></div>`;
+            if (d.correo) html += `<div style="font-size: 0.95em; margin-bottom: 4px; color: var(--text-main);"><strong>Correo:</strong> <a href="mailto:${d.correo}" style="color: var(--primary-light);">${d.correo}</a></div>`;
+            if (d.notas) html += `<div style="font-size: 0.9em; color: var(--text-muted); margin-top: 8px; background: var(--bg-group); padding: 8px; border-radius: 4px; white-space: pre-wrap;">${d.notas}</div>`;
+            
+            html += `</div><div class="card-actions" style="margin-top: 15px; border-top: 1px solid var(--border-light); padding-top: 10px; display: flex; gap: 8px;">
+                <button class="action-btn edit-btn" style="padding: 6px; font-size: 0.85em;" onclick="editDirectorio('${d.id}')">✏️ Editar</button>
+                <button class="action-btn delete-btn" style="padding: 6px; font-size: 0.85em;" onclick="deleteDirectorio('${d.id}')">🗑️ Eliminar</button>
+            </div>`;
+            
+            card.innerHTML = html;
+            list.appendChild(card);
+        });
+    }
+
+    function editDirectorio(id) {
+        const d = directorio.find(x => x.id === id);
+        document.getElementById('dirId').value = d.id;
+        document.getElementById('dirNombre').value = d.nombre;
+        document.getElementById('dirAnexo').value = d.anexo || '';
+        document.getElementById('dirCorreo').value = d.correo || '';
+        document.getElementById('dirNotas').value = d.notas || '';
+        document.getElementById('formTitleDir').innerText = 'Editar Contacto';
+        document.getElementById('directorioModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function deleteDirectorio(id) {
+        if(confirm('¿Seguro que deseas eliminar este contacto?')) {
+            directorio = directorio.filter(x => x.id !== id);
+            localStorage.setItem('bice_directorio_data', JSON.stringify(directorio));
+            showToast("Contacto eliminado");
+            renderDirectorio();
+        }
+    }
+    
     // --- LÓGICA GENERADOR DE PLANTILLAS ---
     document.getElementById('plantillaForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const id = document.getElementById('plantillaId').value; const titulo = document.getElementById('plantillaTitulo').value.trim(); const para = document.getElementById('plantillaPara').value.trim(); const cc = document.getElementById('plantillaCc').value.trim(); const asunto = document.getElementById('plantillaAsunto').value.trim(); const mensaje = document.getElementById('plantillaMensaje').value.trim();
+        const id = document.getElementById('plantillaId').value; const titulo = document.getElementById('plantillaTitulo').value.trim().toUpperCase();; const para = document.getElementById('plantillaPara').value.trim(); const cc = document.getElementById('plantillaCc').value.trim(); const asunto = document.getElementById('plantillaAsunto').value.trim(); const mensaje = document.getElementById('plantillaMensaje').value.trim();
         const duplicate = plantillas.find(p => (p.titulo||'').toLowerCase() === titulo.toLowerCase() && p.id !== id); if (duplicate) { alert(`⚠️ Ya existe una plantilla con el nombre "${duplicate.titulo}".`); return; }
         const newP = { id: id ? id : 'TPL_' + Date.now().toString(), titulo, para, cc, asunto, mensaje };
         if (id) { plantillas[plantillas.findIndex(p => p.id === id)] = newP; showToast("Plantilla actualizada"); }  else { plantillas.push(newP); showToast("Plantilla guardada"); }
@@ -1620,6 +1801,85 @@
     function calcularComisiones() { const tipo = document.querySelector('input[name="comTipo"]:checked').value; const segmento = document.getElementById('comSegmento').value; const year = parseInt(document.getElementById('comYear').value); const month = parseInt(document.getElementById('comMonth').value); if(!segmento) { alert("Por favor seleccione un segmento"); return; } let inputDateVal = (year * 100) + month; if (inputDateVal > 202503) { inputDateVal = 202503; } const reglas = comisionesData[tipo][segmento]; let reglaAplicada = null; for (let r of reglas) { if (inputDateVal >= r.date_val) { reglaAplicada = r; break; } } if (!reglaAplicada) { reglaAplicada = reglas[reglas.length - 1]; } document.getElementById('resComCompra').innerText = reglaAplicada.compra || reglaAplicada.purchase; document.getElementById('resComGiro').innerText = reglaAplicada.giro; document.getElementById('comisionesResult').style.display = 'block'; }
     function copiarComisiones(event) { const cCompra = document.getElementById('resComCompra').innerText; const cGiro = document.getElementById('resComGiro').innerText; const textoFInal = `Comisión Compra Internacional:\t${cCompra}\nComisión Giro ATM:\t${cGiro}`; const btn = event.currentTarget; const originalHTML = btn.innerHTML; const showSuccess = () => { btn.innerHTML = `✅ Copiado Exitosamente`; btn.style.borderColor = 'var(--color-success)'; btn.style.color = 'var(--color-success)'; setTimeout(() => { btn.innerHTML = originalHTML; btn.style.borderColor = ''; btn.style.color = ''; }, 1500); }; if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(textoFInal).then(showSuccess).catch(err => useFallback(textoFInal)); } else { useFallback(textoFInal); } function useFallback(t) { const ta = document.createElement("textarea"); ta.value = t; ta.style.position = "fixed"; ta.style.opacity = "0"; document.body.appendChild(ta); ta.focus(); ta.select(); try { document.execCommand('copy'); showSuccess(); } catch (err) {} document.body.removeChild(ta); } }
 </script>
+<script>
+    // Función para limpiar el buscador
+    function limpiarBusquedaPersonalizada(inputId, callbackSearch) {
+        const input = document.getElementById(inputId);
+        if (input) {
+            input.value = '';
+            input.focus();
+            if (typeof callbackSearch === 'function') {
+                callbackSearch();
+            }
+        }
+    }
+
+    // Inyección exacta de la X dentro del input de búsqueda
+    document.addEventListener("DOMContentLoaded", function() {
+        const transformarBuscador = (inputId, callbackName) => {
+            const input = document.getElementById(inputId);
+            if (input && !input.parentNode.classList.contains('input-clear-wrapper')) {
+                // Creamos un envoltorio exclusivo para el input y su X
+                const wrapper = document.createElement('div');
+                wrapper.className = 'input-clear-wrapper';
+                wrapper.style.cssText = "position: relative; flex: 3; display: flex; align-items: center;";
+                
+                input.parentNode.insertBefore(wrapper, input);
+                wrapper.appendChild(input);
+                
+                input.style.width = '100%';
+                input.style.paddingRight = '35px';
+                input.style.boxSizing = 'border-box';
+
+                // Creamos el botón X
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.innerHTML = '✕';
+                btn.title = 'Limpiar búsqueda';
+                btn.style.cssText = "position: absolute; right: 12px; background: transparent; border: none; font-size: 1.1em; color: var(--text-muted); cursor: pointer; padding: 0; line-height: 1;";
+                
+                btn.onmouseover = () => btn.style.color = 'var(--color-danger)';
+                btn.onmouseout = () => btn.style.color = 'var(--text-muted)';
+                btn.onclick = () => limpiarBusquedaPersonalizada(inputId, window[callbackName]);
+
+                wrapper.appendChild(btn);
+            }
+        };
+
+        transformarBuscador('searchInput', 'handleSearchKB');
+        transformarBuscador('searchClaves', 'handleSearchClaves');
+        transformarBuscador('searchDir', 'renderDirectorio');
+    });
+</script>
+<script>
+    // Visor de imágenes en pantalla completa con fondo degradado
+    document.addEventListener("DOMContentLoaded", function() {
+        // Creamos el contenedor del visor en el documento
+        const modalViewer = document.createElement('div');
+        modalViewer.id = 'imageModalViewer';
+        modalViewer.innerHTML = '<img id="imgModalContent" src="">';
+        document.body.appendChild(modalViewer);
+
+        const modalImg = document.getElementById('imgModalContent');
+
+        // Escuchamos clics dentro de las tarjetas de contenido
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'IMG' && e.target.closest('.field-content')) {
+                modalImg.src = e.target.src;
+                modalViewer.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        // Al hacer clic en cualquier parte del visor oscuro, se cierra
+        modalViewer.addEventListener('click', function() {
+            modalViewer.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+    });
+
+</script>
+
 
 </body>
 </html>
